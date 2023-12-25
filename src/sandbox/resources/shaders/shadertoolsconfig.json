@@ -1,0 +1,8 @@
+{
+    "hlsl.additionalIncludeDirectories": [
+      "..\\shaders\\include\\"
+    ],
+    "hlsl.virtualDirectoryMappings": {
+      "/Project": "D:\\Arbrook\\application\\sandbox\\src\\sandbox\\resources\\shaders"
+    }
+}

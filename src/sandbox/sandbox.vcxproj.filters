@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="arbrook">
+      <UniqueIdentifier>{B585AA3F-2165-29DB-2A7D-B4B196DB8F3C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="components">
+      <UniqueIdentifier>{8BA12798-7759-69E5-E060-4241CC3704D6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="modules">
+      <UniqueIdentifier>{FEAC8BD4-6A8C-0A70-73A4-9546DF0271D1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="systems">
+      <UniqueIdentifier>{3D76CBBA-A955-4A56-B26D-D52C1ECCB0B7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tests">
+      <UniqueIdentifier>{78756B10-E489-93C1-AD0B-372119DF8FF2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tests\tools">
+      <UniqueIdentifier>{1804D05D-84B9-4853-0DAE-422A79623F57}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="components\test_renderer.hpp">
+      <Filter>components</Filter>
+    </ClInclude>
+    <ClInclude Include="modules\testmodule.hpp">
+      <Filter>modules</Filter>
+    </ClInclude>
+    <ClInclude Include="systems\examplesystem.hpp">
+      <Filter>systems</Filter>
+    </ClInclude>
+    <ClInclude Include="systems\game.hpp">
+      <Filter>systems</Filter>
+    </ClInclude>
+    <ClInclude Include="systems\testsystem.hpp">
+      <Filter>systems</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\drawindexedtest.hpp">
+      <Filter>tests</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\modelswitch.hpp">
+      <Filter>tests</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\rendertest.hpp">
+      <Filter>tests</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\tools\CSVWriter.hpp">
+      <Filter>tests\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\tools\bgfxutils.hpp">
+      <Filter>tests\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="systems\bgfxsystem.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\arbrook\Arbrook.cpp">
+      <Filter>arbrook</Filter>
+    </ClCompile>
+    <ClCompile Include="systems\game.cpp">
+      <Filter>systems</Filter>
+    </ClCompile>
+    <ClCompile Include="systems\testsystem.cpp">
+      <Filter>systems</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

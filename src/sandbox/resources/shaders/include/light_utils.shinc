@@ -1,0 +1,156 @@
+#include "utils.shinc"
+#define NR_POINT_LIGHTS 8
+
+SamplerState TexSampler0 : register(s0);
+SamplerState TexSampler1 : register(s1); 
+SamplerState TexSampler2 : register(s2);
+SamplerState TexSampler3 : register(s3);
+SamplerState TexSampler4 : register(s4);
+SamplerState TexSampler5 : register(s5); 
+SamplerState TexSampler6 : register(s6);
+SamplerState TexSampler7 : register(s7);
+SamplerState TexSampler8 : register(s8);
+SamplerState TexSampler9 : register(s9); 
+SamplerState TexSampler10 : register(s10);
+SamplerState TexSampler11 : register(s11);
+SamplerState TexSampler12 : register(s12);
+SamplerState TexSampler13 : register(s13); 
+SamplerState TexSampler14 : register(s14);
+SamplerState TexSampler15 : register(s15);
+
+Texture2D Texture0 : register(t0);
+Texture2D Texture1 : register(t1);
+Texture2D Texture2 : register(t2);
+Texture2D Texture3 : register(t3);
+Texture2D Texture4 : register(t4);
+Texture2D Texture5 : register(t5);
+Texture2D Texture6 : register(t6);
+Texture2D Texture7 : register(t7);
+Texture2D Texture8 : register(t8);
+Texture2D Texture9 : register(t9);
+Texture2D Texture10 : register(t10);
+Texture2D Texture11 : register(t11);
+Texture2D Texture12 : register(t12);
+Texture2D Texture13 : register(t13);
+Texture2D Texture14 : register(t14);
+Texture2D Texture15 : register(t15);
+Texture2D Texture16 : register(t16);
+Texture2D Texture17 : register(t17);
+Texture2D Texture18 : register(t18);
+Texture2D Texture19 : register(t19);
+Texture2D Texture20 : register(t20);
+Texture2D Texture21 : register(t21);
+Texture2D Texture22 : register(t22);
+Texture2D Texture23 : register(t23);
+Texture2D Texture24 : register(t24);
+Texture2D Texture25 : register(t25);
+Texture2D Texture26 : register(t26);
+Texture2D Texture27 : register(t27);
+Texture2D Texture28 : register(t28);
+Texture2D Texture29 : register(t29);
+Texture2D Texture30 : register(t30);
+Texture2D Texture31 : register(t31);
+
+#define DiffuseTex Texture0
+#define SpecularTex Texture1
+
+struct Light
+{
+	float4 direction;
+	float4 position;
+	float4 color;
+	float range;
+	float intensity;
+};
+
+cbuffer LightBuffer : register(b1)
+{
+	Light u_lights[NR_POINT_LIGHTS + 1];
+};
+
+cbuffer MaterialBuffer : register(b2)
+{
+	float u_shininess;
+};
+
+float Attenuation(float3 lightPosition, float3 fragPos, float attenuationRadius, float lightIntensity)
+{
+	float sqrlightDistance = pow(length(lightPosition - fragPos), 2);
+	float attenuation = pow(max(1.0 - (sqrlightDistance / (attenuationRadius * attenuationRadius)), 0.0), 2);
+	return attenuation * lightIntensity;
+}
+
+float3 CalcDirLight(Light light, float3 normal, float2 texCoords, float3 viewDir, Texture2D Diffuse, Texture2D Specular)
+{
+	float3 lightDir = normalize(-light.direction.xyz);
+    //diffuse
+    float diff = max(dot(normal, lightDir),0.0);
+    //specular
+    float3 reflectDir = reflect(-lightDir, normal);
+    float spec = pow(max(dot(viewDir, reflectDir),0.0), u_shininess);
+
+    //combine results
+    float3 ambient = light.color.rgb * Diffuse.Sample(TexSampler0, texCoords).rgb * 0.1;
+    float3 diffuse = light.color.rgb * diff * Diffuse.Sample(TexSampler0, texCoords).rgb;
+    float3 specular = light.color.rgb * spec * Specular.Sample(TexSampler1, texCoords).rgb;
+
+
+    //return float3(ambient + diffuse + specular);
+    return ambient + diffuse + specular;
+}
+
+float3 CalcPointLight(Light light, float3 normal, float2 texCoords, float3 fragPos,float3 viewDir, Texture2D Diffuse, Texture2D Specular)
+{
+    float3 lightDir = normalize(light.position.xyz - fragPos);
+
+    //diffuse
+    float diff = max(dot(normal, lightDir),0.0);
+    //specular
+    float3 reflectDir = reflect(-lightDir, normal);
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), u_shininess);
+
+    float attenuation = Attenuation(light.position.xyz, fragPos, light.range, light.intensity);
+    if(attenuation <= 0)
+        return float3(0.0,0.0,0.0);
+
+    //combine results
+    float3 ambient = light.color.rgb * Diffuse.Sample(TexSampler0, texCoords).rgb * .1;
+    float3 diffuse = light.color.rgb * diff * Diffuse.Sample(TexSampler0, texCoords).rgb;
+    float3 specular = light.color.rgb * spec * Specular.Sample(TexSampler1, texCoords).rgb;
+
+
+    ambient  *= attenuation;
+    diffuse  *= attenuation;
+    specular *= attenuation;
+
+    return ambient + diffuse + specular;
+}
+
+
+float2 SkyboxUV(float3 direction)
+{
+    float2 horDir = normalize(float2(direction.x, direction.z));
+    return float2(1.0 - (atan(horDir.y/horDir.x) / (2.0 * PI)), 1.0 - (acos(dot(float3(0.0, 1.0, 0.0), direction)) / PI));
+}
+
+
+float4 SampleSkybox(Texture2D Skybox, SamplerState Sampler, float3 direction)
+{
+    return Skybox.Sample(Sampler, SkyboxUV(direction));
+}
+
+float4 SampleSkybox(Texture2D Skybox, SamplerState Sampler, float4 direction)
+{
+    return SampleSkybox(Skybox,Sampler, direction.xyz);
+}
+
+float4 SampleSkybox(Texture2D Skybox, SamplerState Sampler, float2 uv)
+{
+    return Skybox.Sample(Sampler, uv);
+}
+
+float4 SampleSkyboxLod(Texture2D Skybox, SamplerState Sampler, float3 direction, float Lod)
+{
+    return Skybox.SampleLevel(Sampler, SkyboxUV(direction), Lod);
+}
+
