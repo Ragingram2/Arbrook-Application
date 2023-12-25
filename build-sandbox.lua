@@ -19,6 +19,6 @@ files {
 
 
 dofile "arbrook/core/include-core.lua"
-dofile "arbrook/rendering/include-rendering.lua"
+dofile "arbrook/graphics/include-graphics.lua"
 dofile "arbrook/input/include-input.lua"
 

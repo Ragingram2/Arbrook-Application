@@ -30,6 +30,9 @@
     <ClInclude Include="systems\examplesystem.hpp">
       <Filter>systems</Filter>
     </ClInclude>
+    <ClInclude Include="systems\fluidsystem.hpp">
+      <Filter>systems</Filter>
+    </ClInclude>
     <ClInclude Include="systems\game.hpp">
       <Filter>systems</Filter>
     </ClInclude>
@@ -51,11 +54,13 @@
     <ClInclude Include="tests\tools\bgfxutils.hpp">
       <Filter>tests\tools</Filter>
     </ClInclude>
-    <ClInclude Include="systems\bgfxsystem.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\arbrook\Arbrook.cpp">
       <Filter>arbrook</Filter>
+    </ClCompile>
+    <ClCompile Include="systems\fluidsystem.cpp">
+      <Filter>systems</Filter>
     </ClCompile>
     <ClCompile Include="systems\game.cpp">
       <Filter>systems</Filter>
