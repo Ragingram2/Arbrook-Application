@@ -3,8 +3,8 @@
 
 #include <rsl/math>
 
-#include "rendering/interface/definitions/definitions.hpp"
-#include "rendering/rendering.hpp"
+#include "graphics/interface/definitions/definitions.hpp"
+#include "graphics/rendering.hpp"
 
 namespace rythe::testing
 {

@@ -1,7 +1,7 @@
 //#pragma once
 //
 //#include "core/core.hpp"
-//#include "rendering/rendering.hpp"
+//#include "graphics/rendering.hpp"
 //
 //namespace rythe::core
 //{

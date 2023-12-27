@@ -8,7 +8,7 @@
 #include <rsl/logging>
 #include <rsl/math>
 
-#include "rendering/interface/definitions/definitions.hpp"
+#include "graphics/interface/definitions/definitions.hpp"
 #include "sandbox/tests/rendertest.hpp"
 
 namespace rythe::testing

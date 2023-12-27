@@ -1,6 +1,6 @@
 //#pragma once
 //#include "core/core.hpp"
-//#include "rendering/rendering.hpp"
+//#include "graphics/rendering.hpp"
 //#include "input/input.hpp"
 //#include "sandbox/components/test_renderer.hpp"
 //#include "sandbox/tests/drawindexedtest.hpp"
