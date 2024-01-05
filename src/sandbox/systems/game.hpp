@@ -1,4 +1,5 @@
 #pragma once
+#include <filesystem>
 
 #include <tracy/Tracy.hpp>
 
@@ -9,17 +10,18 @@
 namespace rythe::game
 {
 	using namespace rythe::core::events;
-	//using moveInput = axis_input < axis_data{inputmap::method::A, inputmap::method::D, 1, -1}, axis_data{inputmap::method::W, inputmap::method::S, 1, -1}, axis_data{ inputmap::method::Q, inputmap::method::E, 1, -1 } >;
+	namespace fs = std::filesystem;
+	namespace ast = rythe::core::assets;
 
-	class Game : public core::System<Game,core::transform, gfx::mesh_renderer>
+	class Game : public core::System<Game, core::transform, gfx::mesh_renderer>
 	{
 	private:
 		core::ecs::entity camera;
 		core::ecs::entity cube;
-		gfx::model_handle modelHandle;
-		gfx::material mat;
-		gfx::material lit;
-		gfx::material color;
+		ast::asset_handle<gfx::model> modelHandle;
+		ast::asset_handle<gfx::material> mat;
+		ast::asset_handle<gfx::material> lit;
+		ast::asset_handle<gfx::material> color;
 
 		math::vec3 velocity = math::vec3(0.0f);
 
@@ -47,8 +49,8 @@ namespace rythe::game
 		void setup();
 		void update();
 		void guiRender();
-		void setModel(gfx::model_handle handle);
-		void setMaterial(gfx::material_handle handle);
+		void setModel(ast::asset_handle<gfx::model> handle);
+		void setMaterial(ast::asset_handle<gfx::material> handle);
 
 		void reloadShaders(key_input<inputmap::method::NUM1>& input);
 		void move(moveInput& input);
