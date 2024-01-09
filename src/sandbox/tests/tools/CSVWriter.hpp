@@ -78,53 +78,27 @@ namespace rythe::testing
 			return times;
 		}
 	};
-
+	using TestName = std::string;
 	struct CSVWriter
 	{
-	private:
-		std::string fullPath;
-		std::string filePath;
-		std::string fileName;
-
-		std::string output;
 	public:
-		using TestName = std::string;
-		std::unordered_map<TestName, test_result> results;
+		static std::unordered_map<TestName, test_result> results;
 
-		CSVWriter(std::string path)
-		{
-			fullPath = path;
-			auto idx = path.find_last_of('/');
-			fileName = path.substr(idx + 1, path.size());
-			filePath = path.substr(0, idx);
-		}
-
-		//void writeSetupTime(std::string testName, APIType type, std::int64_t setupTime)
-		//{
-		//	if (type == None)
-		//		return;
-		//	results[testName].testTimes[type]["Setup"].push_back(setupTime);
-		//}
-
-		//void writeFrameTime(std::string testName, APIType type, std::int64_t frameTime)
-		//{
-		//	if (type == None)
-		//		return;
-		//	results[testName].testTimes[type]["FrameTime"].push_back(frameTime);
-		//}
-
-		void writeTime(std::string testName, APIType type, std::string propertyName, std::int64_t time)
+		static void writeTime(const std::string& testName, APIType type, const std::string& propertyName, std::int64_t time)
 		{
 			if (type == None)
+			{
+				log::debug("Type is none");
 				return;
+			}
 			results[testName].testTimes[type][propertyName].push_back(time);
 		}
 
-		void printResults()
+		static void printResults(fs::path path)
 		{
 			for (auto& [name, result] : results)
 			{
-				std::filesystem::path testPath = std::filesystem::path(fullPath);
+				std::filesystem::path testPath = std::filesystem::path(path);
 				std::ofstream file;
 				file.open(testPath);
 				file << result.serialize() << std::endl;
@@ -132,6 +106,28 @@ namespace rythe::testing
 			}
 
 			results.clear();
+		}
+	};
+	inline std::unordered_map<TestName, test_result> CSVWriter::results;
+
+	struct FrameClock
+	{
+	public:
+		std::string testName;
+		APIType type;
+		std::string propertyName;
+		std::chrono::steady_clock::time_point start;
+		std::chrono::steady_clock::time_point end;
+
+
+		FrameClock(const std::string& _testName, APIType _type, const::std::string& _propertyName) : testName(_testName), type(_type), propertyName(_propertyName)
+		{
+			start = std::chrono::high_resolution_clock::now();
+		}
+		~FrameClock()
+		{
+			end = std::chrono::high_resolution_clock::now();
+			CSVWriter::writeTime(testName, type, propertyName, std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count());
 		}
 	};
 }

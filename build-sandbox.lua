@@ -1,7 +1,9 @@
 createProject("applications","sandbox","ConsoleApp")
 targetdir "$(SolutionDir)bin\\build\\"
 defines{
-    "TRACY_IMPORTS"
+    "TRACY_IMPORTS",
+    "BX_CONFIG_DEBUG",
+    "BGFX_CONFIG_RENDERER_OPENGL=44"
 }
 includedirs {
     basicIncludes,

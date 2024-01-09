@@ -16,6 +16,9 @@
     <Filter Include="tests">
       <UniqueIdentifier>{78756B10-E489-93C1-AD0B-372119DF8FF2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="tests\bgfxpipeline">
+      <UniqueIdentifier>{24544371-1038-04C7-7998-FE19659BEE48}</UniqueIdentifier>
+    </Filter>
     <Filter Include="tests\tools">
       <UniqueIdentifier>{1804D05D-84B9-4853-0DAE-422A79623F57}</UniqueIdentifier>
     </Filter>
@@ -38,6 +41,12 @@
     </ClInclude>
     <ClInclude Include="systems\testsystem.hpp">
       <Filter>systems</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\bgfxpipeline\bgfxpipeline.hpp">
+      <Filter>tests\bgfxpipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\bgfxpipeline\bgfxrenderstage.hpp">
+      <Filter>tests\bgfxpipeline</Filter>
     </ClInclude>
     <ClInclude Include="tests\drawindexedtest.hpp">
       <Filter>tests</Filter>

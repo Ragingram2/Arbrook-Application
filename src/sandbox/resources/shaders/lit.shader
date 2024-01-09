@@ -3,7 +3,7 @@ namespace vertex
 {
 	#include "utils.shinc"	
     #include "default.vert"
-}//end
+}
 
 namespace fragment
 {
@@ -31,4 +31,4 @@ namespace fragment
 
 		return float4(result, 1.0);
 	}
-}//end
+}

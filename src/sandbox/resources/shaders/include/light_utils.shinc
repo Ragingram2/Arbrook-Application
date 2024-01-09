@@ -130,7 +130,7 @@ float3 CalcPointLight(Light light, float3 normal, float2 texCoords, float3 fragP
 float2 SkyboxUV(float3 direction)
 {
     float2 horDir = normalize(float2(direction.x, direction.z));
-    return float2(1.0 - (atan(horDir.y/horDir.x) / (2.0 * PI)), 1.0 - (acos(dot(float3(0.0, 1.0, 0.0), direction)) / PI));
+    return float2(1.0 - (atan2(horDir.y,horDir.x) / (2.0 * PI)), 1.0 - (acos(dot(float3(0.0, 1.0, 0.0), direction)) / PI));
 }
 
 

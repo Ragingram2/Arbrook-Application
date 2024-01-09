@@ -1,4 +1,5 @@
 #pragma once
+#include "sandbox/tests/bgfxpipeline/bgfxpipeline.hpp"
 #include "sandbox/tests/rendertest.hpp"
 #include "sandbox/tests/tools/bgfxutils.hpp"
 
@@ -11,11 +12,11 @@ namespace rythe::testing
 	struct ModelSwitchTest<APIType::Arbrook> : public rendering_test
 	{
 		gfx::camera_data data;
-		gfx::material_handle mat;
+		ast::asset_handle<gfx::material> mat;
 		gfx::buffer_handle vBuffer;
 		gfx::buffer_handle idxBuffer;
 		gfx::buffer_handle cBuffer;
-		gfx::mesh_handle meshHandle;
+		ast::asset_handle<gfx::mesh> meshHandle;
 		gfx::inputlayout layout;
 		float i = 0;
 		int modelIdx = 0;
@@ -30,10 +31,10 @@ namespace rythe::testing
 			modelNames = gfx::ModelCache::getModelNames();
 
 			meshHandle = gfx::ModelCache::getModel(modelNames[modelIdx])->meshHandle;
-			mat = gfx::MaterialCache::loadMaterial("test", "cube");
+			mat = gfx::MaterialCache::loadMaterial("test", "color");
 			vBuffer = gfx::BufferCache::createBuffer<math::vec4>("Vertex Buffer", gfx::TargetType::VERTEX_BUFFER, gfx::UsageType::STATICDRAW, meshHandle->vertices);
 			idxBuffer = gfx::BufferCache::createBuffer<unsigned int>("Index Buffer", gfx::TargetType::INDEX_BUFFER, gfx::UsageType::STATICDRAW, meshHandle->indices);
-			cBuffer = gfx::BufferCache::createConstantBuffer<gfx::camera_data>("ConstantBuffer", 0, gfx::UsageType::STATICDRAW);
+			cBuffer = gfx::BufferCache::createConstantBuffer<gfx::camera_data>("CameraBuffer", 0, gfx::UsageType::STATICDRAW);
 			mat->shader->addBuffer(cBuffer);
 			mat->bind();
 
@@ -49,6 +50,7 @@ namespace rythe::testing
 
 		void update(gfx::camera& cam, core::transform& camTransf)
 		{
+			ZoneScopedN("[Arbrook] Model Switch Update");
 			data.view = cam.calculate_view(&camTransf);
 
 			modelIdx++;
@@ -69,7 +71,7 @@ namespace rythe::testing
 			model = math::rotate(model, math::radians(i), math::vec3(0.0f, 1.0f, 0.0f));
 			data.model = model;
 
-			mat->shader->setData("ConstantBuffer", &data);
+			mat->shader->setData("CameraBuffer", &data);
 			vBuffer->bind();
 			idxBuffer->bind();
 			gfx::Renderer::RI->drawIndexedInstanced(gfx::PrimitiveType::TRIANGLESLIST, meshHandle->indices.size(), 1, 0, 0, 0);
@@ -79,7 +81,7 @@ namespace rythe::testing
 		{
 			gfx::BufferCache::deleteBuffer("Vertex Buffer");
 			gfx::BufferCache::deleteBuffer("Index Buffer");
-			gfx::BufferCache::deleteBuffer("ConstantBuffer");
+			gfx::BufferCache::deleteBuffer("CameraBuffer");
 			gfx::MaterialCache::deleteMaterial("test");
 			layout.release();
 			initialized = false;
@@ -90,8 +92,8 @@ namespace rythe::testing
 	struct ModelSwitchTest<APIType::BGFX> : public rendering_test
 	{
 		gfx::camera_data data;
-		gfx::material_handle mat;
-		gfx::mesh_handle meshHandle;
+		ast::asset_handle<gfx::material> mat;
+		ast::asset_handle<gfx::mesh> meshHandle;
 
 #if RenderingAPI == RenderingAPI_OGL
 		bgfx::RendererType::Enum type = bgfx::RendererType::OpenGL;
@@ -100,18 +102,19 @@ namespace rythe::testing
 #endif
 
 		bgfx::PlatformData platformData;
-		bgfx::VertexBufferHandle vertexBuffer;
-		bgfx::IndexBufferHandle indexBuffer;
+		bgfx::DynamicVertexBufferHandle vertexBuffer;
+		bgfx::DynamicIndexBufferHandle indexBuffer;
 		bgfx::ProgramHandle shader;
 		bgfx::VertexLayout inputLayout;
 
 		BgfxCallback callback;
 		uint64_t state = 0
-			| BGFX_STATE_WRITE_RGB
-			| BGFX_STATE_WRITE_A
-			| BGFX_STATE_WRITE_Z
+			| BGFX_STATE_WRITE_MASK
+			| BGFX_STATE_DEPTH_TEST_LESS
 			| BGFX_STATE_FRONT_CCW
+			| BGFX_STATE_CULL_CW
 			| 0;
+
 
 		float i = 0;
 		int modelIdx = 0;
@@ -119,26 +122,27 @@ namespace rythe::testing
 
 		void setup(gfx::camera& cam, core::transform& camTransf)
 		{
-			gfx::Renderer::RI->BGFXMode(true);
 			name = "ModelSwitch";
 			log::debug("Initializing {}_Test{}", getAPIName(APIType::BGFX), name);
-			glfwSetWindowTitle(gfx::Renderer::RI->getGlfwWindow(), std::format("{}_Test{}", getAPIName(APIType::BGFX), name).c_str());
+
+			gfx::WindowProvider::activeWindow->initialize(math::ivec2(Screen_Width, Screen_Height), std::format("{}_Test{}", getAPIName(APIType::BGFX), name));
+			gfx::WindowProvider::activeWindow->makeCurrent();
+
 			modelNames = gfx::ModelCache::getModelNames();
 			meshHandle = gfx::ModelCache::getModel(modelNames[modelIdx])->meshHandle;
 
 			bgfx::Init init;
 			init.type = type;
-
+			
+			init.platformData.nwh = glfwGetWin32Window(gfx::WindowProvider::activeWindow->getGlfwWindow());
 			init.platformData.ndt = nullptr;
-			init.platformData.type = bgfx::NativeWindowHandleType::Default;
-			init.platformData.nwh = glfwGetWin32Window(gfx::Renderer::RI->getGlfwWindow());
-#if RenderingAPI == RenderingAPI_OGL
-			init.platformData.context = wglGetCurrentContext();
-#elif RenderingAPI == RenderingAPI_DX11
-			init.platformData.context = gfx::Renderer::RI->getWindowHandle()->dev;
+#ifdef RenderingAPI_DX11
+			init.platformData.context = gfx::WindowProvider::activeWindow->dev;
 #endif
-			init.resolution.width = gfx::Renderer::RI->getWindowHandle()->getResolution().x;
-			init.resolution.height = gfx::Renderer::RI->getWindowHandle()->getResolution().y;
+			init.platformData.type = bgfx::NativeWindowHandleType::Default;
+			init.resolution.width = gfx::WindowProvider::activeWindow->getResolution().x;
+			init.resolution.height = gfx::WindowProvider::activeWindow->getResolution().y;
+			init.resolution.reset = entry::s_reset;
 
 #ifdef _DEBUG
 			init.callback = &callback;
@@ -151,15 +155,15 @@ namespace rythe::testing
 
 			bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x6495EDff, 1.0f, 0);
 			bgfx::setViewMode(0, bgfx::ViewMode::Default);
-			bgfx::setViewRect(0, 0, 0, Screen_Width, Screen_Height);
+
 
 			data.projection = cam.calculate_projection();
 
 			inputLayout.begin().add(bgfx::Attrib::Position, 4, bgfx::AttribType::Float).end();
 
-			vertexBuffer = bgfx::createVertexBuffer(bgfx::makeRef(meshHandle->vertices.data(), meshHandle->vertices.size() * sizeof(math::vec4)), inputLayout);
+			vertexBuffer = bgfx::createDynamicVertexBuffer(bgfx::makeRef(meshHandle->vertices.data(), meshHandle->vertices.size() * sizeof(math::vec4)), inputLayout, BGFX_BUFFER_ALLOW_RESIZE);
 
-			indexBuffer = bgfx::createIndexBuffer(bgfx::makeRef(meshHandle->indices.data(), meshHandle->indices.size() * sizeof(unsigned int)), BGFX_BUFFER_INDEX32);
+			indexBuffer = bgfx::createDynamicIndexBuffer(bgfx::makeRef(meshHandle->indices.data(), meshHandle->indices.size() * sizeof(unsigned int)), BGFX_BUFFER_INDEX32 | BGFX_BUFFER_ALLOW_RESIZE);
 
 			shader = loadProgram("testVS", "testFS");
 
@@ -168,17 +172,28 @@ namespace rythe::testing
 
 			data.view = cam.calculate_view(&camTransf);
 			bgfx::setViewTransform(0, data.view.data, data.projection.data);
+			bgfx::setViewRect(0, 0, 0, Screen_Width, Screen_Height);
+			bgfx::frame();
 
 			initialized = true;
 		}
 
 		void update(gfx::camera& cam, core::transform& camTransf)
 		{
+			ZoneScopedN("[BGFX] Model Switch Update");
 			data.view = cam.calculate_view(&camTransf);
 			bgfx::setViewTransform(0, data.view.data, data.projection.data);
 
+			modelIdx++;
 			i += .1f;
 			bgfx::touch(0);
+
+			if (modelIdx >= modelNames.size())
+				modelIdx = 0;
+
+			meshHandle = gfx::ModelCache::getModel(modelNames[modelIdx])->meshHandle;
+			bgfx::update(vertexBuffer, 0, bgfx::makeRef(meshHandle->vertices.data(), meshHandle->vertices.size() * sizeof(math::vec4)));
+			bgfx::update(indexBuffer, 0, bgfx::makeRef(meshHandle->indices.data(), meshHandle->indices.size() * sizeof(unsigned int)));
 
 			math::vec3 pos = math::vec3{ 0, 0, 10.f };
 			auto model = math::translate(math::mat4(1.0f), pos);
@@ -188,7 +203,7 @@ namespace rythe::testing
 			bgfx::setVertexBuffer(0, vertexBuffer);
 			bgfx::setIndexBuffer(indexBuffer);
 			bgfx::setState(state);
-			bgfx::submit(0, shader);
+			bgfx::submit(0, shader, BGFX_DISCARD_NONE);
 			bgfx::frame();
 		}
 
@@ -198,7 +213,7 @@ namespace rythe::testing
 			bgfx::destroy(vertexBuffer);
 			bgfx::destroy(shader);
 			bgfx::shutdown();
-			gfx::Renderer::RI->BGFXMode(false);
+
 			initialized = false;
 		}
 	};
@@ -208,8 +223,8 @@ namespace rythe::testing
 	struct ModelSwitchTest<APIType::Native> : public rendering_test
 	{
 		gfx::camera_data data;
-		gfx::mesh_handle meshHandle;
-		gfx::material_handle mat;
+		ast::asset_handle<gfx::mesh> meshHandle;
+		ast::asset_handle<gfx::material> mat;
 
 		unsigned int vboId;
 		unsigned int vaoId;
@@ -230,7 +245,7 @@ namespace rythe::testing
 
 			modelNames = gfx::ModelCache::getModelNames();
 			meshHandle = gfx::ModelCache::getModel(modelNames[modelIdx])->meshHandle;
-			mat = gfx::MaterialCache::loadMaterial("test", "cube");
+			mat = gfx::MaterialCache::loadMaterial("test", "color");
 
 			shaderId = mat->shader->getId();
 
@@ -239,7 +254,7 @@ namespace rythe::testing
 			glBufferData(GL_UNIFORM_BUFFER, sizeof(data), &data, GL_STATIC_DRAW);
 			glBindBufferRange(GL_UNIFORM_BUFFER, 0, constantBufferId, 0, sizeof(data));
 			glUseProgram(shaderId);
-			glUniformBlockBinding(shaderId, glGetUniformBlockIndex(shaderId, "ConstantBuffer"), 0);
+			glUniformBlockBinding(shaderId, glGetUniformBlockIndex(shaderId, "CameraBuffer"), 0);
 
 			glGenBuffers(1, &vboId);
 			glBindBuffer(GL_ARRAY_BUFFER, vboId);
@@ -283,6 +298,7 @@ namespace rythe::testing
 
 		void update(gfx::camera& cam, core::transform& camTransf)
 		{
+			ZoneScopedN("[Native-OGL] Model Switch Update");
 			modelIdx++;
 
 			if (modelIdx >= modelNames.size())
@@ -325,8 +341,8 @@ namespace rythe::testing
 	struct ModelSwitchTest<APIType::Native> : public rendering_test
 	{
 		gfx::camera_data data;
-		gfx::material_handle mat;
-		gfx::mesh_handle meshHandle;
+		ast::asset_handle<gfx::material> mat;
+		ast::asset_handle<gfx::mesh> meshHandle;
 
 		float i = 0;
 		int modelIdx = 0;
@@ -343,7 +359,7 @@ namespace rythe::testing
 
 		void update(gfx::camera& cam, core::transform& camTransf)
 		{
-
+			ZoneScopedN("[Native-DX11] Model Switch Update");
 		}
 
 		void destroy()
@@ -351,6 +367,6 @@ namespace rythe::testing
 
 			initialized = false;
 		}
-		};
+	};
 #endif
-	}
+}

@@ -2,7 +2,7 @@ namespace vertex
 {
     #include "utils.shinc"
     #include "default.vert"
-}//end
+}
 
 namespace fragment
 {
@@ -21,4 +21,4 @@ float4 main(PIn input) : SV_TARGET
 {
 	return float4(normalize(input.p_normal), 1.0);
 }
-}//end
+}

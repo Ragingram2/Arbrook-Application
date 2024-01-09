@@ -39,7 +39,7 @@ namespace rythe::game
 		color = gfx::MaterialCache::loadMaterialFromFile("color", "resources/shaders/color.shader");
 
 		cube = createEntity("Cube");
-		cube.addComponent<core::examplecomp>({ .direction = 1, .angularSpeed = .02f });
+		cube.addComponent<core::examplecomp>({ .direction = 1, .angularSpeed = .00f });
 		auto& transf = cube.addComponent<core::transform>();
 		transf.scale = math::vec3::one;
 		transf.position = math::vec3(0.0f, -1.0f, 0.f);
@@ -50,33 +50,33 @@ namespace rythe::game
 			skyboxRenderer.skyboxTex = ast::AssetCache<gfx::texture>::getAsset("park");
 		}
 
-		//{
-		//	auto ent = createEntity("Light");
-		//	auto& transf = ent.addComponent<core::transform>();
-		//	transf.scale = math::vec3::one;
-		//	transf.position = math::vec3(0.0f, 0.0f, 0.0f);
-		//	transf.rotation = math::toQuat(math::vec3(0, math::radians(45.0f), math::radians(-45.0f)));
-		//	ent.addComponent<gfx::light>({ .type = gfx::LightType::DIRECTIONAL, .data.color = math::vec4(1.0f) });
-		//}
+		{
+			auto ent = createEntity("Light");
+			auto& transf = ent.addComponent<core::transform>();
+			transf.scale = math::vec3::one;
+			transf.position = math::vec3(0.0f, 0.0f, 0.0f);
+			transf.rotation = math::toQuat(math::vec3(0, math::radians(45.0f), math::radians(-45.0f)));
+			ent.addComponent<gfx::light>({ .type = gfx::LightType::DIRECTIONAL, .data.color = math::vec4(1.0f) });
+		}
 
-		//{
-		//	auto ent = createEntity("PointLight");
-		//	ent.addComponent<core::transform>({ .scale = math::vec3(.1f, .1f, .1f), .position = math::vec3(0.0f,1.0f,0.0f) });
-		//	ent.addComponent<gfx::light>({ .type = gfx::LightType::POINT, .data.color = math::vec4(1.0f,0.0f,0.0f,1.0f), .data.intensity = 1.0f, .data.range = 50.f });
-		//	ent.addComponent<core::examplecomp>({ .direction = 1, .range = 10.0f, .speed = .02f });
-		//	ent.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("icosphere") });
-		//}
+		{
+			auto ent = createEntity("PointLight");
+			ent.addComponent<core::transform>({ .scale = math::vec3(.1f, .1f, .1f), .position = math::vec3(0.0f,1.0f,0.0f) });
+			ent.addComponent<gfx::light>({ .type = gfx::LightType::POINT, .data.color = math::vec4(1.0f,0.0f,0.0f,1.0f), .data.intensity = 1.0f, .data.range = 50.f });
+			ent.addComponent<core::examplecomp>({ .direction = 1, .range = 10.0f, .speed = .02f });
+			ent.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("icosphere") });
+		}
 
-		//{
-		//	auto ent = createEntity("PointLight2");
-		//	ent.addComponent<core::transform>({ .scale = math::vec3(.1f, .1f, .1f), .position = math::vec3(0.0f,1.0f,0.0f) });
-		//	ent.addComponent<gfx::light>({ .type = gfx::LightType::POINT, .data.color = math::vec4(0.0f,0.0f,1.0f,1.0f), .data.intensity = 1.0f, .data.range = 50.f });
-		//	ent.addComponent<core::examplecomp>({ .direction = -1, .range = 10.0f, .speed = .02f });
-		//	ent.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("icosphere") });
-		//}
+		{
+			auto ent = createEntity("PointLight2");
+			ent.addComponent<core::transform>({ .scale = math::vec3(.1f, .1f, .1f), .position = math::vec3(0.0f,1.0f,0.0f) });
+			ent.addComponent<gfx::light>({ .type = gfx::LightType::POINT, .data.color = math::vec4(0.0f,0.0f,1.0f,1.0f), .data.intensity = 1.0f, .data.range = 50.f });
+			ent.addComponent<core::examplecomp>({ .direction = -1, .range = 10.0f, .speed = .02f });
+			ent.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("icosphere") });
+		}
 
 		camera = createEntity("Camera");
-		camera.addComponent<gfx::light>({ .type = gfx::LightType::POINT, .data.color = math::vec4(1.0f,1.0f,1.0f,1.0f), .data.intensity = 1.0f, .data.range = 10.f });
+		//camera.addComponent<gfx::light>({ .type = gfx::LightType::POINT, .data.color = math::vec4(1.0f,1.0f,1.0f,1.0f), .data.intensity = 1.0f, .data.range = 10.f });
 		auto& camTransf = camera.addComponent<core::transform>();
 		camTransf.position = math::vec3(0.0f, 0.0f, 0.0f);
 		camTransf.rotation = math::quat(math::lookAt(math::vec3::zero, camTransf.forward(), camTransf.up()));
@@ -101,7 +101,13 @@ namespace rythe::game
 	void Game::guiRender()
 	{
 		using namespace ImGui;
-		ShowDemoWindow();
+		//ShowDemoWindow();
+		Begin("Docking Window");
+		{
+			static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
+			static ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
+			ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
+		}End();
 		Begin("Inspector");
 		if (CollapsingHeader("MeshRenderer"))
 		{

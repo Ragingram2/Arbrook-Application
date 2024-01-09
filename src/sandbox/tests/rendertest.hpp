@@ -3,6 +3,8 @@
 
 #include <rsl/math>
 
+#include <tracy/Tracy.hpp>
+
 #include "graphics/interface/definitions/definitions.hpp"
 #include "graphics/rendering.hpp"
 
@@ -11,9 +13,10 @@ namespace rythe::testing
 	enum APIType
 	{
 		Arbrook = 0,
-		Native = 1,
-		BGFX = 2,
-		None = 3
+		BGFX = 1,
+		Native = 2,
+		None = 3,
+		Count = 4,
 	};
 
 
@@ -27,7 +30,7 @@ namespace rythe::testing
 			return  "BGFX";
 		case APIType::Native:
 			return  "Native";
-		case APIType::None:
+		default:
 			return "None";
 		}
 		return "";
@@ -43,10 +46,4 @@ namespace rythe::testing
 		virtual void destroy() = 0;
 	};
 }
-
-//namespace std {
-//	template <> struct hash<rythe::testing::APIType> {
-//		size_t operator() (const rythe::testing::APIType& t) const { return size_t(t); }
-//	};
-//}
 

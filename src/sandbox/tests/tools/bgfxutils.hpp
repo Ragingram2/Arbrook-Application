@@ -143,17 +143,15 @@ namespace rythe::testing
 		switch (bgfx::getRendererType())
 		{
 		case bgfx::RendererType::Noop:
-		case bgfx::RendererType::Direct3D9:  shaderPath = "resources/shaders/dx9/";   break;
 		case bgfx::RendererType::Direct3D11:
-		case bgfx::RendererType::Direct3D12: shaderPath = "resources/shaders/dx11/";  break;
+		case bgfx::RendererType::Direct3D12: shaderPath = "resources/shaders/bgfx/dx11/";  break;
 		case bgfx::RendererType::Agc:
 		case bgfx::RendererType::Gnm:        shaderPath = "resources/shaders/pssl/";  break;
 		case bgfx::RendererType::Metal:      shaderPath = "resources/shaders/metal/"; break;
 		case bgfx::RendererType::Nvn:        shaderPath = "resources/shaders/nvn/";   break;
-		case bgfx::RendererType::OpenGL:     shaderPath = "resources/shaders/ogl/";  break;
+		case bgfx::RendererType::OpenGL:     shaderPath = "resources/shaders/bgfx/ogl/";  break;
 		case bgfx::RendererType::OpenGLES:   shaderPath = "resources/shaders/essl/";  break;
 		case bgfx::RendererType::Vulkan:     shaderPath = "resources/shaders/spirv/"; break;
-		case bgfx::RendererType::WebGPU:     shaderPath = "resources/shaders/spirv/"; break;
 
 		case bgfx::RendererType::Count:
 			BX_ASSERT(false, "You should not be here!");
@@ -202,10 +200,10 @@ namespace rythe::testing
 
 		virtual void fatal(const char* _filePath, uint16_t _line, bgfx::Fatal::Enum _code, const char* _str) override
 		{
-			//BX_UNUSED(_filePath, _line);
+			BX_UNUSED(_filePath, _line);
 
 			// Something unexpected happened, inform user and bail out.
-			rsl::log::error("Fatal error {}:{} [{}]: {}", _filePath, _line, _code, _str);
+			log::error("Fatal error {}:{} [{}]: {}", _filePath, _line, _code, _str);
 
 			//abort();
 		}
@@ -213,7 +211,7 @@ namespace rythe::testing
 		virtual void traceVargs(const char* _filePath, uint16_t _line, const char* _format, va_list _argList) override
 		{
 			//log::info("{} ({}): ", _filePath, _line);
-			//bx::debugPrintfVargs(_format, _argList);
+			bx::debugPrintfVargs(_format, _argList);
 			//std::printf(_format,_argList);
 			//log::info(_format, _argList);
 		}

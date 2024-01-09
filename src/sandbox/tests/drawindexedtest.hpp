@@ -2,6 +2,7 @@
 #include "sandbox/tests/rendertest.hpp"
 #include "sandbox/tests/tools/bgfxutils.hpp"
 
+namespace ast = rythe::core::assets;
 namespace rythe::testing
 {
 	template<enum APIType type>
@@ -11,11 +12,11 @@ namespace rythe::testing
 	struct DrawIndexedInstancedTest<APIType::Arbrook> : public rendering_test
 	{
 		gfx::camera_data data;
-		gfx::material_handle mat;
+		ast::asset_handle<gfx::material> mat;
 		gfx::buffer_handle vBuffer;
 		gfx::buffer_handle idxBuffer;
 		gfx::buffer_handle cBuffer;
-		gfx::mesh_handle meshHandle;
+		ast::asset_handle<gfx::mesh> meshHandle;
 		gfx::inputlayout layout;
 		float i = 0;
 
@@ -25,11 +26,11 @@ namespace rythe::testing
 			log::debug("Initializing {}_Test{}", getAPIName(APIType::Arbrook), name);
 			glfwSetWindowTitle(gfx::Renderer::RI->getGlfwWindow(), std::format("{}_Test{}", getAPIName(APIType::Arbrook), name).c_str());
 
-			meshHandle = gfx::MeshCache::getMesh("teapot");
-			mat = gfx::MaterialCache::loadMaterial("test", "cube");
+			meshHandle = ast::AssetCache<gfx::mesh>::getAsset("teapot");
+			mat = gfx::MaterialCache::loadMaterial("test", "color");
 			vBuffer = gfx::BufferCache::createBuffer<math::vec4>("Vertex Buffer", gfx::TargetType::VERTEX_BUFFER, gfx::UsageType::STATICDRAW, meshHandle->vertices);
 			idxBuffer = gfx::BufferCache::createBuffer<unsigned int>("Index Buffer", gfx::TargetType::INDEX_BUFFER, gfx::UsageType::STATICDRAW, meshHandle->indices);
-			cBuffer = gfx::BufferCache::createConstantBuffer<gfx::camera_data>("ConstantBuffer", 0, gfx::UsageType::STATICDRAW);
+			cBuffer = gfx::BufferCache::createConstantBuffer<gfx::camera_data>("CameraBuffer", 0, gfx::UsageType::STATICDRAW);
 			mat->shader->addBuffer(cBuffer);
 			mat->bind();
 
@@ -46,25 +47,27 @@ namespace rythe::testing
 		virtual void update(gfx::camera& cam, core::transform& camTransf) override
 		{
 			data.view = cam.calculate_view(&camTransf);
-
-			layout.bind();
 			i += .1f;
 			math::vec3 pos = math::vec3{ 0, 0, 10.f };
 			auto model = math::translate(math::mat4(1.0f), pos);
 			model = math::rotate(model, math::radians(i), math::vec3(0.0f, 1.0f, 0.0f));
 			data.model = model;
 
-			mat->shader->setData("ConstantBuffer", &data);
-			vBuffer->bind();
-			idxBuffer->bind();
-			gfx::Renderer::RI->drawIndexedInstanced(gfx::PrimitiveType::TRIANGLESLIST, meshHandle->indices.size(), 1, 0, 0, 0);
+			ZoneScopedN("[Arbrook] Index Draw Test Update");
+			{
+				layout.bind();
+				mat->shader->setData("CameraBuffer", &data);
+				vBuffer->bind();
+				idxBuffer->bind();
+				gfx::Renderer::RI->drawIndexedInstanced(gfx::PrimitiveType::TRIANGLESLIST, meshHandle->indices.size(), 1, 0, 0, 0);
+			}
 		}
 
 		virtual void destroy() override
 		{
 			gfx::BufferCache::deleteBuffer("Vertex Buffer");
 			gfx::BufferCache::deleteBuffer("Index Buffer");
-			gfx::BufferCache::deleteBuffer("ConstantBuffer");
+			gfx::BufferCache::deleteBuffer("CameraBuffer");
 			gfx::MaterialCache::deleteMaterial("test");
 			layout.release();
 			initialized = false;
@@ -81,7 +84,7 @@ namespace rythe::testing
 #endif
 
 		gfx::camera_data data;
-		gfx::mesh_handle meshHandle;
+		ast::asset_handle<gfx::mesh> meshHandle;
 
 		bgfx::PlatformData platformData;
 		bgfx::VertexBufferHandle vertexBuffer;
@@ -101,25 +104,25 @@ namespace rythe::testing
 
 		virtual void setup(gfx::camera& cam, core::transform& camTransf) override
 		{
-			gfx::Renderer::RI->BGFXMode(true);
 			name = "DrawIndexedInstanced";
 			log::debug("Initializing {}_Test{}", getAPIName(APIType::BGFX), name);
-			glfwSetWindowTitle(gfx::Renderer::RI->getGlfwWindow(), std::format("{}_Test{}", getAPIName(APIType::BGFX), name).c_str());
-			meshHandle = gfx::MeshCache::getMesh("teapot");
+
+			gfx::WindowProvider::activeWindow->initialize(math::ivec2(Screen_Width, Screen_Height), std::format("{}_Test{}", getAPIName(APIType::BGFX), name));
+			gfx::WindowProvider::activeWindow->makeCurrent();
+
+			meshHandle = ast::AssetCache<gfx::mesh>::getAsset("teapot");
 
 			bgfx::Init init;
 			init.type = type;
 
+			init.platformData.nwh = glfwGetWin32Window(gfx::WindowProvider::activeWindow->getGlfwWindow());
 			init.platformData.ndt = nullptr;
-			init.platformData.type = bgfx::NativeWindowHandleType::Default;
-			init.platformData.nwh = glfwGetWin32Window(gfx::Renderer::RI->getGlfwWindow());
-#if RenderingAPI == RenderingAPI_OGL
-			init.platformData.context = wglGetCurrentContext();
-#elif RenderingAPI == RenderingAPI_DX11
-			init.platformData.context = gfx::Renderer::RI->getWindowHandle()->dev;
+#ifdef RenderingAPI_DX11
+			init.platformData.context = gfx::WindowProvider::activeWindow->dev;
 #endif
-			init.resolution.width = gfx::Renderer::RI->getWindowHandle()->getResolution().x;
-			init.resolution.height = gfx::Renderer::RI->getWindowHandle()->getResolution().y;
+			init.platformData.type = bgfx::NativeWindowHandleType::Default;
+			init.resolution.width = gfx::WindowProvider::activeWindow->getResolution().x;
+			init.resolution.height = gfx::WindowProvider::activeWindow->getResolution().y;
 
 #ifdef _DEBUG
 			init.callback = &callback;
@@ -155,21 +158,27 @@ namespace rythe::testing
 
 		virtual void update(gfx::camera& cam, core::transform& camTransf) override
 		{
-			data.view = cam.calculate_view(&camTransf);
-			bgfx::setViewTransform(0, data.view.data, data.projection.data);
-			i += .1f;
-			bgfx::touch(0);
 
+			data.view = cam.calculate_view(&camTransf);
+			i += .1f;
 			math::vec3 pos = math::vec3{ 0, 0, 10.f };
 			auto model = math::translate(math::mat4(1.0f), pos);
 			model = math::rotate(model, math::radians(i), math::vec3(0.0f, 1.0f, 0.0f));
-			bgfx::setTransform(model.data);
 
-			bgfx::setVertexBuffer(0, vertexBuffer);
-			bgfx::setIndexBuffer(indexBuffer);
-			bgfx::setState(state);
-			bgfx::submit(0, shader);
-			bgfx::frame();
+			ZoneScopedN("[BGFX] Index Draw Test Update");
+			{
+				bgfx::setViewTransform(0, data.view.data, data.projection.data);
+
+				bgfx::touch(0);
+
+				bgfx::setTransform(model.data);
+
+				bgfx::setVertexBuffer(0, vertexBuffer);
+				bgfx::setIndexBuffer(indexBuffer);
+				bgfx::setState(state);
+				bgfx::submit(0, shader);
+				bgfx::frame();
+			}
 		}
 
 		virtual void destroy() override
@@ -178,7 +187,8 @@ namespace rythe::testing
 			bgfx::destroy(vertexBuffer);
 			bgfx::destroy(shader);
 			bgfx::shutdown();
-			gfx::Renderer::RI->BGFXMode(false);
+
+			gfx::WindowProvider::destroyWindow("BGFX");
 			initialized = false;
 		}
 	};
@@ -188,8 +198,8 @@ namespace rythe::testing
 	struct DrawIndexedInstancedTest<APIType::Native> : public rendering_test
 	{
 		gfx::camera_data data;
-		gfx::mesh_handle meshHandle;
-		gfx::material_handle mat;
+		ast::asset_handle<gfx::mesh> meshHandle;
+		ast::asset_handle<gfx::material> mat;
 
 		unsigned int vboId;
 		unsigned int vaoId;
@@ -206,8 +216,8 @@ namespace rythe::testing
 			log::debug("Initializing {}OGL_Test{}", getAPIName(APIType::Native), name);
 			glfwSetWindowTitle(gfx::Renderer::RI->getGlfwWindow(), std::format("{}OGL_Test{}", getAPIName(APIType::Native), name).c_str());
 
-			meshHandle = gfx::MeshCache::getMesh("teapot");
-			mat = gfx::MaterialCache::loadMaterial("test", "cube");
+			meshHandle = ast::AssetCache<gfx::mesh>::getAsset("teapot");
+			mat = gfx::MaterialCache::loadMaterial("test", "color");
 
 			shaderId = mat->shader->getId();
 
@@ -216,7 +226,7 @@ namespace rythe::testing
 			glBufferData(GL_UNIFORM_BUFFER, sizeof(data), &data, GL_STATIC_DRAW);
 			glBindBufferRange(GL_UNIFORM_BUFFER, 0, constantBufferId, 0, sizeof(data));
 			glUseProgram(shaderId);
-			glUniformBlockBinding(shaderId, glGetUniformBlockIndex(shaderId, "ConstantBuffer"), 0);
+			glUniformBlockBinding(shaderId, glGetUniformBlockIndex(shaderId, "CameraBuffer"), 0);
 
 			glGenBuffers(1, &vboId);
 			glBindBuffer(GL_ARRAY_BUFFER, vboId);
@@ -262,12 +272,15 @@ namespace rythe::testing
 		{
 			data.view = cam.calculate_view(&camTransf);
 			i += .1f;
-
 			math::vec3 pos = math::vec3{ 0, 0, 10.0f };
 			auto model = math::translate(math::mat4(1.0f), pos);
 			data.model = math::rotate(model, math::radians(i), math::vec3(0.0f, 1.0f, 0.0f));
-			glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(gfx::camera_data), &data);
-			glDrawElements(GL_TRIANGLES, meshHandle->indices.size(), GL_UNSIGNED_INT, reinterpret_cast <void*>(0));
+
+			ZoneScopedN("[Native-OGL] Index Draw Test Update");
+			{
+				glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(gfx::camera_data), &data);
+				glDrawElements(GL_TRIANGLES, meshHandle->indices.size(), GL_UNSIGNED_INT, reinterpret_cast <void*>(0));
+			}
 
 		}
 
@@ -287,8 +300,8 @@ namespace rythe::testing
 	struct DrawIndexedInstancedTest<APIType::Native> : public rendering_test
 	{
 		gfx::camera_data data;
-		gfx::mesh_handle meshHandle;
-		gfx::material_handle mat;
+		ast::asset_handle<gfx::mesh> meshHandle;
+		ast::asset_handle<gfx::material> mat;
 
 		float i = 0;
 
@@ -298,15 +311,15 @@ namespace rythe::testing
 			log::debug("Initializing {}DX11_Test{}", getAPIName(APIType::Native), name);
 			glfwSetWindowTitle(gfx::Renderer::RI->getGlfwWindow(), std::format("{}DX11_Test{}", getAPIName(APIType::Native), name).c_str());
 
-			meshHandle = gfx::MeshCache::getMesh("teapot");
-			mat = gfx::MaterialCache::loadMaterial("test", "cube");
+			meshHandle = ast::AssetCache<gfx::mesh>::getAsset("teapot");
+			mat = gfx::MaterialCache::loadMaterial("test", "color");
 
 			initialized = true;
 		}
 
 		virtual void update(gfx::camera& cam, core::transform& camTransf) override
 		{
-
+			ZoneScopedN("[Native-DX11] Index Draw Test Update");
 
 		}
 

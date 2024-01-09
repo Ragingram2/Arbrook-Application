@@ -25,7 +25,7 @@ namespace vertex
 
         return output;
     }
-}//end
+}
 
 namespace fragment
 {	
@@ -43,4 +43,4 @@ namespace fragment
     {
         return SampleSkybox(Texture0, TexSampler0, normalize(input.p_fragPos));
     }
-}//end
+}
