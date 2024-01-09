@@ -187,7 +187,6 @@
     <ClInclude Include="components\test_renderer.hpp" />
     <ClInclude Include="modules\testmodule.hpp" />
     <ClInclude Include="systems\examplesystem.hpp" />
-    <ClInclude Include="systems\fluidsystem.hpp" />
     <ClInclude Include="systems\game.hpp" />
     <ClInclude Include="systems\testsystem.hpp" />
     <ClInclude Include="tests\bgfxpipeline\bgfxpipeline.hpp" />
@@ -200,7 +199,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\arbrook\Arbrook.cpp" />
-    <ClCompile Include="systems\fluidsystem.cpp" />
     <ClCompile Include="systems\game.cpp" />
     <ClCompile Include="systems\testsystem.cpp" />
   </ItemGroup>

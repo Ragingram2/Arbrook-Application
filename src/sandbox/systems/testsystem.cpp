@@ -35,7 +35,6 @@ namespace rythe::testing
 		m_testScenes[APIType::BGFX].emplace_back(std::make_unique<DrawIndexedInstancedTest<APIType::BGFX>>());
 		m_testScenes[APIType::BGFX].emplace_back(std::make_unique<ModelSwitchTest<APIType::BGFX>>());
 
-
 		cameraEntity = createEntity("Camera");
 		{
 			auto cameraPos = math::vec3(0.f, 0.f, 0.f);
