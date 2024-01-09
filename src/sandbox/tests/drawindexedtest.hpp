@@ -1,6 +1,7 @@
 #pragma once
 #include "sandbox/tests/rendertest.hpp"
 #include "sandbox/tests/tools/bgfxutils.hpp"
+#include "sandbox/tests/tools/CSVWriter.hpp"
 
 namespace ast = rythe::core::assets;
 namespace rythe::testing
@@ -23,7 +24,7 @@ namespace rythe::testing
 		virtual void setup(gfx::camera& cam, core::transform& camTransf) override
 		{
 			name = "DrawIndexedInstanced";
-			log::debug("Initializing {}_Test{}", getAPIName(APIType::Arbrook), name);
+			log::info("Initializing {}_Test{}", getAPIName(APIType::Arbrook), name);
 			glfwSetWindowTitle(gfx::Renderer::RI->getGlfwWindow(), std::format("{}_Test{}", getAPIName(APIType::Arbrook), name).c_str());
 
 			meshHandle = ast::AssetCache<gfx::mesh>::getAsset("teapot");
@@ -59,7 +60,10 @@ namespace rythe::testing
 				mat->shader->setData("CameraBuffer", &data);
 				vBuffer->bind();
 				idxBuffer->bind();
-				gfx::Renderer::RI->drawIndexedInstanced(gfx::PrimitiveType::TRIANGLESLIST, meshHandle->indices.size(), 1, 0, 0, 0);
+				{
+					FrameClock clock(name, APIType::Arbrook, "DrawCallTime");
+					gfx::Renderer::RI->drawIndexedInstanced(gfx::PrimitiveType::TRIANGLESLIST, meshHandle->indices.size(), 1, 0, 0, 0);
+				}
 			}
 		}
 
@@ -94,10 +98,10 @@ namespace rythe::testing
 
 		BgfxCallback callback;
 		uint64_t state = 0
-			| BGFX_STATE_WRITE_RGB
-			| BGFX_STATE_WRITE_A
-			| BGFX_STATE_WRITE_Z
+			| BGFX_STATE_WRITE_MASK
+			| BGFX_STATE_DEPTH_TEST_LESS
 			| BGFX_STATE_FRONT_CCW
+			| BGFX_STATE_CULL_CW
 			| 0;
 
 		float i = 0;
@@ -105,7 +109,7 @@ namespace rythe::testing
 		virtual void setup(gfx::camera& cam, core::transform& camTransf) override
 		{
 			name = "DrawIndexedInstanced";
-			log::debug("Initializing {}_Test{}", getAPIName(APIType::BGFX), name);
+			log::info("Initializing {}_Test{}", getAPIName(APIType::BGFX), name);
 
 			gfx::WindowProvider::activeWindow->initialize(math::ivec2(Screen_Width, Screen_Height), std::format("{}_Test{}", getAPIName(APIType::BGFX), name));
 			gfx::WindowProvider::activeWindow->makeCurrent();
@@ -176,8 +180,11 @@ namespace rythe::testing
 				bgfx::setVertexBuffer(0, vertexBuffer);
 				bgfx::setIndexBuffer(indexBuffer);
 				bgfx::setState(state);
-				bgfx::submit(0, shader);
-				bgfx::frame();
+				{
+					FrameClock clock(name, APIType::BGFX, "DrawCallTime");
+					bgfx::submit(0, shader);
+					bgfx::frame();
+				}
 			}
 		}
 
@@ -213,7 +220,7 @@ namespace rythe::testing
 		virtual void setup(gfx::camera& cam, core::transform& camTransf) override
 		{
 			name = "DrawIndexedInstanced";
-			log::debug("Initializing {}OGL_Test{}", getAPIName(APIType::Native), name);
+			log::info("Initializing {}OGL_Test{}", getAPIName(APIType::Native), name);
 			glfwSetWindowTitle(gfx::Renderer::RI->getGlfwWindow(), std::format("{}OGL_Test{}", getAPIName(APIType::Native), name).c_str());
 
 			meshHandle = ast::AssetCache<gfx::mesh>::getAsset("teapot");
@@ -274,11 +281,12 @@ namespace rythe::testing
 			i += .1f;
 			math::vec3 pos = math::vec3{ 0, 0, 10.0f };
 			auto model = math::translate(math::mat4(1.0f), pos);
-			data.model = math::rotate(model, math::radians(i), math::vec3(0.0f, 1.0f, 0.0f));
+			model = math::rotate(model, math::radians(i), math::vec3(0.0f, 1.0f, 0.0f));
+			data.model = model;
 
-			ZoneScopedN("[Native-OGL] Index Draw Test Update");
 			{
 				glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(gfx::camera_data), &data);
+				FrameClock clock(name, APIType::Native, "DrawCallTime");
 				glDrawElements(GL_TRIANGLES, meshHandle->indices.size(), GL_UNSIGNED_INT, reinterpret_cast <void*>(0));
 			}
 
@@ -308,7 +316,7 @@ namespace rythe::testing
 		virtual void setup(gfx::camera& cam, core::transform& camTransf) override
 		{
 			name = "DrawIndexedInstanced";
-			log::debug("Initializing {}DX11_Test{}", getAPIName(APIType::Native), name);
+			log::info("Initializing {}DX11_Test{}", getAPIName(APIType::Native), name);
 			glfwSetWindowTitle(gfx::Renderer::RI->getGlfwWindow(), std::format("{}DX11_Test{}", getAPIName(APIType::Native), name).c_str());
 
 			meshHandle = ast::AssetCache<gfx::mesh>::getAsset("teapot");
@@ -319,7 +327,6 @@ namespace rythe::testing
 
 		virtual void update(gfx::camera& cam, core::transform& camTransf) override
 		{
-			ZoneScopedN("[Native-DX11] Index Draw Test Update");
 
 		}
 

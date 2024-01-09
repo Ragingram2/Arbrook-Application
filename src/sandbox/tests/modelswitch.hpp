@@ -25,7 +25,7 @@ namespace rythe::testing
 		void setup(gfx::camera& cam, core::transform& camTransf)
 		{
 			name = "ModelSwitch";
-			log::debug("Initializing {}_Test{}", getAPIName(APIType::Arbrook), name);
+			log::info("Initializing {}_Test{}", getAPIName(APIType::Arbrook), name);
 			glfwSetWindowTitle(gfx::Renderer::RI->getGlfwWindow(), std::format("{}_Test{}", getAPIName(APIType::Arbrook), name).c_str());
 
 			modelNames = gfx::ModelCache::getModelNames();
@@ -50,7 +50,6 @@ namespace rythe::testing
 
 		void update(gfx::camera& cam, core::transform& camTransf)
 		{
-			ZoneScopedN("[Arbrook] Model Switch Update");
 			data.view = cam.calculate_view(&camTransf);
 
 			modelIdx++;
@@ -123,7 +122,7 @@ namespace rythe::testing
 		void setup(gfx::camera& cam, core::transform& camTransf)
 		{
 			name = "ModelSwitch";
-			log::debug("Initializing {}_Test{}", getAPIName(APIType::BGFX), name);
+			log::info("Initializing {}_Test{}", getAPIName(APIType::BGFX), name);
 
 			gfx::WindowProvider::activeWindow->initialize(math::ivec2(Screen_Width, Screen_Height), std::format("{}_Test{}", getAPIName(APIType::BGFX), name));
 			gfx::WindowProvider::activeWindow->makeCurrent();
@@ -180,7 +179,6 @@ namespace rythe::testing
 
 		void update(gfx::camera& cam, core::transform& camTransf)
 		{
-			ZoneScopedN("[BGFX] Model Switch Update");
 			data.view = cam.calculate_view(&camTransf);
 			bgfx::setViewTransform(0, data.view.data, data.projection.data);
 
@@ -240,7 +238,7 @@ namespace rythe::testing
 		void setup(gfx::camera& cam, core::transform& camTransf)
 		{
 			name = "ModelSwitch";
-			log::debug("Initializing {}OGL_Test{}", getAPIName(APIType::Native), name);
+			log::info("Initializing {}OGL_Test{}", getAPIName(APIType::Native), name);
 			glfwSetWindowTitle(gfx::Renderer::RI->getGlfwWindow(), std::format("{}OGL_Test{}", getAPIName(APIType::Native), name).c_str());
 
 			modelNames = gfx::ModelCache::getModelNames();
@@ -298,7 +296,6 @@ namespace rythe::testing
 
 		void update(gfx::camera& cam, core::transform& camTransf)
 		{
-			ZoneScopedN("[Native-OGL] Model Switch Update");
 			modelIdx++;
 
 			if (modelIdx >= modelNames.size())
@@ -351,7 +348,7 @@ namespace rythe::testing
 		void setup(gfx::camera& cam, core::transform& camTransf)
 		{
 			name = "ModelSwitch";
-			log::debug("Initializing {}DX11_Test{}", getAPIName(APIType::Native), name);
+			log::info("Initializing {}DX11_Test{}", getAPIName(APIType::Native), name);
 			glfwSetWindowTitle(gfx::Renderer::RI->getGlfwWindow(), std::format("{}DX11_Test{}", getAPIName(APIType::Native), name).c_str());
 
 			initialized = true;

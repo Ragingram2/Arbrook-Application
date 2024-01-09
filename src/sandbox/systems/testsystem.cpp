@@ -10,7 +10,7 @@ namespace rythe::testing
 
 		input::InputSystem::registerWindow(gfx::Renderer::RI->getGlfwWindow());
 
-		gfx::render_stage::addRender<TestSystem, &TestSystem::testRender>(this);
+		gfx::render_stage::addRender<TestSystem, &TestSystem::onRender>(this);
 		gfx::gui_stage::addGuiRender<TestSystem, &TestSystem::guiRender>(this);
 		testing::bgfx_render_stage::addRender<TestSystem, &TestSystem::BGFXRender>(this);
 
@@ -38,9 +38,10 @@ namespace rythe::testing
 
 		cameraEntity = createEntity("Camera");
 		{
+			auto cameraPos = math::vec3(0.f, 0.f, 0.f);
 			auto& transf = cameraEntity.addComponent<core::transform>();
 			transf.position = cameraPos;
-			transf.rotation = math::quat(math::lookAt(cameraPos, cameraPos + math::vec3::forward, cameraUp));
+			transf.rotation = math::quat(math::lookAt(cameraPos, cameraPos + math::vec3::forward, math::vec3::up));
 			auto& cam = cameraEntity.addComponent<gfx::camera>();
 			cam.farZ = 100.f;
 			cam.nearZ = 1.0f;
@@ -55,38 +56,79 @@ namespace rythe::testing
 		lastFrame = currentFrame;
 	}
 
-	void TestSystem::testRender(core::transform transf, gfx::camera cam)
+	void TestSystem::initializeTest(core::transform transf, gfx::camera cam)
 	{
-		ZoneScopedN("Test Rendering");
+		FrameClock clock("", currentType, "SetupTime");
+		renderer.test->setup(cam, transf);
+		clock.testName = renderer.test->name;
+	}
 
+	void TestSystem::updateTest(core::transform transf, gfx::camera cam)
+	{
+		FrameClock clock(renderer.test->name, currentType, "FrameTime");
+		renderer.test->update(cam, transf);
+		currentIteration++;
+	}
+
+	void TestSystem::resetTest()
+	{
+		renderer.test->destroy();
+		currentIteration = 0;
+		currentType = static_cast<APIType>(currentType + 1);
+		if (currentType == None)
+		{
+			testRunning = false;
+			currentType = Arbrook;
+			renderer.test = nullptr;
+			gfx::WindowProvider::activeWindow->setWindowTitle("Arbrook");
+#if RenderingAPI == RenderingAPI_OGL
+			CSVWriter::printResults("resources\\data\\ogldata.csv");
+#elif RenderingAPI == RenderingAPI_DX11
+			CSVWriter::printResults("resources\\data\\dx11data.csv");
+#endif
+			return;
+		}
+		renderer.test = m_testScenes[currentType][currentTest].get();
+	}
+
+	void TestSystem::BGFXRender()
+	{
+		gfx::camera cam;
+		core::transform transf;
+		if (testRunning)
+		{
+			if (currentIteration > maxIterations)
+			{
+				resetTest();
+				gfx::WindowProvider::destroyWindow("BGFX");
+				gfx::Renderer::setPipeline<gfx::DefaultPipeline>();
+				return;
+			}
+
+			if (!renderer.test->initialized)
+			{
+				glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+				gfx::Renderer::RI->setWindow(gfx::WindowProvider::addWindow("BGFX"));
+				gfx::WindowProvider::setActive("BGFX");
+				initializeTest(transf, cam);
+			}
+
+			updateTest(transf, cam);
+		}
+	}
+
+	void TestSystem::onRender(core::transform transf, gfx::camera cam)
+	{
 		if (currentType == BGFX)
 		{
 			gfx::Renderer::setPipeline<testing::BGFXPipeline>();
 			return;
 		}
-
 		if (testRunning)
 		{
 			if (currentIteration > maxIterations)
 			{
-				renderer.test->destroy();
-				currentIteration = 0;
-				currentType = static_cast<APIType>(currentType + 1);
-				if (currentType == None)
-				{
-					ZoneScopedN("Writing Results");
-					testRunning = false;
-					currentType = Arbrook;
-					renderer.test = nullptr;
-					gfx::WindowProvider::activeWindow->setWindowTitle("Arbrook");
-#if RenderingAPI == RenderingAPI_OGL
-					CSVWriter::printResults("resources\\logs\\ogldata.csv");
-#elif RenderingAPI == RenderingAPI_DX11
-					CSVWriter::printResults("resources\\logs\\dx11data.csv");
-#endif
-					return;
-				}
-				renderer.test = m_testScenes[currentType][currentTest].get();
+				resetTest();
 				return;
 			}
 
@@ -96,94 +138,11 @@ namespace rythe::testing
 				windowHandle->makeCurrent();
 				gfx::Renderer::RI->setWindow(windowHandle);
 				windowHandle->makeCurrent();
-				ZoneScopedN("Initializing Test");
-				{
-					FrameClock clock("", currentType, "SetupTime");
-					//auto start = std::chrono::high_resolution_clock::now();
-					renderer.test->setup(cam, transf);
-					clock.testName = renderer.test->name;
-					//auto end = std::chrono::high_resolution_clock::now();
-				}
-				//CSVWriter::writeTime(renderer.test->name, currentType, "SetupTime", std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count());
+				initializeTest(transf, cam);
 			}
 
-			ZoneScopedN("Test Rendering Update");
-			{
-				FrameClock clock(renderer.test->name, currentType, "FrameTime");
-				//auto start = std::chrono::high_resolution_clock::now();
-				renderer.test->update(cam, transf);
-				//auto end = std::chrono::high_resolution_clock::now();
-			}
-			//CSVWriter::writeTime(renderer.test->name, currentType, "FrameTime", std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count());
-
-			currentIteration++;
+			updateTest(transf, cam);
 		}
-	}
-
-	void TestSystem::BGFXRender()
-	{
-		gfx::camera cam;
-		core::transform transf;
-		ZoneScopedN("[BGFX] Test Rendering");
-		if (testRunning)
-		{
-			if (currentIteration > maxIterations)
-			{
-				renderer.test->destroy();
-				gfx::WindowProvider::destroyWindow("BGFX");
-				gfx::Renderer::setPipeline<gfx::DefaultPipeline>();
-				currentIteration = 0;
-				currentType = static_cast<APIType>(currentType + 1);
-
-				if (currentType == None)
-				{
-					ZoneScopedN("Writing Results");
-					testRunning = false;
-					currentType = Arbrook;
-					renderer.test = nullptr;
-#if RenderingAPI == RenderingAPI_OGL
-					CSVWriter::printResults("resources\\logs\\ogldata.csv");
-#elif RenderingAPI == RenderingAPI_DX11
-					CSVWriter::printResults("resources\\logs\\dx11data.csv");
-#endif
-					return;
-				}
-				renderer.test = m_testScenes[currentType][currentTest].get();
-				return;
-			}
-
-			if (!renderer.test->initialized)
-			{
-				glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-				gfx::Renderer::RI->setWindow(gfx::WindowProvider::addWindow("BGFX"));
-				gfx::WindowProvider::setActive("BGFX");
-
-				ZoneScopedN("Initializing Test");
-				{
-					FrameClock clock(renderer.test->name, currentType, "SetupTime");
-					//auto start = std::chrono::high_resolution_clock::now();
-					renderer.test->setup(cam, transf);
-					//auto end = std::chrono::high_resolution_clock::now();
-				}
-				//CSVWriter::writeTime(renderer.test->name, currentType, "SetupTime", std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count());
-			}
-			ZoneScopedN("Test Rendering Update");
-			{
-				FrameClock clock(renderer.test->name, currentType, "FrameTime");
-				//auto start = std::chrono::high_resolution_clock::now();
-				renderer.test->update(cam, transf);
-				//auto end = std::chrono::high_resolution_clock::now();
-			}
-			//CSVWriter::writeTime(renderer.test->name, currentType, "FrameTime", std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count());
-
-			currentIteration++;
-		}
-	}
-
-	void TestSystem::runTest()
-	{
-		testRunning = true;
-		renderer.test = m_testScenes[currentType][currentTest].get();
 	}
 
 	void TestSystem::guiRender()
@@ -192,7 +151,6 @@ namespace rythe::testing
 		if (!testRunning)
 		{
 			Begin("Set Test");
-
 			Text("Here is where you can select which rendering test to run");
 			static const char* testNames[] = { "DrawTest","ModelSwitch","MaterialSwitch","BufferCreation" };
 			if (BeginCombo("Test Dropdown", testNames[currentTest]))
@@ -220,5 +178,11 @@ namespace rythe::testing
 
 			End();
 		}
+	}
+
+	void TestSystem::runTest()
+	{
+		testRunning = true;
+		renderer.test = m_testScenes[currentType][currentTest].get();
 	}
 }

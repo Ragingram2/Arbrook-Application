@@ -20,11 +20,6 @@ namespace rythe::testing
 
 		core::ecs::entity cameraEntity;
 		test_renderer renderer;
-		ast::asset_handle<gfx::model> currentModel;
-		ast::asset_handle<gfx::material> currentMatertial;
-
-		math::vec3 cameraPos = math::vec3(0.f,0.f,0.f);
-		math::vec3 cameraUp = math::vec3::up;
 		
 		float deltaTime = 0.0f;
 		float lastFrame = 0.0f;
@@ -37,19 +32,17 @@ namespace rythe::testing
 		int currentIteration = 0;
 		int currentTest = 0;
 
-//#if RenderingAPI == RenderingAPI_OGL
-//		CSVWriter writer = CSVWriter("resources\\logs\\ogldata.csv");
-//#elif RenderingAPI == RenderingAPI_DX11
-//		CSVWriter writer = CSVWriter("resources\\logs\\dx11data.csv");
-//#endif
 		void runTest();
 	public:
 		void setup();
 		void update();
-		void testRender(core::transform,gfx::camera);
+		void onRender(core::transform,gfx::camera);
+		void BGFXRender();
 		void guiRender();
 
-		void BGFXRender();
+		void initializeTest(core::transform, gfx::camera);
+		void resetTest();
+		void updateTest(core::transform, gfx::camera);
 
 		void toggleMouseCapture(key_input<inputmap::method::ESCAPE>& input)
 		{
