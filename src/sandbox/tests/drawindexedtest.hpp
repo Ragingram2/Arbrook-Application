@@ -54,16 +54,13 @@ namespace rythe::testing
 			model = math::rotate(model, math::radians(i), math::vec3(0.0f, 1.0f, 0.0f));
 			data.model = model;
 
-			ZoneScopedN("[Arbrook] Index Draw Test Update");
+			layout.bind();
+			mat->shader->setData("CameraBuffer", &data);
+			vBuffer->bind();
+			idxBuffer->bind();
 			{
-				layout.bind();
-				mat->shader->setData("CameraBuffer", &data);
-				vBuffer->bind();
-				idxBuffer->bind();
-				{
-					FrameClock clock(name, APIType::Arbrook, "DrawCallTime");
-					gfx::Renderer::RI->drawIndexedInstanced(gfx::PrimitiveType::TRIANGLESLIST, meshHandle->indices.size(), 1, 0, 0, 0);
-				}
+				FrameClock clock(name, APIType::Arbrook, "DrawCallTime");
+				gfx::Renderer::RI->drawIndexedInstanced(gfx::PrimitiveType::TRIANGLESLIST, meshHandle->indices.size(), 1, 0, 0, 0);
 			}
 		}
 
@@ -169,22 +166,19 @@ namespace rythe::testing
 			auto model = math::translate(math::mat4(1.0f), pos);
 			model = math::rotate(model, math::radians(i), math::vec3(0.0f, 1.0f, 0.0f));
 
-			ZoneScopedN("[BGFX] Index Draw Test Update");
+			bgfx::setViewTransform(0, data.view.data, data.projection.data);
+
+			bgfx::touch(0);
+
+			bgfx::setTransform(model.data);
+
+			bgfx::setVertexBuffer(0, vertexBuffer);
+			bgfx::setIndexBuffer(indexBuffer);
+			bgfx::setState(state);
 			{
-				bgfx::setViewTransform(0, data.view.data, data.projection.data);
-
-				bgfx::touch(0);
-
-				bgfx::setTransform(model.data);
-
-				bgfx::setVertexBuffer(0, vertexBuffer);
-				bgfx::setIndexBuffer(indexBuffer);
-				bgfx::setState(state);
-				{
-					FrameClock clock(name, APIType::BGFX, "DrawCallTime");
-					bgfx::submit(0, shader);
-					bgfx::frame();
-				}
+				FrameClock clock(name, APIType::BGFX, "DrawCallTime");
+				bgfx::submit(0, shader);
+				bgfx::frame();
 			}
 		}
 
@@ -281,8 +275,7 @@ namespace rythe::testing
 			i += .1f;
 			math::vec3 pos = math::vec3{ 0, 0, 10.0f };
 			auto model = math::translate(math::mat4(1.0f), pos);
-			model = math::rotate(model, math::radians(i), math::vec3(0.0f, 1.0f, 0.0f));
-			data.model = model;
+			data.model = math::rotate(model, math::radians(i), math::vec3(0.0f, 1.0f, 0.0f));
 
 			{
 				glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(gfx::camera_data), &data);
@@ -311,6 +304,13 @@ namespace rythe::testing
 		ast::asset_handle<gfx::mesh> meshHandle;
 		ast::asset_handle<gfx::material> mat;
 
+		ID3D11Buffer* vertexBuffer;
+		ID3D11Buffer* indexBuffer;
+		ID3D11Buffer* constantBuffer;
+		ID3D11InputLayout* inputLayout;
+		ID3D11DeviceContext* deviceContext;
+		ID3D11Device* device;
+
 		float i = 0;
 
 		virtual void setup(gfx::camera& cam, core::transform& camTransf) override
@@ -318,20 +318,84 @@ namespace rythe::testing
 			name = "DrawIndexedInstanced";
 			log::info("Initializing {}DX11_Test{}", getAPIName(APIType::Native), name);
 			glfwSetWindowTitle(gfx::Renderer::RI->getGlfwWindow(), std::format("{}DX11_Test{}", getAPIName(APIType::Native), name).c_str());
-
+			device = gfx::WindowProvider::activeWindow->dev;
+			deviceContext = gfx::WindowProvider::activeWindow->devcon;
 			meshHandle = ast::AssetCache<gfx::mesh>::getAsset("teapot");
 			mat = gfx::MaterialCache::loadMaterial("test", "color");
+
+			// Create the vertex buffer
+			D3D11_BUFFER_DESC bd = {};
+			bd.Usage = D3D11_USAGE_DEFAULT;
+			bd.ByteWidth = meshHandle->vertices.size()  * sizeof(math::vec4);
+			bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+			bd.CPUAccessFlags = 0;
+			D3D11_SUBRESOURCE_DATA initData = {};
+			initData.pSysMem = meshHandle->vertices.data();
+			CHECKERROR(device->CreateBuffer(&bd, &initData, &vertexBuffer), "Failed to create Vertex Buffer", gfx::Renderer::RI->checkError());
+
+			// Set the vertex buffer
+			UINT stride = sizeof(math::vec4);
+			UINT offset = 0;
+			deviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
+
+
+			// Create the index buffer
+			bd.Usage = D3D11_USAGE_DEFAULT;
+			bd.ByteWidth = meshHandle->indices.size() * sizeof(unsigned int);
+			bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
+			bd.CPUAccessFlags = 0;
+			initData.pSysMem = meshHandle->indices.data();
+			CHECKERROR(device->CreateBuffer(&bd, &initData, &indexBuffer), "Failed to create Index Buffer", gfx::Renderer::RI->checkError());
+
+			// Set the index buffer
+			deviceContext->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
+
+			data.projection = cam.calculate_projection();
+			data.view = cam.calculate_view(&camTransf);
+
+			bd.Usage = D3D11_USAGE_DEFAULT;
+			bd.ByteWidth = sizeof(gfx::camera_data);
+			bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+			bd.CPUAccessFlags = 0;
+			initData.pSysMem = &data;
+			CHECKERROR(device->CreateBuffer(&bd, &initData, &constantBuffer), "Failed to create Constant Buffer", gfx::Renderer::RI->checkError());
+
+			deviceContext->VSSetConstantBuffers(0, 1, &constantBuffer);
+
+			//Load shader source
+			auto shaderHandle = ast::AssetCache<gfx::shader>::getAsset("color");
+
+			// Create and set the shaders and Set the input layout
+			InitializeShadersAndLayout(device, deviceContext, inputLayout, shaderHandle);
+
+			// Set primitive topology
+			deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 			initialized = true;
 		}
 
 		virtual void update(gfx::camera& cam, core::transform& camTransf) override
 		{
+			data.view = cam.calculate_view(&camTransf);
 
+			i += .1f;
+			math::vec3 pos = math::vec3(0.0f, 0.0f, 10.0f);
+			auto model = math::translate(math::mat4(1.0f), pos);
+			data.model = math::rotate(model, math::radians(i), math::vec3(0.0f, 1.0f, 0.0f));
+			deviceContext->UpdateSubresource(constantBuffer, 0, nullptr, &data, 0, 0);
+			deviceContext->VSSetConstantBuffers(0, 1, &constantBuffer);
+			{
+				FrameClock clock(name, APIType::Native, "DrawCallTime");
+				deviceContext->DrawIndexed(meshHandle->indices.size(), 0, 0);
+			}
 		}
 
 		virtual void destroy() override
 		{
+			if (vertexBuffer) vertexBuffer->Release();
+			if (indexBuffer) indexBuffer->Release();
+			if (constantBuffer) constantBuffer->Release();
+			if (inputLayout) inputLayout->Release();
 			initialized = false;
 		}
 	};

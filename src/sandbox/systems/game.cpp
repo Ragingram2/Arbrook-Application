@@ -21,7 +21,7 @@ namespace rythe::game
 		ast::AssetCache<gfx::shader>::registerImporter<gfx::ShaderImporter>();
 
 		ast::AssetCache<gfx::mesh>::loadAssets("resources/meshes/glb/", gfx::default_mesh_params);
-		ast::AssetCache<gfx::texture>::loadAssets("resources/textures/", gfx::default_params);
+		ast::AssetCache<gfx::texture>::loadAssets("resources/textures/", gfx::default_texture_params);
 		ast::AssetCache<gfx::shader>::loadAssets("resources/shaders/", gfx::default_shader_params);
 		gfx::ModelCache::loadModels(ast::AssetCache<gfx::mesh>::getAssets());
 

@@ -19,21 +19,31 @@ namespace rythe::testing
 		ast::AssetCache<gfx::shader>::registerImporter<gfx::ShaderImporter>();
 
 		ast::AssetCache<gfx::mesh>::loadAssets("resources/meshes/glb/", gfx::default_mesh_params);
-		ast::AssetCache<gfx::texture>::loadAssets("resources/textures/", gfx::default_params);
+		ast::AssetCache<gfx::texture>::loadAssets("resources/textures/", gfx::default_texture_params);
 		ast::AssetCache<gfx::shader>::loadAssets("resources/shaders/", gfx::default_shader_params);
 		gfx::ModelCache::loadModels(ast::AssetCache<gfx::mesh>::getAssets());
 
 		m_testScenes.emplace(APIType::Arbrook, std::vector<std::unique_ptr<rendering_test>>());
+		m_testScenes[APIType::Arbrook].emplace_back(std::make_unique<StressTest<APIType::Arbrook>>());
 		m_testScenes[APIType::Arbrook].emplace_back(std::make_unique<DrawIndexedInstancedTest<APIType::Arbrook>>());
 		m_testScenes[APIType::Arbrook].emplace_back(std::make_unique<ModelSwitchTest<APIType::Arbrook>>());
-
-		m_testScenes.emplace(APIType::Native, std::vector<std::unique_ptr<rendering_test>>());
-		m_testScenes[APIType::Native].emplace_back(std::make_unique<DrawIndexedInstancedTest<APIType::Native>>());
-		m_testScenes[APIType::Native].emplace_back(std::make_unique<ModelSwitchTest<APIType::Native>>());
+		m_testScenes[APIType::Arbrook].emplace_back(std::make_unique<MaterialSwitchTest<APIType::Arbrook>>());
+		m_testScenes[APIType::Arbrook].emplace_back(std::make_unique<BufferCreationTest<APIType::Arbrook>>());
 
 		m_testScenes.emplace(APIType::BGFX, std::vector<std::unique_ptr<rendering_test>>());
+		m_testScenes[APIType::BGFX].emplace_back(std::make_unique<StressTest<APIType::BGFX>>());
 		m_testScenes[APIType::BGFX].emplace_back(std::make_unique<DrawIndexedInstancedTest<APIType::BGFX>>());
 		m_testScenes[APIType::BGFX].emplace_back(std::make_unique<ModelSwitchTest<APIType::BGFX>>());
+		//m_testScenes[APIType::BGFX].emplace_back(std::make_unique<MaterialSwitchTest<APIType::BGFX>>());
+		//m_testScenes[APIType::BGFX].emplace_back(std::make_unique<BufferCreationTest<APIType::BGFX>>());
+
+		m_testScenes.emplace(APIType::Native, std::vector<std::unique_ptr<rendering_test>>());
+		m_testScenes[APIType::Native].emplace_back(std::make_unique<StressTest<APIType::Native>>());
+		m_testScenes[APIType::Native].emplace_back(std::make_unique<DrawIndexedInstancedTest<APIType::Native>>());
+		m_testScenes[APIType::Native].emplace_back(std::make_unique<ModelSwitchTest<APIType::Native>>());
+		m_testScenes[APIType::Native].emplace_back(std::make_unique<MaterialSwitchTest<APIType::Native>>());
+		m_testScenes[APIType::Native].emplace_back(std::make_unique<BufferCreationTest<APIType::Native>>());
+
 
 		cameraEntity = createEntity("Camera");
 		{
@@ -57,6 +67,7 @@ namespace rythe::testing
 
 	void TestSystem::initializeTest(core::transform transf, gfx::camera cam)
 	{
+		//log::info("Running Test: [{}] on the \"{}\" API", currentTest, getAPIName(currentType));
 		FrameClock clock("", currentType, "SetupTime");
 		renderer.test->setup(cam, transf);
 		clock.testName = renderer.test->name;
@@ -71,30 +82,47 @@ namespace rythe::testing
 
 	void TestSystem::resetTest()
 	{
-		renderer.test->destroy();
+		if (renderer.test != nullptr)
+		{
+			//log::debug("Test: [{}] running on the \"{}\" API, Finished", currentTest, getAPIName(currentType));
+			renderer.test->destroy();
+		}
+
 		currentIteration = 0;
 		currentType = static_cast<APIType>(currentType + 1);
 		if (currentType == None)
 		{
-			testRunning = false;
 			currentType = Arbrook;
-			renderer.test = nullptr;
 			gfx::WindowProvider::activeWindow->setWindowTitle("Arbrook");
 #if RenderingAPI == RenderingAPI_OGL
-			CSVWriter::printResults("resources\\data\\ogldata.csv");
+			fs::path path = std::format("resources/data/{}/ogldata.csv", renderer.test->name);
 #elif RenderingAPI == RenderingAPI_DX11
-			CSVWriter::printResults("resources\\data\\dx11data.csv");
+			fs::path path = std::format("resources/data/{}/dx11data.csv", renderer.test->name);
 #endif
-			return;
+			log::info("Printing results....");
+			CSVWriter::printResults(path);
+			log::info("Results Printed!");
+			if (runningAllTests && currentTest < 4)
+				currentTest++;
+			else
+			{
+				runningTest = false;
+				runningAllTests = false;
+				return;
+			}
 		}
-		renderer.test = m_testScenes[currentType][currentTest].get();
+
+		if (currentTest < m_testScenes[currentType].size())
+			renderer.test = m_testScenes[currentType][currentTest].get();
+		else
+			resetTest();
 	}
 
 	void TestSystem::BGFXRender()
 	{
 		gfx::camera cam;
 		core::transform transf;
-		if (testRunning)
+		if (runningTest)
 		{
 			if (currentIteration > maxIterations)
 			{
@@ -107,7 +135,9 @@ namespace rythe::testing
 			if (!renderer.test->initialized)
 			{
 				glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-				gfx::Renderer::RI->setWindow(gfx::WindowProvider::addWindow("BGFX"));
+				auto handle = gfx::WindowProvider::addWindow("BGFX");
+				handle->initialize(math::ivec2(Screen_Width, Screen_Height), "BGFX", gfx::WindowProvider::activeWindow->getGlfwWindow());
+				gfx::Renderer::RI->setWindow(handle);
 				gfx::WindowProvider::setActive("BGFX");
 				initializeTest(transf, cam);
 			}
@@ -123,7 +153,8 @@ namespace rythe::testing
 			gfx::Renderer::setPipeline<testing::BGFXPipeline>();
 			return;
 		}
-		if (testRunning)
+
+		if (runningTest)
 		{
 			if (currentIteration > maxIterations)
 			{
@@ -134,9 +165,7 @@ namespace rythe::testing
 			if (!renderer.test->initialized)
 			{
 				auto windowHandle = gfx::WindowProvider::setActive("Arbrook");
-				windowHandle->makeCurrent();
 				gfx::Renderer::RI->setWindow(windowHandle);
-				windowHandle->makeCurrent();
 				initializeTest(transf, cam);
 			}
 
@@ -147,41 +176,82 @@ namespace rythe::testing
 	void TestSystem::guiRender()
 	{
 		using namespace ImGui;
-		if (!testRunning)
+		if (!runningTest)
 		{
-			Begin("Set Test");
-			Text("Here is where you can select which rendering test to run");
-			static const char* testNames[] = { "DrawTest","ModelSwitch","MaterialSwitch","BufferCreation" };
-			if (BeginCombo("Test Dropdown", testNames[currentTest]))
+			Begin("Test Menu");
 			{
-				for (int i = 0; i < sizeof(testNames) / (sizeof(const char*)); i++)
+				Text("Select a API to test");
+				static const char* apiNames[] = { "Abrook", "BGFX", "Native" };
+				if (BeginCombo("API Dropdown", apiNames[currentType]))
 				{
-					const bool is_selected = (currentTest == i);
-					if (Selectable(testNames[i], is_selected))
+					for (int i = 0; i < sizeof(apiNames) / (sizeof(const char*)); i++)
 					{
-						currentTest = i;
-					}
+						const bool is_selected = (currentType == i);
+						if (Selectable(apiNames[i], is_selected))
+						{
+							currentType = static_cast<APIType>(i);
+						}
 
-					if (is_selected)
-					{
-						SetItemDefaultFocus();
+						if (is_selected)
+						{
+							SetItemDefaultFocus();
+						}
 					}
+					EndCombo();
 				}
-				EndCombo();
-			}
 
-			if (Button("Run Test"))
-			{
-				runTest();
-			}
+				Text("Here is where you can select which rendering test to run");
+				static const char* testNames[] = { "DrawTest","ModelSwitch","StressTest","MaterialSwitch","BufferCreation" };
+				if (BeginCombo("Test Dropdown", testNames[currentTest]))
+				{
+					for (int i = 0; i < sizeof(testNames) / (sizeof(const char*)); i++)
+					{
+						const bool is_selected = (currentTest == i);
+						if (Selectable(testNames[i], is_selected))
+						{
+							currentTest = i;
+						}
 
+						if (is_selected)
+						{
+							SetItemDefaultFocus();
+						}
+					}
+					EndCombo();
+				}
+
+				if (Button("Run Test"))
+				{
+					runTest();
+				}
+				SameLine();
+				if (Button("Run All Tests"))
+				{
+					runAllTests();
+				}
+
+			}
 			End();
 		}
 	}
 
 	void TestSystem::runTest()
 	{
-		testRunning = true;
+		if (currentTest < m_testScenes[currentType].size())
+		{
+			runningTest = true;
+			renderer.test = m_testScenes[currentType][currentTest].get();
+			return;
+		}
+		log::warn("Test you selected is not supported on the chosen backend");
+	}
+
+	void TestSystem::runAllTests()
+	{
+		runningTest = true;
+		runningAllTests = true;
+		currentType = APIType::Arbrook;
+		currentTest = 0;
 		renderer.test = m_testScenes[currentType][currentTest].get();
 	}
 }

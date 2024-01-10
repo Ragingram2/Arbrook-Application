@@ -1,10 +1,15 @@
 #pragma once
+#include <format>
+
 #include "core/core.hpp"
 #include "graphics/rendering.hpp"
 #include "input/input.hpp"
 #include "sandbox/components/test_renderer.hpp"
+#include "sandbox/tests/stresstest.hpp"
 #include "sandbox/tests/drawindexedtest.hpp"
 #include "sandbox/tests/modelswitch.hpp"
+#include "sandbox/tests/materialswitch.hpp"
+#include "sandbox/tests/buffercreation.hpp"
 #include "sandbox/tests/tools/CSVWriter.hpp"
 #include "sandbox/tests/bgfxpipeline/bgfxrenderstage.hpp"
 
@@ -26,13 +31,15 @@ namespace rythe::testing
 		float currentFrame = 0.0f;
 
 		bool initTest = false;
-		bool testRunning = false;
+		bool runningTest = false;
+		bool runningAllTests = false;
 
 		int maxIterations = 10000;
 		int currentIteration = 0;
 		int currentTest = 0;
 
 		void runTest();
+		void runAllTests();
 	public:
 		void setup();
 		void update();
@@ -43,6 +50,7 @@ namespace rythe::testing
 		void initializeTest(core::transform, gfx::camera);
 		void resetTest();
 		void updateTest(core::transform, gfx::camera);
+
 
 		void toggleMouseCapture(key_input<inputmap::method::ESCAPE>& input)
 		{

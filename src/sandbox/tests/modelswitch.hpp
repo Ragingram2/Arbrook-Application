@@ -60,12 +60,14 @@ namespace rythe::testing
 			}
 
 			meshHandle = gfx::ModelCache::getModel(modelNames[modelIdx])->meshHandle;
-			vBuffer->bufferData(meshHandle->vertices.data(), meshHandle->vertices.size());
-			idxBuffer->bufferData(meshHandle->indices.data(), meshHandle->indices.size());
+			auto vertData = meshHandle->vertices.data();
+			vBuffer->bufferData(vertData, meshHandle->vertices.size());
+			auto indData = meshHandle->indices.data();
+			idxBuffer->bufferData(indData, meshHandle->indices.size());
 
 			layout.bind();
 			i += .1f;
-			math::vec3 pos = math::vec3{ 0, 0, 10.f };
+			math::vec3 pos = math::vec3{ 0.0f, 0.0f, 10.f };
 			auto model = math::translate(math::mat4(1.0f), pos);
 			model = math::rotate(model, math::radians(i), math::vec3(0.0f, 1.0f, 0.0f));
 			data.model = model;
@@ -334,12 +336,20 @@ namespace rythe::testing
 		}
 	};
 #elif RenderingAPI == RenderingAPI_DX11
+
 	template<>
 	struct ModelSwitchTest<APIType::Native> : public rendering_test
 	{
 		gfx::camera_data data;
-		ast::asset_handle<gfx::material> mat;
 		ast::asset_handle<gfx::mesh> meshHandle;
+		ast::asset_handle<gfx::material> mat;
+
+		ID3D11Buffer* vertexBuffer;
+		ID3D11Buffer* indexBuffer;
+		ID3D11Buffer* constantBuffer;
+		ID3D11InputLayout* inputLayout;
+		ID3D11DeviceContext* deviceContext;
+		ID3D11Device* device;
 
 		float i = 0;
 		int modelIdx = 0;
@@ -351,12 +361,106 @@ namespace rythe::testing
 			log::info("Initializing {}DX11_Test{}", getAPIName(APIType::Native), name);
 			glfwSetWindowTitle(gfx::Renderer::RI->getGlfwWindow(), std::format("{}DX11_Test{}", getAPIName(APIType::Native), name).c_str());
 
+			device = gfx::WindowProvider::activeWindow->dev;
+			deviceContext = gfx::WindowProvider::activeWindow->devcon;
+			modelNames = gfx::ModelCache::getModelNames();
+			meshHandle = gfx::ModelCache::getModel(modelNames[modelIdx])->meshHandle;
+			mat = gfx::MaterialCache::loadMaterial("test", "color");
+
+			data.projection = cam.calculate_projection();
+			data.view = cam.calculate_view(&camTransf);
+
+			//Create Camera Buffer
+			D3D11_BUFFER_DESC bd = {};
+			bd.Usage = D3D11_USAGE_DEFAULT;
+			bd.ByteWidth = sizeof(gfx::camera_data);
+			bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+			bd.CPUAccessFlags = 0;
+			D3D11_SUBRESOURCE_DATA initData = {};
+			initData.pSysMem = &data;
+			CHECKERROR(device->CreateBuffer(&bd, &initData, &constantBuffer), "Failed to create Constant Buffer", gfx::Renderer::RI->checkError());
+
+			deviceContext->VSSetConstantBuffers(0, 1, &constantBuffer);
+
+			// Create the vertex buffer
+			bd.Usage = D3D11_USAGE_DEFAULT;
+			bd.ByteWidth = meshHandle->vertices.size() * sizeof(math::vec4);
+			bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+			bd.CPUAccessFlags = 0;
+			initData.pSysMem = meshHandle->vertices.data();
+			CHECKERROR(device->CreateBuffer(&bd, &initData, &vertexBuffer), "Failed to create Vertex Buffer", gfx::Renderer::RI->checkError());
+
+			// Set the vertex buffer
+			UINT stride = sizeof(math::vec4);
+			UINT offset = 0;
+			deviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
+
+
+			// Create the index buffer
+			bd.Usage = D3D11_USAGE_DEFAULT;
+			bd.ByteWidth = meshHandle->indices.size() * sizeof(unsigned int);
+			bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
+			bd.CPUAccessFlags = 0;
+			initData.pSysMem = meshHandle->indices.data();
+			CHECKERROR(device->CreateBuffer(&bd, &initData, &indexBuffer), "Failed to create Index Buffer", gfx::Renderer::RI->checkError());
+
+			// Set the index buffer
+			deviceContext->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
+
+			// Create and set the shaders and Set the input layout
+			InitializeShadersAndLayout(device, deviceContext, inputLayout, mat->shader);
+
+			// Set primitive topology
+			deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
 			initialized = true;
 		}
 
 		void update(gfx::camera& cam, core::transform& camTransf)
 		{
-			ZoneScopedN("[Native-DX11] Model Switch Update");
+			modelIdx++;
+
+			if (modelIdx >= modelNames.size())
+				modelIdx = 0;
+
+			meshHandle = gfx::ModelCache::getModel(modelNames[modelIdx])->meshHandle;
+
+			vertexBuffer->Release();
+			// Create the vertex buffer
+			D3D11_BUFFER_DESC bd = {};
+			bd.Usage = D3D11_USAGE_DEFAULT;
+			bd.ByteWidth = meshHandle->vertices.size() * sizeof(math::vec4);
+			bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+			bd.CPUAccessFlags = 0;
+			D3D11_SUBRESOURCE_DATA initData = {};
+			initData.pSysMem = meshHandle->vertices.data();
+			CHECKERROR(device->CreateBuffer(&bd, &initData, &vertexBuffer), "Failed to create Vertex Buffer", gfx::Renderer::RI->checkError());
+
+			// Set the vertex buffer
+			UINT stride = sizeof(math::vec4);
+			UINT offset = 0;
+			deviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
+
+			indexBuffer->Release();
+			// Create the index buffer
+			bd.Usage = D3D11_USAGE_DEFAULT;
+			bd.ByteWidth = meshHandle->indices.size() * sizeof(unsigned int);
+			bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
+			bd.CPUAccessFlags = 0;
+			initData.pSysMem = meshHandle->indices.data();
+			CHECKERROR(device->CreateBuffer(&bd, &initData, &indexBuffer), "Failed to create Index Buffer", gfx::Renderer::RI->checkError());
+
+			// Set the index buffer
+			deviceContext->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
+
+			data.view = cam.calculate_view(&camTransf);
+			i += .1f;
+			math::vec3 pos = math::vec3(0.0f, 0.0f, 10.0f);
+			auto model = math::translate(math::mat4(1.0f), pos);
+			data.model = math::rotate(model, math::radians(i), math::vec3(0.0f, 1.0f, 0.0f));
+			deviceContext->UpdateSubresource(constantBuffer, 0, nullptr, &data, 0, 0);
+			deviceContext->VSSetConstantBuffers(0, 1, &constantBuffer);
+			deviceContext->DrawIndexed(meshHandle->indices.size(), 0, 0);
 		}
 
 		void destroy()

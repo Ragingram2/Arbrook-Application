@@ -191,9 +191,12 @@
     <ClInclude Include="systems\testsystem.hpp" />
     <ClInclude Include="tests\bgfxpipeline\bgfxpipeline.hpp" />
     <ClInclude Include="tests\bgfxpipeline\bgfxrenderstage.hpp" />
+    <ClInclude Include="tests\buffercreation.hpp" />
     <ClInclude Include="tests\drawindexedtest.hpp" />
+    <ClInclude Include="tests\materialswitch.hpp" />
     <ClInclude Include="tests\modelswitch.hpp" />
     <ClInclude Include="tests\rendertest.hpp" />
+    <ClInclude Include="tests\stresstest.hpp" />
     <ClInclude Include="tests\tools\CSVWriter.hpp" />
     <ClInclude Include="tests\tools\bgfxutils.hpp" />
   </ItemGroup>

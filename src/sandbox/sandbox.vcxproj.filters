@@ -45,13 +45,22 @@
     <ClInclude Include="tests\bgfxpipeline\bgfxrenderstage.hpp">
       <Filter>tests\bgfxpipeline</Filter>
     </ClInclude>
+    <ClInclude Include="tests\buffercreation.hpp">
+      <Filter>tests</Filter>
+    </ClInclude>
     <ClInclude Include="tests\drawindexedtest.hpp">
+      <Filter>tests</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\materialswitch.hpp">
       <Filter>tests</Filter>
     </ClInclude>
     <ClInclude Include="tests\modelswitch.hpp">
       <Filter>tests</Filter>
     </ClInclude>
     <ClInclude Include="tests\rendertest.hpp">
+      <Filter>tests</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\stresstest.hpp">
       <Filter>tests</Filter>
     </ClInclude>
     <ClInclude Include="tests\tools\CSVWriter.hpp">
