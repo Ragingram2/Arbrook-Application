@@ -34,12 +34,12 @@ namespace rythe::testing
 		bool runningTest = false;
 		bool runningAllTests = false;
 
-		int maxIterations = 10000;
 		int currentIteration = 0;
 		int currentTest = 0;
 
 		void runTest();
 		void runAllTests();
+		void writeTests();
 	public:
 		void setup();
 		void update();

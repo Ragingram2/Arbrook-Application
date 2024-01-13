@@ -5,6 +5,9 @@
 #include <iostream>
 #include <filesystem>
 
+#include <rfl/json.hpp>
+#include <rfl.hpp>
+
 #include <rsl/logging>
 #include <rsl/math>
 
@@ -54,6 +57,7 @@ namespace rythe::testing
 				}
 			}
 
+			times.reserve(max*16);
 			for (size_t i = 0; i < max; i++)
 			{
 				for (auto& [t, propertyList] : testTimes)
@@ -63,17 +67,19 @@ namespace rythe::testing
 					times.append(" ,");
 					for (auto [name, list] : propertyList)
 					{
-						if (i >= list.size()) 
-						{ 
-							times.append(" ,"); 
+						if (i >= list.size())
+						{
+							times.append(" ,");
 							continue;
 						}
 
-						times.append(std::format("{},", ((float)list[i])/1000000.0f));
+						times.append(std::format("{},", ((float)list[i]) / 1000000.0f));
 					}
 				}
 				times.append("\n");
 			}
+
+			times.shrink_to_fit();
 
 			return times;
 		}
@@ -88,20 +94,25 @@ namespace rythe::testing
 		{
 			if (type == None)
 			{
-				log::debug("Type is none");
 				return;
 			}
 			results[testName].testTimes[type][propertyName].push_back(time);
 		}
 
-		static void printResults(fs::path path)
+		static void printResults(const std::string& path)
 		{
 			for (auto& [name, result] : results)
 			{
-				std::filesystem::path testPath = std::filesystem::path(path);
+#if RenderingAPI == RenderingAPI_OGL
+				std::filesystem::path testPath = std::format("{}{}/ogldata.csv", path, name);
+#elif RenderingAPI == RenderingAPI_DX11
+				std::filesystem::path testPath = std::format("{}{}/dx11data.csv", path, name);
+#endif
+				//std::string testPath = "resources/data/test.json";
 				std::ofstream file;
 				file.open(testPath);
 				file << result.serialize() << std::endl;
+				//file << rfl::json::write(result);
 				file.close();
 			}
 

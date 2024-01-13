@@ -48,7 +48,7 @@ namespace rythe::testing
 		virtual void update(gfx::camera& cam, core::transform& camTransf) override
 		{
 			data.view = cam.calculate_view(&camTransf);
-			i += .1f;
+			i += .5f;
 			math::vec3 pos = math::vec3{ 0, 0, 10.f };
 			auto model = math::translate(math::mat4(1.0f), pos);
 			model = math::rotate(model, math::radians(i), math::vec3(0.0f, 1.0f, 0.0f));
@@ -146,7 +146,7 @@ namespace rythe::testing
 
 			indexBuffer = bgfx::createIndexBuffer(bgfx::makeRef(meshHandle->indices.data(), meshHandle->indices.size() * sizeof(unsigned int)), BGFX_BUFFER_INDEX32);
 
-			shader = loadProgram("testVS", "testFS");
+			shader = loadProgram("defaultVS", "defaultFS");
 
 			if (shader.idx == bgfx::kInvalidHandle)
 				log::error("Shader failed to compile");
@@ -159,9 +159,8 @@ namespace rythe::testing
 
 		virtual void update(gfx::camera& cam, core::transform& camTransf) override
 		{
-
 			data.view = cam.calculate_view(&camTransf);
-			i += .1f;
+			i += .5f;
 			math::vec3 pos = math::vec3{ 0, 0, 10.f };
 			auto model = math::translate(math::mat4(1.0f), pos);
 			model = math::rotate(model, math::radians(i), math::vec3(0.0f, 1.0f, 0.0f));
@@ -243,24 +242,6 @@ namespace rythe::testing
 			glVertexAttribPointer(0, 4, static_cast<GLenum>(gfx::DataType::FLOAT), false, sizeof(math::vec4), reinterpret_cast<void*>(0));
 			glVertexAttribDivisor(0, 0);
 
-			glGenBuffers(1, &matrixBufferId);
-			glBindBuffer(GL_ARRAY_BUFFER, matrixBufferId);
-			glBufferData(GL_ARRAY_BUFFER, sizeof(math::mat4), nullptr, static_cast<GLenum>(gfx::UsageType::STATICDRAW));
-			glEnableVertexAttribArray(2);
-			glEnableVertexAttribArray(3);
-			glEnableVertexAttribArray(4);
-			glEnableVertexAttribArray(5);
-
-			glVertexAttribPointer(2, 4, static_cast<GLenum>(gfx::DataType::FLOAT), false, sizeof(math::mat4), reinterpret_cast<void*>(0 * sizeof(math::vec4)));
-			glVertexAttribPointer(3, 4, static_cast<GLenum>(gfx::DataType::FLOAT), false, sizeof(math::mat4), reinterpret_cast<void*>(1 * sizeof(math::vec4)));
-			glVertexAttribPointer(4, 4, static_cast<GLenum>(gfx::DataType::FLOAT), false, sizeof(math::mat4), reinterpret_cast<void*>(2 * sizeof(math::vec4)));
-			glVertexAttribPointer(5, 4, static_cast<GLenum>(gfx::DataType::FLOAT), false, sizeof(math::mat4), reinterpret_cast<void*>(3 * sizeof(math::vec4)));
-
-			glVertexAttribDivisor(2, 1);
-			glVertexAttribDivisor(3, 1);
-			glVertexAttribDivisor(4, 1);
-			glVertexAttribDivisor(5, 1);
-
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, eboId);
 
 			data.projection = cam.projection;
@@ -272,7 +253,7 @@ namespace rythe::testing
 		virtual void update(gfx::camera& cam, core::transform& camTransf) override
 		{
 			data.view = cam.calculate_view(&camTransf);
-			i += .1f;
+			i += .5f;
 			math::vec3 pos = math::vec3{ 0, 0, 10.0f };
 			auto model = math::translate(math::mat4(1.0f), pos);
 			data.model = math::rotate(model, math::radians(i), math::vec3(0.0f, 1.0f, 0.0f));
@@ -378,7 +359,7 @@ namespace rythe::testing
 		{
 			data.view = cam.calculate_view(&camTransf);
 
-			i += .1f;
+			i += .5f;
 			math::vec3 pos = math::vec3(0.0f, 0.0f, 10.0f);
 			auto model = math::translate(math::mat4(1.0f), pos);
 			data.model = math::rotate(model, math::radians(i), math::vec3(0.0f, 1.0f, 0.0f));

@@ -21,6 +21,10 @@ namespace rythe::testing
 		ast::AssetCache<gfx::mesh>::loadAssets("resources/meshes/glb/", gfx::default_mesh_params);
 		ast::AssetCache<gfx::texture>::loadAssets("resources/textures/", gfx::default_texture_params);
 		ast::AssetCache<gfx::shader>::loadAssets("resources/shaders/", gfx::default_shader_params);
+		gfx::MaterialCache::loadMaterial("red", "red");
+		gfx::MaterialCache::loadMaterial("green", "green");
+		gfx::MaterialCache::loadMaterial("blue", "blue");
+		gfx::MaterialCache::loadMaterial("white", "white");
 		gfx::ModelCache::loadModels(ast::AssetCache<gfx::mesh>::getAssets());
 
 		m_testScenes.emplace(APIType::Arbrook, std::vector<std::unique_ptr<rendering_test>>());
@@ -34,7 +38,7 @@ namespace rythe::testing
 		m_testScenes[APIType::BGFX].emplace_back(std::make_unique<StressTest<APIType::BGFX>>());
 		m_testScenes[APIType::BGFX].emplace_back(std::make_unique<DrawIndexedInstancedTest<APIType::BGFX>>());
 		m_testScenes[APIType::BGFX].emplace_back(std::make_unique<ModelSwitchTest<APIType::BGFX>>());
-		//m_testScenes[APIType::BGFX].emplace_back(std::make_unique<MaterialSwitchTest<APIType::BGFX>>());
+		m_testScenes[APIType::BGFX].emplace_back(std::make_unique<MaterialSwitchTest<APIType::BGFX>>());
 		//m_testScenes[APIType::BGFX].emplace_back(std::make_unique<BufferCreationTest<APIType::BGFX>>());
 
 		m_testScenes.emplace(APIType::Native, std::vector<std::unique_ptr<rendering_test>>());
@@ -67,7 +71,6 @@ namespace rythe::testing
 
 	void TestSystem::initializeTest(core::transform transf, gfx::camera cam)
 	{
-		//log::info("Running Test: [{}] on the \"{}\" API", currentTest, getAPIName(currentType));
 		FrameClock clock("", currentType, "SetupTime");
 		renderer.test->setup(cam, transf);
 		clock.testName = renderer.test->name;
@@ -84,7 +87,6 @@ namespace rythe::testing
 	{
 		if (renderer.test != nullptr)
 		{
-			//log::debug("Test: [{}] running on the \"{}\" API, Finished", currentTest, getAPIName(currentType));
 			renderer.test->destroy();
 		}
 
@@ -94,14 +96,7 @@ namespace rythe::testing
 		{
 			currentType = Arbrook;
 			gfx::WindowProvider::activeWindow->setWindowTitle("Arbrook");
-#if RenderingAPI == RenderingAPI_OGL
-			fs::path path = std::format("resources/data/{}/ogldata.csv", renderer.test->name);
-#elif RenderingAPI == RenderingAPI_DX11
-			fs::path path = std::format("resources/data/{}/dx11data.csv", renderer.test->name);
-#endif
-			log::info("Printing results....");
-			CSVWriter::printResults(path);
-			log::info("Results Printed!");
+
 			if (runningAllTests && currentTest < 4)
 				currentTest++;
 			else
@@ -124,7 +119,7 @@ namespace rythe::testing
 		core::transform transf;
 		if (runningTest)
 		{
-			if (currentIteration > maxIterations)
+			if (currentIteration > renderer.test->maxIterations)
 			{
 				resetTest();
 				gfx::WindowProvider::destroyWindow("BGFX");
@@ -156,7 +151,7 @@ namespace rythe::testing
 
 		if (runningTest)
 		{
-			if (currentIteration > maxIterations)
+			if (currentIteration > renderer.test->maxIterations)
 			{
 				resetTest();
 				return;
@@ -201,7 +196,7 @@ namespace rythe::testing
 				}
 
 				Text("Here is where you can select which rendering test to run");
-				static const char* testNames[] = { "DrawTest","ModelSwitch","StressTest","MaterialSwitch","BufferCreation" };
+				static const char* testNames[] = { "StressTest","DrawTest","ModelSwitch","MaterialSwitch","BufferCreation" };
 				if (BeginCombo("Test Dropdown", testNames[currentTest]))
 				{
 					for (int i = 0; i < sizeof(testNames) / (sizeof(const char*)); i++)
@@ -230,6 +225,10 @@ namespace rythe::testing
 					runAllTests();
 				}
 
+				if (Button("Write Results to Files"))
+				{
+					writeTests();
+				}
 			}
 			End();
 		}
@@ -253,5 +252,12 @@ namespace rythe::testing
 		currentType = APIType::Arbrook;
 		currentTest = 0;
 		renderer.test = m_testScenes[currentType][currentTest].get();
+	}
+
+	void TestSystem::writeTests()
+	{
+		log::info("Printing results....");
+		CSVWriter::printResults("resources/data/");
+		log::info("Results Printed!");
 	}
 }

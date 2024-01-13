@@ -38,6 +38,11 @@ namespace rythe::testing
 
 	struct rendering_test
 	{
+#ifdef _DEBUG
+		int maxIterations = 1000;
+#else
+		int maxIterations = 10000;
+#endif
 		bool initialized = false;
 		std::string name;
 		virtual ~rendering_test() = default;

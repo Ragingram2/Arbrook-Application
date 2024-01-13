@@ -1,0 +1,280 @@
+T+ 0.049339 [ info  ] [14756] : Logging Initialized
+T+ 0.049387 [ info  ] [14756] : Initializing Eventbus
+T+ 0.049390 [ info  ] [14756] : Initializing Scheduler
+T+ 0.049403 [ info  ] [14756] : Initializing Rendering Module
+T+ 0.049413 [ info  ] [14756] : Initializing Input Module
+T+ 0.049414 [ info  ] [14756] : Initializing Game Module
+T+ 0.134643 [ info  ] [14756] : Initializing Render Pipeline
+T+ 0.134668 [ info  ] [14756] : Initializing DX11
+T+ 0.134674 [warning] [14756] : The window "Arbrook" does not exist
+T+ 0.529691 [ info  ] [14756] : Initializing Test System
+T+ 0.529914 [ info  ] [14756] : Loading asset "alligator" at "resources/meshes/glb/alligator.glb"
+T+ 0.531813 [ info  ] [14756] : Loading asset "armadillo" at "resources/meshes/glb/armadillo.glb"
+T+ 0.571451 [ info  ] [14756] : Loading asset "beast" at "resources/meshes/glb/beast.glb"
+T+ 0.697077 [ info  ] [14756] : Loading asset "bunny" at "resources/meshes/glb/bunny.glb"
+T+ 0.851765 [ info  ] [14756] : Loading asset "cone" at "resources/meshes/glb/cone.glb"
+T+ 0.857276 [ info  ] [14756] : Loading asset "cube" at "resources/meshes/glb/cube.glb"
+T+ 0.858501 [ info  ] [14756] : Loading asset "icosphere" at "resources/meshes/glb/icosphere.glb"
+T+ 0.859658 [ info  ] [14756] : Loading asset "plane" at "resources/meshes/glb/plane.glb"
+T+ 0.860575 [ info  ] [14756] : Loading asset "sphere" at "resources/meshes/glb/sphere.glb"
+T+ 0.862796 [ info  ] [14756] : Loading asset "sponza" at "resources/meshes/glb/sponza.glb"
+T+ 1.002103 [ info  ] [14756] : Loading asset "suzanne" at "resources/meshes/glb/suzanne.glb"
+T+ 1.012397 [ info  ] [14756] : Loading asset "teapot" at "resources/meshes/glb/teapot.glb"
+T+ 1.018348 [ info  ] [14756] : Loading asset "container_diffuse" at "resources/textures/container_diffuse.png"
+T+ 1.024469 [ info  ] [14756] : Loading asset "container_specular" at "resources/textures/container_specular.png"
+T+ 1.027608 [ info  ] [14756] : Loading asset "park" at "resources/textures/park.png"
+T+ 1.045507 [ info  ] [14756] : Loading asset "planetatmo" at "resources/textures/planetatmo.png"
+T+ 2.961464 [ info  ] [14756] : Loading asset "Rythe" at "resources/textures/Rythe.png"
+T+ 2.962027 [ info  ] [14756] : Loading asset "color" at "resources/shaders/color.shader"
+T+ 2.962220 [ info  ] [14756] : [color-vs_4_0] Preproccessing Shader
+T+ 2.962505 [ info  ] [14756] : [color-vs_4_0] Shader Preprocesing Success
+T+ 2.962508 [ info  ] [14756] : [color-vs_4_0] Compiling Shader
+T+ 2.972821 [ info  ] [14756] : [color-vs_4_0] Shader Compilation Success
+T+ 2.972830 [ info  ] [14756] : [color-ps_4_0] Preproccessing Shader
+T+ 2.972856 [ info  ] [14756] : [color-ps_4_0] Shader Preprocesing Success
+T+ 2.972857 [ info  ] [14756] : [color-ps_4_0] Compiling Shader
+T+ 2.973654 [ info  ] [14756] : [color-ps_4_0] Shader Compilation Success
+T+ 2.977682 [ info  ] [14756] : Loading asset "lit" at "resources/shaders/lit.shader"
+T+ 2.977829 [ info  ] [14756] : [lit-vs_4_0] Preproccessing Shader
+T+ 2.978111 [ info  ] [14756] : [lit-vs_4_0] Shader Preprocesing Success
+T+ 2.978114 [ info  ] [14756] : [lit-vs_4_0] Compiling Shader
+T+ 3.008291 [ info  ] [14756] : [lit-vs_4_0] Shader Compilation Success
+T+ 3.008302 [ info  ] [14756] : [lit-ps_4_0] Preproccessing Shader
+T+ 3.008660 [ info  ] [14756] : [lit-ps_4_0] Shader Preprocesing Success
+T+ 3.008663 [ info  ] [14756] : [lit-ps_4_0] Compiling Shader
+T+ 3.035776 [ info  ] [14756] : [lit-ps_4_0] Shader Compilation Success
+T+ 3.035989 [ info  ] [14756] : Loading asset "normal" at "resources/shaders/normal.shader"
+T+ 3.036124 [ info  ] [14756] : [normal-vs_4_0] Preproccessing Shader
+T+ 3.036356 [ info  ] [14756] : [normal-vs_4_0] Shader Preprocesing Success
+T+ 3.036358 [ info  ] [14756] : [normal-vs_4_0] Compiling Shader
+T+ 3.065117 [ info  ] [14756] : [normal-vs_4_0] Shader Compilation Success
+T+ 3.065130 [ info  ] [14756] : [normal-ps_4_0] Preproccessing Shader
+T+ 3.065161 [ info  ] [14756] : [normal-ps_4_0] Shader Preprocesing Success
+T+ 3.065162 [ info  ] [14756] : [normal-ps_4_0] Compiling Shader
+T+ 3.066319 [ info  ] [14756] : [normal-ps_4_0] Shader Compilation Success
+T+ 3.066481 [ info  ] [14756] : Loading asset "shadertoolsconfig" at "resources/shaders/shadertoolsconfig.json"
+T+ 3.066487 [ info  ] [14756] : Loading asset "skybox" at "resources/shaders/skybox.shader"
+T+ 3.066645 [ info  ] [14756] : [skybox-vs_4_0] Preproccessing Shader
+T+ 3.066849 [ info  ] [14756] : [skybox-vs_4_0] Shader Preprocesing Success
+T+ 3.066852 [ info  ] [14756] : [skybox-vs_4_0] Compiling Shader
+T+ 3.073630 [ info  ] [14756] : [skybox-vs_4_0] Shader Compilation Success
+T+ 3.073635 [ info  ] [14756] : [skybox-ps_4_0] Preproccessing Shader
+T+ 3.073932 [ info  ] [14756] : [skybox-ps_4_0] Shader Preprocesing Success
+T+ 3.073935 [ info  ] [14756] : [skybox-ps_4_0] Compiling Shader
+T+ 3.082346 [ info  ] [14756] : [skybox-ps_4_0] Shader Compilation Success
+T+ 3.083048 [warning] [14756] : Asset[struct rythe::rendering::Ishader<struct rythe::rendering::internal::shader>] "skybox" already exists, returning existing handle
+T+ 3.095469 [ info  ] [14756] : Initializing Input System
+T+ 6.420181 [ info  ] [14756] : Initializing Arbrook_TestStress
+T+ 42.599773 [ info  ] [14756] : Shutting Down Logging
+T+ 42.599789 [ info  ] [14756] : Shutting Down Eventbus
+T+ 42.599792 [ info  ] [14756] : Shutting Down Scheduler
+T+ 42.599823 [ info  ] [14756] : Killing Program
+T+ 0.049577 [ info  ] [28704] : Logging Initialized
+T+ 0.049642 [ info  ] [28704] : Initializing Eventbus
+T+ 0.049643 [ info  ] [28704] : Initializing Scheduler
+T+ 0.049665 [ info  ] [28704] : Initializing Rendering Module
+T+ 0.049673 [ info  ] [28704] : Initializing Input Module
+T+ 0.049678 [ info  ] [28704] : Initializing Game Module
+T+ 0.163015 [ info  ] [28704] : Initializing Render Pipeline
+T+ 0.163045 [ info  ] [28704] : Initializing OpenGL
+T+ 0.163052 [warning] [28704] : The window "Arbrook" does not exist
+T+ 0.402190 [ info  ] [28704] : Initializing Test System
+T+ 0.402431 [ info  ] [28704] : Loading asset "alligator" at "resources/meshes/glb/alligator.glb"
+T+ 0.404396 [ info  ] [28704] : Loading asset "armadillo" at "resources/meshes/glb/armadillo.glb"
+T+ 0.446395 [ info  ] [28704] : Loading asset "beast" at "resources/meshes/glb/beast.glb"
+T+ 0.566970 [ info  ] [28704] : Loading asset "bunny" at "resources/meshes/glb/bunny.glb"
+T+ 0.732605 [ info  ] [28704] : Loading asset "cone" at "resources/meshes/glb/cone.glb"
+T+ 0.735360 [ info  ] [28704] : Loading asset "cube" at "resources/meshes/glb/cube.glb"
+T+ 0.736181 [ info  ] [28704] : Loading asset "icosphere" at "resources/meshes/glb/icosphere.glb"
+T+ 0.737066 [ info  ] [28704] : Loading asset "plane" at "resources/meshes/glb/plane.glb"
+T+ 0.737838 [ info  ] [28704] : Loading asset "sphere" at "resources/meshes/glb/sphere.glb"
+T+ 0.740214 [ info  ] [28704] : Loading asset "sponza" at "resources/meshes/glb/sponza.glb"
+T+ 0.878440 [ info  ] [28704] : Loading asset "suzanne" at "resources/meshes/glb/suzanne.glb"
+T+ 0.888633 [ info  ] [28704] : Loading asset "teapot" at "resources/meshes/glb/teapot.glb"
+T+ 0.894059 [ info  ] [28704] : Loading asset "container_diffuse" at "resources/textures/container_diffuse.png"
+T+ 0.909678 [ info  ] [28704] : Loading asset "container_specular" at "resources/textures/container_specular.png"
+T+ 0.912064 [ info  ] [28704] : Loading asset "park" at "resources/textures/park.png"
+T+ 0.923564 [ info  ] [28704] : Loading asset "planetatmo" at "resources/textures/planetatmo.png"
+T+ 2.796664 [ info  ] [28704] : Loading asset "Rythe" at "resources/textures/Rythe.png"
+T+ 2.797108 [ info  ] [28704] : Loading asset "color" at "resources/shaders/color.shader"
+T+ 2.823660 [ info  ] [28704] : [color-vertex] Compiling GLSL Shader
+T+ 2.842879 [ info  ] [28704] : [color-vertex] GLSL Shader Compilation Success
+T+ 2.862667 [ info  ] [28704] : [color-fragment] Compiling GLSL Shader
+T+ 2.863048 [ info  ] [28704] : [color-fragment] GLSL Shader Compilation Success
+T+ 2.884057 [ info  ] [28704] : Loading asset "lit" at "resources/shaders/lit.shader"
+T+ 2.901854 [ info  ] [28704] : [lit-vertex] Compiling GLSL Shader
+T+ 2.903091 [ info  ] [28704] : [lit-vertex] GLSL Shader Compilation Success
+T+ 2.922086 [ info  ] [28704] : [lit-fragment] Compiling GLSL Shader
+T+ 2.923149 [ info  ] [28704] : [lit-fragment] GLSL Shader Compilation Success
+T+ 2.955594 [ info  ] [28704] : Loading asset "normal" at "resources/shaders/normal.shader"
+T+ 2.972983 [ info  ] [28704] : [normal-vertex] Compiling GLSL Shader
+T+ 2.973019 [ info  ] [28704] : [normal-vertex] GLSL Shader Compilation Success
+T+ 2.986926 [ info  ] [28704] : [normal-fragment] Compiling GLSL Shader
+T+ 2.987381 [ info  ] [28704] : [normal-fragment] GLSL Shader Compilation Success
+T+ 2.996418 [ info  ] [28704] : Loading asset "shadertoolsconfig" at "resources/shaders/shadertoolsconfig.json"
+T+ 2.996428 [ info  ] [28704] : Loading asset "skybox" at "resources/shaders/skybox.shader"
+T+ 3.013833 [ info  ] [28704] : [skybox-vertex] Compiling GLSL Shader
+T+ 3.014489 [ info  ] [28704] : [skybox-vertex] GLSL Shader Compilation Success
+T+ 3.029892 [ info  ] [28704] : [skybox-fragment] Compiling GLSL Shader
+T+ 3.030600 [ info  ] [28704] : [skybox-fragment] GLSL Shader Compilation Success
+T+ 3.039634 [warning] [28704] : Asset[struct rythe::rendering::Ishader<struct rythe::rendering::internal::shader>] "skybox" already exists, returning existing handle
+T+ 3.045604 [ info  ] [28T+ 0.050724 [ info  ] [31112] : Logging Initialized
+T+ 0.050794 [ info  ] [31112] : Initializing Eventbus
+T+ 0.050796 [ info  ] [31112] : Initializing Scheduler
+T+ 0.050812 [ info  ] [31112] : Initializing Rendering Module
+T+ 0.050822 [ info  ] [31112] : Initializing Input Module
+T+ 0.051363 [ info  ] [31112] : Initializing Game Module
+T+ 0.163462 [ info  ] [31112] : Initializing Render Pipeline
+T+ 0.163511 [ info  ] [31112] : Initializing OpenGL
+T+ 0.163523 [warning] [31112] : The window "Arbrook" does not exist
+T+ 0.406886 [ info  ] [31112] : Initializing Test System
+T+ 0.407222 [ info  ] [31112] : Loading asset "alligator" at "resources/meshes/glb/alligator.glb"
+T+ 0.409431 [ info  ] [31112] : Loading asset "armadillo" at "resources/meshes/glb/armadillo.glb"
+T+ 0.452174 [ info  ] [31112] : Loading asset "beast" at "resources/meshes/glb/beast.glb"
+T+ 0.562144 [ info  ] [31112] : Loading asset "bunny" at "resources/meshes/glb/bunny.glb"
+T+ 0.686711 [ info  ] [31112] : Loading asset "cone" at "resources/meshes/glb/cone.glb"
+T+ 0.690460 [ info  ] [31112] : Loading asset "cube" at "resources/meshes/glb/cube.glb"
+T+ 0.691319 [ info  ] [31112] : Loading asset "icosphere" at "resources/meshes/glb/icosphere.glb"
+T+ 0.692220 [ info  ] [31112] : Loading asset "plane" at "resources/meshes/glb/plane.glb"
+T+ 0.692978 [ info  ] [31112] : Loading asset "sphere" at "resources/meshes/glb/sphere.glb"
+T+ 0.694389 [ info  ] [31112] : Loading asset "sponza" at "resources/meshes/glb/sponza.glb"
+T+ 0.824088 [ info  ] [31112] : Loading asset "suzanne" at "resources/meshes/glb/suzanne.glb"
+T+ 0.833967 [ info  ] [31112] : Loading asset "teapot" at "resources/meshes/glb/teapot.glb"
+T+ 0.839480 [ info  ] [31112] : Loading asset "container_diffuse" at "resources/textures/container_diffuse.png"
+T+ 0.844321 [ info  ] [31112] : Loading asset "container_specular" at "resources/textures/container_specular.png"
+T+ 0.846623 [ info  ] [31112] : Loading asset "park" at "resources/textures/park.png"
+T+ 0.859107 [ info  ] [31112] : Loading asset "planetatmo" at "resources/textures/planetatmo.png"
+T+ 1.383953 [ info  ] [31112] : Loading asset "Rythe" at "resources/textures/Rythe.png"
+T+ 1.384709 [ info  ] [31112] : Loading asset "color" at "resources/shaders/color.shader"
+T+ 1.404052 [ info  ] [31112] : [color-vertex] Compiling GLSL Shader
+T+ 1.404115 [ info  ] [31112] : [color-vertex] GLSL Shader Compilation Success
+T+ 1.418851 [ info  ] [31112] : [color-fragment] Compiling GLSL Shader
+T+ 1.418880 [ info  ] [31112] : [color-fragment] GLSL Shader Compilation Success
+T+ 1.419211 [ info  ] [31112] : Loading asset "lit" at "resources/shaders/lit.shader"
+T+ 1.440657 [ info  ] [31112] : [lit-vertex] Compiling GLSL Shader
+T+ 1.440700 [ info  ] [31112] : [lit-vertex] GLSL Shader Compilation Success
+T+ 1.460323 [ info  ] [31112] : [lit-fragment] Compiling GLSL Shader
+T+ 1.460358 [ info  ] [31112] : [lit-fragment] GLSL Shader Compilation Success
+T+ 1.460765 [ info  ] [31112] : Loading asset "normal" at "resources/shaders/normal.shader"
+T+ 1.481051 [ info  ] [31112] : [normal-vertex] Compiling GLSL Shader
+T+ 1.481089 [ info  ] [31112] : [normal-vertex] GLSL Shader Compilation Success
+T+ 1.498970 [ info  ] [31112] : [normal-fragment] Compiling GLSL Shader
+T+ 1.499005 [ info  ] [31112] : [normal-fragment] GLSL Shader Compilation Success
+T+ 1.499422 [ info  ] [31112] : Loading asset "shadertoolsconfig" at "resources/shaders/shadertoolsconfig.json"
+T+ 1.499431 [ info  ] [31112] : Loading asset "skybox" at "resources/shaders/skybox.shader"
+T+ 1.517277 [ info  ] [31112] : [skybox-vertex] Compiling GLSL Shader
+T+ 1.517309 [ info  ] [31112] : [skybox-vertex] GLSL Shader Compilation Success
+T+ 1.534621 [ info  ] [31112] : [skybox-fragment] Compiling GLSL Shader
+T+ 1.534654 [ info  ] [31112] : [skybox-fragment] GLSL Shader Compilation Success
+T+ 1.535395 [warning] [31112] : Asset[struct rythe::rendering::Ishader<struct rythe::rendering::internal::shader>] "skybox" already exists, returning existing handle
+T+ 1.543510 [ info  ] [31112] : Initializing Input System
+T+ 6.491529 [ info  ] [31112] : Initializing Arbrook_TestStress
+T+ 18.256935 [ info  ] [31112] : Shutting Down Logging
+T+ 18.256950 [ info  ] [31112] : Shutting Down Eventbus
+T+ 18.256950 [ info  ] [31112] : Shutting Down Scheduler
+T+ 18.256990 [ info  ] [31112] : Killing Program
+T+ 0.050270 [ info  ] [16808] : Logging Initialized
+T+ 0.050863 [ info  ] [16808] : Initializing Eventbus
+T+ 0.050867 [ info  ] [16808] : Initializing Scheduler
+T+ 0.050894 [ info  ] [16808] : Initializing Rendering Module
+T+ 0.050904 [ info  ] [16808] : Initializing Input Module
+T+ 0.051117 [ info  ] [16808] : Initializing Game Module
+T+ 0.164671 [ info  ] [16808] : Initializing Render Pipeline
+T+ 0.164720 [ info  ] [16808] : Initializing OpenGL
+T+ 0.164733 [warning] [16808] : The window "Arbrook" does not exist
+T+ 0.398619 [ info  ] [16808] : Initializing Test System
+T+ 0.400893 [ info  ] [16808] : Loading asset "alligator" at "resources/meshes/glb/alligator.glb"
+T+ 0.403587 [ info  ] [16808] : Loading asset "armadillo" at "resources/meshes/glb/armadillo.glb"
+T+ 0.439911 [ info  ] [16808] : Loading asset "beast" at "resources/meshes/glb/beast.glb"
+T+ 0.567448 [ info  ] [16808] : Loading asset "bunny" at "resources/meshes/glb/bunny.glb"
+T+ 0.717796 [ info  ] [16808] : Loading asset "cone" at "resources/meshes/glb/cone.glb"
+T+ 0.721002 [ info  ] [16808] : Loading asset "cube" at "resources/meshes/glb/cube.glb"
+T+ 0.721880 [ info  ] [16808] : Loading asset "icosphere" at "resources/meshes/glb/icosphere.glb"
+T+ 0.722799 [ info  ] [16808] : Loading asset "plane" at "resources/meshes/glb/plane.glb"
+T+ 0.723583 [ info  ] [16808] : Loading asset "sphere" at "resources/meshes/glb/sphere.glb"
+T+ 0.725176 [ info  ] [16808] : Loading asset "sponza" at "resources/meshes/glb/sponza.glb"
+T+ 0.860738 [ info  ] [16808] : Loading asset "suzanne" at "resources/meshes/glb/suzanne.glb"
+T+ 0.870861 [ info  ] [16808] : Loading asset "teapot" at "resources/meshes/glb/teapot.glb"
+T+ 0.876387 [ info  ] [16808] : Loading asset "container_diffuse" at "resources/textures/container_diffuse.png"
+T+ 0.881112 [ info  ] [16808] : Loading asset "container_specular" at "resources/textures/container_specular.png"
+T+ 0.883621 [ info  ] [16808] : Loading asset "park" at "resources/textures/park.png"
+T+ 0.894412 [ info  ] [16808] : Loading asset "planetatmo" at "resources/textures/planetatmo.png"
+T+ 2.858312 [ info  ] [16808] : Loading asset "Rythe" at "resources/textures/Rythe.png"
+T+ 2.858853 [ info  ] [16808] : Loading asset "color" at "resources/shaders/color.shader"
+T+ 2.894944 [ info  ] [16808] : [color-vertex] Compiling GLSL Shader
+T+ 2.895036 [ info  ] [16808] : [color-vertex] GLSL Shader Compilation Success
+T+ 2.924866 [ info  ] [16808] : [color-fragment] Compiling GLSL Shader
+T+ 2.924904 [ info  ] [16808] : [color-fragment] GLSL Shader Compilation Success
+T+ 2.925225 [ info  ] [16808] : Loading asset "lit" at "resources/shaders/lit.shader"
+T+ 2.952612 [ info  ] [16808] : [lit-vertex] Compiling GLSL Shader
+T+ 2.952655 [ info  ] [16808] : [lit-vertex] GLSL Shader Compilation Success
+T+ 2.981416 [ info  ] [16808] : [lit-fragment] Compiling GLSL Shader
+T+ 2.981457 [ info  ] [16808] : [lit-fragment] GLSL Shader Compilation Success
+T+ 2.982068 [ info  ] [16808] : Loading asset "normal" at "resources/shaders/normal.shader"
+T+ 3.002596 [ info  ] [16808] : [normal-vertex] Compiling GLSL Shader
+T+ 3.002638 [ info  ] [16808] : [normal-vertex] GLSL Shader Compilation Success
+T+ 3.027668 [ info  ] [16808] : [normal-fragment] Compiling GLSL Shader
+T+ 3.027724 [ info  ] [16808] : [normal-fragment] GLSL Shader Compilation Success
+T+ 3.028198 [ info  ] [16808] : Loading asset "shadertoolsconfig" at "resources/shaders/shadertoolsconfig.json"
+T+ 3.028208 [ info  ] [16808] : Loading asset "skybox" at "resources/shaders/skybox.shader"
+T+ 3.046955 [ info  ] [16808] : [skybox-vertex] Compiling GLSL Shader
+T+ 3.046989 [ info  ] [16808] : [skybox-vertex] GLSL Shader Compilation Success
+T+ 3.064941 [ info  ] [16808] : [skybox-fragment] Compiling GLSL Shader
+T+ 3.064988 [ info  ] [16808] : [skybox-fragment] GLSL Shader Compilation Success
+T+ 3.065668 [warning] [16808] : Asset[struct rythe::rendering::Ishader<struct rythe::rendering::internal::shader>] "skybox" already exists, returning existing handle
+T+ 3.073519 [ info  ] [16808] : Initializing Input System
+T+ 5.409036 [ info  ] [16808] : Initializing Arbrook_TestStress
+T+ 8.508308 [ info  ] [16808] : Shutting Down Logging
+T+ 8.508334 [ info  ] [16808] : Shutting Down Eventbus
+T+ 8.508336 [ info  ] [16808] : Shutting Down Scheduler
+T+ 8.508367 [ info  ] [16808] : Killing Program
+T+ 0.049822 [ info  ] [31680] : Logging Initialized
+T+ 0.049903 [ info  ] [31680] : Initializing Eventbus
+T+ 0.049905 [ info  ] [31680] : Initializing Scheduler
+T+ 0.049932 [ info  ] [31680] : Initializing Rendering Module
+T+ 0.049948 [ info  ] [31680] : Initializing Input Module
+T+ 0.049952 [ info  ] [31680] : Initializing Game Module
+T+ 0.141009 [ info  ] [31680] : Initializing Render Pipeline
+T+ 0.141044 [ info  ] [31680] : Initializing OpenGL
+T+ 0.141051 [warning] [31680] : The window "Arbrook" does not exist
+T+ 0.401290 [ info  ] [31680] : Initializing Test System
+T+ 0.402897 [ info  ] [31680] : Loading asset "alligator" at "resources/meshes/glb/alligator.glb"
+T+ 0.405083 [ info  ] [31680] : Loading asset "armadillo" at "resources/meshes/glb/armadillo.glb"
+T+ 0.447696 [ info  ] [31680] : Loading asset "beast" at "resources/meshes/glb/beast.glb"
+T+ 0.564663 [ info  ] [31680] : Loading asset "bunny" at "resources/meshes/glb/bunny.glb"
+T+ 0.724964 [ info  ] [31680] : Loading asset "cone" at "resources/meshes/glb/cone.glb"
+T+ 0.728529 [ info  ] [31680] : Loading asset "cube" at "resources/meshes/glb/cube.glb"
+T+ 0.729809 [ info  ] [31680] : Loading asset "icosphere" at "resources/meshes/glb/icosphere.glb"
+T+ 0.731178 [ info  ] [31680] : Loading asset "plane" at "resources/meshes/glb/plane.glb"
+T+ 0.732341 [ info  ] [31680] : Loading asset "sphere" at "resources/meshes/glb/sphere.glb"
+T+ 0.734832 [ info  ] [31680] : Loading asset "sponza" at "resources/meshes/glb/sponza.glb"
+T+ 0.880683 [ info  ] [31680] : Loading asset "suzanne" at "resources/meshes/glb/suzanne.glb"
+T+ 0.891637 [ info  ] [31680] : Loading asset "teapot" at "resources/meshes/glb/teapot.glb"
+T+ 0.896903 [ info  ] [31680] : Loading asset "container_diffuse" at "resources/textures/container_diffuse.png"
+T+ 0.903468 [ info  ] [31680] : Loading asset "container_specular" at "resources/textures/container_specular.png"
+T+ 0.905981 [ info  ] [31680] : Loading asset "park" at "resources/textures/park.png"
+T+ 0.917711 [ info  ] [31680] : Loading asset "planetatmo" at "resources/textures/planetatmo.png"
+T+ 2.747640 [ info  ] [31680] : Loading asset "Rythe" at "resources/textures/Rythe.png"
+T+ 2.748152 [ info  ] [31680] : Loading asset "color" at "resources/shaders/color.shader"
+T+ 2.789582 [ info  ] [31680] : [color-vertex] Compiling GLSL Shader
+T+ 2.789683 [ info  ] [31680] : [color-vertex] GLSL Shader Compilation Success
+T+ 2.821426 [ info  ] [31680] : [color-fragment] Compiling GLSL Shader
+T+ 2.821479 [ info  ] [31680] : [color-fragment] GLSL Shader Compilation Success
+T+ 2.823208 [ info  ] [31680] : Loading asset "lit" at "resources/shaders/lit.shader"
+T+ 2.858091 [ info  ] [31680] : [lit-vertex] Compiling GLSL Shader
+T+ 2.858140 [ info  ] [31680] : [lit-vertex] GLSL Shader Compilation Success
+T+ 2.889722 [ info  ] [31680] : [lit-fragment] Compiling GLSL Shader
+T+ 2.889936 [ info  ] [31680] : [lit-fragment] GLSL Shader Compilation Success
+T+ 2.890603 [ info  ] [31680] : Loading asset "normal" at "resources/shaders/normal.shader"
+T+ 2.914379 [ info  ] [31680] : [normal-vertex] Compiling GLSL Shader
+T+ 2.914417 [ info  ] [31680] : [normal-vertex] GLSL Shader Compilation Success
+T+ 2.931191 [ info  ] [31680] : [normal-fragment] Compiling GLSL Shader
+T+ 2.931227 [ info  ] [31680] : [normal-fragment] GLSL Shader Compilation Success
+T+ 2.931559 [ info  ] [31680] : Loading asset "shadertoolsconfig" at "resources/shaders/shadertoolsconfig.json"
+T+ 2.931562 [ info  ] [31680] : Loading asset "skybox" at "resources/shaders/skybox.shader"
+T+ 2.951033 [ info  ] [31680] : [skybox-vertex] Compiling GLSL Shader
+T+ 2.951064 [ info  ] [31680] : [skybox-vertex] GLSL Shader Compilation Success
+T+ 2.969561 [ info  ] [31680] : [skybox-fragment] Compiling GLSL Shader
+T+ 2.969598 [ info  ] [31680] : [skybox-fragment] GLSL Shader Compilation Success
+T+ 2.972805 [warning] [31680] : Asset[struct rythe::rendering::Ishader<struct rythe::rendering::internal::shader>] "skybox" already exists, returning existing handle
+T+ 2.977143 [ info  ] [31

@@ -24,7 +24,6 @@ namespace vertex
 
 namespace fragment
 {
-    
 	struct PIn
 	{
 		float4 p_position : SV_POSITION;
