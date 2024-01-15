@@ -59,11 +59,14 @@ namespace rythe::testing
 				modelIdx = 0;
 			}
 
-			meshHandle = gfx::ModelCache::getModel(modelNames[modelIdx])->meshHandle;
-			auto vertData = meshHandle->vertices.data();
-			vBuffer->bufferData(vertData, meshHandle->vertices.size());
-			auto indData = meshHandle->indices.data();
-			idxBuffer->bufferData(indData, meshHandle->indices.size());
+			{
+				FrameClock clock(name, APIType::Native, "Model Switch Time");
+				meshHandle = gfx::ModelCache::getModel(modelNames[modelIdx])->meshHandle;
+				auto vertData = meshHandle->vertices.data();
+				vBuffer->bufferData(vertData, meshHandle->vertices.size());
+				auto indData = meshHandle->indices.data();
+				idxBuffer->bufferData(indData, meshHandle->indices.size());
+			}
 
 			layout.bind();
 			i += .1f;
@@ -185,15 +188,18 @@ namespace rythe::testing
 			bgfx::setViewTransform(0, data.view.data, data.projection.data);
 
 			modelIdx++;
-			i += .1f;
+			i += .5f;
 			bgfx::touch(0);
 
 			if (modelIdx >= modelNames.size())
 				modelIdx = 0;
 
 			meshHandle = gfx::ModelCache::getModel(modelNames[modelIdx])->meshHandle;
-			bgfx::update(vertexBuffer, 0, bgfx::makeRef(meshHandle->vertices.data(), meshHandle->vertices.size() * sizeof(math::vec4)));
-			bgfx::update(indexBuffer, 0, bgfx::makeRef(meshHandle->indices.data(), meshHandle->indices.size() * sizeof(unsigned int)));
+			{
+				FrameClock clock(name, APIType::Native, "Model Switch Time");
+				bgfx::update(vertexBuffer, 0, bgfx::makeRef(meshHandle->vertices.data(), meshHandle->vertices.size() * sizeof(math::vec4)));
+				bgfx::update(indexBuffer, 0, bgfx::makeRef(meshHandle->indices.data(), meshHandle->indices.size() * sizeof(unsigned int)));
+			}
 
 			math::vec3 pos = math::vec3{ 0, 0, 10.f };
 			auto model = math::translate(math::mat4(1.0f), pos);
@@ -244,9 +250,9 @@ namespace rythe::testing
 
 			modelNames = gfx::ModelCache::getModelNames();
 			meshHandle = gfx::ModelCache::getModel(modelNames[modelIdx])->meshHandle;
-			mat = gfx::MaterialCache::loadMaterial("test", "color");
+			currentMat = gfx::MaterialCache::loadMaterial("test", "color");
 
-			shaderId = mat->shader->getId();
+			shaderId = currentMat->shader->getId();
 
 			glGenBuffers(1, &constantBufferId);
 			glBindBuffer(GL_UNIFORM_BUFFER, constantBufferId);
@@ -288,15 +294,17 @@ namespace rythe::testing
 
 			meshHandle = gfx::ModelCache::getModel(modelNames[modelIdx])->meshHandle;
 
-			glBindBuffer(GL_ARRAY_BUFFER, vboId);
-			glBufferData(GL_ARRAY_BUFFER, meshHandle->vertices.size() * sizeof(math::vec4), meshHandle->vertices.data(), static_cast<GLenum>(gfx::UsageType::STATICDRAW));
+			{
+				FrameClock clock(name, APIType::Native, "Model Switch Time");
+				glBindBuffer(GL_ARRAY_BUFFER, vboId);
+				glBufferData(GL_ARRAY_BUFFER, meshHandle->vertices.size() * sizeof(math::vec4), meshHandle->vertices.data(), static_cast<GLenum>(gfx::UsageType::STATICDRAW));
 
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, eboId);
-			glBufferData(GL_ELEMENT_ARRAY_BUFFER, meshHandle->indices.size() * sizeof(unsigned int), meshHandle->indices.data(), static_cast<GLenum>(gfx::UsageType::STATICDRAW));
-
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, eboId);
+				glBufferData(GL_ELEMENT_ARRAY_BUFFER, meshHandle->indices.size() * sizeof(unsigned int), meshHandle->indices.data(), static_cast<GLenum>(gfx::UsageType::STATICDRAW));
+			}
 
 			data.view = cam.calculate_view(&camTransf);
-			i += .1f;
+			i += .5f;
 
 			math::vec3 pos = math::vec3{ 0, 0, 10.0f };
 			auto model = math::translate(math::mat4(1.0f), pos);
@@ -406,32 +414,35 @@ namespace rythe::testing
 			meshHandle = gfx::ModelCache::getModel(modelNames[modelIdx])->meshHandle;
 
 			vertexBuffer->Release();
-			// Create the vertex buffer
-			D3D11_BUFFER_DESC bd = {};
-			bd.Usage = D3D11_USAGE_DEFAULT;
-			bd.ByteWidth = meshHandle->vertices.size() * sizeof(math::vec4);
-			bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-			bd.CPUAccessFlags = 0;
-			D3D11_SUBRESOURCE_DATA initData = {};
-			initData.pSysMem = meshHandle->vertices.data();
-			CHECKERROR(device->CreateBuffer(&bd, &initData, &vertexBuffer), "Failed to create Vertex Buffer", gfx::Renderer::RI->checkError());
+			{
+				FrameClock clock(name, APIType::Native, "Model Switch Time");
+				// Create the vertex buffer
+				D3D11_BUFFER_DESC bd = {};
+				bd.Usage = D3D11_USAGE_DEFAULT;
+				bd.ByteWidth = meshHandle->vertices.size() * sizeof(math::vec4);
+				bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+				bd.CPUAccessFlags = 0;
+				D3D11_SUBRESOURCE_DATA initData = {};
+				initData.pSysMem = meshHandle->vertices.data();
+				CHECKERROR(device->CreateBuffer(&bd, &initData, &vertexBuffer), "Failed to create Vertex Buffer", gfx::Renderer::RI->checkError());
 
-			// Set the vertex buffer
-			UINT stride = sizeof(math::vec4);
-			UINT offset = 0;
-			deviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
+				// Set the vertex buffer
+				UINT stride = sizeof(math::vec4);
+				UINT offset = 0;
+				deviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
 
-			indexBuffer->Release();
-			// Create the index buffer
-			bd.Usage = D3D11_USAGE_DEFAULT;
-			bd.ByteWidth = meshHandle->indices.size() * sizeof(unsigned int);
-			bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
-			bd.CPUAccessFlags = 0;
-			initData.pSysMem = meshHandle->indices.data();
-			CHECKERROR(device->CreateBuffer(&bd, &initData, &indexBuffer), "Failed to create Index Buffer", gfx::Renderer::RI->checkError());
+				indexBuffer->Release();
+				// Create the index buffer
+				bd.Usage = D3D11_USAGE_DEFAULT;
+				bd.ByteWidth = meshHandle->indices.size() * sizeof(unsigned int);
+				bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
+				bd.CPUAccessFlags = 0;
+				initData.pSysMem = meshHandle->indices.data();
+				CHECKERROR(device->CreateBuffer(&bd, &initData, &indexBuffer), "Failed to create Index Buffer", gfx::Renderer::RI->checkError());
 
-			// Set the index buffer
-			deviceContext->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
+				// Set the index buffer
+				deviceContext->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
+			}
 
 			data.view = cam.calculate_view(&camTransf);
 			i += .5f;
@@ -445,8 +456,10 @@ namespace rythe::testing
 
 		void destroy()
 		{
-			vertexBuffer->Release();
-			indexBuffer->Release();
+			if (vertexBuffer) vertexBuffer->Release();
+			if (indexBuffer) indexBuffer->Release();
+			if (constantBuffer) constantBuffer->Release();
+			if (inputLayout) inputLayout->Release();
 			initialized = false;
 		}
 	};

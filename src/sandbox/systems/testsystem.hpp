@@ -25,10 +25,6 @@ namespace rythe::testing
 
 		core::ecs::entity cameraEntity;
 		test_renderer renderer;
-		
-		float deltaTime = 0.0f;
-		float lastFrame = 0.0f;
-		float currentFrame = 0.0f;
 
 		bool initTest = false;
 		bool runningTest = false;

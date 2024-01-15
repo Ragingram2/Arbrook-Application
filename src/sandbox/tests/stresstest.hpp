@@ -28,7 +28,7 @@ namespace rythe::testing
 	}
 
 	template<enum APIType type>
-	struct StressTest : public rendering_test  {	};
+	struct StressTest : public rendering_test {	};
 
 	template<>
 	struct StressTest<APIType::Arbrook> : public rendering_test
@@ -78,14 +78,8 @@ namespace rythe::testing
 
 			DrawModelGrid(i, data, [&]
 				{
-					{
-						FrameClock clock(name, APIType::Arbrook, "SetCameraDataTime");
-						mat->shader->setData("CameraBuffer", &data);
-					}
-					{
-						FrameClock clock(name, APIType::Arbrook, "DrawCallTime");
-						gfx::Renderer::RI->drawIndexed(gfx::PrimitiveType::TRIANGLESLIST, meshHandle->indices.size(), 0, 0);
-					}
+					mat->shader->setData("CameraBuffer", &data);
+					gfx::Renderer::RI->drawIndexed(gfx::PrimitiveType::TRIANGLESLIST, meshHandle->indices.size(), 0, 0);
 				});
 		}
 
@@ -182,27 +176,21 @@ namespace rythe::testing
 			bgfx::setViewTransform(0, data.view.data, data.projection.data);
 
 			initialized = true;
-		}
+			}
 
 		virtual void update(gfx::camera& cam, core::transform& camTransf) override
 		{
 			data.view = cam.calculate_view(&camTransf);
 			bgfx::setViewTransform(0, data.view.data, data.projection.data);
 			bgfx::touch(0);
-
+			i += .5f;
 			DrawModelGrid(i, data, [&]
 				{
-					{
-						FrameClock clock(name, APIType::Arbrook, "SetCameraDataTime");
-						bgfx::setTransform(data.model.data);
-					}
-					{
-						FrameClock clock(name, APIType::BGFX, "DrawCallTime");
-						bgfx::setVertexBuffer(0, vertexBuffer);
-						bgfx::setIndexBuffer(indexBuffer);
-						bgfx::setState(state);
-						bgfx::submit(0, shader);
-					}
+					bgfx::setTransform(data.model.data);;
+					bgfx::setVertexBuffer(0, vertexBuffer);
+					bgfx::setIndexBuffer(indexBuffer);
+					bgfx::setState(state);
+					bgfx::submit(0, shader);
 				});
 
 			bgfx::frame();
@@ -217,7 +205,7 @@ namespace rythe::testing
 			gfx::WindowProvider::destroyWindow("BGFX");
 			initialized = false;
 		}
-	};
+		};
 
 #if RenderingAPI == RenderingAPI_OGL
 	template<>
@@ -282,14 +270,8 @@ namespace rythe::testing
 			i += .5f;
 			DrawModelGrid(i, data, [&]
 				{
-					{
-						FrameClock clock(name, APIType::Arbrook, "SetCameraDataTime");
-						glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(gfx::camera_data), &data);
-					}
-					{
-						FrameClock clock(name, APIType::Native, "DrawCallTime");
-						glDrawElements(GL_TRIANGLES, meshHandle->indices.size(), GL_UNSIGNED_INT, reinterpret_cast <void*>(0));
-					}
+					glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(gfx::camera_data), &data);
+					glDrawElements(GL_TRIANGLES, meshHandle->indices.size(), GL_UNSIGNED_INT, reinterpret_cast <void*>(0));
 				});
 		}
 
@@ -389,15 +371,9 @@ namespace rythe::testing
 			i += .5f;
 			DrawModelGrid(i, data, [&]
 				{
-					{
-						FrameClock clock(name, APIType::Arbrook, "SetCameraDataTime");
-						deviceContext->UpdateSubresource(constantBuffer, 0, nullptr, &data, 0, 0);
-						deviceContext->VSSetConstantBuffers(0, 1, &constantBuffer);
-					}
-					{
-						FrameClock clock(name, APIType::Native, "DrawCallTime");
-						deviceContext->DrawIndexed(meshHandle->indices.size(), 0, 0);
-					}
+					deviceContext->UpdateSubresource(constantBuffer, 0, nullptr, &data, 0, 0);
+					deviceContext->VSSetConstantBuffers(0, 1, &constantBuffer);
+					deviceContext->DrawIndexed(meshHandle->indices.size(), 0, 0);
 				});
 		}
 
@@ -411,4 +387,4 @@ namespace rythe::testing
 		}
 	};
 #endif
-}
+	}

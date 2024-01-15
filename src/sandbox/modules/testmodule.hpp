@@ -4,6 +4,7 @@
 #include "sandbox/systems/testsystem.hpp"
 #include "sandbox/systems/game.hpp"
 #include "sandbox/systems/examplesystem.hpp"
+#include "sandbox/systems/cameracontrols.hpp"
 
 namespace rythe::core
 {
@@ -13,9 +14,10 @@ namespace rythe::core
 		void setup() override
 		{
 			log::info("Initializing Game Module");
-			//reportSystem<game::Game>();
+			reportSystem<game::Game>();
 			reportSystem<game::ExampleSystem>();
-			reportSystem<testing::TestSystem>();
+			reportSystem<game::CameraControls>();
+			//reportSystem<testing::TestSystem>();
 		}
 	};
 }

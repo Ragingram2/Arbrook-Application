@@ -67,14 +67,18 @@ namespace rythe::testing
 				matIdx = 0;
 			}
 
-			currentMat = materials[matIdx];
-			currentMat->bind();
-			layout.bind();
 
 			math::vec3 pos = math::vec3{ 0.0f, 0.0f, 10.f };
 			auto model = math::translate(math::mat4(1.0f), pos);
 			model = math::rotate(model, math::radians(i), math::vec3(0.0f, 1.0f, 0.0f));
 			data.model = model;
+			
+			{
+				FrameClock clock(name, APIType::Native, "Material Switch Time");
+				currentMat = materials[matIdx];
+				currentMat->bind();
+				layout.bind();
+			}
 
 			currentMat->shader->setData("CameraBuffer", &data);
 			vBuffer->bind();
@@ -203,7 +207,10 @@ namespace rythe::testing
 			bgfx::setVertexBuffer(0, vertexBuffer);
 			bgfx::setIndexBuffer(indexBuffer);
 			bgfx::setState(state);
-			bgfx::submit(0, currentShader);
+			{
+				FrameClock clock(name, APIType::Native, "Material Switch Time");
+				bgfx::submit(0, currentShader);
+			}
 			bgfx::frame();
 		}
 
@@ -295,7 +302,10 @@ namespace rythe::testing
 			if (matIdx >= materials.size())
 				matIdx = 0;
 
-			glUseProgram(materials[matIdx]->shader->getId());
+			{
+				FrameClock clock(name, APIType::Native, "Material Switch Time");
+				glUseProgram(materials[matIdx]->shader->getId());
+			}
 
 			math::vec3 pos = math::vec3{ 0, 0, 10.0f };
 			auto model = math::translate(math::mat4(1.0f), pos);
@@ -330,6 +340,9 @@ namespace rythe::testing
 		ID3D11InputLayout* inputLayout;
 		ID3D11DeviceContext* deviceContext;
 		ID3D11Device* device;
+
+		ID3D11VertexShader* vertexShader;
+		ID3D11PixelShader* pixelShader;
 
 		float i = 0;
 		int matIdx = 0;
@@ -406,17 +419,18 @@ namespace rythe::testing
 				matIdx = 0;
 
 			currentMat = materials[matIdx];
-			ID3D11VertexShader* vertexShader;
-			ID3D11PixelShader* pixelShader;
 
-			auto vtxBlob = currentMat->shader->getImpl().VS;
-			auto pixBlob = currentMat->shader->getImpl().PS;
-			// Vertex shader
-			device->CreateVertexShader(vtxBlob->GetBufferPointer(), vtxBlob->GetBufferSize(), 0, &vertexShader);
-			device->CreatePixelShader(pixBlob->GetBufferPointer(), pixBlob->GetBufferSize(), 0, &pixelShader);
-			// Set the shaders
-			deviceContext->VSSetShader(vertexShader, 0, 0);
-			deviceContext->PSSetShader(pixelShader, 0, 0);
+			{
+				FrameClock clock(name, APIType::Native, "Material Switch Time");
+				auto vtxBlob = currentMat->shader->getImpl().VS;
+				auto pixBlob = currentMat->shader->getImpl().PS;
+				// Vertex shader
+				device->CreateVertexShader(vtxBlob->GetBufferPointer(), vtxBlob->GetBufferSize(), 0, &vertexShader);
+				device->CreatePixelShader(pixBlob->GetBufferPointer(), pixBlob->GetBufferSize(), 0, &pixelShader);
+				// Set the shaders
+				deviceContext->VSSetShader(vertexShader, 0, 0);
+				deviceContext->PSSetShader(pixelShader, 0, 0);
+			}
 
 			math::vec3 pos = math::vec3(0.0f, 0.0f, 10.0f);
 			auto model = math::translate(math::mat4(1.0f), pos);
@@ -424,13 +438,17 @@ namespace rythe::testing
 			deviceContext->UpdateSubresource(constantBuffer, 0, nullptr, &data, 0, 0);
 			deviceContext->VSSetConstantBuffers(0, 1, &constantBuffer);
 			deviceContext->DrawIndexed(meshHandle->indices.size(), 0, 0);
+
+			vertexShader->Release();
+			pixelShader->Release();
 		}
 
 		virtual void destroy() override
 		{
-			vertexBuffer->Release();
-			indexBuffer->Release();
-			//inputLayout->Release();
+			if (vertexBuffer) vertexBuffer->Release();
+			if (indexBuffer) indexBuffer->Release();
+			if (constantBuffer) constantBuffer->Release();
+			if (inputLayout) inputLayout->Release();
 			initialized = false;
 		}
 	};

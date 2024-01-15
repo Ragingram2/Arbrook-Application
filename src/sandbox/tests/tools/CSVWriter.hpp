@@ -5,9 +5,6 @@
 #include <iostream>
 #include <filesystem>
 
-#include <rfl/json.hpp>
-#include <rfl.hpp>
-
 #include <rsl/logging>
 #include <rsl/math>
 
@@ -104,15 +101,13 @@ namespace rythe::testing
 			for (auto& [name, result] : results)
 			{
 #if RenderingAPI == RenderingAPI_OGL
-				std::filesystem::path testPath = std::format("{}{}/ogldata.csv", path, name);
+				std::filesystem::path testPath = std::format("{}{}_ogldata.csv", path, name);
 #elif RenderingAPI == RenderingAPI_DX11
-				std::filesystem::path testPath = std::format("{}{}/dx11data.csv", path, name);
+				std::filesystem::path testPath = std::format("{}{}_dx11data.csv", path, name);
 #endif
-				//std::string testPath = "resources/data/test.json";
 				std::ofstream file;
 				file.open(testPath);
 				file << result.serialize() << std::endl;
-				//file << rfl::json::write(result);
 				file.close();
 			}
 

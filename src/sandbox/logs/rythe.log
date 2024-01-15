@@ -277,4 +277,1343 @@ T+ 2.951064 [ info  ] [31680] : [skybox-vertex] GLSL Shader Compilation Success
 T+ 2.969561 [ info  ] [31680] : [skybox-fragment] Compiling GLSL Shader
 T+ 2.969598 [ info  ] [31680] : [skybox-fragment] GLSL Shader Compilation Success
 T+ 2.972805 [warning] [31680] : Asset[struct rythe::rendering::Ishader<struct rythe::rendering::internal::shader>] "skybox" already exists, returning existing handle
-T+ 2.977143 [ info  ] [31
+T+ 2.977143 [ info  ] [31T+ 0.052045 [ info  ] [20464] : Logging Initialized
+T+ 0.052113 [ info  ] [20464] : Initializing Eventbus
+T+ 0.052115 [ info  ] [20464] : Initializing Scheduler
+T+ 0.052687 [ info  ] [20464] : Initializing Rendering Module
+T+ 0.052710 [ info  ] [20464] : Initializing Input Module
+T+ 0.052713 [ info  ] [20464] : Initializing Game Module
+T+ 0.154515 [ info  ] [20464] : Initializing Render Pipeline
+T+ 0.154545 [ info  ] [20464] : Initializing DX11
+T+ 0.154554 [warning] [20464] : The window "Arbrook" does not exist
+T+ 0.442337 [ info  ] [20464] : Initializing Test System
+T+ 0.442585 [ info  ] [20464] : Loading asset "alligator" at "resources/meshes/glb/alligator.glb"
+T+ 0.451190 [ info  ] [20464] : Loading asset "armadillo" at "resources/meshes/glb/armadillo.glb"
+T+ 0.519731 [ info  ] [20464] : Loading asset "beast" at "resources/meshes/glb/beast.glb"
+T+ 0.626860 [ info  ] [20464] : Loading asset "bunny" at "resources/meshes/glb/bunny.glb"
+T+ 0.758530 [ info  ] [20464] : Loading asset "cone" at "resources/meshes/glb/cone.glb"
+T+ 0.765305 [ info  ] [20464] : Loading asset "cube" at "resources/meshes/glb/cube.glb"
+T+ 0.769819 [ info  ] [20464] : Loading asset "icosphere" at "resources/meshes/glb/icosphere.glb"
+T+ 0.774185 [ info  ] [20464] : Loading asset "plane" at "resources/meshes/glb/plane.glb"
+T+ 0.778335 [ info  ] [20464] : Loading asset "sphere" at "resources/meshes/glb/sphere.glb"
+T+ 0.783449 [ info  ] [20464] : Loading asset "sponza" at "resources/meshes/glb/sponza.glb"
+T+ 0.916565 [ info  ] [20464] : Loading asset "suzanne" at "resources/meshes/glb/suzanne.glb"
+T+ 0.930162 [ info  ] [20464] : Loading asset "teapot" at "resources/meshes/glb/teapot.glb"
+T+ 0.943004 [ info  ] [20464] : Loading asset "container_diffuse" at "resources/textures/container_diffuse.png"
+T+ 0.953884 [ info  ] [20464] : Loading asset "container_specular" at "resources/textures/container_specular.png"
+T+ 0.960428 [ info  ] [20464] : Loading asset "park" at "resources/textures/park.png"
+T+ 0.987287 [ info  ] [20464] : Loading asset "planetatmo" at "resources/textures/planetatmo.png"
+T+ 1.545232 [ info  ] [20464] : Loading asset "Rythe" at "resources/textures/Rythe.png"
+T+ 1.549257 [ info  ] [20464] : Loading asset "blue" at "resources/shaders/blue.shader"
+T+ 1.552608 [ info  ] [20464] : [blue-vs_4_0] Preproccessing Shader
+T+ 1.562058 [ info  ] [20464] : [blue-vs_4_0] Shader Preprocesing Success
+T+ 1.562063 [ info  ] [20464] : [blue-vs_4_0] Compiling Shader
+T+ 1.584828 [ info  ] [20464] : [blue-vs_4_0] Shader Compilation Success
+T+ 1.584839 [ info  ] [20464] : [blue-ps_4_0] Preproccessing Shader
+T+ 1.584867 [ info  ] [20464] : [blue-ps_4_0] Shader Preprocesing Success
+T+ 1.584869 [ info  ] [20464] : [blue-ps_4_0] Compiling Shader
+T+ 1.585637 [ info  ] [20464] : [blue-ps_4_0] Shader Compilation Success
+T+ 1.592193 [ info  ] [20464] : Loading asset "color" at "resources/shaders/color.shader"
+T+ 1.596529 [ info  ] [20464] : [color-vs_4_0] Preproccessing Shader
+T+ 1.596745 [ info  ] [20464] : [color-vs_4_0] Shader Preprocesing Success
+T+ 1.596748 [ info  ] [20464] : [color-vs_4_0] Compiling Shader
+T+ 1.606288 [ info  ] [20464] : [color-vs_4_0] Shader Compilation Success
+T+ 1.606294 [ info  ] [20464] : [color-ps_4_0] Preproccessing Shader
+T+ 1.606318 [ info  ] [20464] : [color-ps_4_0] Shader Preprocesing Success
+T+ 1.606319 [ info  ] [20464] : [color-ps_4_0] Compiling Shader
+T+ 1.607062 [ info  ] [20464] : [color-ps_4_0] Shader Compilation Success
+T+ 1.607174 [ info  ] [20464] : Loading asset "green" at "resources/shaders/green.shader"
+T+ 1.610315 [ info  ] [20464] : [green-vs_4_0] Preproccessing Shader
+T+ 1.610511 [ info  ] [20464] : [green-vs_4_0] Shader Preprocesing Success
+T+ 1.610514 [ info  ] [20464] : [green-vs_4_0] Compiling Shader
+T+ 1.620104 [ info  ] [20464] : [green-vs_4_0] Shader Compilation Success
+T+ 1.620115 [ info  ] [20464] : [green-ps_4_0] Preproccessing Shader
+T+ 1.620148 [ info  ] [20464] : [green-ps_4_0] Shader Preprocesing Success
+T+ 1.620150 [ info  ] [20464] : [green-ps_4_0] Compiling Shader
+T+ 1.621281 [ info  ] [20464] : [green-ps_4_0] Shader Compilation Success
+T+ 1.621397 [ info  ] [20464] : Loading asset "lit" at "resources/shaders/lit.shader"
+T+ 1.625468 [ info  ] [20464] : [lit-vs_4_0] Preproccessing Shader
+T+ 1.628856 [ info  ] [20464] : [lit-vs_4_0] Shader Preprocesing Success
+T+ 1.628860 [ info  ] [20464] : [lit-vs_4_0] Compiling Shader
+T+ 1.660770 [ info  ] [20464] : [lit-vs_4_0] Shader Compilation Success
+T+ 1.660782 [ info  ] [20464] : [lit-ps_4_0] Preproccessing Shader
+T+ 1.665637 [ info  ] [20464] : [lit-ps_4_0] Shader Preprocesing Success
+T+ 1.665641 [ info  ] [20464] : [lit-ps_4_0] Compiling Shader
+T+ 1.699189 [ info  ] [20464] : [lit-ps_4_0] Shader Compilation Success
+T+ 1.699447 [ info  ] [20464] : Loading asset "normal" at "resources/shaders/normal.shader"
+T+ 1.703264 [ info  ] [20464] : [normal-vs_4_0] Preproccessing Shader
+T+ 1.703647 [ info  ] [20464] : [normal-vs_4_0] Shader Preprocesing Success
+T+ 1.703652 [ info  ] [20464] : [normal-vs_4_0] Compiling Shader
+T+ 1.732308 [ info  ] [20464] : [normal-vs_4_0] Shader Compilation Success
+T+ 1.732320 [ info  ] [20464] : [normal-ps_4_0] Preproccessing Shader
+T+ 1.732348 [ info  ] [20464] : [normal-ps_4_0] Shader Preprocesing Success
+T+ 1.732349 [ info  ] [20464] : [normal-ps_4_0] Compiling Shader
+T+ 1.735391 [ info  ] [20464] : [normal-ps_4_0] Shader Compilation Success
+T+ 1.735580 [ info  ] [20464] : Loading asset "red" at "resources/shaders/red.shader"
+T+ 1.740091 [ info  ] [20464] : [red-vs_4_0] Preproccessing Shader
+T+ 1.740292 [ info  ] [20464] : [red-vs_4_0] Shader Preprocesing Success
+T+ 1.740295 [ info  ] [20464] : [red-vs_4_0] Compiling Shader
+T+ 1.751300 [ info  ] [20464] : [red-vs_4_0] Shader Compilation Success
+T+ 1.751310 [ info  ] [20464] : [red-ps_4_0] Preproccessing Shader
+T+ 1.751338 [ info  ] [20464] : [red-ps_4_0] Shader Preprocesing Success
+T+ 1.751339 [ info  ] [20464] : [red-ps_4_0] Compiling Shader
+T+ 1.752171 [ info  ] [20464] : [red-ps_4_0] Shader Compilation Success
+T+ 1.752301 [ info  ] [20464] : Loading asset "shadertoolsconfig" at "resources/shaders/shadertoolsconfig.json"
+T+ 1.752307 [ info  ] [20464] : Loading asset "skybox" at "resources/shaders/skybox.shader"
+T+ 1.756753 [ info  ] [20464] : [skybox-vs_4_0] Preproccessing Shader
+T+ 1.756978 [ info  ] [20464] : [skybox-vs_4_0] Shader Preprocesing Success
+T+ 1.756981 [ info  ] [20464] : [skybox-vs_4_0] Compiling Shader
+T+ 1.763841 [ info  ] [20464] : [skybox-vs_4_0] Shader Compilation Success
+T+ 1.763848 [ info  ] [20464] : [skybox-ps_4_0] Preproccessing Shader
+T+ 1.764153 [ info  ] [20464] : [skybox-ps_4_0] Shader Preprocesing Success
+T+ 1.764155 [ info  ] [20464] : [skybox-ps_4_0] Compiling Shader
+T+ 1.773607 [ info  ] [20464] : [skybox-ps_4_0] Shader Compilation Success
+T+ 1.773761 [ info  ] [20464] : Loading asset "white" at "resources/shaders/white.shader"
+T+ 1.778382 [ info  ] [20464] : [white-vs_4_0] Preproccessing Shader
+T+ 1.778664 [ info  ] [20464] : [white-vs_4_0] Shader Preprocesing Success
+T+ 1.778667 [ info  ] [20464] : [white-vs_4_0] Compiling Shader
+T+ 1.789205 [ info  ] [20464] : [white-vs_4_0] Shader Compilation Success
+T+ 1.789216 [ info  ] [20464] : [white-ps_4_0] Preproccessing Shader
+T+ 1.789245 [ info  ] [20464] : [white-ps_4_0] Shader Preprocesing Success
+T+ 1.789246 [ info  ] [20464] : [white-ps_4_0] Compiling Shader
+T+ 1.790178 [ info  ] [20464] : [white-ps_4_0] Shader Compilation Success
+T+ 1.793535 [warning] [20464] : Asset[struct rythe::rendering::Ishader<struct rythe::rendering::internal::shader>] "skybox" already exists, returning existing handle
+T+ 1.812913 [ info  ] [20464] : Initializing Input System
+T+ 15.973384 [ info  ] [20464] : Initializing Arbrook_TestStress
+T+ 25.784580 [ info  ] [20464] : Initializing BGFX_TestStress
+T+ 29.879969 [ info  ] [20464] : Initializing DX11
+T+ 29.880281 [ info  ] [20464] : Initializing Native_TestStress
+T+ 33.417816 [ info  ] [20464] : Initializing Arbrook_TestDrawIndexedInstanced
+T+ 33.417877 [warning] [20464] : Material teT+ 0.036330 [ info  ] [9092] : Logging Initialized
+T+ 0.036922 [ info  ] [9092] : Initializing Eventbus
+T+ 0.036926 [ info  ] [9092] : Initializing Scheduler
+T+ 0.036951 [ info  ] [9092] : Initializing Rendering Module
+T+ 0.036961 [ info  ] [9092] : Initializing Input Module
+T+ 0.036962 [ info  ] [9092] : Initializing Game Module
+T+ 0.117801 [ info  ] [9092] : Initializing Render Pipeline
+T+ 0.117842 [ info  ] [9092] : Initializing DX11
+T+ 0.117852 [warning] [9092] : The window "Arbrook" does not exist
+T+ 0.414941 [ info  ] [9092] : Initializing Test System
+T+ 0.415191 [ info  ] [9092] : Loading asset "alligator" at "resources/meshes/glb/alligator.glb"
+T+ 0.416873 [ info  ] [9092] : Loading asset "armadillo" at "resources/meshes/glb/armadillo.glb"
+T+ 0.459285 [ info  ] [9092] : Loading asset "beast" at "resources/meshes/glb/beast.glb"
+T+ 0.573513 [ info  ] [9092] : Loading asset "bunny" at "resources/meshes/glb/bunny.glb"
+T+ 0.683965 [ info  ] [9092] : Loading asset "cone" at "resources/meshes/glb/cone.glb"
+T+ 0.686206 [ info  ] [9092] : Loading asset "cube" at "resources/meshes/glb/cube.glb"
+T+ 0.687003 [ info  ] [9092] : Loading asset "icosphere" at "resources/meshes/glb/icosphere.glb"
+T+ 0.687839 [ info  ] [9092] : Loading asset "plane" at "resources/meshes/glb/plane.glb"
+T+ 0.688652 [ info  ] [9092] : Loading asset "sphere" at "resources/meshes/glb/sphere.glb"
+T+ 0.692615 [ info  ] [9092] : Loading asset "sponza" at "resources/meshes/glb/sponza.glb"
+T+ 0.825601 [ info  ] [9092] : Loading asset "suzanne" at "resources/meshes/glb/suzanne.glb"
+T+ 0.835220 [ info  ] [9092] : Loading asset "teapot" at "resources/meshes/glb/teapot.glb"
+T+ 0.841170 [ info  ] [9092] : Loading asset "container_diffuse" at "resources/textures/container_diffuse.png"
+T+ 0.846933 [ info  ] [9092] : Loading asset "container_specular" at "resources/textures/container_specular.png"
+T+ 0.850062 [ info  ] [9092] : Loading asset "park" at "resources/textures/park.png"
+T+ 0.866816 [ info  ] [9092] : Loading asset "planetatmo" at "resources/textures/planetatmo.png"
+T+ 2.338730 [ info  ] [9092] : Loading asset "Rythe" at "resources/textures/Rythe.png"
+T+ 2.339253 [ info  ] [9092] : Loading asset "blue" at "resources/shaders/blue.shader"
+T+ 2.339392 [ info  ] [9092] : [blue-vs_4_0] Preproccessing Shader
+T+ 2.339625 [ info  ] [9092] : [blue-vs_4_0] Shader Preprocesing Success
+T+ 2.339628 [ info  ] [9092] : [blue-vs_4_0] Compiling Shader
+T+ 2.349556 [ info  ] [9092] : [blue-vs_4_0] Shader Compilation Success
+T+ 2.349561 [ info  ] [9092] : [blue-ps_4_0] Preproccessing Shader
+T+ 2.349587 [ info  ] [9092] : [blue-ps_4_0] Shader Preprocesing Success
+T+ 2.349588 [ info  ] [9092] : [blue-ps_4_0] Compiling Shader
+T+ 2.350422 [ info  ] [9092] : [blue-ps_4_0] Shader Compilation Success
+T+ 2.355794 [ info  ] [9092] : Loading asset "color" at "resources/shaders/color.shader"
+T+ 2.355911 [ info  ] [9092] : [color-vs_4_0] Preproccessing Shader
+T+ 2.356111 [ info  ] [9092] : [color-vs_4_0] Shader Preprocesing Success
+T+ 2.356113 [ info  ] [9092] : [color-vs_4_0] Compiling Shader
+T+ 2.365596 [ info  ] [9092] : [color-vs_4_0] Shader Compilation Success
+T+ 2.365603 [ info  ] [9092] : [color-ps_4_0] Preproccessing Shader
+T+ 2.365628 [ info  ] [9092] : [color-ps_4_0] Shader Preprocesing Success
+T+ 2.365629 [ info  ] [9092] : [color-ps_4_0] Compiling Shader
+T+ 2.366410 [ info  ] [9092] : [color-ps_4_0] Shader Compilation Success
+T+ 2.366496 [ info  ] [9092] : Loading asset "green" at "resources/shaders/green.shader"
+T+ 2.366603 [ info  ] [9092] : [green-vs_4_0] Preproccessing Shader
+T+ 2.366791 [ info  ] [9092] : [green-vs_4_0] Shader Preprocesing Success
+T+ 2.366794 [ info  ] [9092] : [green-vs_4_0] Compiling Shader
+T+ 2.376254 [ info  ] [9092] : [green-vs_4_0] Shader Compilation Success
+T+ 2.376258 [ info  ] [9092] : [green-ps_4_0] Preproccessing Shader
+T+ 2.376283 [ info  ] [9092] : [green-ps_4_0] Shader Preprocesing Success
+T+ 2.376284 [ info  ] [9092] : [green-ps_4_0] Compiling Shader
+T+ 2.377047 [ info  ] [9092] : [greeT+ 0.034698 [ info  ] [21912] : Logging Initialized
+T+ 0.034762 [ info  ] [21912] : Initializing Eventbus
+T+ 0.034764 [ info  ] [21912] : Initializing Scheduler
+T+ 0.034782 [ info  ] [21912] : Initializing Rendering Module
+T+ 0.034793 [ info  ] [21912] : Initializing Input Module
+T+ 0.034795 [ info  ] [21912] : Initializing Game Module
+T+ 0.139851 [ info  ] [21912] : Initializing Render Pipeline
+T+ 0.139887 [ info  ] [21912] : Initializing DX11
+T+ 0.139898 [warning] [21912] : The window "Arbrook" does not exist
+T+ 0.473128 [ info  ] [21912] : Initializing Test System
+T+ 0.473367 [ info  ] [21912] : Loading asset "alligator" at "resources/meshes/glb/alligator.glb"
+T+ 0.474809 [ info  ] [21912] : Loading asset "armadillo" at "resources/meshes/glb/armadillo.glb"
+T+ 0.507707 [ info  ] [21912] : Loading asset "beast" at "resources/meshes/glb/beast.glb"
+T+ 0.599557 [ info  ] [21912] : Loading asset "bunny" at "resources/meshes/glb/bunny.glb"
+T+ 0.709382 [ info  ] [21912] : Loading asset "cone" at "resources/meshes/glb/cone.glb"
+T+ 0.713058 [ info  ] [21912] : Loading asset "cube" at "resources/meshes/glb/cube.glb"
+T+ 0.714061 [ info  ] [21912] : Loading asset "icosphere" at "resources/meshes/glb/icosphere.glb"
+T+ 0.715089 [ info  ] [21912] : Loading asset "plane" at "resources/meshes/glb/plane.glb"
+T+ 0.715919 [ info  ] [21912] : Loading asset "sphere" at "resources/meshes/glb/sphere.glb"
+T+ 0.717580 [ info  ] [21912] : Loading asset "sponza" at "resources/meshes/glb/sponza.glb"
+T+ 0.848456 [ info  ] [21912] : Loading asset "suzanne" at "resources/meshes/glb/suzanne.glb"
+T+ 0.858129 [ info  ] [21912] : Loading asset "teapot" at "resources/meshes/glb/teapot.glb"
+T+ 0.863880 [ info  ] [21912] : Loading asset "container_diffuse" at "resources/textures/container_diffuse.png"
+T+ 0.870098 [ info  ] [21912] : Loading asset "container_specular" at "resources/textures/container_specular.png"
+T+ 0.873303 [ info  ] [21912] : Loading asset "park" at "resources/textures/park.png"
+T+ 0.889808 [ info  ] [21912] : Loading asset "planetatmo" at "resources/textures/planetatmo.png"
+T+ 1.405534 [ info  ] [21912] : Loading asset "Rythe" at "resources/textures/Rythe.png"
+T+ 1.406006 [ info  ] [21912] : Loading asset "blue" at "resources/shaders/blue.shader"
+T+ 1.406144 [ info  ] [21912] : [blue-vs_4_0] Preproccessing Shader
+T+ 1.406377 [ info  ] [21912] : [blue-vs_4_0] Shader Preprocesing Success
+T+ 1.406380 [ info  ] [21912] : [blue-vs_4_0] Compiling Shader
+T+ 1.416003 [ info  ] [21912] : [blue-vs_4_0] Shader Compilation Success
+T+ 1.416009 [ info  ] [21912] : [blue-ps_4_0] Preproccessing Shader
+T+ 1.416032 [ info  ] [21912] : [blue-ps_4_0] Shader Preprocesing Success
+T+ 1.416033 [ info  ] [21912] : [blue-ps_4_0] Compiling Shader
+T+ 1.417090 [ info  ] [21912] : [blue-ps_4_0] Shader Compilation Success
+T+ 1.420838 [ info  ] [21912] : Loading asset "color" at "resources/shaders/color.shader"
+T+ 1.420970 [ info  ] [21912] : [color-vs_4_0] Preproccessing Shader
+T+ 1.421162 [ info  ] [21912] : [color-vs_4_0] Shader Preprocesing Success
+T+ 1.421164 [ info  ] [21912] : [color-vs_4_0] Compiling Shader
+T+ 1.430986 [ info  ] [21912] : [color-vs_4_0] Shader Compilation Success
+T+ 1.430991 [ info  ] [21912] : [color-ps_4_0] Preproccessing Shader
+T+ 1.431012 [ info  ] [21912] : [color-ps_4_0] Shader Preprocesing Success
+T+ 1.431013 [ info  ] [21912] : [color-ps_4_0] Compiling Shader
+T+ 1.432468 [ info  ] [21912] : [color-ps_4_0] Shader Compilation Success
+T+ 1.432549 [ info  ] [21912] : Loading asset "green" at "resources/shaders/green.shader"
+T+ 1.432656 [ info  ] [21912] : [green-vs_4_0] Preproccessing Shader
+T+ 1.432837 [ info  ] [21912] : [green-vs_4_0] Shader Preprocesing Success
+T+ 1.432840 [ info  ] [21912] : [green-vs_4_0] Compiling Shader
+T+ 1.442289 [ info  ] [21912] : [green-vs_4_0] Shader Compilation Success
+T+ 1.442294 [ info  ] [21912] : [green-ps_4_0] Preproccessing Shader
+T+ 1.442315 [ info  ] [21912] : [green-ps_4_0] Shader Preprocesing Success
+T+ 1.442316 [ info  ] [21912] : [green-ps_4_0] Compiling Shader
+T+ 1.443144 [ info  ] [21912] : [green-ps_4_0] Shader Compilation Success
+T+ 1.443221 [ info  ] [21912] : Loading asset "lit" at "resources/shaders/lit.shader"
+T+ 1.443324 [ info  ] [21912] : [lit-vs_4_0] Preproccessing Shader
+T+ 1.443553 [ info  ] [21912] : [lit-vs_4_0] Shader Preprocesing Success
+T+ 1.443555 [ info  ] [21912] : [lit-vs_4_0] Compiling Shader
+T+ 1.471197 [ info  ] [21912] : [lit-vs_4_0] Shader Compilation Success
+T+ 1.471202 [ info  ] [21912] : [lit-ps_4_0] Preproccessing Shader
+T+ 1.471509 [ info  ] [21912] : [lit-ps_4_0] Shader Preprocesing Success
+T+ 1.471512 [ info  ] [21912] : [lit-ps_4_0] Compiling Shader
+T+ 1.500248 [ info  ] [21912] : [lit-ps_4_0] Shader Compilation Success
+T+ 1.500425 [ info  ] [21912] : Loading asset "normal" at "resources/shaders/normal.shader"
+T+ 1.500540 [ info  ] [21912] : [normal-vs_4_0] Preproccessing Shader
+T+ 1.500752 [ info  ] [21912] : [normal-vs_4_0] Shader Preprocesing Success
+T+ 1.500754 [ info  ] [21912] : [normal-vs_4_0] Compiling Shader
+T+ 1.527673 [ info  ] [21912] : [normal-vs_4_0] Shader Compilation Success
+T+ 1.527678 [ info  ] [21912] : [normal-ps_4_0] Preproccessing Shader
+T+ 1.527701 [ info  ] [21912] : [normal-ps_4_0] Shader Preprocesing Success
+T+ 1.527702 [ info  ] [21912] : [normal-ps_4_0] Compiling Shader
+T+ 1.528664 [ info  ] [21912] : [normal-ps_4_0] Shader Compilation Success
+T+ 1.528787 [ info  ] [21912] : Loading asset "red" at "resources/shaders/red.shader"
+T+ 1.528902 [ info  ] [21912] : [red-vs_4_0] Preproccessing Shader
+T+ 1.529069 [ info  ] [21912] : [red-vs_4_0] Shader Preprocesing Success
+T+ 1.529071 [ info  ] [21912] : [red-vs_4_0] Compiling Shader
+T+ 1.538300 [ info  ] [21912] : [red-vs_4_0] Shader Compilation Success
+T+ 1.538305 [ info  ] [21912] : [red-ps_4_0] Preproccessing Shader
+T+ 1.538326 [ info  ] [21912] : [red-ps_4_0] Shader Preprocesing Success
+T+ 1.538326 [ info  ] [21912] : [red-ps_4_0] Compiling Shader
+T+ 1.539064 [ info  ] [21912] : [red-ps_4_0] Shader Compilation Success
+T+ 1.539138 [ info  ] [21912] : Loading asset "shadertoolsconfig" at "resources/shaders/shadertoolsconfig.json"
+T+ 1.539143 [ info  ] [21912] : Loading asset "skybox" at "resources/shaders/skybox.shader"
+T+ 1.539252 [ info  ] [21912] : [skybox-vs_4_0] Preproccessing Shader
+T+ 1.539424 [ info  ] [21912] : [skybox-vs_4_0] Shader Preprocesing Success
+T+ 1.539427 [ info  ] [21912] : [skybox-vs_4_0] Compiling Shader
+T+ 1.547837 [ info  ] [21912] : [skybox-vs_4_0] Shader Compilation Success
+T+ 1.547842 [ info  ] [21912] : [skybox-ps_4_0] Preproccessing Shader
+T+ 1.548125 [ info  ] [21912] : [skybox-ps_4_0] Shader Preprocesing Success
+T+ 1.548128 [ info  ] [21912] : [skybox-ps_4_0] Compiling Shader
+T+ 1.556191 [ info  ] [21912] : [skybox-ps_4_0] Shader Compilation Success
+T+ 1.556286 [ info  ] [21912] : Loading asset "white" at "resources/shaders/white.shader"
+T+ 1.556396 [ info  ] [21912] : [white-vs_4_0] Preproccessing Shader
+T+ 1.556565 [ info  ] [21912] : [white-vs_4_0] Shader Preprocesing Success
+T+ 1.556568 [ info  ] [21912] : [white-vs_4_0] Compiling Shader
+T+ 1.565837 [ info  ] [21912] : [white-vs_4_0] Shader Compilation Success
+T+ 1.565842 [ info  ] [21912] : [white-ps_4_0] Preproccessing Shader
+T+ 1.565862 [ info  ] [21912] : [white-ps_4_0] Shader Preprocesing Success
+T+ 1.565863 [ info  ] [21912] : [white-ps_4_0] Compiling Shader
+T+ 1.566593 [ info  ] [21912] : [white-ps_4_0] Shader Compilation Success
+T+ 1.567267 [warning] [21912] : Asset[struct rythe::rendering::Ishader<struct rythe::rendering::internal::shader>] "skybox" already exists, returning existing handle
+T+ 1.577336 [ info  ] [21912] : Initializing Input System
+T+ 41.464100 [ info  ] [21912] : Initializing Arbrook_TestStress
+T+ 51.323135 [ info  ] [21912] : Initializing BGFX_TestStress
+T+ 55.372688 [ info  ] [21912] : Initializing DX11
+T+ 55.373085 [ info  ] [21912] : Initializing Native_TestStress
+T+ 67.914024 [ info  ] [21912] : Initializing Arbrook_TestMaterialSwitch
+T+ 69.804436 [ info  ] [21912] : Initializing BGFXT+ 0.036906 [ info  ] [6224] : Logging Initialized
+T+ 0.036970 [ info  ] [6224] : Initializing Eventbus
+T+ 0.036972 [ info  ] [6224] : Initializing Scheduler
+T+ 0.036988 [ info  ] [6224] : Initializing Rendering Module
+T+ 0.037002 [ info  ] [6224] : Initializing Input Module
+T+ 0.037005 [ info  ] [6224] : Initializing Game Module
+T+ 0.184915 [ info  ] [6224] : Initializing Render Pipeline
+T+ 0.184959 [ info  ] [6224] : Initializing DX11
+T+ 0.184972 [warning] [6224] : The window "Arbrook" does not exist
+T+ 0.511289 [ info  ] [6224] : Initializing Test System
+T+ 0.511530 [ info  ] [6224] : Loading asset "alligator" at "resources/meshes/glb/alligator.glb"
+T+ 0.512954 [ info  ] [6224] : Loading asset "armadillo" at "resources/meshes/glb/armadillo.glb"
+T+ 0.548558 [ info  ] [6224] : Loading asset "beast" at "resources/meshes/glb/beast.glb"
+T+ 0.651999 [ info  ] [6224] : Loading asset "bunny" at "resources/meshes/glb/bunny.glb"
+T+ 0.752359 [ info  ] [6224] : Loading asset "cone" at "resources/meshes/glb/cone.glb"
+T+ 0.754939 [ info  ] [6224] : Loading asset "cube" at "resources/meshes/glb/cube.glb"
+T+ 0.755711 [ info  ] [6224] : Loading asset "icosphere" at "resources/meshes/glb/icosphere.glb"
+T+ 0.759119 [ info  ] [6224] : Loading asset "plane" at "resources/meshes/glb/plane.glb"
+T+ 0.759911 [ info  ] [6224] : Loading asset "sphere" at "resources/meshes/glb/sphere.glb"
+T+ 0.761459 [ info  ] [6224] : Loading asset "sponza" at "resources/meshes/glb/sponza.glb"
+T+ 0.887625 [ info  ] [6224] : Loading asset "suzanne" at "resources/meshes/glb/suzanne.glb"
+T+ 0.897359 [ info  ] [6224] : Loading asset "teapot" at "resources/meshes/glb/teapot.glb"
+T+ 0.903404 [ info  ] [6224] : Loading asset "container_diffuse" at "resources/textures/container_diffuse.png"
+T+ 0.909230 [ info  ] [6224] : Loading asset "container_specular" at "resources/textures/container_specular.png"
+T+ 0.914833 [ info  ] [6224] : Loading asset "park" at "resources/textures/park.png"
+T+ 0.930849 [ info  ] [6224] : Loading asset "planetatmo" at "resources/textures/planetatmo.png"
+T+ 2.729373 [ info  ] [6224] : Loading asset "Rythe" at "resources/textures/Rythe.png"
+T+ 2.729879 [ info  ] [6224] : Loading asset "blue" at "resources/shaders/blue.shader"
+T+ 2.730014 [ info  ] [6224] : [blue-vs_4_0] Preproccessing Shader
+T+ 2.730248 [ info  ] [6224] : [blue-vs_4_0] Shader Preprocesing Success
+T+ 2.730250 [ info  ] [6224] : [blue-vs_4_0] Compiling Shader
+T+ 2.740381 [ info  ] [6224] : [blue-vs_4_0] Shader Compilation Success
+T+ 2.740392 [ info  ] [6224] : [blue-ps_4_0] Preproccessing Shader
+T+ 2.740426 [ info  ] [6224] : [blue-ps_4_0] Shader Preprocesing Success
+T+ 2.740428 [ info  ] [6224] : [blue-ps_4_0] Compiling Shader
+T+ 2.741413 [ info  ] [6224] : [blue-ps_4_0] Shader Compilation Success
+T+ 2.745441 [ info  ] [6224] : Loading asset "color" at "resources/shaders/color.shader"
+T+ 2.745587 [ info  ] [6224] : [color-vs_4_0] Preproccessing Shader
+T+ 2.745791 [ info  ] [6224] : [color-vs_4_0] Shader Preprocesing Success
+T+ 2.745794 [ info  ] [6224] : [color-vs_4_0] Compiling Shader
+T+ 2.755237 [ info  ] [6224] : [color-vs_4_0] Shader Compilation Success
+T+ 2.755243 [ info  ] [6224] : [color-ps_4_0] Preproccessing Shader
+T+ 2.755264 [ info  ] [6224] : [color-ps_4_0] Shader Preprocesing Success
+T+ 2.755265 [ info  ] [6224] : [color-ps_4_0] Compiling Shader
+T+ 2.756150 [ info  ] [6224] : [color-ps_4_0] Shader Compilation Success
+T+ 2.756282 [ info  ] [6224] : Loading asset "green" at "resources/shaders/green.shader"
+T+ 2.756459 [ info  ] [6224] : [green-vs_4_0] Preproccessing Shader
+T+ 2.756755 [ info  ] [6224] : [green-vs_4_0] Shader Preprocesing Success
+T+ 2.756759 [ info  ] [6224] : [green-vs_4_0] Compiling Shader
+T+ 2.766372 [ info  ] [6224] : [green-vs_4_0] Shader Compilation Success
+T+ 2.766381 [ info  ] [6224] : [green-ps_4_0] Preproccessing Shader
+T+ 2.766404 [ info  ] [6224] : [green-ps_4_0] Shader Preprocesing Success
+T+ 2.766405 [ info  ] [6224] : [green-ps_4_0] Compiling Shader
+T+ 2.767200 [ info  ] [6224] : [green-ps_4_0] Shader Compilation Success
+T+ 2.767394 [ info  ] [6224] : Loading asset "lit" at "resources/shaders/lit.shader"
+T+ 2.767539 [ info  ] [6224] : [lit-vs_4_0] Preproccessing Shader
+T+ 2.767784 [ info  ] [6224] : [lit-vs_4_0] Shader Preprocesing Success
+T+ 2.767786 [ info  ] [6224] : [lit-vs_4_0] Compiling Shader
+T+ 2.796998 [ info  ] [6224] : [lit-vs_4_0] Shader Compilation Success
+T+ 2.797009 [ info  ] [6224] : [lit-ps_4_0] Preproccessing Shader
+T+ 2.797374 [ info  ] [6224] : [lit-ps_4_0] Shader Preprocesing Success
+T+ 2.797377 [ info  ] [6224] : [lit-ps_4_0] Compiling Shader
+T+ 2.826856 [ info  ] [6224] : [lit-ps_4_0] Shader Compilation Success
+T+ 2.827066 [ info  ] [6224] : Loading asset "normal" at "resources/shaders/normal.shader"
+T+ 2.827195 [ info  ] [6224] : [normal-vs_4_0] Preproccessing Shader
+T+ 2.827430 [ info  ] [6224] : [normal-vs_4_0] Shader Preprocesing Success
+T+ 2.827433 [ info  ] [6224] : [normal-vs_4_0] Compiling Shader
+T+ 2.854601 [ info  ] [6224] : [normal-vs_4_0] Shader Compilation Success
+T+ 2.854609 [ info  ] [6224] : [normal-ps_4_0] Preproccessing Shader
+T+ 2.854634 [ info  ] [6224] : [normal-ps_4_0] Shader Preprocesing Success
+T+ 2.854635 [ info  ] [6224] : [normal-ps_4_0] Compiling Shader
+T+ 2.855938 [ info  ] [6224] : [normal-ps_4_0] Shader Compilation Success
+T+ 2.856121 [ info  ] [6224] : Loading asset "red" at "resources/shaders/red.shader"
+T+ 2.856268 [ info  ] [6224] : [red-vs_4_0] Preproccessing Shader
+T+ 2.856472 [ info  ] [6224] : [red-vs_4_0] Shader Preprocesing Success
+T+ 2.856475 [ info  ] [6224] : [red-vs_4_0] Compiling Shader
+T+ 2.865709 [ info  ] [6224] : [red-vs_4_0] Shader Compilation Success
+T+ 2.865713 [ info  ] [6224] : [red-ps_4_0] Preproccessing Shader
+T+ 2.865734 [ info  ] [6224] : [red-ps_4_0] Shader Preprocesing Success
+T+ 2.865735 [ info  ] [6224] : [red-ps_4_0] Compiling Shader
+T+ 2.866543 [ info  ] [6224] : [red-ps_4_0] Shader Compilation Success
+T+ 2.866622 [ info  ] [6224] : Loading asset "shadertoolsconfig" at "resources/shaders/shadertoolsconfig.json"
+T+ 2.866626 [ info  ] [6224] : Loading asset "skybox" at "resources/shaders/skybox.shader"
+T+ 2.866734 [ info  ] [6224] : [skybox-vs_4_0] Preproccessing Shader
+T+ 2.866905 [ info  ] [6224] : [skybox-vs_4_0] Shader Preprocesing Success
+T+ 2.866907 [ info  ] [6224] : [skybox-vs_4_0] Compiling Shader
+T+ 2.873484 [ info  ] [6224] : [skybox-vs_4_0] Shader Compilation Success
+T+ 2.873489 [ info  ] [6224] : [skybox-ps_4_0] Preproccessing Shader
+T+ 2.873777 [ info  ] [6224] : [skybox-ps_4_0] Shader Preprocesing Success
+T+ 2.873779 [ info  ] [6224] : [skybox-ps_4_0] Compiling Shader
+T+ 2.881908 [ info  ] [6224] : [skybox-ps_4_0] Shader Compilation Success
+T+ 2.882023 [ info  ] [6224] : Loading asset "white" at "resources/shaders/white.shader"
+T+ 2.882152 [ info  ] [6224] : [white-vs_4_0] Preproccessing Shader
+T+ 2.882326 [ info  ] [6224] : [white-vs_4_0] Shader Preprocesing Success
+T+ 2.882329 [ info  ] [6224] : [white-vs_4_0] Compiling Shader
+T+ 2.892568 [ info  ] [6224] : [white-vs_4_0] Shader Compilation Success
+T+ 2.892572 [ info  ] [6224] : [white-ps_4_0] Preproccessing Shader
+T+ 2.892593 [ info  ] [6224] : [white-ps_4_0] Shader Preprocesing Success
+T+ 2.892594 [ info  ] [6224] : [white-ps_4_0] Compiling Shader
+T+ 2.893350 [ info  ] [6224] : [white-ps_4_0] Shader Compilation Success
+T+ 2.893988 [warning] [6224] : Asset[struct rythe::rendering::Ishader<struct rythe::rendering::internal::shader>] "skybox" already exists, returning existing handle
+T+ 2.901807 [ info  ] [6224] : Initializing Input System
+T+ 9.955814 [ info  ] [6224] : Initializing Arbrook_TestMaterialSwitch
+T+ 11.863823 [ info  ] [6224] : Initializing BGFX_TestMaterialSwitch
+T+ 14.193227 [ info  ] [6224] : Initializing DX11
+T+ 14.193771 [ info  ] [6224] : Initializing Native_TestMaterialSwitch
+T+ 17.941416 [ info  ] [6224] : Shutting Down Logging
+T+ 17.941433 [ info  ] [6224] : Shutting Down Eventbus
+T+ 17.941435 [ info  ] [6224] : Shutting Down Scheduler
+T+ 17.941462 [ info  ] [6224] : Killing Program
+T+ 0.036805 [ info  ] [17728] : Logging Initialized
+T+ 0.037358 [ info  ] [17728] : Initializing Eventbus
+T+ 0.037360 [ info  ] [17728] : Initializing Scheduler
+T+ 0.037377 [ info  ] [17728] : Initializing Rendering Module
+T+ 0.037610 [ info  ] [17728] : Initializing Input Module
+T+ 0.037619 [ info  ] [17728] : Initializing Game Module
+T+ 0.117906 [ info  ] [17728] : Initializing Render Pipeline
+T+ 0.117943 [ info  ] [17728] : Initializing DX11
+T+ 0.117952 [warning] [17728] : The window "Arbrook" does not exist
+T+ 0.419623 [ info  ] [17728] : Initializing Test System
+T+ 0.419880 [ info  ] [17728] : Loading asset "alligator" at "resources/meshes/glb/alligator.glb"
+T+ 0.421477 [ info  ] [17728] : Loading asset "armadillo" at "resources/meshes/glb/armadillo.glb"
+T+ 0.456405 [ info  ] [17728] : Loading asset "beast" at "resources/meshes/glb/beast.glb"
+T+ 0.553405 [ info  ] [17728] : Loading asset "bunny" at "resources/meshes/glb/bunny.glb"
+T+ 0.668245 [ info  ] [17728] : Loading asset "cone" at "resources/meshes/glb/cone.glb"
+T+ 0.670879 [ info  ] [17728] : Loading asset "cube" at "resources/meshes/glb/cube.glb"
+T+ 0.671692 [ info  ] [17728] : Loading asset "icosphere" at "resources/meshes/glb/icosphere.glb"
+T+ 0.672571 [ info  ] [17728] : Loading asset "plane" at "resources/meshes/glb/plane.glb"
+T+ 0.673320 [ info  ] [17728] : Loading asset "sphere" at "resources/meshes/glb/sphere.glb"
+T+ 0.674775 [ info  ] [17728] : Loading asset "sponza" at "resources/meshes/glb/sponza.glb"
+T+ 0.810491 [ info  ] [17728] : Loading asset "suzanne" at "resources/meshes/glb/suzanne.glb"
+T+ 0.820156 [ info  ] [17728] : Loading asset "teapot" at "resources/meshes/glb/teapot.glb"
+T+ 0.829005 [ info  ] [17728] : Loading asset "container_diffuse" at "resources/textures/container_diffuse.png"
+T+ 0.834941 [ info  ] [17728] : Loading asset "container_specular" at "resources/textures/container_specular.png"
+T+ 0.837903 [ info  ] [17728] : Loading asset "park" at "resources/textures/park.png"
+T+ 0.851607 [ info  ] [17728] : Loading asset "planetatmo" at "resources/textures/planetatmo.png"
+T+ 1.373394 [ info  ] [17728] : Loading asset "Rythe" at "resources/textures/Rythe.png"
+T+ 1.373875 [ info  ] [17728] : Loading asset "blue" at "resources/shaders/blue.shader"
+T+ 1.374003 [ info  ] [17728] : [blue-vs_4_0] Preproccessing Shader
+T+ 1.374226 [ info  ] [17728] : [blue-vs_4_0] Shader Preprocesing Success
+T+ 1.374229 [ info  ] [17728] : [blue-vs_4_0] Compiling Shader
+T+ 1.383802 [ info  ] [17728] : [blue-vs_4_0] Shader Compilation Success
+T+ 1.383806 [ info  ] [17728] : [blue-ps_4_0] Preproccessing Shader
+T+ 1.383827 [ info  ] [17728] : [blue-ps_4_0] Shader Preprocesing Success
+T+ 1.383828 [ info  ] [17728] : [blue-ps_4_0] Compiling Shader
+T+ 1.385490 [ info  ] [17728] : [blue-ps_4_0] Shader Compilation Success
+T+ 1.390560 [ info  ] [17728] : Loading asset "color" at "resources/shaders/color.shader"
+T+ 1.390669 [ info  ] [17728] : [color-vs_4_0] Preproccessing Shader
+T+ 1.390857 [ info  ] [17728] : [color-vs_4_0] Shader Preprocesing Success
+T+ 1.390860 [ info  ] [17728] : [color-vs_4_0] Compiling Shader
+T+ 1.400119 [ info  ] [17728] : [color-vs_4_0] Shader Compilation Success
+T+ 1.400124 [ info  ] [17728] : [color-ps_4_0] Preproccessing Shader
+T+ 1.400144 [ info  ] [17728] : [color-ps_4_0] Shader Preprocesing Success
+T+ 1.400145 [ info  ] [17728] : [color-ps_4_0] Compiling Shader
+T+ 1.400913 [ info  ] [17728] : [color-ps_4_0] Shader Compilation Success
+T+ 1.400995 [ info  ] [17728] : Loading asset "green" at "resources/shaders/green.shader"
+T+ 1.401102 [ info  ] [17728] : [green-vs_4_0] Preproccessing Shader
+T+ 1.401280 [ info  ] [17728] : [green-vs_4_0] Shader Preprocesing Success
+T+ 1.401283 [ info  ] [17728] : [green-vs_4_0] Compiling Shader
+T+ 1.410545 [ info  ] [17728] : [green-vs_4_0] Shader Compilation Success
+T+ 1.410549 [ info  ] [17728] : [green-ps_4_0] Preproccessing Shader
+T+ 1.410570 [ info  ] [17728] : [green-ps_4_0] Shader Preprocesing Success
+T+ 1.410571 [ info  ] [17728] : [green-ps_4_0] Compiling Shader
+T+ 1.411411 [ info  ] [17728] : [green-ps_4_0] Shader Compilation Success
+T+ 1.411492 [ info  ] [17728] : Loading asset "lit" at "resources/shaders/lit.shader"
+T+ 1.411598 [ info  ] [17728] : [lit-vs_4_0] Preproccessing Shader
+T+ 1.411824 [ info  ] [17728] : [lit-vs_4_0] Shader Preprocesing Success
+T+ 1.411826 [ info  ] [17728] : [lit-vs_4_0] Compiling Shader
+T+ 1.440691 [ info  ] [17728] : [lit-vs_4_0] Shader Compilation Success
+T+ 1.440695 [ info  ] [17728] : [lit-ps_4_0] Preproccessing Shader
+T+ 1.440996 [ info  ] [17728] : [lit-ps_4_0] Shader Preprocesing Success
+T+ 1.440999 [ info  ] [17728] : [lit-ps_4_0] Compiling Shader
+T+ 1.468472 [ info  ] [17728] : [lit-ps_4_0] Shader Compilation Success
+T+ 1.468669 [ info  ] [17728] : Loading asset "normal" at "resources/shaders/normal.shader"
+T+ 1.468792 [ info  ] [17728] : [normal-vs_4_0] Preproccessing Shader
+T+ 1.469021 [ info  ] [17728] : [normal-vs_4_0] Shader Preprocesing Success
+T+ 1.469024 [ info  ] [17728] : [normal-vs_4_0] Compiling Shader
+T+ 1.497564 [ info  ] [17728] : [normal-vs_4_0] Shader Compilation Success
+T+ 1.497574 [ info  ] [17728] : [normal-ps_4_0] Preproccessing Shader
+T+ 1.497602 [ info  ] [17728] : [normal-ps_4_0] Shader Preprocesing Success
+T+ 1.497603 [ info  ] [17728] : [normal-ps_4_0] Compiling Shader
+T+ 1.498565 [ info  ] [17728] : [normal-ps_4_0] Shader Compilation Success
+T+ 1.498727 [ info  ] [17728] : Loading asset "red" at "resources/shaders/red.shader"
+T+ 1.498904 [ info  ] [17728] : [red-vs_4_0] Preproccessing Shader
+T+ 1.499085 [ info  ] [17728] : [red-vs_4_0] Shader Preprocesing Success
+T+ 1.499087 [ info  ] [17728] : [red-vs_4_0] Compiling Shader
+T+ 1.508287 [ info  ] [17728] : [red-vs_4_0] Shader Compilation Success
+T+ 1.508292 [ info  ] [17728] : [red-ps_4_0] Preproccessing Shader
+T+ 1.508312 [ info  ] [17728] : [red-ps_4_0] Shader Preprocesing Success
+T+ 1.508313 [ info  ] [17728] : [red-ps_4_0] Compiling Shader
+T+ 1.509048 [ info  ] [17728] : [red-ps_4_0] Shader Compilation Success
+T+ 1.509133 [ info  ] [17728] : Loading asset "shadertoolsconfig" at "resources/shaders/shadertoolsconfig.json"
+T+ 1.509138 [ info  ] [17728] : Loading asset "skybox" at "resources/shaders/skybox.shader"
+T+ 1.509263 [ info  ] [17728] : [skybox-vs_4_0] Preproccessing Shader
+T+ 1.509440 [ info  ] [17728] : [skybox-vs_4_0] Shader Preprocesing Success
+T+ 1.509443 [ info  ] [17728] : [skybox-vs_4_0] Compiling Shader
+T+ 1.515965 [ info  ] [17728] : [skybox-vs_4_0] Shader Compilation Success
+T+ 1.515970 [ info  ] [17728] : [skybox-ps_4_0] Preproccessing Shader
+T+ 1.516262 [ info  ] [17728] : [skybox-ps_4_0] Shader Preprocesing Success
+T+ 1.516265 [ info  ] [17728] : [skybox-ps_4_0] Compiling Shader
+T+ 1.525013 [ info  ] [17728] : [skybox-ps_4_0] Shader Compilation Success
+T+ 1.525470 [ info  ] [17728] : Loading asset "white" at "resources/shaders/white.shader"
+T+ 1.526548 [ info  ] [17728] : [white-vs_4_0] Preproccessing Shader
+T+ 1.526717 [ info  ] [17728] : [white-vs_4_0] Shader Preprocesing Success
+T+ 1.526720 [ info  ] [17728] : [white-vs_4_0] Compiling Shader
+T+ 1.535897 [ info  ] [17728] : [white-vs_4_0] Shader Compilation Success
+T+ 1.535902 [ info  ] [17728] : [white-ps_4_0] Preproccessing Shader
+T+ 1.535922 [ info  ] [17728] : [white-ps_4_0] Shader Preprocesing Success
+T+ 1.535923 [ info  ] [17728] : [white-ps_4_0] Compiling Shader
+T+ 1.536587 [ info  ] [17728] : [white-ps_4_0] Shader Compilation Success
+T+ 1.537203 [warning] [17728] : Asset[struct rythe::rendering::Ishader<struct rythe::rendering::internal::shader>] "skybox" already exists, returning existing handle
+T+ 1.545002 [ info  ] [17728] : Initializing Input System
+T+ 79.686134 [ info  ] [17728] : Initializing Arbrook_TestStress
+T+ 89.506325 [ info  ] [17728] : Initializing BGFX_TestStress
+T+ 93.516029 [ info  ] [17728] : Initializing DX11
+T+ 93.516380 [ info  ] [17728] : Initializing Native_TestStress
+T+ 97.054947 [ info  ] [17728] : Initializing Arbrook_TestDrawIndexedInstanced
+T+ 97.055016 [warning] [17728] : Material teT+ 0.037007 [ info  ] [22700] : Logging Initialized
+T+ 0.037066 [ info  ] [22700] : Initializing Eventbus
+T+ 0.037068 [ info  ] [22700] : Initializing Scheduler
+T+ 0.037085 [ info  ] [22700] : Initializing Rendering Module
+T+ 0.037097 [ info  ] [22700] : Initializing Input Module
+T+ 0.037099 [ info  ] [22700] : Initializing Game Module
+T+ 0.144697 [ info  ] [22700] : Initializing Render Pipeline
+T+ 0.144733 [ info  ] [22700] : Initializing DX11
+T+ 0.144743 [warning] [22700] : The window "Arbrook" does not exist
+T+ 0.488449 [ info  ] [22700] : Initializing Test System
+T+ 0.488767 [ info  ] [22700] : Loading asset "alligator" at "resources/meshes/glb/alligator.glb"
+T+ 0.490332 [ info  ] [22700] : Loading asset "armadillo" at "resources/meshes/glb/armadillo.glb"
+T+ 0.530346 [ info  ] [22700] : Loading asset "beast" at "resources/meshes/glb/beast.glb"
+T+ 0.631286 [ info  ] [22700] : Loading asset "bunny" at "resources/meshes/glb/bunny.glb"
+T+ 0.744379 [ info  ] [22700] : Loading asset "cone" at "resources/meshes/glb/cone.glb"
+T+ 0.747025 [ info  ] [22700] : Loading asset "cube" at "resources/meshes/glb/cube.glb"
+T+ 0.747795 [ info  ] [22700] : Loading asset "icosphere" at "resources/meshes/glb/icosphere.glb"
+T+ 0.748637 [ info  ] [22700] : Loading asset "plane" at "resources/meshes/glb/plane.glb"
+T+ 0.749360 [ info  ] [22700] : Loading asset "sphere" at "resources/meshes/glb/sphere.glb"
+T+ 0.750902 [ info  ] [22700] : Loading asset "sponza" at "resources/meshes/glb/sponza.glb"
+T+ 0.890949 [ info  ] [22700] : Loading asset "suzanne" at "resources/meshes/glb/suzanne.glb"
+T+ 0.901181 [ info  ] [22700] : Loading asset "teapot" at "resources/meshes/glb/teapot.glb"
+T+ 0.909313 [ info  ] [22700] : Loading asset "container_diffuse" at "resources/textures/container_diffuse.png"
+T+ 0.914972 [ info  ] [22700] : Loading asset "container_specular" at "resources/textures/container_specular.png"
+T+ 0.918078 [ info  ] [22700] : Loading asset "park" at "resources/textures/park.png"
+T+ 0.934958 [ info  ] [22700] : Loading asset "planetatmo" at "resources/textures/planetatmo.png"
+T+ 2.395868 [ info  ] [22700] : Loading asset "Rythe" at "resources/textures/Rythe.png"
+T+ 2.396388 [ info  ] [22700] : Loading asset "blue" at "resources/shaders/blue.shader"
+T+ 2.396522 [ info  ] [22700] : [blue-vs_4_0] Preproccessing Shader
+T+ 2.396754 [ info  ] [22700] : [blue-vs_4_0] Shader Preprocesing Success
+T+ 2.396756 [ info  ] [22700] : [blue-vs_4_0] Compiling Shader
+T+ 2.406559 [ info  ] [22700] : [blue-vs_4_0] Shader Compilation Success
+T+ 2.406567 [ info  ] [22700] : [blue-ps_4_0] Preproccessing Shader
+T+ 2.406591 [ info  ] [22700] : [blue-ps_4_0] Shader Preprocesing Success
+T+ 2.406593 [ info  ] [22700] : [blue-ps_4_0] Compiling Shader
+T+ 2.407452 [ info  ] [22700] : [blue-ps_4_0] Shader Compilation Success
+T+ 2.411298 [ info  ] [22700] : Loading asset "color" at "resources/shaders/color.shader"
+T+ 2.411466 [ info  ] [22700] : [color-vs_4_0] Preproccessing Shader
+T+ 2.411696 [ info  ] [22700] : [color-vs_4_0] Shader Preprocesing Success
+T+ 2.411699 [ info  ] [22700] : [color-vs_4_0] Compiling Shader
+T+ 2.422002 [ info  ] [22700] : [color-vs_4_0] Shader Compilation Success
+T+ 2.422012 [ info  ] [22700] : [color-ps_4_0] Preproccessing Shader
+T+ 2.422047 [ info  ] [22700] : [color-ps_4_0] Shader Preprocesing Success
+T+ 2.422049 [ info  ] [22700] : [color-ps_4_0] Compiling Shader
+T+ 2.422927 [ info  ] [22700] : [color-ps_4_0] Shader Compilation Success
+T+ 2.423037 [ info  ] [22700] : Loading asset "green" at "resources/shaders/green.shader"
+T+ 2.423190 [ info  ] [22700] : [green-vs_4_0] Preproccessing Shader
+T+ 2.423398 [ info  ] [22700] : [green-vs_4_0] Shader Preprocesing Success
+T+ 2.423400 [ info  ] [22700] : [green-vs_4_0] Compiling Shader
+T+ 2.432979 [ info  ] [22700] : [green-vs_4_0] Shader Compilation Success
+T+ 2.432983 [ info  ] [22700] : [green-ps_4_0] Preproccessing Shader
+T+ 2.433004 [ info  ] [22700] : [green-ps_4_0] Shader Preprocesing Success
+T+ 2.433005 [ info  ] [22700] : [green-ps_4_0] Compiling Shader
+T+ 2.433914 [ info  ] [22700] : [green-ps_4_0] Shader Compilation Success
+T+ 2.433997 [ info  ] [22700] : Loading asset "lit" at "resources/shaders/lit.shader"
+T+ 2.434105 [ info  ] [22700] : [lit-vs_4_0] Preproccessing Shader
+T+ 2.434341 [ info  ] [22700] : [lit-vs_4_0] Shader Preprocesing Success
+T+ 2.434344 [ info  ] [22700] : [lit-vs_4_0] Compiling Shader
+T+ 2.462159 [ info  ] [22700] : [lit-vs_4_0] Shader Compilation Success
+T+ 2.462170 [ info  ] [22700] : [lit-ps_4_0] Preproccessing Shader
+T+ 2.462536 [ info  ] [22700] : [lit-ps_4_0] Shader Preprocesing Success
+T+ 2.462538 [ info  ] [22700] : [lit-ps_4_0] Compiling Shader
+T+ 2.490981 [ info  ] [22700] : [lit-ps_4_0] Shader Compilation Success
+T+ 2.491188 [ info  ] [22700] : Loading asset "normal" at "resources/shaders/normal.shader"
+T+ 2.491348 [ info  ] [22700] : [normal-vs_4_0] Preproccessing Shader
+T+ 2.491577 [ info  ] [22700] : [normal-vs_4_0] Shader Preprocesing Success
+T+ 2.491579 [ info  ] [22700] : [normal-vs_4_0] Compiling Shader
+T+ 2.519350 [ info  ] [22700] : [normal-vs_4_0] Shader Compilation Success
+T+ 2.519359 [ info  ] [22700] : [normal-ps_4_0] Preproccessing Shader
+T+ 2.519386 [ info  ] [22700] : [normal-ps_4_0] Shader Preprocesing Success
+T+ 2.519387 [ info  ] [22700] : [normal-ps_4_0] Compiling Shader
+T+ 2.520386 [ info  ] [22700] : [normal-ps_4_0] Shader Compilation Success
+T+ 2.520534 [ info  ] [22700] : Loading asset "red" at "resources/shaders/red.shader"
+T+ 2.520678 [ info  ] [22700] : [red-vs_4_0] Preproccessing Shader
+T+ 2.520855 [ info  ] [22700] : [red-vs_4_0] Shader Preprocesing Success
+T+ 2.520858 [ info  ] [22700] : [red-vs_4_0] Compiling Shader
+T+ 2.530102 [ info  ] [22700] : [red-vs_4_0] Shader Compilation Success
+T+ 2.530107 [ info  ] [22700] : [red-ps_4_0] Preproccessing Shader
+T+ 2.530128 [ info  ] [22700] : [red-ps_4_0] Shader Preprocesing Success
+T+ 2.530129 [ info  ] [22700] : [red-ps_4_0] Compiling Shader
+T+ 2.530875 [ info  ] [22700] : [red-ps_4_0] Shader Compilation Success
+T+ 2.530957 [ info  ] [22700] : Loading asset "shadertoolsconfig" at "resources/shaders/shadertoolsconfig.json"
+T+ 2.530964 [ info  ] [22700] : Loading asset "skybox" at "resources/shaders/skybox.shader"
+T+ 2.531081 [ info  ] [22700] : [skybox-vs_4_0] Preproccessing Shader
+T+ 2.531251 [ info  ] [22700] : [skybox-vs_4_0] Shader Preprocesing Success
+T+ 2.531253 [ info  ] [22700] : [skybox-vs_4_0] Compiling Shader
+T+ 2.539635 [ info  ] [22700] : [skybox-vs_4_0] Shader Compilation Success
+T+ 2.539639 [ info  ] [22700] : [skybox-ps_4_0] Preproccessing Shader
+T+ 2.539929 [ info  ] [22700] : [skybox-ps_4_0] Shader Preprocesing Success
+T+ 2.539931 [ info  ] [22700] : [skybox-ps_4_0] Compiling Shader
+T+ 2.548010 [ info  ] [22700] : [skybox-ps_4_0] Shader Compilation Success
+T+ 2.548111 [ info  ] [22700] : Loading asset "white" at "resources/shaders/white.shader"
+T+ 2.548214 [ info  ] [22700] : [white-vs_4_0] Preproccessing Shader
+T+ 2.548379 [ info  ] [22700] : [white-vs_4_0] Shader Preprocesing Success
+T+ 2.548381 [ info  ] [22700] : [white-vs_4_0] Compiling Shader
+T+ 2.557623 [ info  ] [22700] : [white-vs_4_0] Shader Compilation Success
+T+ 2.557627 [ info  ] [22700] : [white-ps_4_0] Preproccessing Shader
+T+ 2.557648 [ info  ] [22700] : [white-ps_4_0] Shader Preprocesing Success
+T+ 2.557649 [ info  ] [22700] : [white-ps_4_0] Compiling Shader
+T+ 2.558416 [ info  ] [22700] : [white-ps_4_0] Shader Compilation Success
+T+ 2.559003 [warning] [22700] : Asset[struct rythe::rendering::Ishader<struct rythe::rendering::internal::shader>] "skybox" already exists, returning existing handle
+T+ 2.569262 [ info  ] [22700] : Initializing Input System
+T+ 8.314745 [ info  ] [22700] : Initializing Arbrook_TestMaterialSwitch
+T+ 10.254335 [ info  ] [22700] : Initializing BGFX_TestMaterialSwitch
+T+ 12.470963 [ info  ] [22700] : Initializing DX11
+T+ 12.471361 [ info  ] [22700] : Initializing Native_TestMaterialSwitch
+T+ 17.010813 [ info  ] [22700] : Initializing Arbrook_TestStress
+T+ 26.835190 [ info  ] [22700] : InT+ 0.036719 [ info  ] [25500] : Logging Initialized
+T+ 0.037423 [ info  ] [25500] : Initializing Eventbus
+T+ 0.037427 [ info  ] [25500] : Initializing Scheduler
+T+ 0.037454 [ info  ] [25500] : Initializing Rendering Module
+T+ 0.037665 [ info  ] [25500] : Initializing Input Module
+T+ 0.037669 [ info  ] [25500] : Initializing Game Module
+T+ 0.125674 [ info  ] [25500] : Initializing Render Pipeline
+T+ 0.125709 [ info  ] [25500] : Initializing DX11
+T+ 0.125722 [warning] [25500] : The window "Arbrook" does not exist
+T+ 0.462188 [ info  ] [25500] : Initializing Test System
+T+ 0.462429 [ info  ] [25500] : Loading asset "alligator" at "resources/meshes/glb/alligator.glb"
+T+ 0.463850 [ info  ] [25500] : Loading asset "armadillo" at "resources/meshes/glb/armadillo.glb"
+T+ 0.496973 [ info  ] [25500] : Loading asset "beast" at "resources/meshes/glb/beast.glb"
+T+ 0.598186 [ info  ] [25500] : Loading asset "bunny" at "resources/meshes/glb/bunny.glb"
+T+ 0.710435 [ info  ] [25500] : Loading asset "cone" at "resources/meshes/glb/cone.glb"
+T+ 0.712870 [ info  ] [25500] : Loading asset "cube" at "resources/meshes/glb/cube.glb"
+T+ 0.713638 [ info  ] [25500] : Loading asset "icosphere" at "resources/meshes/glb/icosphere.glb"
+T+ 0.714466 [ info  ] [25500] : Loading asset "plane" at "resources/meshes/glb/plane.glb"
+T+ 0.715197 [ info  ] [25500] : Loading asset "sphere" at "resources/meshes/glb/sphere.glb"
+T+ 0.716579 [ info  ] [25500] : Loading asset "sponza" at "resources/meshes/glb/sponza.glb"
+T+ 0.851740 [ info  ] [25500] : Loading asset "suzanne" at "resources/meshes/glb/suzanne.glb"
+T+ 0.863274 [ info  ] [25500] : Loading asset "teapot" at "resources/meshes/glb/teapot.glb"
+T+ 0.869275 [ info  ] [25500] : Loading asset "container_diffuse" at "resources/textures/container_diffuse.png"
+T+ 0.875130 [ info  ] [25500] : Loading asset "container_specular" at "resources/textures/container_specular.png"
+T+ 0.878430 [ info  ] [25500] : Loading asset "park" at "resources/textures/park.png"
+T+ 0.892911 [ info  ] [25500] : Loading asset "planetatmo" at "resources/textures/planetatmo.png"
+T+ 1.425015 [ info  ] [25500] : Loading asset "Rythe" at "resources/textures/Rythe.png"
+T+ 1.425482 [ info  ] [25500] : Loading asset "blue" at "resources/shaders/blue.shader"
+T+ 1.425613 [ info  ] [25500] : [blue-vs_4_0] Preproccessing Shader
+T+ 1.425838 [ info  ] [25500] : [blue-vs_4_0] Shader Preprocesing Success
+T+ 1.425840 [ info  ] [25500] : [blue-vs_4_0] Compiling Shader
+T+ 1.435442 [ info  ] [25500] : [blue-vs_4_0] Shader Compilation Success
+T+ 1.435447 [ info  ] [25500] : [blue-ps_4_0] Preproccessing Shader
+T+ 1.435468 [ info  ] [25500] : [blue-ps_4_0] Shader Preprocesing Success
+T+ 1.435469 [ info  ] [25500] : [blue-ps_4_0] Compiling Shader
+T+ 1.436265 [ info  ] [25500] : [blue-ps_4_0] Shader Compilation Success
+T+ 1.440019 [ info  ] [25500] : Loading asset "color" at "resources/shaders/color.shader"
+T+ 1.440135 [ info  ] [25500] : [color-vs_4_0] Preproccessing Shader
+T+ 1.440332 [ info  ] [25500] : [color-vs_4_0] Shader Preprocesing Success
+T+ 1.440334 [ info  ] [25500] : [color-vs_4_0] Compiling Shader
+T+ 1.449836 [ info  ] [25500] : [color-vs_4_0] Shader Compilation Success
+T+ 1.449843 [ info  ] [25500] : [color-ps_4_0] Preproccessing Shader
+T+ 1.449865 [ info  ] [25500] : [color-ps_4_0] Shader Preprocesing Success
+T+ 1.449866 [ info  ] [25500] : [color-ps_4_0] Compiling Shader
+T+ 1.450662 [ info  ] [25500] : [color-ps_4_0] Shader Compilation Success
+T+ 1.450752 [ info  ] [25500] : Loading asset "green" at "resources/shaders/green.shader"
+T+ 1.450876 [ info  ] [25500] : [green-vs_4_0] Preproccessing Shader
+T+ 1.451065 [ info  ] [25500] : [green-vs_4_0] Shader Preprocesing Success
+T+ 1.451068 [ info  ] [25500] : [green-vs_4_0] Compiling Shader
+T+ 1.460648 [ info  ] [25500] : [green-vs_4_0] Shader Compilation Success
+T+ 1.460653 [ info  ] [25500] : [green-ps_4_0] Preproccessing Shader
+T+ 1.460673 [ info  ] [25500] : [green-ps_4_0] Shader Preprocesing Success
+T+ 1.460674 [ info  ] [25500] : [green-ps_4_0] Compiling Shader
+T+ 1.463558 [ info  ] [25500] : [green-ps_4_0] Shader Compilation Success
+T+ 1.463638 [ info  ] [25500] : Loading asset "lit" at "resources/shaders/lit.shader"
+T+ 1.463744 [ info  ] [25500] : [lit-vs_4_0] Preproccessing Shader
+T+ 1.463970 [ info  ] [25500] : [lit-vs_4_0] Shader Preprocesing Success
+T+ 1.463973 [ info  ] [25500] : [lit-vs_4_0] Compiling Shader
+T+ 1.491318 [ info  ] [25500] : [lit-vs_4_0] Shader Compilation Success
+T+ 1.491323 [ info  ] [25500] : [lit-ps_4_0] Preproccessing Shader
+T+ 1.491638 [ info  ] [25500] : [lit-ps_4_0] Shader Preprocesing Success
+T+ 1.491640 [ info  ] [25500] : [lit-ps_4_0] Compiling Shader
+T+ 1.519713 [ info  ] [25500] : [lit-ps_4_0] Shader Compilation Success
+T+ 1.519876 [ info  ] [25500] : Loading asset "normal" at "resources/shaders/normal.shader"
+T+ 1.519977 [ info  ] [25500] : [normal-vs_4_0] Preproccessing Shader
+T+ 1.520190 [ info  ] [25500] : [normal-vs_4_0] Shader Preprocesing Success
+T+ 1.520192 [ info  ] [25500] : [normal-vs_4_0] Compiling Shader
+T+ 1.546924 [ info  ] [25500] : [normal-vs_4_0] Shader Compilation Success
+T+ 1.546928 [ info  ] [25500] : [normal-ps_4_0] Preproccessing Shader
+T+ 1.546951 [ info  ] [25500] : [normal-ps_4_0] Shader Preprocesing Success
+T+ 1.546952 [ info  ] [25500] : [normal-ps_4_0] Compiling Shader
+T+ 1.547905 [ info  ] [25500] : [normal-ps_4_0] Shader Compilation Success
+T+ 1.548024 [ info  ] [25500] : Loading asset "red" at "resources/shaders/red.shader"
+T+ 1.548128 [ info  ] [25500] : [red-vs_4_0] Preproccessing Shader
+T+ 1.548295 [ info  ] [25500] : [red-vs_4_0] Shader Preprocesing Success
+T+ 1.548298 [ info  ] [25500] : [red-vs_4_0] Compiling Shader
+T+ 1.557485 [ info  ] [25500] : [red-vs_4_0] Shader Compilation Success
+T+ 1.557489 [ info  ] [25500] : [red-ps_4_0] Preproccessing Shader
+T+ 1.557510 [ info  ] [25500] : [red-ps_4_0] Shader Preprocesing Success
+T+ 1.557511 [ info  ] [25500] : [red-ps_4_0] Compiling Shader
+T+ 1.558251 [ info  ] [25500] : [red-ps_4_0] Shader Compilation Success
+T+ 1.558325 [ info  ] [25500] : Loading asset "shadertoolsconfig" at "resources/shaders/shadertoolsconfig.json"
+T+ 1.558328 [ info  ] [25500] : Loading asset "skybox" at "resources/shaders/skybox.shader"
+T+ 1.558434 [ info  ] [25500] : [skybox-vs_4_0] Preproccessing Shader
+T+ 1.558600 [ info  ] [25500] : [skybox-vs_4_0] Shader Preprocesing Success
+T+ 1.558603 [ info  ] [25500] : [skybox-vs_4_0] Compiling Shader
+T+ 1.565103 [ info  ] [25500] : [skybox-vs_4_0] Shader Compilation Success
+T+ 1.565107 [ info  ] [25500] : [skybox-ps_4_0] Preproccessing Shader
+T+ 1.565392 [ info  ] [25500] : [skybox-ps_4_0] Shader Preprocesing Success
+T+ 1.565395 [ info  ] [25500] : [skybox-ps_4_0] Compiling Shader
+T+ 1.575229 [ info  ] [25500] : [skybox-ps_4_0] Shader Compilation Success
+T+ 1.575339 [ info  ] [25500] : Loading asset "white" at "resources/shaders/white.shader"
+T+ 1.575444 [ info  ] [25500] : [white-vs_4_0] Preproccessing Shader
+T+ 1.575612 [ info  ] [25500] : [white-vs_4_0] Shader Preprocesing Success
+T+ 1.575614 [ info  ] [25500] : [white-vs_4_0] Compiling Shader
+T+ 1.584856 [ info  ] [25500] : [white-vs_4_0] Shader Compilation Success
+T+ 1.584860 [ info  ] [25500] : [white-ps_4_0] Preproccessing Shader
+T+ 1.584881 [ info  ] [25500] : [white-ps_4_0] Shader Preprocesing Success
+T+ 1.584882 [ info  ] [25500] : [white-ps_4_0] Compiling Shader
+T+ 1.585617 [ info  ] [25500] : [white-ps_4_0] Shader Compilation Success
+T+ 1.586211 [warning] [25500] : Asset[struct rythe::rendering::Ishader<struct rythe::rendering::internal::shader>] "skybox" already exists, returning existing handle
+T+ 1.596000 [ info  ] [25500] : Initializing Input System
+T+ 3.647835 [ info  ] [25500] : Initializing Arbrook_TestStress
+T+ 13.587058 [ info  ] [25500] : Initializing BGFX_TestStress
+T+ 17.625328 [ info  ] [25500] : Initializing DX11
+T+ 17.625784 [ info  ] [25500] : Initializing Native_TestStress
+T+ 21.179443 [ info  ] [25500] : Initializing Arbrook_TestDrawIndexedInstanced
+T+ 21.179518 [warning] [25500] : Material tesT+ 0.039031 [ info  ] [21692] : Logging Initialized
+T+ 0.039644 [ info  ] [21692] : Initializing Eventbus
+T+ 0.039648 [ info  ] [21692] : Initializing Scheduler
+T+ 0.039676 [ info  ] [21692] : Initializing Rendering Module
+T+ 0.039695 [ info  ] [21692] : Initializing Input Module
+T+ 0.039698 [ info  ] [21692] : Initializing Game Module
+T+ 0.145272 [ info  ] [21692] : Initializing Render Pipeline
+T+ 0.145314 [ info  ] [21692] : Initializing DX11
+T+ 0.145325 [warning] [21692] : The window "Arbrook" does not exist
+T+ 0.483728 [ info  ] [21692] : Initializing Test System
+T+ 0.483966 [ info  ] [21692] : Loading asset "alligator" at "resources/meshes/glb/alligator.glb"
+T+ 0.485337 [ info  ] [21692] : Loading asset "armadillo" at "resources/meshes/glb/armadillo.glb"
+T+ 0.518085 [ info  ] [21692] : Loading asset "beast" at "resources/meshes/glb/beast.glb"
+T+ 0.625541 [ info  ] [21692] : Loading asset "bunny" at "resources/meshes/glb/bunny.glb"
+T+ 0.729818 [ info  ] [21692] : Loading asset "cone" at "resources/meshes/glb/cone.glb"
+T+ 0.732502 [ info  ] [21692] : Loading asset "cube" at "resources/meshes/glb/cube.glb"
+T+ 0.733313 [ info  ] [21692] : Loading asset "icosphere" at "resources/meshes/glb/icosphere.glb"
+T+ 0.734200 [ info  ] [21692] : Loading asset "plane" at "resources/meshes/glb/plane.glb"
+T+ 0.734937 [ info  ] [21692] : Loading asset "sphere" at "resources/meshes/glb/sphere.glb"
+T+ 0.736425 [ info  ] [21692] : Loading asset "sponza" at "resources/meshes/glb/sponza.glb"
+T+ 0.872867 [ info  ] [21692] : Loading asset "suzanne" at "resources/meshes/glb/suzanne.glb"
+T+ 0.882332 [ info  ] [21692] : Loading asset "teapot" at "resources/meshes/glb/teapot.glb"
+T+ 0.888702 [ info  ] [21692] : Loading asset "container_diffuse" at "resources/textures/container_diffuse.png"
+T+ 0.894521 [ info  ] [21692] : Loading asset "container_specular" at "resources/textures/container_specular.png"
+T+ 0.897803 [ info  ] [21692] : Loading asset "park" at "resources/textures/park.png"
+T+ 0.914106 [ info  ] [21692] : Loading asset "planetatmo" at "resources/textures/planetatmo.png"
+T+ 1.433098 [ info  ] [21692] : Loading asset "Rythe" at "resources/textures/Rythe.png"
+T+ 1.433576 [ info  ] [21692] : Loading asset "blue" at "resources/shaders/blue.shader"
+T+ 1.433717 [ info  ] [21692] : [blue-vs_4_0] Preproccessing Shader
+T+ 1.433948 [ info  ] [21692] : [blue-vs_4_0] Shader Preprocesing Success
+T+ 1.433951 [ info  ] [21692] : [blue-vs_4_0] Compiling Shader
+T+ 1.444087 [ info  ] [21692] : [blue-vs_4_0] Shader Compilation Success
+T+ 1.444093 [ info  ] [21692] : [blue-ps_4_0] Preproccessing Shader
+T+ 1.444115 [ info  ] [21692] : [blue-ps_4_0] Shader Preprocesing Success
+T+ 1.444116 [ info  ] [21692] : [blue-ps_4_0] Compiling Shader
+T+ 1.444953 [ info  ] [21692] : [blue-ps_4_0] Shader Compilation Success
+T+ 1.448633 [ info  ] [21692] : Loading asset "color" at "resources/shaders/color.shader"
+T+ 1.448748 [ info  ] [21692] : [color-vs_4_0] Preproccessing Shader
+T+ 1.448936 [ info  ] [21692] : [color-vs_4_0] Shader Preprocesing Success
+T+ 1.448939 [ info  ] [21692] : [color-vs_4_0] Compiling Shader
+T+ 1.458341 [ info  ] [21692] : [color-vs_4_0] Shader Compilation Success
+T+ 1.458346 [ info  ] [21692] : [color-ps_4_0] Preproccessing Shader
+T+ 1.458367 [ info  ] [21692] : [color-ps_4_0] Shader Preprocesing Success
+T+ 1.458368 [ info  ] [21692] : [color-ps_4_0] Compiling Shader
+T+ 1.459167 [ info  ] [21692] : [color-ps_4_0] Shader Compilation Success
+T+ 1.459253 [ info  ] [21692] : Loading asset "green" at "resources/shaders/green.shader"
+T+ 1.459370 [ info  ] [21692] : [green-vs_4_0] Preproccessing Shader
+T+ 1.459553 [ info  ] [21692] : [green-vs_4_0] Shader Preprocesing Success
+T+ 1.459555 [ info  ] [21692] : [green-vs_4_0] Compiling Shader
+T+ 1.468935 [ info  ] [21692] : [green-vs_4_0] Shader Compilation Success
+T+ 1.468939 [ info  ] [21692] : [green-ps_4_0] Preproccessing Shader
+T+ 1.468971 [ info  ] [21692] : [green-ps_4_0] Shader Preprocesing Success
+T+ 1.468972 [ info  ] [21692] : [green-ps_4_0] Compiling Shader
+T+ 1.469864 [ info  ] [21692] : [green-ps_4_0] Shader Compilation Success
+T+ 1.469944 [ info  ] [21692] : Loading asset "lit" at "resources/shaders/lit.shader"
+T+ 1.470063 [ info  ] [21692] : [lit-vs_4_0] Preproccessing Shader
+T+ 1.470287 [ info  ] [21692] : [lit-vs_4_0] Shader Preprocesing Success
+T+ 1.470290 [ info  ] [21692] : [lit-vs_4_0] Compiling Shader
+T+ 1.499004 [ info  ] [21692] : [lit-vs_4_0] Shader Compilation Success
+T+ 1.499009 [ info  ] [21692] : [lit-ps_4_0] Preproccessing Shader
+T+ 1.499315 [ info  ] [21692] : [lit-ps_4_0] Shader Preprocesing Success
+T+ 1.499318 [ info  ] [21692] : [lit-ps_4_0] Compiling Shader
+T+ 1.525595 [ info  ] [21692] : [lit-ps_4_0] Shader Compilation Success
+T+ 1.525770 [ info  ] [21692] : Loading asset "normal" at "resources/shaders/normal.shader"
+T+ 1.525900 [ info  ] [21692] : [normal-vs_4_0] Preproccessing Shader
+T+ 1.526120 [ info  ] [21692] : [normal-vs_4_0] Shader Preprocesing Success
+T+ 1.526122 [ info  ] [21692] : [normal-vs_4_0] Compiling Shader
+T+ 1.554230 [ info  ] [21692] : [normal-vs_4_0] Shader Compilation Success
+T+ 1.554235 [ info  ] [21692] : [normal-ps_4_0] Preproccessing Shader
+T+ 1.554259 [ info  ] [21692] : [normal-ps_4_0] Shader Preprocesing Success
+T+ 1.554260 [ info  ] [21692] : [normal-ps_4_0] Compiling Shader
+T+ 1.555281 [ info  ] [21692] : [normal-ps_4_0] Shader Compilation Success
+T+ 1.555415 [ info  ] [21692] : Loading asset "red" at "resources/shaders/red.shader"
+T+ 1.555532 [ info  ] [21692] : [red-vs_4_0] Preproccessing Shader
+T+ 1.555704 [ info  ] [21692] : [red-vs_4_0] Shader Preprocesing Success
+T+ 1.555707 [ info  ] [21692] : [red-vs_4_0] Compiling Shader
+T+ 1.564975 [ info  ] [21692] : [red-vs_4_0] Shader Compilation Success
+T+ 1.564980 [ info  ] [21692] : [red-ps_4_0] Preproccessing Shader
+T+ 1.565001 [ info  ] [21692] : [red-ps_4_0] Shader Preprocesing Success
+T+ 1.565002 [ info  ] [21692] : [red-ps_4_0] Compiling Shader
+T+ 1.565771 [ info  ] [21692] : [red-ps_4_0] Shader Compilation Success
+T+ 1.565847 [ info  ] [21692] : Loading asset "shadertoolsconfig" at "resources/shaders/shadertoolsconfig.json"
+T+ 1.565851 [ info  ] [21692] : Loading asset "skybox" at "resources/shaders/skybox.shader"
+T+ 1.565960 [ info  ] [21692] : [skybox-vs_4_0] Preproccessing Shader
+T+ 1.566125 [ info  ] [21692] : [skybox-vs_4_0] Shader Preprocesing Success
+T+ 1.566128 [ info  ] [21692] : [skybox-vs_4_0] Compiling Shader
+T+ 1.572677 [ info  ] [21692] : [skybox-vs_4_0] Shader Compilation Success
+T+ 1.572682 [ info  ] [21692] : [skybox-ps_4_0] Preproccessing Shader
+T+ 1.572969 [ info  ] [21692] : [skybox-ps_4_0] Shader Preprocesing Success
+T+ 1.572972 [ info  ] [21692] : [skybox-ps_4_0] Compiling Shader
+T+ 1.581190 [ info  ] [21692] : [skybox-ps_4_0] Shader Compilation Success
+T+ 1.581292 [ info  ] [21692] : Loading asset "white" at "resources/shaders/white.shader"
+T+ 1.581396 [ info  ] [21692] : [white-vs_4_0] Preproccessing Shader
+T+ 1.581560 [ info  ] [21692] : [white-vs_4_0] Shader Preprocesing Success
+T+ 1.581562 [ info  ] [21692] : [white-vs_4_0] Compiling Shader
+T+ 1.590818 [ info  ] [21692] : [white-vs_4_0] Shader Compilation Success
+T+ 1.590823 [ info  ] [21692] : [white-ps_4_0] Preproccessing Shader
+T+ 1.590844 [ info  ] [21692] : [white-ps_4_0] Shader Preprocesing Success
+T+ 1.590845 [ info  ] [21692] : [white-ps_4_0] Compiling Shader
+T+ 1.591602 [ info  ] [21692] : [white-ps_4_0] Shader Compilation Success
+T+ 1.592199 [warning] [21692] : Asset[struct rythe::rendering::Ishader<struct rythe::rendering::internal::shader>] "skybox" already exists, returning existing handle
+T+ 1.605914 [ info  ] [21692] : Initializing Input System
+T+ 5.002224 [ info  ] [21692] : Initializing Arbrook_TestStress
+T+ 14.853179 [ info  ] [21692] : Initializing BGFX_TestStress
+T+ 18.875948 [ info  ] [21692] : Initializing DX11
+T+ 18.876429 [ info  ] [21692] : Initializing Native_TestStress
+T+ 22.407076 [ info  ] [21692] : Initializing Arbrook_TestDrawIndexedInstanced
+T+ 22.407145 [warning] [21692] : Material tesT+ 0.036861 [ info  ] [23936] : Logging Initialized
+T+ 0.036937 [ info  ] [23936] : Initializing Eventbus
+T+ 0.036939 [ info  ] [23936] : Initializing Scheduler
+T+ 0.036967 [ info  ] [23936] : Initializing Rendering Module
+T+ 0.037490 [ info  ] [23936] : Initializing Input Module
+T+ 0.037495 [ info  ] [23936] : Initializing Game Module
+T+ 0.139549 [ info  ] [23936] : Initializing Render Pipeline
+T+ 0.139583 [ info  ] [23936] : Initializing DX11
+T+ 0.139593 [warning] [23936] : The window "Arbrook" does not exist
+T+ 0.426372 [ info  ] [23936] : Initializing Test System
+T+ 0.426629 [ info  ] [23936] : Loading asset "alligator" at "resources/meshes/glb/alligator.glb"
+T+ 0.428212 [ info  ] [23936] : Loading asset "armadillo" at "resources/meshes/glb/armadillo.glb"
+T+ 0.461273 [ info  ] [23936] : Loading asset "beast" at "resources/meshes/glb/beast.glb"
+T+ 0.559895 [ info  ] [23936] : Loading asset "bunny" at "resources/meshes/glb/bunny.glb"
+T+ 0.679882 [ info  ] [23936] : Loading asset "cone" at "resources/meshes/glb/cone.glb"
+T+ 0.682932 [ info  ] [23936] : Loading asset "cube" at "resources/meshes/glb/cube.glb"
+T+ 0.683923 [ info  ] [23936] : Loading asset "icosphere" at "resources/meshes/glb/icosphere.glb"
+T+ 0.684979 [ info  ] [23936] : Loading asset "plane" at "resources/meshes/glb/plane.glb"
+T+ 0.685808 [ info  ] [23936] : Loading asset "sphere" at "resources/meshes/glb/sphere.glb"
+T+ 0.687603 [ info  ] [23936] : Loading asset "sponza" at "resources/meshes/glb/sponza.glb"
+T+ 0.825336 [ info  ] [23936] : Loading asset "suzanne" at "resources/meshes/glb/suzanne.glb"
+T+ 0.834687 [ info  ] [23936] : Loading asset "teapot" at "resources/meshes/glb/teapot.glb"
+T+ 0.840865 [ info  ] [23936] : Loading asset "container_diffuse" at "resources/textures/container_diffuse.png"
+T+ 0.846618 [ info  ] [23936] : Loading asset "container_specular" at "resources/textures/container_specular.png"
+T+ 0.849741 [ info  ] [23936] : Loading asset "park" at "resources/textures/park.png"
+T+ 0.863815 [ info  ] [23936] : Loading asset "planetatmo" at "resources/textures/planetatmo.png"
+T+ 1.387134 [ info  ] [23936] : Loading asset "Rythe" at "resources/textures/Rythe.png"
+T+ 1.387592 [ info  ] [23936] : Loading asset "blue" at "resources/shaders/blue.shader"
+T+ 1.387725 [ info  ] [23936] : [blue-vs_4_0] Preproccessing Shader
+T+ 1.387956 [ info  ] [23936] : [blue-vs_4_0] Shader Preprocesing Success
+T+ 1.387959 [ info  ] [23936] : [blue-vs_4_0] Compiling Shader
+T+ 1.397633 [ info  ] [23936] : [blue-vs_4_0] Shader Compilation Success
+T+ 1.397638 [ info  ] [23936] : [blue-ps_4_0] Preproccessing Shader
+T+ 1.397661 [ info  ] [23936] : [blue-ps_4_0] Shader Preprocesing Success
+T+ 1.397662 [ info  ] [23936] : [blue-ps_4_0] Compiling Shader
+T+ 1.398512 [ info  ] [23936] : [blue-ps_4_0] Shader Compilation Success
+T+ 1.402161 [ info  ] [23936] : Loading asset "color" at "resources/shaders/color.shader"
+T+ 1.402287 [ info  ] [23936] : [color-vs_4_0] Preproccessing Shader
+T+ 1.402476 [ info  ] [23936] : [color-vs_4_0] Shader Preprocesing Success
+T+ 1.402479 [ info  ] [23936] : [color-vs_4_0] Compiling Shader
+T+ 1.411755 [ info  ] [23936] : [color-vs_4_0] Shader Compilation Success
+T+ 1.411760 [ info  ] [23936] : [color-ps_4_0] Preproccessing Shader
+T+ 1.411783 [ info  ] [23936] : [color-ps_4_0] Shader Preprocesing Success
+T+ 1.411784 [ info  ] [23936] : [color-ps_4_0] Compiling Shader
+T+ 1.413521 [ info  ] [23936] : [color-ps_4_0] Shader Compilation Success
+T+ 1.413600 [ info  ] [23936] : Loading asset "green" at "resources/shaders/green.shader"
+T+ 1.413702 [ info  ] [23936] : [green-vs_4_0] Preproccessing Shader
+T+ 1.413885 [ info  ] [23936] : [green-vs_4_0] Shader Preprocesing Success
+T+ 1.413887 [ info  ] [23936] : [green-vs_4_0] Compiling Shader
+T+ 1.423091 [ info  ] [23936] : [green-vs_4_0] Shader Compilation Success
+T+ 1.423096 [ info  ] [23936] : [green-ps_4_0] Preproccessing Shader
+T+ 1.423119 [ info  ] [23936] : [green-ps_4_0] Shader Preprocesing Success
+T+ 1.423120 [ info  ] [23936] : [green-ps_4_0] Compiling Shader
+T+ 1.423939 [ info  ] [23936] : [green-ps_4_0] Shader Compilation Success
+T+ 1.424017 [ info  ] [23936] : Loading asset "lit" at "resources/shaders/lit.shader"
+T+ 1.424120 [ info  ] [23936] : [lit-vs_4_0] Preproccessing Shader
+T+ 1.424348 [ info  ] [23936] : [lit-vs_4_0] Shader Preprocesing Success
+T+ 1.424350 [ info  ] [23936] : [lit-vs_4_0] Compiling Shader
+T+ 1.451077 [ info  ] [23936] : [lit-vs_4_0] Shader Compilation Success
+T+ 1.451082 [ info  ] [23936] : [lit-ps_4_0] Preproccessing Shader
+T+ 1.451388 [ info  ] [23936] : [lit-ps_4_0] Shader Preprocesing Success
+T+ 1.451391 [ info  ] [23936] : [lit-ps_4_0] Compiling Shader
+T+ 1.479465 [ info  ] [23936] : [lit-ps_4_0] Shader Compilation Success
+T+ 1.479625 [ info  ] [23936] : Loading asset "normal" at "resources/shaders/normal.shader"
+T+ 1.479725 [ info  ] [23936] : [normal-vs_4_0] Preproccessing Shader
+T+ 1.479936 [ info  ] [23936] : [normal-vs_4_0] Shader Preprocesing Success
+T+ 1.479939 [ info  ] [23936] : [normal-vs_4_0] Compiling Shader
+T+ 1.508543 [ info  ] [23936] : [normal-vs_4_0] Shader Compilation Success
+T+ 1.508547 [ info  ] [23936] : [normal-ps_4_0] Preproccessing Shader
+T+ 1.508572 [ info  ] [23936] : [normal-ps_4_0] Shader Preprocesing Success
+T+ 1.508573 [ info  ] [23936] : [normal-ps_4_0] Compiling Shader
+T+ 1.509544 [ info  ] [23936] : [normal-ps_4_0] Shader Compilation Success
+T+ 1.509664 [ info  ] [23936] : Loading asset "red" at "resources/shaders/red.shader"
+T+ 1.509766 [ info  ] [23936] : [red-vs_4_0] Preproccessing Shader
+T+ 1.509934 [ info  ] [23936] : [red-vs_4_0] Shader Preprocesing Success
+T+ 1.509937 [ info  ] [23936] : [red-vs_4_0] Compiling Shader
+T+ 1.519130 [ info  ] [23936] : [red-vs_4_0] Shader Compilation Success
+T+ 1.519135 [ info  ] [23936] : [red-ps_4_0] Preproccessing Shader
+T+ 1.519158 [ info  ] [23936] : [red-ps_4_0] Shader Preprocesing Success
+T+ 1.519158 [ info  ] [23936] : [red-ps_4_0] Compiling Shader
+T+ 1.519911 [ info  ] [23936] : [red-ps_4_0] Shader Compilation Success
+T+ 1.519983 [ info  ] [23936] : Loading asset "shadertoolsconfig" at "resources/shaders/shadertoolsconfig.json"
+T+ 1.519987 [ info  ] [23936] : Loading asset "skybox" at "resources/shaders/skybox.shader"
+T+ 1.520096 [ info  ] [23936] : [skybox-vs_4_0] Preproccessing Shader
+T+ 1.520267 [ info  ] [23936] : [skybox-vs_4_0] Shader Preprocesing Success
+T+ 1.520270 [ info  ] [23936] : [skybox-vs_4_0] Compiling Shader
+T+ 1.526824 [ info  ] [23936] : [skybox-vs_4_0] Shader Compilation Success
+T+ 1.526829 [ info  ] [23936] : [skybox-ps_4_0] Preproccessing Shader
+T+ 1.527118 [ info  ] [23936] : [skybox-ps_4_0] Shader Preprocesing Success
+T+ 1.527120 [ info  ] [23936] : [skybox-ps_4_0] Compiling Shader
+T+ 1.535190 [ info  ] [23936] : [skybox-ps_4_0] Shader Compilation Success
+T+ 1.535284 [ info  ] [23936] : Loading asset "white" at "resources/shaders/white.shader"
+T+ 1.535387 [ info  ] [23936] : [white-vs_4_0] Preproccessing Shader
+T+ 1.535561 [ info  ] [23936] : [white-vs_4_0] Shader Preprocesing Success
+T+ 1.535563 [ info  ] [23936] : [white-vs_4_0] Compiling Shader
+T+ 1.544825 [ info  ] [23936] : [white-vs_4_0] Shader Compilation Success
+T+ 1.544830 [ info  ] [23936] : [white-ps_4_0] Preproccessing Shader
+T+ 1.544853 [ info  ] [23936] : [white-ps_4_0] Shader Preprocesing Success
+T+ 1.544854 [ info  ] [23936] : [white-ps_4_0] Compiling Shader
+T+ 1.545632 [ info  ] [23936] : [white-ps_4_0] Shader Compilation Success
+T+ 1.546241 [warning] [23936] : Asset[struct rythe::rendering::Ishader<struct rythe::rendering::internal::shader>] "skybox" already exists, returning existing handle
+T+ 1.556262 [ info  ] [23936] : Initializing Input System
+T+ 8.332859 [ info  ] [23936] : Initializing Arbrook_TestStress
+T+ 18.256624 [ info  ] [23936] : Initializing BGFX_TestStress
+T+ 22.276258 [ info  ] [23936] : Initializing DX11
+T+ 22.276665 [ info  ] [23936] : Initializing Native_TestStress
+T+ 25.829567 [ info  ] [23936] : Initializing Arbrook_TestDrawIndexedInstanced
+T+ 25.829638 [warning] [23936] : Material tesT+ 0.036458 [ info  ] [25364] : Logging Initialized
+T+ 0.036520 [ info  ] [25364] : Initializing Eventbus
+T+ 0.036521 [ info  ] [25364] : Initializing Scheduler
+T+ 0.037021 [ info  ] [25364] : Initializing Rendering Module
+T+ 0.037039 [ info  ] [25364] : Initializing Input Module
+T+ 0.037041 [ info  ] [25364] : Initializing Game Module
+T+ 0.141991 [ info  ] [25364] : Initializing Render Pipeline
+T+ 0.142028 [ info  ] [25364] : Initializing DX11
+T+ 0.142037 [warning] [25364] : The window "Arbrook" does not exist
+T+ 0.432581 [ info  ] [25364] : Initializing Test System
+T+ 0.432824 [ info  ] [25364] : Loading asset "alligator" at "resources/meshes/glb/alligator.glb"
+T+ 0.434315 [ info  ] [25364] : Loading asset "armadillo" at "resources/meshes/glb/armadillo.glb"
+T+ 0.469415 [ info  ] [25364] : Loading asset "beast" at "resources/meshes/glb/beast.glb"
+T+ 0.570338 [ info  ] [25364] : Loading asset "bunny" at "resources/meshes/glb/bunny.glb"
+T+ 0.681762 [ info  ] [25364] : Loading asset "cone" at "resources/meshes/glb/cone.glb"
+T+ 0.684216 [ info  ] [25364] : Loading asset "cube" at "resources/meshes/glb/cube.glb"
+T+ 0.684995 [ info  ] [25364] : Loading asset "icosphere" at "resources/meshes/glb/icosphere.glb"
+T+ 0.685832 [ info  ] [25364] : Loading asset "plane" at "resources/meshes/glb/plane.glb"
+T+ 0.686726 [ info  ] [25364] : Loading asset "sphere" at "resources/meshes/glb/sphere.glb"
+T+ 0.688223 [ info  ] [25364] : Loading asset "sponza" at "resources/meshes/glb/sponza.glb"
+T+ 0.817080 [ info  ] [25364] : Loading asset "suzanne" at "resources/meshes/glb/suzanne.glb"
+T+ 0.828548 [ info  ] [25364] : Loading asset "teapot" at "resources/meshes/glb/teapot.glb"
+T+ 0.834606 [ info  ] [25364] : Loading asset "container_diffuse" at "resources/textures/container_diffuse.png"
+T+ 0.840495 [ info  ] [25364] : Loading asset "container_specular" at "resources/textures/container_specular.png"
+T+ 0.843576 [ info  ] [25364] : Loading asset "park" at "resources/textures/park.png"
+T+ 0.857498 [ info  ] [25364] : Loading asset "planetatmo" at "resources/textures/planetatmo.png"
+T+ 1.379973 [ info  ] [25364] : Loading asset "Rythe" at "resources/textures/Rythe.png"
+T+ 1.380458 [ info  ] [25364] : Loading asset "blue" at "resources/shaders/blue.shader"
+T+ 1.380592 [ info  ] [25364] : [blue-vs_4_0] Preproccessing Shader
+T+ 1.380826 [ info  ] [25364] : [blue-vs_4_0] Shader Preprocesing Success
+T+ 1.380829 [ info  ] [25364] : [blue-vs_4_0] Compiling Shader
+T+ 1.390529 [ info  ] [25364] : [blue-vs_4_0] Shader Compilation Success
+T+ 1.390534 [ info  ] [25364] : [blue-ps_4_0] Preproccessing Shader
+T+ 1.390555 [ info  ] [25364] : [blue-ps_4_0] Shader Preprocesing Success
+T+ 1.390556 [ info  ] [25364] : [blue-ps_4_0] Compiling Shader
+T+ 1.391820 [ info  ] [25364] : [blue-ps_4_0] Shader Compilation Success
+T+ 1.395565 [ info  ] [25364] : Loading asset "color" at "resources/shaders/color.shader"
+T+ 1.395670 [ info  ] [25364] : [color-vs_4_0] Preproccessing Shader
+T+ 1.395859 [ info  ] [25364] : [color-vs_4_0] Shader Preprocesing Success
+T+ 1.395861 [ info  ] [25364] : [color-vs_4_0] Compiling Shader
+T+ 1.405217 [ info  ] [25364] : [color-vs_4_0] Shader Compilation Success
+T+ 1.405222 [ info  ] [25364] : [color-ps_4_0] Preproccessing Shader
+T+ 1.405243 [ info  ] [25364] : [color-ps_4_0] Shader Preprocesing Success
+T+ 1.405244 [ info  ] [25364] : [color-ps_4_0] Compiling Shader
+T+ 1.406044 [ info  ] [25364] : [color-ps_4_0] Shader Compilation Success
+T+ 1.406124 [ info  ] [25364] : Loading asset "green" at "resources/shaders/green.shader"
+T+ 1.406230 [ info  ] [25364] : [green-vs_4_0] Preproccessing Shader
+T+ 1.406412 [ info  ] [25364] : [green-vs_4_0] Shader Preprocesing Success
+T+ 1.406414 [ info  ] [25364] : [green-vs_4_0] Compiling Shader
+T+ 1.415731 [ info  ] [25364] : [green-vs_4_0] Shader Compilation Success
+T+ 1.415736 [ info  ] [25364] : [green-ps_4_0] Preproccessing Shader
+T+ 1.415756 [ info  ] [25364] : [green-ps_4_0] Shader Preprocesing Success
+T+ 1.415757 [ info  ] [25364] : [green-ps_4_0] CT+ 0.038590 [ info  ] [24660] : Logging Initialized
+T+ 0.038646 [ info  ] [24660] : Initializing Eventbus
+T+ 0.038647 [ info  ] [24660] : Initializing Scheduler
+T+ 0.038670 [ info  ] [24660] : Initializing Rendering Module
+T+ 0.038680 [ info  ] [24660] : Initializing Input Module
+T+ 0.038686 [ info  ] [24660] : Initializing Game Module
+T+ 0.150491 [ info  ] [24660] : Initializing Render Pipeline
+T+ 0.150518 [ info  ] [24660] : Initializing DX11
+T+ 0.150524 [warning] [24660] : The window "Arbrook" does not exist
+T+ 0.480984 [ info  ] [24660] : Initializing Test System
+T+ 0.481198 [ info  ] [24660] : Loading asset "alligator" at "resources/meshes/glb/alligator.glb"
+T+ 0.482669 [ info  ] [24660] : Loading asset "armadillo" at "resources/meshes/glb/armadillo.glb"
+T+ 0.518161 [ info  ] [24660] : Loading asset "beast" at "resources/meshes/glb/beast.glb"
+T+ 0.634570 [ info  ] [24660] : Loading asset "bunny" at "resources/meshes/glb/bunny.glb"
+T+ 0.748782 [ info  ] [24660] : Loading asset "cone" at "resources/meshes/glb/cone.glb"
+T+ 0.751774 [ info  ] [24660] : Loading asset "cube" at "resources/meshes/glb/cube.glb"
+T+ 0.752575 [ info  ] [24660] : Loading asset "icosphere" at "resources/meshes/glb/icosphere.glb"
+T+ 0.753727 [ info  ] [24660] : Loading asset "plane" at "resources/meshes/glb/plane.glb"
+T+ 0.754586 [ info  ] [24660] : Loading asset "sphere" at "resources/meshes/glb/sphere.glb"
+T+ 0.756203 [ info  ] [24660] : Loading asset "sponza" at "resources/meshes/glb/sponza.glb"
+T+ 0.890157 [ info  ] [24660] : Loading asset "suzanne" at "resources/meshes/glb/suzanne.glb"
+T+ 0.901093 [ info  ] [24660] : Loading asset "teapot" at "resources/meshes/glb/teapot.glb"
+T+ 0.908043 [ info  ] [24660] : Loading asset "container_diffuse" at "resources/textures/container_diffuse.png"
+T+ 0.915948 [ info  ] [24660] : Loading asset "container_specular" at "resources/textures/container_specular.png"
+T+ 0.920541 [ info  ] [24660] : Loading asset "park" at "resources/textures/park.png"
+T+ 0.938205 [ info  ] [24660] : Loading asset "planetatmo" at "resources/textures/planetatmo.png"
+T+ 2.555906 [ info  ] [24660] : Loading asset "Rythe" at "resources/textures/Rythe.png"
+T+ 2.556424 [ info  ] [24660] : Loading asset "blue" at "resources/shaders/blue.shader"
+T+ 2.556586 [ info  ] [24660] : [blue-vs_4_0] Preproccessing Shader
+T+ 2.556841 [ info  ] [24660] : [blue-vs_4_0] Shader Preprocesing Success
+T+ 2.556844 [ info  ] [24660] : [blue-vs_4_0] Compiling Shader
+T+ 2.569979 [ info  ] [24660] : [blue-vs_4_0] Shader Compilation Success
+T+ 2.569987 [ info  ] [24660] : [blue-ps_4_0] Preproccessing Shader
+T+ 2.570018 [ info  ] [24660] : [blue-ps_4_0] Shader Preprocesing Success
+T+ 2.570020 [ info  ] [24660] : [blue-ps_4_0] Compiling Shader
+T+ 2.570970 [ info  ] [24660] : [blue-ps_4_0] Shader Compilation Success
+T+ 2.575505 [ info  ] [24660] : Loading asset "color" at "resources/shaders/color.shader"
+T+ 2.575668 [ info  ] [24660] : [color-vs_4_0] Preproccessing Shader
+T+ 2.575927 [ info  ] [24660] : [color-vs_4_0] Shader Preprocesing Success
+T+ 2.575931 [ info  ] [24660] : [color-vs_4_0] Compiling Shader
+T+ 2.593292 [ info  ] [24660] : [color-vs_4_0] Shader Compilation Success
+T+ 2.593302 [ info  ] [24660] : [color-ps_4_0] Preproccessing Shader
+T+ 2.593336 [ info  ] [24660] : [color-ps_4_0] Shader Preprocesing Success
+T+ 2.593338 [ info  ] [24660] : [color-ps_4_0] Compiling Shader
+T+ 2.594432 [ info  ] [24660] : [color-ps_4_0] Shader Compilation Success
+T+ 2.594568 [ info  ] [24660] : Loading asset "green" at "resources/shaders/green.shader"
+T+ 2.594721 [ info  ] [24660] : [green-vs_4_0] Preproccessing Shader
+T+ 2.594989 [ info  ] [24660] : [green-vs_4_0] Shader Preprocesing Success
+T+ 2.594993 [ info  ] [24660] : [green-vs_4_0] Compiling Shader
+T+ 2.610274 [ info  ] [24660] : [green-vs_4_0] Shader Compilation Success
+T+ 2.610284 [ info  ] [24660] : [green-ps_4_0] Preproccessing Shader
+T+ 2.610317 [ info  ] [24660] : [green-ps_4_0] Shader Preprocesing Success
+T+ 2.610318 [ info  ] [24660] : [green-ps_4_0] Compiling Shader
+T+ 2.611489 [ info  ] [24660] : [green-ps_4_0] Shader Compilation Success
+T+ 2.611629 [ info  ] [24660] : Loading asset "lit" at "resources/shaders/lit.shader"
+T+ 2.611771 [ info  ] [24660] : [lit-vs_4_0] Preproccessing Shader
+T+ 2.612134 [ info  ] [24660] : [lit-vs_4_0] Shader Preprocesing Success
+T+ 2.612138 [ info  ] [24660] : [lit-vs_4_0] Compiling Shader
+T+ 2.642872 [ info  ] [24660] : [lit-vs_4_0] Shader Compilation Success
+T+ 2.642883 [ info  ] [24660] : [lit-ps_4_0] Preproccessing Shader
+T+ 2.643216 [ info  ] [24660] : [lit-ps_4_0] Shader Preprocesing Success
+T+ 2.643219 [ info  ] [24660] : [lit-ps_4_0] Compiling Shader
+T+ 2.669850 [ info  ] [24660] : [lit-ps_4_0] Shader Compilation Success
+T+ 2.670058 [ info  ] [24660] : Loading asset "normal" at "resources/shaders/normal.shader"
+T+ 2.670166 [ info  ] [24660] : [normal-vs_4_0] Preproccessing Shader
+T+ 2.670380 [ info  ] [24660] : [normal-vs_4_0] Shader Preprocesing Success
+T+ 2.670382 [ info  ] [24660] : [normal-vs_4_0] Compiling Shader
+T+ 2.699920 [ info  ] [24660] : [normal-vs_4_0] Shader Compilation Success
+T+ 2.699931 [ info  ] [24660] : [normal-ps_4_0] Preproccessing Shader
+T+ 2.699960 [ info  ] [24660] : [normal-ps_4_0] Shader Preprocesing Success
+T+ 2.699961 [ info  ] [24660] : [normal-ps_4_0] Compiling Shader
+T+ 2.700986 [ info  ] [24660] : [normal-ps_4_0] Shader Compilation Success
+T+ 2.701150 [ info  ] [24660] : Loading asset "red" at "resources/shaders/red.shader"
+T+ 2.701302 [ info  ] [24660] : [red-vs_4_0] Preproccessing Shader
+T+ 2.701479 [ info  ] [24660] : [red-vs_4_0] Shader Preprocesing Success
+T+ 2.701481 [ info  ] [24660] : [red-vs_4_0] Compiling Shader
+T+ 2.710749 [ info  ] [24660] : [red-vs_4_0] Shader Compilation Success
+T+ 2.710753 [ info  ] [24660] : [red-ps_4_0] Preproccessing Shader
+T+ 2.710774 [ info  ] [24660] : [red-ps_4_0] Shader Preprocesing Success
+T+ 2.710774 [ info  ] [24660] : [red-ps_4_0] Compiling Shader
+T+ 2.711526 [ info  ] [24660] : [red-ps_4_0] Shader Compilation Success
+T+ 2.711609 [ info  ] [24660] : Loading asset "shadertoolsconfig" at "resources/shaders/shadertoolsconfig.json"
+T+ 2.711613 [ info  ] [24660] : Loading asset "skybox" at "resources/shaders/skybox.shader"
+T+ 2.711724 [ info  ] [24660] : [skybox-vs_4_0] Preproccessing Shader
+T+ 2.711900 [ info  ] [24660] : [skybox-vs_4_0] Shader Preprocesing Success
+T+ 2.711903 [ info  ] [24660] : [skybox-vs_4_0] Compiling Shader
+T+ 2.718467 [ info  ] [24660] : [skybox-vs_4_0] Shader Compilation Success
+T+ 2.718472 [ info  ] [24660] : [skybox-ps_4_0] Preproccessing Shader
+T+ 2.718761 [ info  ] [24660] : [skybox-ps_4_0] Shader Preprocesing Success
+T+ 2.718763 [ info  ] [24660] : [skybox-ps_4_0] Compiling Shader
+T+ 2.728901 [ info  ] [24660] : [skybox-ps_4_0] Shader Compilation Success
+T+ 2.729012 [ info  ] [24660] : Loading asset "white" at "resources/shaders/white.shader"
+T+ 2.729119 [ info  ] [24660] : [white-vs_4_0] Preproccessing Shader
+T+ 2.729287 [ info  ] [24660] : [white-vs_4_0] Shader Preprocesing Success
+T+ 2.729289 [ info  ] [24660] : [white-vs_4_0] Compiling Shader
+T+ 2.738545 [ info  ] [24660] : [white-vs_4_0] Shader Compilation Success
+T+ 2.738550 [ info  ] [24660] : [white-ps_4_0] Preproccessing Shader
+T+ 2.738570 [ info  ] [24660] : [white-ps_4_0] Shader Preprocesing Success
+T+ 2.738571 [ info  ] [24660] : [white-ps_4_0] Compiling Shader
+T+ 2.739346 [ info  ] [24660] : [white-ps_4_0] Shader Compilation Success
+T+ 2.739989 [warning] [24660] : Asset[struct rythe::rendering::Ishader<struct rythe::rendering::internal::shader>] "skybox" already exists, returning existing handle
+T+ 2.747831 [ info  ] [24660] : Initializing Input System
+T+ 6.657359 [ info  ] [24660] : Initializing Arbrook_TestStress
+T+ 16.513803 [ info  ] [24660] : Initializing BGFX_TestStress
+T+ 20.541149 [ info  ] [24660] : Initializing DX11
+T+ 20.541544 [ info  ] [24660] : Initializing Native_TestStress
+T+ 24.098375 [ info  ] [24660] : Initializing Arbrook_TestDrawIndexedInstanced
+T+ 24.098450 [warning] [24660] : Material test already exists, ignoring creation request and returning existing material
+T+ 26.043650 [ info  ] [24660] : Initializing BGFX_TestDrawIndexedInstanced
+T+ 28.041388 [ info  ] [24660] : Initializing DX11
+T+ 28.041817 [ info  ] [24660] : Initializing NativeDX11_TestDrawIndexedInstanced
+T+ 29.913313 [ info  ] [24660] : Initializing Arbrook_TestModelSwitch
+T+ 29.913366 [warning] [24660] : Material test already exists, ignoring creation request and returning existing material
+T+ 33.122036 [ info  ] [24660] : Initializing BGFX_TestModelSwitch
+T+ 37.942909 [ info  ] [24660] : Initializing DX11
+T+ 37.943363 [ info  ] [24660] : Initializing NativeDX11_TestModelSwitch
+T+ 40.706486 [ info  ] [24660] : Initializing Arbrook_TestMaterialSwitch
+T+ 42.588871 [ info  ] [24660] : Initializing BGFX_TestMaterialSwitch
+T+ 44.592884 [ info  ] [24660] : Initializing DX11
+T+ 44.593304 [ info  ] [24660] : Initializing Native_TestMaterialSwitch
+T+ 58.475117 [ info  ] [24660] : Printing results....
+T+ 59.118759 [ info  ] [24660] : Results Printed!
+T+ 72.121056 [ info  ] [24660] : Shutting Down Logging
+T+ 72.121078 [ info  ] [24660] : Shutting Down Eventbus
+T+ 72.121094 [ info  ] [24660] : Shutting Down Scheduler
+T+ 72.121109 [ info  ] [24660] : Killing Program
+T+ 0.037542 [ info  ] [21676] : Logging Initialized
+T+ 0.037827 [ info  ] [21676] : Initializing Eventbus
+T+ 0.037831 [ info  ] [21676] : Initializing Scheduler
+T+ 0.037847 [ info  ] [21676] : Initializing Rendering Module
+T+ 0.037860 [ info  ] [21676] : Initializing Input Module
+T+ 0.037864 [ info  ] [21676] : Initializing Game Module
+T+ 0.157837 [ info  ] [21676] : Initializing Render Pipeline
+T+ 0.157896 [ info  ] [21676] : Initializing OpenGL
+T+ 0.157915 [warning] [21676] : The window "Arbrook" does not exist
+T+ 0.357674 [ info  ] [21676] : Initializing Test System
+T+ 0.357950 [ info  ] [21676] : Loading asset "alligator" at "resources/meshes/glb/alligator.glb"
+T+ 0.359709 [ info  ] [21676] : Loading asset "armadillo" at "resources/meshes/glb/armadillo.glb"
+T+ 0.397551 [ info  ] [21676] : Loading asset "beast" at "resources/meshes/glb/beast.glb"
+T+ 0.525173 [ info  ] [21676] : Loading asset "bunny" at "resources/meshes/glb/bunny.glb"
+T+ 0.661380 [ info  ] [21676] : Loading asset "cone" at "resources/meshes/glb/cone.glb"
+T+ 0.665231 [ info  ] [21676] : Loading asset "cube" at "resources/meshes/glb/cube.glb"
+T+ 0.666066 [ info  ] [21676] : Loading asset "icosphere" at "resources/meshes/glb/icosphere.glb"
+T+ 0.667061 [ info  ] [21676] : Loading asset "plane" at "resources/meshes/glb/plane.glb"
+T+ 0.667899 [ info  ] [21676] : Loading asset "sphere" at "resources/meshes/glb/sphere.glb"
+T+ 0.669644 [ info  ] [21676] : Loading asset "sponza" at "resources/meshes/glb/sponza.glb"
+T+ 0.803992 [ info  ] [21676] : Loading asset "suzanne" at "resources/meshes/glb/suzanne.glb"
+T+ 0.814347 [ info  ] [21676] : Loading asset "teapot" at "resources/meshes/glb/teapot.glb"
+T+ 0.820112 [ info  ] [21676] : Loading asset "container_diffuse" at "resources/textures/container_diffuse.png"
+T+ 0.837821 [ info  ] [21676] : Loading asset "container_specular" at "resources/textures/container_specular.png"
+T+ 0.840422 [ info  ] [21676] : Loading asset "park" at "resources/textures/park.png"
+T+ 0.850491 [ info  ] [21676] : Loading asset "planetatmo" at "resources/textures/planetatmo.png"
+T+ 2.483592 [ info  ] [21676] : Loading asset "Rythe" at "resources/textures/Rythe.png"
+T+ 2.484843 [ info  ] [21676] : Loading asset "blue" at "resources/shaders/blue.shader"
+T+ 2.526489 [ info  ] [21676] : [blue-vertex] Compiling GLSL Shader
+T+ 2.526621 [ info  ] [21676] : [blue-vertex] GLSL Shader Compilation Success
+T+ 2.551490 [ info  ] [21676] : [blue-fragment] Compiling GLSL Shader
+T+ 2.575807 [ info  ] [21676] : [blue-fragment] GLSL Shader Compilation Success
+T+ 2.592919 [ info  ] [21676] : Loading asset "color" at "resources/shaders/color.shader"
+T+ 2.613770 [ info  ] [21676] : [color-vertex] Compiling GLSL Shader
+T+ 2.613800 [ info  ] [21676] : [color-vertex] GLSL Shader Compilation Success
+T+ 2.628449 [ info  ] [21676] : [color-fragment] Compiling GLSL Shader
+T+ 2.628479 [ info  ] [21676] : [color-fragment] GLSL Shader Compilation Success
+T+ 2.628889 [ info  ] [21676] : Loading asset "green" at "resources/shaders/green.shader"
+T+ 2.643973 [ info  ] [21676] : [green-vertex] Compiling GLSL Shader
+T+ 2.643991 [ info  ] [21676] : [green-vertex] GLSL Shader Compilation Success
+T+ 2.660225 [ info  ] [21676] : [green-fragment] Compiling GLSL Shader
+T+ 2.660683 [ info  ] [21676] : [green-fragment] GLSL Shader Compilation Success
+T+ 2.664285 [ info  ] [21676] : Loading asset "lit" at "resources/shaders/lit.shader"
+T+ 2.681195 [ info  ] [21676] : [lit-vertex] Compiling GLSL Shader
+T+ 2.681228 [ info  ] [21676] : [lit-vertex] GLSL Shader Compilation Success
+T+ 2.698175 [ info  ] [21676] : [lit-fragment] Compiling GLSL Shader
+T+ 2.698200 [ info  ] [21676] : [lit-fragment] GLSL Shader Compilation Success
+T+ 2.698564 [ info  ] [21676] : Loading asset "normal" at "resources/shaders/normal.shader"
+T+ 2.717961 [ info  ] [21676] : [normal-vertex] Compiling GLSL Shader
+T+ 2.717998 [ info  ] [21676] : [normal-vertex] GLSL Shader Compilation Success
+T+ 2.733648 [ info  ] [21676] : [normal-fragment] Compiling GLSL Shader
+T+ 2.733676 [ info  ] [21676] : [normal-fragment] GLSL Shader Compilation Success
+T+ 2.734062 [ info  ] [21676] : Loading asset "red" at "resources/shaders/red.shader"
+T+ 2.751401 [ info  ] [21676] : [red-vertex] Compiling GLSL Shader
+T+ 2.751429 [ info  ] [21676] : [red-vertex] GLSL Shader Compilation Success
+T+ 2.765392 [ info  ] [21676] : [red-fragment] Compiling GLSL Shader
+T+ 2.765890 [ info  ] [21676] : [red-fragment] GLSL Shader Compilation Success
+T+ 2.769356 [ info  ] [21676] : Loading asset "shadertoolsconfig" at "resources/shaders/shadertoolsconfig.json"
+T+ 2.769360 [ info  ] [21676] : Loading asset "skybox" at "resources/shaders/skybox.shader"
+T+ 2.784680 [ info  ] [21676] : [skybox-vertex] Compiling GLSL Shader
+T+ 2.784700 [ info  ] [21676] : [skybox-vertex] GLSL Shader Compilation Success
+T+ 2.802410 [ info  ] [21676] : [skybox-fragment] Compiling GLSL Shader
+T+ 2.802429 [ info  ] [21676] : [skybox-fragment] GLSL Shader Compilation Success
+T+ 2.802716 [ info  ] [21676] : Loading asset "white" at "resources/shaders/white.shader"
+T+ 2.817708 [ info  ] [21676] : [white-vertex] Compiling GLSL Shader
+T+ 2.817728 [ info  ] [21676] : [white-vertex] GLSL Shader Compilation Success
+T+ 2.831750 [ info  ] [21676] : [white-fragment] Compiling GLSL Shader
+T+ 2.831765 [ info  ] [21676] : [white-fragment] GLSL Shader Compilation Success
+T+ 2.832333 [warning] [21676] : Asset[struct rythe::rendering::Ishader<struct rythe::rendering::internal::shader>] "skybox" already exists, returning existing handle
+T+ 2.834894 [ info  ] [21676] : Initializing Input System
+T+ 5.750286 [ info  ] [21676] : Printing results....
+T+ 5.750301 [ info  ] [21676] : Results Printed!
+T+ 7.694391 [ info  ] [21676] : Initializing Arbrook_TestStress
+T+ 11.707086 [ info  ] [21676] : Initializing BGFX_TestStress
+T+ 15.696971 [ info  ] [21676] : Initializing OpenGL
+T+ 15.697315 [ info  ] [21676] : Initializing Native_TestStress
+T+ 19.568769 [ info  ] [21676] : Initializing Arbrook_TestDrawIndexedInstanced
+T+ 21.810753 [ info  ] [21676] : Initializing BGFX_TestDrawIndexedInstanced
+T+ 23.826447 [ info  ] [21676] : Initializing OpenGL
+T+ 23.826849 [ info  ] [21676] : Initializing NativeOGL_TestDrawIndexedInstanced
+T+ 26.016422 [ info  ] [21676] : Initializing Arbrook_TestModelSwitch
+T+ 33.526901 [ info  ] [21676] : Initializing BGFX_TestModelSwitch
+T+ 38.320740 [ info  ] [21676] : Initializing OpenGL
+T+ 38.321163 [ info  ] [21676] : Initializing NativeOGL_TestModelSwitch
+T+ 43.022957 [ info  ] [21676] : Initializing Arbrook_TestMaterialSwitch
+T+ 45.253387 [ info  ] [21676] : Initializing BGFX_TestMaterialSwitch
+T+ 47.267773 [ info  ] [21676] : Initializing OpenGL
+T+ 47.268135 [ info  ] [21676] : Initializing Native_TestMaterialSwitch
+T+ 52.387997 [ info  ] [21676] : Printing results....
+T+ 53.049496 [ info  ] [21676] : Results Printed!
+T+ 55.828045 [ info  ] [21676] : Shutting Down Logging
+T+ 55.828075 [ info  ] [21676] : Shutting Down Eventbus
+T+ 55.828075 [ info  ] [21676] : Shutting Down Scheduler
+T+ 55.828094 [ info  ] [21676] : Killing Program
+T+ 0.037068 [ info  ] [24720] : Logging Initialized
+T+ 0.037140 [ info  ] [24720] : Initializing Eventbus
+T+ 0.037141 [ info  ] [24720] : Initializing Scheduler
+T+ 0.037168 [ info  ] [24720] : Initializing Rendering Module
+T+ 0.037675 [ info  ] [24720] : Initializing Input Module
+T+ 0.037682 [ info  ] [24720] : Initializing Game Module
+T+ 0.119611 [ info  ] [24720] : Initializing Render Pipeline
+T+ 0.119659 [ info  ] [24720] : Initializing OpenGL
+T+ 0.119671 [warning] [24720] : The window "Arbrook" does not exist
+T+ 0.327732 [ info  ] [24720] : Initializing Test System
+T+ 0.327987 [ info  ] [24720] : Loading asset "alligator" at "resources/meshes/glb/alligator.glb"
+T+ 0.329830 [ info  ] [24720] : Loading asset "armadillo" at "resources/meshes/glb/armadillo.glb"
+T+ 0.372738 [ info  ] [24720] : Loading asset "beast" at "resources/meshes/glb/beast.glb"
+T+ 0.490121 [ info  ] [24720] : Loading asset "bunny" at "resources/meshes/glb/bunny.glb"
+T+ 0.615333 [ info  ] [24720] : Loading asset "cone" at "resources/meshes/glb/cone.glb"
+T+ 0.618362 [ info  ] [24720] : Loading asset "cube" at "resources/meshes/glb/cube.glb"
+T+ 0.619212 [ info  ] [24720] : Loading asset "icosphere" at "resources/meshes/glb/icosphere.glb"
+T+ 0.620115 [ info  ] [24720] : Loading asset "plane" at "resources/meshes/glb/plane.glb"
+T+ 0.620863 [ info  ] [24720] : Loading asset "sphere" at "resources/meshes/glb/sphere.glb"
+T+ 0.622443 [ info  ] [24720] : Loading asset "sponza" at "resources/meshes/glb/sponza.glb"
+T+ 0.756360 [ info  ] [24720] : Loading asset "suzanne" at "resources/meshes/glb/suzanne.glb"
+T+ 0.765796 [ info  ] [24720] : Loading asset "teapot" at "resources/meshes/glb/teapot.glb"
+T+ 0.771727 [ info  ] [24720] : Loading asset "container_diffuse" at "resources/textures/container_diffuse.png"
+T+ 0.776506 [ info  ] [24720] : Loading asset "container_specular" at "resources/textures/container_specular.png"
+T+ 0.779136 [ info  ] [24720] : Loading asset "park" at "resources/textures/park.png"
+T+ 0.788521 [ info  ] [24720] : Loading asset "planetatmo" at "resources/textures/planetatmo.png"
+T+ 1.288113 [ info  ] [24720] : Loading asset "Rythe" at "resources/textures/Rythe.png"
+T+ 1.288522 [ info  ] [24720] : Loading asset "blue" at "resources/shaders/blue.shader"
+T+ 1.304712 [ info  ] [24720] : [blue-vertex] Compiling GLSL Shader
+T+ 1.304762 [ info  ] [24720] : [blue-vertex] GLSL Shader Compilation Success
+T+ 1.318435 [ info  ] [24720] : [blue-fragment] Compiling GLSL Shader
+T+ 1.318456 [ info  ] [24720] : [blue-fragment] GLSL Shader Compilation Success
+T+ 1.318753 [ info  ] [24720] : Loading asset "color" at "resources/shaders/color.shader"
+T+ 1.333186 [ info  ] [24720] : [color-vertex] Compiling GLSL Shader
+T+ 1.333207 [ info  ] [24720] : [color-vertex] GLSL Shader Compilation Success
+T+ 1.348819 [ info  ] [24720] : [color-fragment] Compiling GLSL Shader
+T+ 1.348837 [ info  ] [24720] : [color-fragment] GLSL Shader Compilation Success
+T+ 1.349016 [ info  ] [24720] : Loading asset "green" at "resources/shaders/green.shader"
+T+ 1.364723 [ info  ] [24720] : [green-vertex] Compiling GLSL Shader
+T+ 1.364745 [ info  ] [24720] : [green-vertex] GLSL Shader Compilation Success
+T+ 1.378244 [ info  ] [24720] : [green-fragment] Compiling GLSL Shader
+T+ 1.378265 [ info  ] [24720] : [green-fragment] GLSL Shader Compilation Success
+T+ 1.378444 [ info  ] [24720] : Loading asset "lit" at "resources/shaders/lit.shader"
+T+ 1.397023 [ info  ] [24720] : [lit-vertex] Compiling GLSL Shader
+T+ 1.397053 [ info  ] [24720] : [lit-vertex] GLSL Shader Compilation Success
+T+ 1.421556 [ info  ] [24720] : [lit-fragment] Compiling GLSL Shader
+T+ 1.421608 [ info  ] [24720] : [lit-fragment] GLSL Shader Compilation Success
+T+ 1.422139 [ info  ] [24720] : Loading asset "normal" at "resources/shaders/normal.shader"
+T+ 1.441323 [ info  ] [24720] : [normal-vertex] Compiling GLSL Shader
+T+ 1.441357 [ info  ] [24720] : [normal-vertex] GLSL Shader Compilation Success
+T+ 1.454638 [ info  ] [24720] : [normal-fragment] Compiling GLSL Shader
+T+ 1.454666 [ info  ] [24720] : [normal-fragment] GLSL Shader Compilation Success
+T+ 1.455098 [ info  ] [24720] : Loading asset "red" at "resources/shaders/red.shader"
+T+ 1.469033 [ info  ] [24720] : [red-vertex] Compiling GLSL Shader
+T+ 1.469058 [ info  ] [24720] : [red-vertex] GLSL Shader Compilation Success
+T+ 1.483978 [ info  ] [24720] : [red-fragment] Compiling GLSL Shader
+T+ 1.484002 [ info  ] [24720] : [red-fragment] GLSL Shader Compilation Success
+T+ 1.484201 [ info  ] [24720] : Loading asset "shadertoolsconfig" at "resources/shaders/shadertoolsconfig.json"
+T+ 1.484205 [ info  ] [24720] : Loading asset "skybox" at "resources/shaders/skybox.shader"
+T+ 1.498176 [ info  ] [24720] : [skybox-vertex] Compiling GLSL Shader
+T+ 1.498201 [ info  ] [24720] : [skybox-vertex] GLSL Shader Compilation Success
+T+ 1.513119 [ info  ] [24720] : [skybox-fragment] Compiling GLSL Shader
+T+ 1.513142 [ info  ] [24720] : [skybox-fragment] GLSL Shader Compilation Success
+T+ 1.513422 [ info  ] [24720] : Loading asset "white" at "resources/shaders/white.shader"
+T+ 1.527211 [ info  ] [24720] : [white-vertex] Compiling GLSL Shader
+T+ 1.527232 [ info  ] [24720] : [white-vertex] GLSL Shader Compilation Success
+T+ 1.540071 [ info  ] [24720] : [white-fragment] Compiling GLSL Shader
+T+ 1.540085 [ info  ] [24720] : [white-fragment] GLSL Shader Compilation Success
+T+ 1.540643 [warning] [24720] : Asset[struct rythe::rendering::Ishader<struct rythe::rendering::internal::shader>] "skybox" already exists, returning existing handle
+T+ 1.547197 [ info  ] [24720] : Initializing Input System
+T+ 4.957664 [ info  ] [24720] : Initializing Arbrook_TestStress
+T+ 8.933875 [ info  ] [24720] : Initializing BGFX_TestStress
+T+ 12.881345 [ info  ] [24720] : Initializing OpenGL
+T+ 12.881701 [ info  ] [24720] : Initializing Native_TestStress
+T+ 18.313501 [ info  ] [24720] : Shutting Down Logging
+T+ 18.313520 [ info  ] [24720] : Shutting Down Eventbus
+T+ 18.313520 [ info  ] [24720] : Shutting Down Scheduler
+T+ 18.313566 [ info  ] [24720] : Killing Program
+T+ 0.052192 [ info  ] [21228] : Logging Initialized
+T+ 0.052834 [ info  ] [21228] : Initializing Eventbus
+T+ 0.052835 [ info  ] [21228] : Initializing Scheduler
+T+ 0.052851 [ info  ] [21228] : Initializing Rendering Module
+T+ 0.052864 [ info  ] [21228] : Initializing Input Module
+T+ 0.052866 [ info  ] [21228] : Initializing Game Module
+T+ 0.166678 [ info  ] [21228] : Initializing Render Pipeline
+T+ 0.166728 [ info  ] [21228] : Initializing OpenGL
+T+ 0.166740 [warning] [21228] : The window "Arbrook" does not exist
+T+ 0.372678 [ info  ] [21228] : Initializing Test System
+T+ 0.372948 [ info  ] [21228] : Loading asset "alligator" at "resources/meshes/glb/alligator.glb"
+T+ 0.376858 [ info  ] [21228] : Loading asset "armadillo" at "resources/meshes/glb/armadillo.glb"
+T+ 0.416115 [ info  ] [21228] : Loading asset "beast" at "resources/meshes/glb/beast.glb"
+T+ 0.520771 [ info  ] [21228] : Loading asset "bunny" at "resources/meshes/glb/bunny.glb"
+T+ 0.631285 [ info  ] [21228] : Loading asset "cone" at "resources/meshes/glb/cone.glb"
+T+ 0.634023 [ info  ] [21228] : Loading asset "cube" at "resources/meshes/glb/cube.glb"
+T+ 0.634805 [ info  ] [21228] : Loading asset "icosphere" at "resources/meshes/glb/icosphere.glb"
+T+ 0.635615 [ info  ] [21228] : Loading asset "plane" at "resources/meshes/glb/plane.glb"
+T+ 0.636324 [ info  ] [21228] : Loading asset "sphere" at "resources/meshes/glb/sphere.glb"
+T+ 0.637912 [ info  ] [21228] : Loading asset "sponza" at "resources/meshes/glb/sponza.glb"
+T+ 0.771483 [ info  ] [21228] : Loading asset "suzanne" at "resources/meshes/glb/suzanne.glb"
+T+ 0.780619 [ info  ] [21228] : Loading asset "teapot" at "resources/meshes/glb/teapot.glb"
+T+ 0.786375 [ info  ] [21228] : Loading asset "container_diffuse" at "resources/textures/container_diffuse.png"
+T+ 0.791056 [ info  ] [21228] : Loading asset "container_specular" at "resources/textures/container_specular.png"
+T+ 0.793114 [ info  ] [21228] : Loading asset "park" at "resources/textures/park.png"
+T+ 0.804298 [ info  ] [21228] : Loading asset "planetatmo" at "resources/textures/planetatmo.png"
+T+ 1.308329 [ info  ] [21228] : Loading asset "Rythe" at "resources/textures/Rythe.png"
+T+ 1.308670 [ info  ] [21228] : Loading asset "blue" at "resources/shaders/blue.shader"
+T+ 1.323455 [ info  ] [21228] : [blue-vertex] Compiling GLSL Shader
+T+ 1.323511 [ info  ] [21228] : [blue-vertex] GLSL Shader Compilation Success
+T+ 1.336919 [ info  ] [21228] : [blue-fragment] Compiling GLSL Shader
+T+ 1.336936 [ info  ] [21228] : [blue-fragment] GLSL Shader Compilation Success
+T+ 1.337225 [ info  ] [21228] : Loading asset "color" at "resources/shaders/color.shader"
+T+ 1.353341 [ info  ] [21228] : [color-vertex] Compiling GLSL Shader
+T+ 1.353361 [ info  ] [21228] : [color-vertex] GLSL Shader Compilation Success
+T+ 1.366756 [ info  ] [21228] : [color-fragment] Compiling GLSL Shader
+T+ 1.366778 [ info  ] [21228] : [color-fragment] GLSL Shader Compilation Success
+T+ 1.366983 [ info  ] [21228] : Loading asset "green" at "resources/shaders/green.shader"
+T+ 1.381277 [ info  ] [21228] : [green-vertex] Compiling GLSL Shader
+T+ 1.381305 [ info  ] [21228] : [green-vertex] GLSL Shader Compilation Success
+T+ 1.396412 [ info  ] [21228] : [green-fragment] Compiling GLSL Shader
+T+ 1.396432 [ info  ] [21228] : [green-fragment] GLSL Shader Compilation Success
+T+ 1.396607 [ info  ] [21228] : Loading asset "lit" at "resources/shaders/lit.shader"
+T+ 1.412559 [ info  ] [21228] : [lit-vertex] Compiling GLSL Shader
+T+ 1.412584 [ info  ] [21228] : [lit-vertex] GLSL Shader Compilation Success
+T+ 1.428121 [ info  ] [21228] : [lit-fragment] Compiling GLSL Shader
+T+ 1.428143 [ info  ] [21228] : [lit-fragment] GLSL Shader Compilation Success
+T+ 1.428512 [ info  ] [21228] : Loading asset "normal" at "resources/shaders/normal.shader"
+T+ 1.446527 [ info  ] [21228] : [normal-vertex] Compiling GLSL Shader
+T+ 1.446556 [ info  ] [21228] : [normal-vertex] GLSL Shader Compilation Success
+T+ 1.459505 [ info  ] [21228] : [normal-fragment] Compiling GLSL Shader
+T+ 1.459528 [ info  ] [21228] : [normal-fragment] GLSL Shader Compilation Success
+T+ 1.459910 [ info  ] [21228] : Loading asset "red" at "resources/shaders/red.shader"
+T+ 1.473865 [ info  ] [21228] : [red-vertex] Compiling GLSL Shader
+T+ 1.473888 [ info  ] [21228] : [red-vertex] GLSL Shader Compilation Success
+T+ 1.487195 [ info  ] [21228] : [red-fragment] Compiling GLSL Shader
+T+ 1.487221 [ info  ] [21228] : [red-fragment] GLSL Shader Compilation Success
+T+ 1.487423 [ info  ] [21228] : Loading asset "shadertoolsconfig" at "resources/shaders/shadertoolsconfig.json"
+T+ 1.487429 [ info  ] [21228] : Loading asset "skybox" at "resources/shaders/skybox.shader"
+T+ 1.501412 [ info  ] [21228] : [skybox-vertex] Compiling GLSL Shader
+T+ 1.501431 [ info  ] [21228] : [skybox-vertex] GLSL Shader Compilation Success
+T+ 1.518004 [ info  ] [21228] : [skybox-fragment] Compiling GLSL Shader
+T+ 1.518026 [ info  ] [21228] : [skybox-fragment] GLSL Shader Compilation Success
+T+ 1.518299 [ info  ] [21228] : Loading asset "white" at "resources/shaders/white.shader"
+T+ 1.532347 [ info  ] [21228] : [white-vertex] Compiling GLSL Shader
+T+ 1.532368 [ info  ] [21228] : [white-vertex] GLSL Shader Compilation Success
+T+ 1.545264 [ info  ] [21228] : [white-fragment] Compiling GLSL Shader
+T+ 1.545284 [ info  ] [21228] : [white-fragment] GLSL Shader Compilation Success
+T+ 1.545849 [warning] [21228] : Asset[struct rythe::rendering::Ishader<struct rythe::rendering::internal::shader>] "skybox" already exists, returning existing handle
+T+ 1.552473 [ info  ] [21228] : Initializing Input System
+T+ 17.769279 [ info  ] [21228] : Initializing Arbrook_TestStress
+T+ 21.847500 [ info  ] [21228] : Initializing BGFX_TestStress
+T+ 25.845776 [ info  ] [21228] : Initializing OpenGL
+T+ 25.846109 [ info  ] [21228] : Initializing Native_TestStress
+T+ 29.590759 [ info  ] [21228] : Shutting Down Logging
+T+ 29.590775 [ info  ] [21228] : Shutting Down Eventbus
+T+ 29.590776 [ info  ] [21228] : Shutting Down Scheduler
+T+ 29.590805 [ info  ] [21228] : Killing Program

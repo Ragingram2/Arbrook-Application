@@ -54,12 +54,13 @@ namespace rythe::testing
 			model = math::rotate(model, math::radians(i), math::vec3(0.0f, 1.0f, 0.0f));
 			data.model = model;
 
-			layout.bind();
-			mat->shader->setData("CameraBuffer", &data);
-			vBuffer->bind();
-			idxBuffer->bind();
 			{
-				FrameClock clock(name, APIType::Arbrook, "DrawCallTime");
+				FrameClock clock(name, APIType::Arbrook, "Drawing Time");
+				layout.bind();
+				mat->shader->setData("CameraBuffer", &data);
+				vBuffer->bind();
+				idxBuffer->bind();
+
 				gfx::Renderer::RI->drawIndexedInstanced(gfx::PrimitiveType::TRIANGLESLIST, meshHandle->indices.size(), 1, 0, 0, 0);
 			}
 		}
@@ -171,11 +172,12 @@ namespace rythe::testing
 
 			bgfx::setTransform(model.data);
 
-			bgfx::setVertexBuffer(0, vertexBuffer);
-			bgfx::setIndexBuffer(indexBuffer);
-			bgfx::setState(state);
 			{
-				FrameClock clock(name, APIType::BGFX, "DrawCallTime");
+				FrameClock clock(name, APIType::BGFX, "Drawing Time");
+				bgfx::setVertexBuffer(0, vertexBuffer);
+				bgfx::setIndexBuffer(indexBuffer);
+				bgfx::setState(state);
+
 				bgfx::submit(0, shader);
 				bgfx::frame();
 			}
@@ -259,8 +261,8 @@ namespace rythe::testing
 			data.model = math::rotate(model, math::radians(i), math::vec3(0.0f, 1.0f, 0.0f));
 
 			{
+				FrameClock clock(name, APIType::Native, "Drawing Time");
 				glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(gfx::camera_data), &data);
-				FrameClock clock(name, APIType::Native, "DrawCallTime");
 				glDrawElements(GL_TRIANGLES, meshHandle->indices.size(), GL_UNSIGNED_INT, reinterpret_cast <void*>(0));
 			}
 
@@ -307,7 +309,7 @@ namespace rythe::testing
 			// Create the vertex buffer
 			D3D11_BUFFER_DESC bd = {};
 			bd.Usage = D3D11_USAGE_DEFAULT;
-			bd.ByteWidth = meshHandle->vertices.size()  * sizeof(math::vec4);
+			bd.ByteWidth = meshHandle->vertices.size() * sizeof(math::vec4);
 			bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 			bd.CPUAccessFlags = 0;
 			D3D11_SUBRESOURCE_DATA initData = {};
@@ -363,10 +365,11 @@ namespace rythe::testing
 			math::vec3 pos = math::vec3(0.0f, 0.0f, 10.0f);
 			auto model = math::translate(math::mat4(1.0f), pos);
 			data.model = math::rotate(model, math::radians(i), math::vec3(0.0f, 1.0f, 0.0f));
-			deviceContext->UpdateSubresource(constantBuffer, 0, nullptr, &data, 0, 0);
-			deviceContext->VSSetConstantBuffers(0, 1, &constantBuffer);
+
 			{
-				FrameClock clock(name, APIType::Native, "DrawCallTime");
+				FrameClock clock(name, APIType::Native, "Drawing Time");
+				deviceContext->UpdateSubresource(constantBuffer, 0, nullptr, &data, 0, 0);
+				deviceContext->VSSetConstantBuffers(0, 1, &constantBuffer);
 				deviceContext->DrawIndexed(meshHandle->indices.size(), 0, 0);
 			}
 		}

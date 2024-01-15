@@ -184,8 +184,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="components\camerasettings.hpp" />
     <ClInclude Include="components\test_renderer.hpp" />
     <ClInclude Include="modules\testmodule.hpp" />
+    <ClInclude Include="systems\cameracontrols.hpp" />
     <ClInclude Include="systems\examplesystem.hpp" />
     <ClInclude Include="systems\game.hpp" />
     <ClInclude Include="systems\testsystem.hpp" />
@@ -202,6 +204,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\arbrook\Arbrook.cpp" />
+    <ClCompile Include="systems\cameracontrols.cpp" />
     <ClCompile Include="systems\game.cpp" />
     <ClCompile Include="systems\testsystem.cpp" />
   </ItemGroup>

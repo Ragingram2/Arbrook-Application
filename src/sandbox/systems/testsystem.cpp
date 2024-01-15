@@ -32,7 +32,7 @@ namespace rythe::testing
 		m_testScenes[APIType::Arbrook].emplace_back(std::make_unique<DrawIndexedInstancedTest<APIType::Arbrook>>());
 		m_testScenes[APIType::Arbrook].emplace_back(std::make_unique<ModelSwitchTest<APIType::Arbrook>>());
 		m_testScenes[APIType::Arbrook].emplace_back(std::make_unique<MaterialSwitchTest<APIType::Arbrook>>());
-		m_testScenes[APIType::Arbrook].emplace_back(std::make_unique<BufferCreationTest<APIType::Arbrook>>());
+		//m_testScenes[APIType::Arbrook].emplace_back(std::make_unique<BufferCreationTest<APIType::Arbrook>>());
 
 		m_testScenes.emplace(APIType::BGFX, std::vector<std::unique_ptr<rendering_test>>());
 		m_testScenes[APIType::BGFX].emplace_back(std::make_unique<StressTest<APIType::BGFX>>());
@@ -46,7 +46,7 @@ namespace rythe::testing
 		m_testScenes[APIType::Native].emplace_back(std::make_unique<DrawIndexedInstancedTest<APIType::Native>>());
 		m_testScenes[APIType::Native].emplace_back(std::make_unique<ModelSwitchTest<APIType::Native>>());
 		m_testScenes[APIType::Native].emplace_back(std::make_unique<MaterialSwitchTest<APIType::Native>>());
-		m_testScenes[APIType::Native].emplace_back(std::make_unique<BufferCreationTest<APIType::Native>>());
+		//m_testScenes[APIType::Native].emplace_back(std::make_unique<BufferCreationTest<APIType::Native>>());
 
 
 		cameraEntity = createEntity("Camera");
@@ -64,9 +64,6 @@ namespace rythe::testing
 
 	void TestSystem::update()
 	{
-		currentFrame = glfwGetTime();
-		deltaTime = currentFrame - lastFrame;
-		lastFrame = currentFrame;
 	}
 
 	void TestSystem::initializeTest(core::transform transf, gfx::camera cam)
@@ -97,7 +94,7 @@ namespace rythe::testing
 			currentType = Arbrook;
 			gfx::WindowProvider::activeWindow->setWindowTitle("Arbrook");
 
-			if (runningAllTests && currentTest < 4)
+			if (runningAllTests && currentTest < 3)
 				currentTest++;
 			else
 			{
@@ -196,7 +193,7 @@ namespace rythe::testing
 				}
 
 				Text("Here is where you can select which rendering test to run");
-				static const char* testNames[] = { "StressTest","DrawTest","ModelSwitch","MaterialSwitch","BufferCreation" };
+				static const char* testNames[] = { "StressTest","DrawTest","ModelSwitch","MaterialSwitch"};
 				if (BeginCombo("Test Dropdown", testNames[currentTest]))
 				{
 					for (int i = 0; i < sizeof(testNames) / (sizeof(const char*)); i++)
@@ -227,6 +224,8 @@ namespace rythe::testing
 
 				if (Button("Write Results to Files"))
 				{
+					SameLine();
+					Text("Writing Results to File......");
 					writeTests();
 				}
 			}

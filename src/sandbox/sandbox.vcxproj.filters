@@ -69,6 +69,8 @@
     <ClInclude Include="tests\tools\bgfxutils.hpp">
       <Filter>tests\tools</Filter>
     </ClInclude>
+    <ClInclude Include="systems\cameracontrols.hpp" />
+    <ClInclude Include="components\camerasettings.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\arbrook\Arbrook.cpp">
@@ -80,5 +82,6 @@
     <ClCompile Include="systems\testsystem.cpp">
       <Filter>systems</Filter>
     </ClCompile>
+    <ClCompile Include="systems\cameracontrols.cpp" />
   </ItemGroup>
 </Project>
