@@ -1,4 +1,4 @@
-#include "sandbox/systems/game.hpp"
+#include "sandbox/systems/game/game.hpp"
 
 namespace fs = std::filesystem;
 namespace ast = rythe::core::assets;
@@ -9,19 +9,18 @@ namespace rythe::game
 		log::info("Initializing Game system");
 		bindEvent<key_input<inputmap::method::NUM1>, &Game::reloadShaders>();
 		bindEvent<key_input<inputmap::method::ESCAPE>, &Game::toggleMouseCapture>();
-		//bindEvent<moveInput, &Game::move>();
-		//bindEvent<mouse_input, &Game::mouselook>();
 
 		input::InputSystem::registerWindow(gfx::Renderer::RI->getGlfwWindow());
 		gfx::gui_stage::addGuiRender<Game, &Game::guiRender>(this);
 
 		ast::AssetCache<gfx::texture>::registerImporter<gfx::TextureImporter>();
 		ast::AssetCache<gfx::mesh>::registerImporter<gfx::MeshImporter>();
-		ast::AssetCache<gfx::shader>::registerImporter<gfx::ShaderImporter>();
+		ast::AssetCache<gfx::shader_source>::registerImporter<gfx::ShaderImporter>();
 
 		ast::AssetCache<gfx::mesh>::loadAssets("resources/meshes/glb/", gfx::default_mesh_params);
 		ast::AssetCache<gfx::texture>::loadAssets("resources/textures/", gfx::default_texture_params);
-		ast::AssetCache<gfx::shader>::loadAssets("resources/shaders/", gfx::default_shader_params);
+		ast::AssetCache<gfx::shader_source>::loadAssets("resources/shaders/", gfx::default_shader_params);
+		gfx::ShaderCache::compileShaders(ast::AssetCache<gfx::shader_source>::getAssets());
 		gfx::ModelCache::loadModels(ast::AssetCache<gfx::mesh>::getAssets());
 
 		ast::AssetCache<gfx::texture>::createAsset("park", "resources/textures/park.png", gfx::texture_parameters
@@ -76,7 +75,6 @@ namespace rythe::game
 
 		{
 			auto camera = createEntity("Camera");
-			//camera.addComponent<gfx::light>({ .type = gfx::LightType::POINT, .data.color = math::vec4(1.0f,1.0f,1.0f,1.0f), .data.intensity = 1.0f, .data.range = 10.f });
 			auto& camTransf = camera.addComponent<core::transform>();
 			camTransf.position = math::vec3(0.0f, 0.0f, 0.0f);
 			camTransf.rotation = math::quat(math::lookAt(math::vec3::zero, camTransf.forward(), camTransf.up()));

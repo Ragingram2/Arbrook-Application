@@ -1,4 +1,4 @@
-#include "sandbox/systems/testsystem.hpp"
+#include "sandbox/systems/testing/testsystem.hpp"
 
 namespace rythe::testing
 {
@@ -16,11 +16,11 @@ namespace rythe::testing
 
 		ast::AssetCache<gfx::texture>::registerImporter<gfx::TextureImporter>();
 		ast::AssetCache<gfx::mesh>::registerImporter<gfx::MeshImporter>();
-		ast::AssetCache<gfx::shader>::registerImporter<gfx::ShaderImporter>();
+		ast::AssetCache<gfx::shader_source>::registerImporter<gfx::ShaderImporter>();
 
 		ast::AssetCache<gfx::mesh>::loadAssets("resources/meshes/glb/", gfx::default_mesh_params);
 		ast::AssetCache<gfx::texture>::loadAssets("resources/textures/", gfx::default_texture_params);
-		ast::AssetCache<gfx::shader>::loadAssets("resources/shaders/", gfx::default_shader_params);
+		ast::AssetCache<gfx::shader_source>::loadAssets("resources/shaders/", gfx::default_shader_params);
 		gfx::MaterialCache::loadMaterial("red", "red");
 		gfx::MaterialCache::loadMaterial("green", "green");
 		gfx::MaterialCache::loadMaterial("blue", "blue");

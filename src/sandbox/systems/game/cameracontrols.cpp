@@ -1,4 +1,4 @@
-#include "sandbox/systems/cameracontrols.hpp"
+#include "sandbox/systems/game/cameracontrols.hpp"
 
 namespace rythe::game
 {

@@ -1,10 +1,11 @@
 #pragma once
 #include "core/logging/logging.hpp"
 #include "core/modules/module.hpp"
-#include "sandbox/systems/testsystem.hpp"
-#include "sandbox/systems/game.hpp"
-#include "sandbox/systems/examplesystem.hpp"
-#include "sandbox/systems/cameracontrols.hpp"
+#include "sandbox/systems/testing/testsystem.hpp"
+#include "sandbox/systems/game/game.hpp"
+#include "sandbox/systems/game/examplesystem.hpp"
+#include "sandbox/systems/game/cameracontrols.hpp"
+#include "sandbox/systems/planegame/physicssystem.hpp"
 
 namespace rythe::core
 {
@@ -16,6 +17,7 @@ namespace rythe::core
 			log::info("Initializing Game Module");
 			reportSystem<game::Game>();
 			reportSystem<game::ExampleSystem>();
+			//reportSystem<game::PhysicsSystem>();
 			reportSystem<game::CameraControls>();
 			//reportSystem<testing::TestSystem>();
 		}

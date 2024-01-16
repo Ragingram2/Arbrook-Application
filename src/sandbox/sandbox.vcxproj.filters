@@ -24,19 +24,31 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="components\camerasettings.hpp">
+      <Filter>components</Filter>
+    </ClInclude>
+    <ClInclude Include="components\rigidbody.hpp">
+      <Filter>components</Filter>
+    </ClInclude>
     <ClInclude Include="components\test_renderer.hpp">
       <Filter>components</Filter>
     </ClInclude>
     <ClInclude Include="modules\testmodule.hpp">
       <Filter>modules</Filter>
     </ClInclude>
-    <ClInclude Include="systems\examplesystem.hpp">
+    <ClInclude Include="systems\game\cameracontrols.hpp">
       <Filter>systems</Filter>
     </ClInclude>
-    <ClInclude Include="systems\game.hpp">
+    <ClInclude Include="systems\game\examplesystem.hpp">
       <Filter>systems</Filter>
     </ClInclude>
-    <ClInclude Include="systems\testsystem.hpp">
+    <ClInclude Include="systems\game\game.hpp">
+      <Filter>systems</Filter>
+    </ClInclude>
+    <ClInclude Include="systems\planegame\physicssystem.hpp">
+      <Filter>systems</Filter>
+    </ClInclude>
+    <ClInclude Include="systems\testing\testsystem.hpp">
       <Filter>systems</Filter>
     </ClInclude>
     <ClInclude Include="tests\bgfxpipeline\bgfxpipeline.hpp">
@@ -69,19 +81,26 @@
     <ClInclude Include="tests\tools\bgfxutils.hpp">
       <Filter>tests\tools</Filter>
     </ClInclude>
-    <ClInclude Include="systems\cameracontrols.hpp" />
-    <ClInclude Include="components\camerasettings.hpp" />
+    <ClInclude Include="components\airplane.hpp" />
+    <ClInclude Include="components\collider.hpp" />
+    <ClInclude Include="systems\planegame\airplanesystem.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\arbrook\Arbrook.cpp">
       <Filter>arbrook</Filter>
     </ClCompile>
-    <ClCompile Include="systems\game.cpp">
+    <ClCompile Include="systems\game\cameracontrols.cpp">
       <Filter>systems</Filter>
     </ClCompile>
-    <ClCompile Include="systems\testsystem.cpp">
+    <ClCompile Include="systems\game\game.cpp">
       <Filter>systems</Filter>
     </ClCompile>
-    <ClCompile Include="systems\cameracontrols.cpp" />
+    <ClCompile Include="systems\planegame\physicssystem.cpp">
+      <Filter>systems</Filter>
+    </ClCompile>
+    <ClCompile Include="systems\testing\testsystem.cpp">
+      <Filter>systems</Filter>
+    </ClCompile>
+    <ClCompile Include="systems\planegame\airplanesystem.cpp" />
   </ItemGroup>
 </Project>
