@@ -14,13 +14,14 @@ namespace rythe::testing
 		gfx::gui_stage::addGuiRender<TestSystem, &TestSystem::guiRender>(this);
 		testing::bgfx_render_stage::addRender<TestSystem, &TestSystem::BGFXRender>(this);
 
-		ast::AssetCache<gfx::texture>::registerImporter<gfx::TextureImporter>();
+		ast::AssetCache<gfx::texture_source>::registerImporter<gfx::TextureImporter>();
 		ast::AssetCache<gfx::mesh>::registerImporter<gfx::MeshImporter>();
 		ast::AssetCache<gfx::shader_source>::registerImporter<gfx::ShaderImporter>();
 
 		ast::AssetCache<gfx::mesh>::loadAssets("resources/meshes/glb/", gfx::default_mesh_params);
-		ast::AssetCache<gfx::texture>::loadAssets("resources/textures/", gfx::default_texture_params);
+		ast::AssetCache<gfx::texture_source>::loadAssets("resources/textures/", gfx::default_texture_import_params);
 		ast::AssetCache<gfx::shader_source>::loadAssets("resources/shaders/", gfx::default_shader_params);
+		gfx::ShaderCache::compileShaders(ast::AssetCache<gfx::shader_source>::getAssets());
 		gfx::MaterialCache::loadMaterial("red", "red");
 		gfx::MaterialCache::loadMaterial("green", "green");
 		gfx::MaterialCache::loadMaterial("blue", "blue");
@@ -68,6 +69,7 @@ namespace rythe::testing
 
 	void TestSystem::initializeTest(core::transform transf, gfx::camera cam)
 	{
+		ZoneScopedN("Initialize Test");
 		FrameClock clock("", currentType, "SetupTime");
 		renderer.test->setup(cam, transf);
 		clock.testName = renderer.test->name;
@@ -75,6 +77,7 @@ namespace rythe::testing
 
 	void TestSystem::updateTest(core::transform transf, gfx::camera cam)
 	{
+		ZoneScopedN("Update test");
 		FrameClock clock(renderer.test->name, currentType, "FrameTime");
 		renderer.test->update(cam, transf);
 		currentIteration++;

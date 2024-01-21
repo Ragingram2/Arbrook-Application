@@ -78,7 +78,7 @@ namespace rythe::testing
 
 			DrawModelGrid(i, data, [&]
 				{
-					mat->shader->setData("CameraBuffer", &data);
+					mat->shader->setUniform("CameraBuffer", &data);
 					gfx::Renderer::RI->drawIndexed(gfx::PrimitiveType::TRIANGLESLIST, meshHandle->indices.size(), 0, 0);
 				});
 		}
@@ -145,6 +145,7 @@ namespace rythe::testing
 			init.platformData.type = bgfx::NativeWindowHandleType::Default;
 			init.resolution.width = gfx::WindowProvider::activeWindow->getResolution().x;
 			init.resolution.height = gfx::WindowProvider::activeWindow->getResolution().y;
+			init.resolution.reset = entry::s_reset;
 
 #ifdef _DEBUG
 			init.callback = &callback;
@@ -176,7 +177,7 @@ namespace rythe::testing
 			bgfx::setViewTransform(0, data.view.data, data.projection.data);
 
 			initialized = true;
-			}
+		}
 
 		virtual void update(gfx::camera& cam, core::transform& camTransf) override
 		{
@@ -354,7 +355,7 @@ namespace rythe::testing
 			deviceContext->VSSetConstantBuffers(0, 1, &constantBuffer);
 
 			//Load shader source
-			auto shaderHandle = ast::AssetCache<gfx::shader>::getAsset("color");
+			auto shaderHandle = gfx::ShaderCache::getShader("color");
 
 			// Create and set the shaders and Set the input layout
 			InitializeShadersAndLayout(device, deviceContext, inputLayout, shaderHandle);

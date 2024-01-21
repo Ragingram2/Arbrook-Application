@@ -1,4 +1,5 @@
 #pragma once
+#include "sandbox/tests/tools/CSVWriter.hpp"
 #include "sandbox/tests/bgfxpipeline/bgfxpipeline.hpp"
 #include "sandbox/tests/rendertest.hpp"
 #include "sandbox/tests/tools/bgfxutils.hpp"
@@ -50,17 +51,20 @@ namespace rythe::testing
 
 		void update(gfx::camera& cam, core::transform& camTransf)
 		{
+			ZoneScopedN("Model Switch Test Update");
 			data.view = cam.calculate_view(&camTransf);
 
 			modelIdx++;
 
 			if (modelIdx >= modelNames.size())
 			{
+				ZoneScopedN("Reset ModelIDX");
 				modelIdx = 0;
 			}
 
 			{
-				FrameClock clock(name, APIType::Native, "Model Switch Time");
+				ZoneScopedN("Model Switch");
+				FrameClock clock(name, APIType::Arbrook, "Model Switch Time");
 				meshHandle = gfx::ModelCache::getModel(modelNames[modelIdx])->meshHandle;
 				auto vertData = meshHandle->vertices.data();
 				vBuffer->bufferData(vertData, meshHandle->vertices.size());
@@ -70,12 +74,15 @@ namespace rythe::testing
 
 			layout.bind();
 			i += .1f;
-			math::vec3 pos = math::vec3{ 0.0f, 0.0f, 10.f };
-			auto model = math::translate(math::mat4(1.0f), pos);
-			model = math::rotate(model, math::radians(i), math::vec3(0.0f, 1.0f, 0.0f));
-			data.model = model;
+			{
+				ZoneScopedN("Rotate Model Matrix");
+				math::vec3 pos = math::vec3{ 0.0f, 0.0f, 10.f };
+				auto model = math::translate(math::mat4(1.0f), pos);
+				model = math::rotate(model, math::radians(i), math::vec3(0.0f, 1.0f, 0.0f));
+				data.model = model;
+			}
 
-			mat->shader->setData("CameraBuffer", &data);
+			mat->shader->setUniform("CameraBuffer", &data);
 			vBuffer->bind();
 			idxBuffer->bind();
 			gfx::Renderer::RI->drawIndexedInstanced(gfx::PrimitiveType::TRIANGLESLIST, meshHandle->indices.size(), 1, 0, 0, 0);
@@ -196,7 +203,7 @@ namespace rythe::testing
 
 			meshHandle = gfx::ModelCache::getModel(modelNames[modelIdx])->meshHandle;
 			{
-				FrameClock clock(name, APIType::Native, "Model Switch Time");
+				FrameClock clock(name, APIType::BGFX, "Model Switch Time");
 				bgfx::update(vertexBuffer, 0, bgfx::makeRef(meshHandle->vertices.data(), meshHandle->vertices.size() * sizeof(math::vec4)));
 				bgfx::update(indexBuffer, 0, bgfx::makeRef(meshHandle->indices.data(), meshHandle->indices.size() * sizeof(unsigned int)));
 			}
@@ -414,7 +421,10 @@ namespace rythe::testing
 			meshHandle = gfx::ModelCache::getModel(modelNames[modelIdx])->meshHandle;
 
 			vertexBuffer->Release();
+			indexBuffer->Release();
 			{
+				//device->CreateBuffer(&bd, &initData, &vertexBuffer);
+				//device->CreateBuffer(&bd, &initData, &indexBuffer);
 				FrameClock clock(name, APIType::Native, "Model Switch Time");
 				// Create the vertex buffer
 				D3D11_BUFFER_DESC bd = {};
@@ -424,6 +434,7 @@ namespace rythe::testing
 				bd.CPUAccessFlags = 0;
 				D3D11_SUBRESOURCE_DATA initData = {};
 				initData.pSysMem = meshHandle->vertices.data();
+
 				CHECKERROR(device->CreateBuffer(&bd, &initData, &vertexBuffer), "Failed to create Vertex Buffer", gfx::Renderer::RI->checkError());
 
 				// Set the vertex buffer
@@ -431,7 +442,7 @@ namespace rythe::testing
 				UINT offset = 0;
 				deviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
 
-				indexBuffer->Release();
+
 				// Create the index buffer
 				bd.Usage = D3D11_USAGE_DEFAULT;
 				bd.ByteWidth = meshHandle->indices.size() * sizeof(unsigned int);
@@ -450,7 +461,7 @@ namespace rythe::testing
 			auto model = math::translate(math::mat4(1.0f), pos);
 			data.model = math::rotate(model, math::radians(i), math::vec3(0.0f, 1.0f, 0.0f));
 			deviceContext->UpdateSubresource(constantBuffer, 0, nullptr, &data, 0, 0);
-			deviceContext->VSSetConstantBuffers(0, 1, &constantBuffer);
+			//deviceContext->VSSetConstantBuffers(0, 1, &constantBuffer);
 			deviceContext->DrawIndexed(meshHandle->indices.size(), 0, 0);
 		}
 

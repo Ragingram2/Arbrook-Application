@@ -52,7 +52,7 @@ namespace rythe::testing
 	};
 
 #ifdef RenderingAPI_DX11
-	inline void InitializeShadersAndLayout(ID3D11Device* device, ID3D11DeviceContext* deviceContext, ID3D11InputLayout* inputLayout, ast::asset_handle<gfx::shader> shader)
+	inline void InitializeShadersAndLayout(ID3D11Device* device, ID3D11DeviceContext* deviceContext, ID3D11InputLayout* inputLayout, gfx::shader_handle shader)
 	{
 		ID3D11VertexShader* vertexShader;
 		ID3D11PixelShader* pixelShader;

@@ -74,13 +74,13 @@ namespace rythe::testing
 			data.model = model;
 			
 			{
-				FrameClock clock(name, APIType::Native, "Material Switch Time");
+				FrameClock clock(name, APIType::Arbrook, "Material Switch Time");
 				currentMat = materials[matIdx];
 				currentMat->bind();
 				layout.bind();
 			}
 
-			currentMat->shader->setData("CameraBuffer", &data);
+			currentMat->shader->setUniform("CameraBuffer", &data);
 			vBuffer->bind();
 			idxBuffer->bind();
 			gfx::Renderer::RI->drawIndexedInstanced(gfx::PrimitiveType::TRIANGLESLIST, meshHandle->indices.size(), 1, 0, 0, 0);
@@ -208,7 +208,7 @@ namespace rythe::testing
 			bgfx::setIndexBuffer(indexBuffer);
 			bgfx::setState(state);
 			{
-				FrameClock clock(name, APIType::Native, "Material Switch Time");
+				FrameClock clock(name, APIType::BGFX, "Material Switch Time");
 				bgfx::submit(0, currentShader);
 			}
 			bgfx::frame();

@@ -86,16 +86,16 @@ float3 CalcDirLight(Light light, float3 normal, float2 texCoords, float3 viewDir
     //diffuse
     float diff = max(dot(normal, lightDir),0.0);
     //specular
-    float3 reflectDir = reflect(-lightDir, normal);
-    float spec = pow(max(dot(viewDir, reflectDir),0.0), u_shininess);
+    // float3 reflectDir = reflect(-lightDir, normal);
+    // float spec = pow(max(dot(viewDir, reflectDir),0.0), u_shininess);
+    float3 halfwayDir = normalize(lightDir + viewDir);
+    float spec = pow(max(dot(normal, halfwayDir),0.0), u_shininess);
 
     //combine results
     float3 ambient = light.color.rgb * Diffuse.Sample(TexSampler0, texCoords).rgb * 0.1;
     float3 diffuse = light.color.rgb * diff * Diffuse.Sample(TexSampler0, texCoords).rgb;
     float3 specular = light.color.rgb * spec * Specular.Sample(TexSampler1, texCoords).rgb;
 
-
-    //return float3(ambient + diffuse + specular);
     return ambient + diffuse + specular;
 }
 
@@ -106,8 +106,10 @@ float3 CalcPointLight(Light light, float3 normal, float2 texCoords, float3 fragP
     //diffuse
     float diff = max(dot(normal, lightDir),0.0);
     //specular
-    float3 reflectDir = reflect(-lightDir, normal);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), u_shininess);
+    // float3 reflectDir = reflect(-lightDir, normal);
+    // float spec = pow(max(dot(viewDir, reflectDir), 0.0), u_shininess);
+    float3 halfwayDir = normalize(lightDir + viewDir);
+    float spec = pow(max(dot(normal, halfwayDir),0.0), u_shininess);
 
     float attenuation = Attenuation(light.position.xyz, fragPos, light.range, light.intensity);
     if(attenuation <= 0)

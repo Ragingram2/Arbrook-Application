@@ -57,7 +57,7 @@ namespace rythe::testing
 			{
 				FrameClock clock(name, APIType::Arbrook, "Drawing Time");
 				layout.bind();
-				mat->shader->setData("CameraBuffer", &data);
+				mat->shader->setUniform("CameraBuffer", &data);
 				vBuffer->bind();
 				idxBuffer->bind();
 
@@ -346,7 +346,7 @@ namespace rythe::testing
 			deviceContext->VSSetConstantBuffers(0, 1, &constantBuffer);
 
 			//Load shader source
-			auto shaderHandle = ast::AssetCache<gfx::shader>::getAsset("color");
+			auto shaderHandle = gfx::ShaderCache::getShader("color");
 
 			// Create and set the shaders and Set the input layout
 			InitializeShadersAndLayout(device, deviceContext, inputLayout, shaderHandle);

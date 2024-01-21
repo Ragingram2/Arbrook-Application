@@ -13,26 +13,28 @@ namespace rythe::game
 		input::InputSystem::registerWindow(gfx::Renderer::RI->getGlfwWindow());
 		gfx::gui_stage::addGuiRender<Game, &Game::guiRender>(this);
 
-		ast::AssetCache<gfx::texture>::registerImporter<gfx::TextureImporter>();
+		ast::AssetCache<gfx::texture_source>::registerImporter<gfx::TextureImporter>();
 		ast::AssetCache<gfx::mesh>::registerImporter<gfx::MeshImporter>();
 		ast::AssetCache<gfx::shader_source>::registerImporter<gfx::ShaderImporter>();
 
+		gfx::MaterialCache::loadMaterialFromFile("error","resources/shaders/red.shader");
+
 		ast::AssetCache<gfx::mesh>::loadAssets("resources/meshes/glb/", gfx::default_mesh_params);
-		ast::AssetCache<gfx::texture>::loadAssets("resources/textures/", gfx::default_texture_params);
+		ast::AssetCache<gfx::texture_source>::loadAssets("resources/textures/", gfx::default_texture_import_params);
 		ast::AssetCache<gfx::shader_source>::loadAssets("resources/shaders/", gfx::default_shader_params);
 		gfx::ShaderCache::compileShaders(ast::AssetCache<gfx::shader_source>::getAssets());
 		gfx::ModelCache::loadModels(ast::AssetCache<gfx::mesh>::getAssets());
 
-		ast::AssetCache<gfx::texture>::createAsset("park", "resources/textures/park.png", gfx::texture_parameters
+		gfx::TextureCache::createTexture2D("park", ast::AssetCache<gfx::texture_source>::getAsset("park"), gfx::texture_parameters
 			{
 				.format = gfx::FormatType::RGB
-			}, true);
+			});
 
 		modelHandle = gfx::ModelCache::getModel("cube");
 
 		mat = gfx::MaterialCache::loadMaterialFromFile("default", "resources/shaders/lit.shader");
-		mat->diffuse = ast::AssetCache<gfx::texture>::getAsset("container_diffuse");
-		mat->specular = ast::AssetCache<gfx::texture>::getAsset("container_specular");
+		mat->diffuse = gfx::TextureCache::createTexture2D("container_diffuse", ast::AssetCache<gfx::texture_source>::getAsset("container_diffuse"));
+		mat->specular = gfx::TextureCache::createTexture2D("container_specular", ast::AssetCache<gfx::texture_source>::getAsset("container_specular"));
 
 		color = gfx::MaterialCache::loadMaterialFromFile("color", "resources/shaders/color.shader");
 
@@ -45,7 +47,7 @@ namespace rythe::game
 
 		{
 			auto& skyboxRenderer = registry->world.addComponent<gfx::skybox_renderer>();
-			skyboxRenderer.skyboxTex = ast::AssetCache<gfx::texture>::getAsset("park");
+			skyboxRenderer.skyboxTex = gfx::TextureCache::getTexture("park");
 		}
 
 		{
