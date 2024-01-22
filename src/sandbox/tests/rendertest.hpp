@@ -51,8 +51,17 @@ namespace rythe::testing
 		virtual void destroy() = 0;
 	};
 
+	inline void rotateModel(float& i, gfx::camera_data& data)
+	{
+		i += 50 * core::Time::deltaTime;
+		math::vec3 pos = math::vec3{ 0.0f, 0.0f, 10.f };
+		auto model = math::translate(math::mat4(1.0f), pos);
+		model = math::rotate(model, math::radians(i), math::vec3(0.0f, 1.0f, 0.0f));
+		data.model = model;
+	}
+
 #ifdef RenderingAPI_DX11
-	inline void InitializeShadersAndLayout(ID3D11Device* device, ID3D11DeviceContext* deviceContext, ID3D11InputLayout* inputLayout, ast::asset_handle<gfx::shader> shader)
+	inline void InitializeShadersAndLayout(ID3D11Device* device, ID3D11DeviceContext* deviceContext, ID3D11InputLayout* inputLayout, gfx::shader_handle shader)
 	{
 		ID3D11VertexShader* vertexShader;
 		ID3D11PixelShader* pixelShader;

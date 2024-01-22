@@ -68,14 +68,14 @@ namespace rythe::testing
 
 	void TestSystem::initializeTest(core::transform transf, gfx::camera cam)
 	{
-		FrameClock clock("", currentType, "SetupTime");
+		//FrameClock clock("", currentType, "SetupTime");
 		renderer.test->setup(cam, transf);
-		clock.testName = renderer.test->name;
+		//clock.testName = renderer.test->name;
 	}
 
 	void TestSystem::updateTest(core::transform transf, gfx::camera cam)
 	{
-		FrameClock clock(renderer.test->name, currentType, "FrameTime");
+		//FrameClock clock(renderer.test->name, currentType, "FrameTime");
 		renderer.test->update(cam, transf);
 		currentIteration++;
 	}

@@ -2,9 +2,17 @@
 #include "sandbox/tests/bgfxpipeline/bgfxpipeline.hpp"
 #include "sandbox/tests/rendertest.hpp"
 #include "sandbox/tests/tools/bgfxutils.hpp"
+#include "sandbox/tests/tools/CSVWriter.hpp"
 
 namespace rythe::testing
 {
+	inline void iterateModelIndex(int& index, int size)
+	{
+		index++;
+		if (index >= size)
+			index = 0;
+	}
+
 	template<enum APIType type>
 	struct ModelSwitchTest : public rendering_test { };
 
@@ -50,32 +58,20 @@ namespace rythe::testing
 
 		void update(gfx::camera& cam, core::transform& camTransf)
 		{
-			data.view = cam.calculate_view(&camTransf);
 
-			modelIdx++;
-
-			if (modelIdx >= modelNames.size())
-			{
-				modelIdx = 0;
-			}
-
+			iterateModelIndex(modelIdx, modelNames.size());
+			rotateModel(i, data);
+			meshHandle = gfx::ModelCache::getModel(modelNames[modelIdx])->meshHandle;
 			{
 				FrameClock clock(name, APIType::Native, "Model Switch Time");
-				meshHandle = gfx::ModelCache::getModel(modelNames[modelIdx])->meshHandle;
 				auto vertData = meshHandle->vertices.data();
 				vBuffer->bufferData(vertData, meshHandle->vertices.size());
 				auto indData = meshHandle->indices.data();
 				idxBuffer->bufferData(indData, meshHandle->indices.size());
 			}
 
-			layout.bind();
-			i += .1f;
-			math::vec3 pos = math::vec3{ 0.0f, 0.0f, 10.f };
-			auto model = math::translate(math::mat4(1.0f), pos);
-			model = math::rotate(model, math::radians(i), math::vec3(0.0f, 1.0f, 0.0f));
-			data.model = model;
-
 			mat->shader->setData("CameraBuffer", &data);
+			layout.bind();
 			vBuffer->bind();
 			idxBuffer->bind();
 			gfx::Renderer::RI->drawIndexedInstanced(gfx::PrimitiveType::TRIANGLESLIST, meshHandle->indices.size(), 1, 0, 0, 0);
@@ -137,7 +133,7 @@ namespace rythe::testing
 
 			bgfx::Init init;
 			init.type = type;
-			
+
 			init.platformData.nwh = glfwGetWin32Window(gfx::WindowProvider::activeWindow->getGlfwWindow());
 			init.platformData.ndt = nullptr;
 #ifdef RenderingAPI_DX11
@@ -186,13 +182,10 @@ namespace rythe::testing
 		{
 			data.view = cam.calculate_view(&camTransf);
 			bgfx::setViewTransform(0, data.view.data, data.projection.data);
-
-			modelIdx++;
-			i += .5f;
 			bgfx::touch(0);
 
-			if (modelIdx >= modelNames.size())
-				modelIdx = 0;
+			iterateModelIndex(modelIdx, modelNames.size());
+
 
 			meshHandle = gfx::ModelCache::getModel(modelNames[modelIdx])->meshHandle;
 			{
@@ -201,11 +194,8 @@ namespace rythe::testing
 				bgfx::update(indexBuffer, 0, bgfx::makeRef(meshHandle->indices.data(), meshHandle->indices.size() * sizeof(unsigned int)));
 			}
 
-			math::vec3 pos = math::vec3{ 0, 0, 10.f };
-			auto model = math::translate(math::mat4(1.0f), pos);
-			model = math::rotate(model, math::radians(i), math::vec3(0.0f, 1.0f, 0.0f));
-			bgfx::setTransform(model.data);
-
+			rotateModel(i, data);
+			bgfx::setTransform(data.model.data);
 			bgfx::setVertexBuffer(0, vertexBuffer);
 			bgfx::setIndexBuffer(indexBuffer);
 			bgfx::setState(state);
@@ -285,12 +275,8 @@ namespace rythe::testing
 
 		void update(gfx::camera& cam, core::transform& camTransf)
 		{
-			modelIdx++;
-
-			if (modelIdx >= modelNames.size())
-			{
-				modelIdx = 0;
-			}
+			iterateModelIndex(modelIdx, modelNames.size());
+			rotateModel(i, data);
 
 			meshHandle = gfx::ModelCache::getModel(modelNames[modelIdx])->meshHandle;
 
@@ -303,12 +289,7 @@ namespace rythe::testing
 				glBufferData(GL_ELEMENT_ARRAY_BUFFER, meshHandle->indices.size() * sizeof(unsigned int), meshHandle->indices.data(), static_cast<GLenum>(gfx::UsageType::STATICDRAW));
 			}
 
-			data.view = cam.calculate_view(&camTransf);
-			i += .5f;
-
-			math::vec3 pos = math::vec3{ 0, 0, 10.0f };
-			auto model = math::translate(math::mat4(1.0f), pos);
-			data.model = math::rotate(model, math::radians(i), math::vec3(0.0f, 1.0f, 0.0f));
+			glBindBuffer(GL_UNIFORM_BUFFER, constantBufferId);
 			glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(gfx::camera_data), &data);
 			glDrawElements(GL_TRIANGLES, meshHandle->indices.size(), GL_UNSIGNED_INT, reinterpret_cast <void*>(0));
 		}
@@ -406,14 +387,13 @@ namespace rythe::testing
 
 		void update(gfx::camera& cam, core::transform& camTransf)
 		{
-			modelIdx++;
-
-			if (modelIdx >= modelNames.size())
-				modelIdx = 0;
+			iterateModelIndex(modelIdx, modelNames.size());
+			rotateModel(i, data);
 
 			meshHandle = gfx::ModelCache::getModel(modelNames[modelIdx])->meshHandle;
 
 			vertexBuffer->Release();
+			indexBuffer->Release();
 			{
 				FrameClock clock(name, APIType::Native, "Model Switch Time");
 				// Create the vertex buffer
@@ -431,7 +411,6 @@ namespace rythe::testing
 				UINT offset = 0;
 				deviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
 
-				indexBuffer->Release();
 				// Create the index buffer
 				bd.Usage = D3D11_USAGE_DEFAULT;
 				bd.ByteWidth = meshHandle->indices.size() * sizeof(unsigned int);
@@ -444,11 +423,7 @@ namespace rythe::testing
 				deviceContext->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 			}
 
-			data.view = cam.calculate_view(&camTransf);
-			i += .5f;
-			math::vec3 pos = math::vec3(0.0f, 0.0f, 10.0f);
-			auto model = math::translate(math::mat4(1.0f), pos);
-			data.model = math::rotate(model, math::radians(i), math::vec3(0.0f, 1.0f, 0.0f));
+
 			deviceContext->UpdateSubresource(constantBuffer, 0, nullptr, &data, 0, 0);
 			deviceContext->VSSetConstantBuffers(0, 1, &constantBuffer);
 			deviceContext->DrawIndexed(meshHandle->indices.size(), 0, 0);

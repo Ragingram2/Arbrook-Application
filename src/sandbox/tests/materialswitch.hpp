@@ -5,6 +5,12 @@
 
 namespace rythe::testing
 {
+	inline void iterateMaterialIndex(int& index, int size)
+	{
+		index++;
+		if (index >= size)
+			index = 0;
+	}
 	template<enum APIType type>
 	struct MaterialSwitchTest : public rendering_test { };
 
@@ -40,9 +46,7 @@ namespace rythe::testing
 			cBuffer = gfx::BufferCache::createConstantBuffer<gfx::camera_data>("CameraBuffer", 0, gfx::UsageType::STATICDRAW);
 
 			for (auto mat : materials)
-			{
 				mat->shader->addBuffer(cBuffer);
-			}
 
 			idxBuffer->bind();
 			layout.initialize(1, materials[0]->shader);
@@ -57,30 +61,17 @@ namespace rythe::testing
 
 		virtual void update(gfx::camera& cam, core::transform& camTransf) override
 		{
-			data.view = cam.calculate_view(&camTransf);
+			iterateMaterialIndex(matIdx, materials.size());
+			rotateModel(i, data);
 
-			i += .5f;
-
-			matIdx++;
-			if (matIdx >= materials.size())
-			{
-				matIdx = 0;
-			}
-
-
-			math::vec3 pos = math::vec3{ 0.0f, 0.0f, 10.f };
-			auto model = math::translate(math::mat4(1.0f), pos);
-			model = math::rotate(model, math::radians(i), math::vec3(0.0f, 1.0f, 0.0f));
-			data.model = model;
-			
 			{
 				FrameClock clock(name, APIType::Native, "Material Switch Time");
 				currentMat = materials[matIdx];
 				currentMat->bind();
-				layout.bind();
+				currentMat->shader->setData("CameraBuffer", &data);
 			}
 
-			currentMat->shader->setData("CameraBuffer", &data);
+			layout.bind();
 			vBuffer->bind();
 			idxBuffer->bind();
 			gfx::Renderer::RI->drawIndexedInstanced(gfx::PrimitiveType::TRIANGLESLIST, meshHandle->indices.size(), 1, 0, 0, 0);
@@ -188,22 +179,14 @@ namespace rythe::testing
 		{
 			data.view = cam.calculate_view(&camTransf);
 			bgfx::setViewTransform(0, data.view.data, data.projection.data);
-
-			i += .5f;
-			matIdx++;
-	
 			bgfx::touch(0);
 
-			if (matIdx >= shaders.size())
-				matIdx = 0;
+			iterateMaterialIndex(matIdx, shaders.size());
 
 			currentShader = shaders[matIdx];
-
-			math::vec3 pos = math::vec3{ 0, 0, 10.f };
-			auto model = math::translate(math::mat4(1.0f), pos);
-			model = math::rotate(model, math::radians(i), math::vec3(0.0f, 1.0f, 0.0f));
-			bgfx::setTransform(model.data);
-
+	
+			rotateModel(i, data);
+			bgfx::setTransform(data.model.data);
 			bgfx::setVertexBuffer(0, vertexBuffer);
 			bgfx::setIndexBuffer(indexBuffer);
 			bgfx::setState(state);
@@ -276,7 +259,7 @@ namespace rythe::testing
 			glGenBuffers(1, &eboId);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, eboId);
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, meshHandle->indices.size() * sizeof(unsigned int), meshHandle->indices.data(), static_cast<GLenum>(gfx::UsageType::STATICDRAW));
-			
+
 			glUseProgram(currentShaderId);
 			glGenVertexArrays(1, &vaoId);
 			glBindVertexArray(vaoId);
@@ -296,21 +279,17 @@ namespace rythe::testing
 		virtual void update(gfx::camera& cam, core::transform& camTransf) override
 		{
 			data.view = cam.calculate_view(&camTransf);
-			i += .5f;
-			matIdx++;
 
-			if (matIdx >= materials.size())
-				matIdx = 0;
+			iterateMaterialIndex(matIdx, materials.size());
+			rotateModel(i, data);
 
 			{
 				FrameClock clock(name, APIType::Native, "Material Switch Time");
 				glUseProgram(materials[matIdx]->shader->getId());
+				glBindBuffer(GL_UNIFORM_BUFFER, constantBufferId);
+				glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(gfx::camera_data), &data);
 			}
 
-			math::vec3 pos = math::vec3{ 0, 0, 10.0f };
-			auto model = math::translate(math::mat4(1.0f), pos);
-			data.model = math::rotate(model, math::radians(i), math::vec3(0.0f, 1.0f, 0.0f));
-			glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(gfx::camera_data), &data);
 			glDrawElements(GL_TRIANGLES, meshHandle->indices.size(), GL_UNSIGNED_INT, reinterpret_cast <void*>(0));
 		}
 
@@ -412,12 +391,8 @@ namespace rythe::testing
 
 		virtual void update(gfx::camera& cam, core::transform& camTransf) override
 		{
-			i += .5f;
-			matIdx++;
-
-			if (matIdx >= materials.size())
-				matIdx = 0;
-
+			iterateMaterialIndex(matIdx, materials.size());
+			rotateModel(i, data);
 			currentMat = materials[matIdx];
 
 			{
@@ -430,13 +405,12 @@ namespace rythe::testing
 				// Set the shaders
 				deviceContext->VSSetShader(vertexShader, 0, 0);
 				deviceContext->PSSetShader(pixelShader, 0, 0);
+
+				deviceContext->UpdateSubresource(constantBuffer, 0, nullptr, &data, 0, 0);
+				deviceContext->VSSetConstantBuffers(0, 1, &constantBuffer);
 			}
 
-			math::vec3 pos = math::vec3(0.0f, 0.0f, 10.0f);
-			auto model = math::translate(math::mat4(1.0f), pos);
-			data.model = math::rotate(model, math::radians(i), math::vec3(0.0f, 1.0f, 0.0f));
-			deviceContext->UpdateSubresource(constantBuffer, 0, nullptr, &data, 0, 0);
-			deviceContext->VSSetConstantBuffers(0, 1, &constantBuffer);
+
 			deviceContext->DrawIndexed(meshHandle->indices.size(), 0, 0);
 
 			vertexShader->Release();
