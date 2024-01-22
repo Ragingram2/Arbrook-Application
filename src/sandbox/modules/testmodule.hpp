@@ -15,11 +15,11 @@ namespace rythe::core
 		void setup() override
 		{
 			log::info("Initializing Game Module");
-			reportSystem<game::Game>();
-			reportSystem<game::ExampleSystem>();
+			//reportSystem<game::Game>();
+			//reportSystem<game::ExampleSystem>();
 			//reportSystem<game::PhysicsSystem>();
-			reportSystem<game::CameraControls>();
-			//reportSystem<testing::TestSystem>();
+			//reportSystem<game::CameraControls>();
+			reportSystem<testing::TestSystem>();
 		}
 	};
 }
