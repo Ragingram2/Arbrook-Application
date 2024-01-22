@@ -27,7 +27,8 @@ namespace rythe::game
 
 		gfx::TextureCache::createTexture2D("park", ast::AssetCache<gfx::texture_source>::getAsset("park"), gfx::texture_parameters
 			{
-				.format = gfx::FormatType::RGB
+				.format = gfx::FormatType::RGB,
+				.usage = gfx::UsageType::IMMUTABLE
 			});
 
 		modelHandle = gfx::ModelCache::getModel("cube");
