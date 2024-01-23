@@ -21,7 +21,7 @@ namespace rythe::testing
 		ast::AssetCache<gfx::mesh>::loadAssets("resources/meshes/glb/", gfx::default_mesh_params);
 		ast::AssetCache<gfx::texture_source>::loadAssets("resources/textures/", gfx::default_texture_import_params);
 		ast::AssetCache<gfx::shader_source>::loadAssets("resources/shaders/", gfx::default_shader_params);
-		gfx::ShaderCache::compileShaders(ast::AssetCache<gfx::shader_source>::getAssets());
+		gfx::ShaderCache::createShaders(ast::AssetCache<gfx::shader_source>::getAssets());
 		gfx::MaterialCache::loadMaterial("red", "red");
 		gfx::MaterialCache::loadMaterial("green", "green");
 		gfx::MaterialCache::loadMaterial("blue", "blue");

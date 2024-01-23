@@ -17,12 +17,12 @@ namespace rythe::game
 		ast::AssetCache<gfx::mesh>::registerImporter<gfx::MeshImporter>();
 		ast::AssetCache<gfx::shader_source>::registerImporter<gfx::ShaderImporter>();
 
-		gfx::MaterialCache::loadMaterialFromFile("error","resources/shaders/red.shader");
+		gfx::MaterialCache::loadMaterialFromFile("error", "resources/shaders/red.shader");
 
 		ast::AssetCache<gfx::mesh>::loadAssets("resources/meshes/glb/", gfx::default_mesh_params);
 		ast::AssetCache<gfx::texture_source>::loadAssets("resources/textures/", gfx::default_texture_import_params);
 		ast::AssetCache<gfx::shader_source>::loadAssets("resources/shaders/", gfx::default_shader_params);
-		gfx::ShaderCache::compileShaders(ast::AssetCache<gfx::shader_source>::getAssets());
+		gfx::ShaderCache::createShaders(ast::AssetCache<gfx::shader_source>::getAssets());
 		gfx::ModelCache::loadModels(ast::AssetCache<gfx::mesh>::getAssets());
 
 		gfx::TextureCache::createTexture2D("park", ast::AssetCache<gfx::texture_source>::getAsset("park"), gfx::texture_parameters
@@ -156,7 +156,8 @@ namespace rythe::game
 	{
 		if (input.isPressed())
 		{
-			//gfx::ShaderCache::reloadShaders();
+			ast::AssetCache<gfx::shader_source>::loadAssets("resources/shaders/", gfx::default_shader_params, true);
+			gfx::ShaderCache::compileShaders();
 		}
 	}
 

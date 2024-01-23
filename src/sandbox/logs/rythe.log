@@ -6291,3 +6291,102 @@ T+ 10.406405 [ info  ] [27860] : Shutting Down Logging
 T+ 10.406423 [ info  ] [27860] : Shutting Down Eventbus
 T+ 10.406424 [ info  ] [27860] : Shutting Down Scheduler
 T+ 10.406433 [ info  ] [27860] : Killing Program
+T+ 0.061658 [ info  ] [25848] : Logging Initialized
+T+ 0.062053 [ info  ] [25848] : Initializing Eventbus
+T+ 0.062058 [ info  ] [25848] : Initializing Scheduler
+T+ 0.062064 [ info  ] [25848] : Initializing world entity
+T+ 0.062111 [ info  ] [25848] : Initializing Rendering Module
+T+ 0.062134 [ info  ] [25848] : Initializing Input Module
+T+ 0.062143 [ info  ] [25848] : Initializing Game Module
+T+ 0.226629 [ info  ] [25848] : Initializing Render Pipeline
+T+ 0.226680 [ info  ] [25848] : Initializing OpenGL
+T+ 0.226694 [warning] [25848] : The window "Arbrook" does not exist
+T+ 0.489712 [ info  ] [25848] : Initializing Game system
+T+ 0.511955 [ info  ] [25848] : [red-vertex] Compiling GLSL Shader
+T+ 0.512021 [ info  ] [25848] : [red-vertex] GLSL Shader Compilation Success
+T+ 0.534497 [ info  ] [25848] : [red-fragment] Compiling GLSL Shader
+T+ 0.534544 [ info  ] [25848] : [red-fragment] GLSL Shader Compilation Success
+T+ 0.534920 [ info  ] [25848] : Loading asset "alligator" at "resources/meshes/glb/alligator.glb"
+T+ 0.536663 [ info  ] [25848] : Loading asset "armadillo" at "resources/meshes/glb/armadillo.glb"
+T+ 0.633638 [ info  ] [25848] : Loading asset "beast" at "resources/meshes/glb/beast.glb"
+T+ 0.741878 [ info  ] [25848] : Loading asset "bunny" at "resources/meshes/glb/bunny.glb"
+T+ 0.869722 [ info  ] [25848] : Loading asset "cone" at "resources/meshes/glb/cone.glb"
+T+ 0.879849 [ info  ] [25848] : Loading asset "cube" at "resources/meshes/glb/cube.glb"
+T+ 0.884688 [ info  ] [25848] : Loading asset "icosphere" at "resources/meshes/glb/icosphere.glb"
+T+ 0.889227 [ info  ] [25848] : Loading asset "plane" at "resources/meshes/glb/plane.glb"
+T+ 0.890062 [ info  ] [25848] : Loading asset "sphere" at "resources/meshes/glb/sphere.glb"
+T+ 0.896371 [ info  ] [25848] : Loading asset "sponza" at "resources/meshes/glb/sponza.glb"
+T+ 1.471991 [ info  ] [25848] : Loading asset "suzanne" at "resources/meshes/glb/suzanne.glb"
+T+ 1.575083 [ info  ] [25848] : Loading asset "teapot" at "resources/meshes/glb/teapot.glb"
+T+ 1.597907 [ info  ] [25848] : Loading asset "container_diffuse" at "resources/textures/container_diffuse.png"
+T+ 1.621201 [ info  ] [25848] : Loading asset "container_specular" at "resources/textures/container_specular.png"
+T+ 1.633567 [ info  ] [25848] : Loading asset "park" at "resources/textures/park.png"
+T+ 1.662387 [ info  ] [25848] : Loading asset "planetatmo" at "resources/textures/planetatmo.png"
+T+ 2.603676 [ info  ] [25848] : Loading asset "Rythe" at "resources/textures/Rythe.png"
+T+ 2.610940 [ info  ] [25848] : Loading asset "blue" at "resources/shaders/blue.shader"
+T+ 2.614516 [ info  ] [25848] : Loading asset "color" at "resources/shaders/color.shader"
+T+ 2.617589 [ info  ] [25848] : Loading asset "green" at "resources/shaders/green.shader"
+T+ 2.620492 [ info  ] [25848] : Loading asset "lit" at "resources/shaders/lit.shader"
+T+ 2.623923 [ info  ] [25848] : Loading asset "normal" at "resources/shaders/normal.shader"
+T+ 2.627213 [ info  ] [25848] : Loading asset "red" at "resources/shaders/red.shader"
+T+ 2.627302 [ info  ] [25848] : Loading asset "screen" at "resources/shaders/screen.shader"
+T+ 2.627404 [ info  ] [25848] : Loading asset "shadertoolsconfig" at "resources/shaders/shadertoolsconfig.json"
+T+ 2.627408 [ error ] [25848] : Something went wrong with loading this asset, do you have the appropriate importer registered?
+T+ 2.627411 [ info  ] [25848] : Loading asset "skybox" at "resources/shaders/skybox.shader"
+T+ 2.627493 [ info  ] [25848] : Loading asset "white" at "resources/shaders/white.shader"
+T+ 2.649110 [ info  ] [25848] : [blue-vertex] Compiling GLSL Shader
+T+ 2.649145 [ info  ] [25848] : [blue-vertex] GLSL Shader Compilation Success
+T+ 2.667877 [ info  ] [25848] : [blue-fragment] Compiling GLSL Shader
+T+ 2.668205 [ info  ] [25848] : [blue-fragment] GLSL Shader Compilation Success
+T+ 2.668914 [warning] [25848] : This shader name "red" already exists, returning existing handle
+T+ 2.684896 [ info  ] [25848] : [color-vertex] Compiling GLSL Shader
+T+ 2.6T+ 0.058682 [ info  ] [27644] : Logging Initialized
+T+ 0.063766 [ info  ] [27644] : Initializing Eventbus
+T+ 0.063769 [ info  ] [27644] : Initializing Scheduler
+T+ 0.063774 [ info  ] [27644] : Initializing world entity
+T+ 0.063824 [ info  ] [27644] : Initializing Rendering Module
+T+ 0.063843 [ info  ] [27644] : Initializing Input Module
+T+ 0.063850 [ info  ] [27644] : Initializing Game Module
+T+ 0.247770 [ info  ] [27644] : Initializing Render Pipeline
+T+ 0.247826 [ info  ] [27644] : Initializing OpenGL
+T+ 0.247840 [warning] [27644] : The window "Arbrook" does not exist
+T+ 0.600518 [ info  ] [27644] : Initializing Game system
+T+ 0.628308 [ info  ] [27644] : [red-vertex] Compiling GLSL Shader
+T+ 0.628407 [ info  ] [27644] : [red-vertex] GLSL Shader Compilation Success
+T+ 0.654390 [ info  ] [27644] : [red-fragment] Compiling GLSL Shader
+T+ 0.654433 [ info  ] [27644] : [red-fragment] GLSL Shader Compilation Success
+T+ 0.654937 [ info  ] [27644] : Loading asset "alligator" at "resources/meshes/glb/alligator.glb"
+T+ 0.657128 [ info  ] [27644] : Loading asset "armadillo" at "resources/meshes/glb/armadillo.glb"
+T+ 0.705839 [ info  ] [27644] : Loading asset "beast" at "resources/meshes/glb/beast.glb"
+T+ 0.826055 [ info  ] [27644] : Loading asset "bunny" at "resources/meshes/glb/bunny.glb"
+T+ 0.958327 [ info  ] [27644] : Loading asset "cone" at "resources/meshes/glb/cone.glb"
+T+ 0.961126 [ info  ] [27644] : Loading asset "cube" at "resources/meshes/glb/cube.glb"
+T+ 0.961975 [ info  ] [27644] : Loading asset "icosphere" at "resources/meshes/glb/icosphere.glb"
+T+ 0.963065 [ info  ] [27644] : Loading asset "plane" at "resources/meshes/glb/plane.glb"
+T+ 0.963914 [ info  ] [27644] : Loading asset "sphere" at "resources/meshes/glb/sphere.glb"
+T+ 0.965540 [ info  ] [27644] : Loading asset "sponza" at "resources/meshes/glb/sponza.glb"
+T+ 1.096591 [ info  ] [27644] : Loading asset "suzanne" at "resources/meshes/glb/suzanne.glb"
+T+ 1.107113 [ info  ] [27644] : Loading asset "teapot" at "resources/meshes/glb/teapot.glb"
+T+ 1.113298 [ info  ] [27644] : Loading asset "container_diffuse" at "resources/textures/container_diffuse.png"
+T+ 1.117882 [ info  ] [27644] : Loading asset "container_specular" at "resources/textures/container_specular.png"
+T+ 1.119705 [ info  ] [27644] : Loading asset "park" at "resources/textures/park.png"
+T+ 1.130535 [ info  ] [27644] : Loading asset "planetatmo" at "resources/textures/planetatmo.png"
+T+ 1.632138 [ info  ] [27644] : Loading asset "Rythe" at "resources/textures/Rythe.png"
+T+ 1.632649 [ info  ] [27644] : Loading asset "blue" at "resources/shaders/blue.shader"
+T+ 1.632747 [ info  ] [27644] : Loading asset "color" at "resources/shaders/color.shader"
+T+ 1.632817 [ info  ] [27644] : Loading asset "green" at "resources/shaders/green.shader"
+T+ 1.632878 [ info  ] [27644] : Loading asset "lit" at "resources/shaders/lit.shader"
+T+ 1.632942 [ info  ] [27644] : Loading asset "normal" at "resources/shaders/normal.shader"
+T+ 1.633002 [ info  ] [27644] : Loading asset "red" at "resources/shaders/red.shader"
+T+ 1.633066 [ info  ] [27644] : Loading asset "screen" at "resources/shaders/screen.shader"
+T+ 1.633143 [ info  ] [27644] : Loading asset "shadertoolsconfig" at "resources/shaders/shadertoolsconfig.json"
+T+ 1.633146 [ error ] [27644] : Something went wrong with loading this asset, do you have the appropriate importer registered?
+T+ 1.633148 [ info  ] [27644] : Loading asset "skybox" at "resources/shaders/skybox.shader"
+T+ 1.633211 [ info  ] [27644] : Loading asset "white" at "resources/shaders/white.shader"
+T+ 1.650360 [ info  ] [27644] : [blue-vertex] Compiling GLSL Shader
+T+ 1.650394 [ info  ] [27644] : [blue-vertex] GLSL Shader Compilation Success
+T+ 1.665483 [ info  ] [27644] : [blue-fragment] Compiling GLSL Shader
+T+ 1.665527 [ info  ] [27644] : [blue-fragment] GLSL Shader Compilation Success
+T+ 1.665715 [warning] [27644] : This shader name "red" already exists, returning existing handle
+T+ 1.682440 [ info  ] [27644] : [color-vertex] Compiling GLSL Shader
+T+ 1.6
