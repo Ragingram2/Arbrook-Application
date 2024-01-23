@@ -58,12 +58,11 @@ namespace rythe::testing
 
 		void update(gfx::camera& cam, core::transform& camTransf)
 		{
-
 			iterateModelIndex(modelIdx, modelNames.size());
 			rotateModel(i, data);
 			meshHandle = gfx::ModelCache::getModel(modelNames[modelIdx])->meshHandle;
 			{
-				FrameClock clock(name, APIType::Native, "Model Switch Time");
+				FrameClock clock(name, APIType::Arbrook, "Model Switch Time");
 				auto vertData = meshHandle->vertices.data();
 				vBuffer->bufferData(vertData, meshHandle->vertices.size());
 				auto indData = meshHandle->indices.data();
@@ -189,7 +188,7 @@ namespace rythe::testing
 
 			meshHandle = gfx::ModelCache::getModel(modelNames[modelIdx])->meshHandle;
 			{
-				FrameClock clock(name, APIType::Native, "Model Switch Time");
+				FrameClock clock(name, APIType::BGFX, "Model Switch Time");
 				bgfx::update(vertexBuffer, 0, bgfx::makeRef(meshHandle->vertices.data(), meshHandle->vertices.size() * sizeof(math::vec4)));
 				bgfx::update(indexBuffer, 0, bgfx::makeRef(meshHandle->indices.data(), meshHandle->indices.size() * sizeof(unsigned int)));
 			}

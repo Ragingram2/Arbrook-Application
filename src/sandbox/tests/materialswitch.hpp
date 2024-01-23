@@ -65,7 +65,7 @@ namespace rythe::testing
 			rotateModel(i, data);
 
 			{
-				FrameClock clock(name, APIType::Native, "Material Switch Time");
+				FrameClock clock(name, APIType::Arbrook, "Material Switch Time");
 				currentMat = materials[matIdx];
 				currentMat->bind();
 				currentMat->shader->setData("CameraBuffer", &data);
@@ -191,7 +191,7 @@ namespace rythe::testing
 			bgfx::setIndexBuffer(indexBuffer);
 			bgfx::setState(state);
 			{
-				FrameClock clock(name, APIType::Native, "Material Switch Time");
+				FrameClock clock(name, APIType::BGFX, "Material Switch Time");
 				bgfx::submit(0, currentShader);
 			}
 			bgfx::frame();

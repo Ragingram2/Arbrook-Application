@@ -7,6 +7,7 @@ namespace rythe::testing
 {
 	inline void DrawModelGrid(float i, gfx::camera_data& data, std::function<void()> func)
 	{
+		std::vector<math::mat4> modelMats;
 		float colCount = 50;
 		float rowCount = 50;
 		float colStep = 22.f / colCount;
@@ -21,9 +22,14 @@ namespace rythe::testing
 				auto model = math::translate(math::mat4(1.0f), pos);
 				model = math::scale(model, math::vec3(.1f));
 				model = math::rotate(model, math::radians(i), math::vec3(0.0f, 1.0f, 0.0f));
-				data.model = model;
-				func();
+				modelMats.push_back(model);
 			}
+		}
+
+		for (auto model : modelMats)
+		{
+			data.model = model;
+			func();
 		}
 	}
 
@@ -70,17 +76,20 @@ namespace rythe::testing
 		virtual void update(gfx::camera& cam, core::transform& camTransf) override
 		{
 			data.view = cam.calculate_view(&camTransf);
-			i += .5f;
+			rotateModel(i, data);
 			layout.bind();
 
 			vBuffer->bind();
 			idxBuffer->bind();
 
-			DrawModelGrid(i, data, [&]
-				{
-					mat->shader->setData("CameraBuffer", &data);
-					gfx::Renderer::RI->drawIndexed(gfx::PrimitiveType::TRIANGLESLIST, meshHandle->indices.size(), 0, 0);
-				});
+			{
+				FrameClock clock(name, APIType::Arbrook, "Frame Time");
+				DrawModelGrid(i, data, [&]
+					{
+						mat->shader->setData("CameraBuffer", &data);
+						gfx::Renderer::RI->drawIndexed(gfx::PrimitiveType::TRIANGLESLIST, meshHandle->indices.size(), 0, 0);
+					});
+			}
 		}
 
 		virtual void destroy() override
@@ -176,24 +185,26 @@ namespace rythe::testing
 			bgfx::setViewTransform(0, data.view.data, data.projection.data);
 
 			initialized = true;
-			}
+		}
 
 		virtual void update(gfx::camera& cam, core::transform& camTransf) override
 		{
 			data.view = cam.calculate_view(&camTransf);
 			bgfx::setViewTransform(0, data.view.data, data.projection.data);
 			bgfx::touch(0);
-			i += .5f;
-			DrawModelGrid(i, data, [&]
-				{
-					bgfx::setTransform(data.model.data);;
-					bgfx::setVertexBuffer(0, vertexBuffer);
-					bgfx::setIndexBuffer(indexBuffer);
-					bgfx::setState(state);
-					bgfx::submit(0, shader);
-				});
-
-			bgfx::frame();
+			rotateModel(i, data);
+			{
+				FrameClock clock(name, APIType::BGFX, "Frame Time");
+				DrawModelGrid(i, data, [&]
+					{
+						bgfx::setTransform(data.model.data);
+						bgfx::setVertexBuffer(0, vertexBuffer);
+						bgfx::setIndexBuffer(indexBuffer);
+						bgfx::setState(state);
+						bgfx::submit(0, shader);
+					});
+				bgfx::frame();
+			}
 		}
 
 		virtual void destroy() override
@@ -205,7 +216,7 @@ namespace rythe::testing
 			gfx::WindowProvider::destroyWindow("BGFX");
 			initialized = false;
 		}
-		};
+	};
 
 #if RenderingAPI == RenderingAPI_OGL
 	template<>
@@ -267,12 +278,16 @@ namespace rythe::testing
 		virtual void update(gfx::camera& cam, core::transform& camTransf) override
 		{
 			data.view = cam.calculate_view(&camTransf);
-			i += .5f;
-			DrawModelGrid(i, data, [&]
-				{
-					glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(gfx::camera_data), &data);
-					glDrawElements(GL_TRIANGLES, meshHandle->indices.size(), GL_UNSIGNED_INT, reinterpret_cast <void*>(0));
-				});
+			rotateModel(i, data);
+			{
+				glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(gfx::camera_data), &data);
+				FrameClock clock(name, APIType::Native, "Frame Time");
+				DrawModelGrid(i, data, [&]
+					{
+
+						glDrawElements(GL_TRIANGLES, meshHandle->indices.size(), GL_UNSIGNED_INT, reinterpret_cast <void*>(0));
+					});
+			}
 		}
 
 		virtual void destroy() override
@@ -284,7 +299,7 @@ namespace rythe::testing
 			glDeleteVertexArrays(1, &vaoId);
 			initialized = false;
 		}
-	};
+};
 #elif RenderingAPI == RenderingAPI_DX11
 	template<>
 	struct StressTest<APIType::Native> : public rendering_test
@@ -368,13 +383,16 @@ namespace rythe::testing
 		virtual void update(gfx::camera& cam, core::transform& camTransf) override
 		{
 			data.view = cam.calculate_view(&camTransf);
-			i += .5f;
-			DrawModelGrid(i, data, [&]
-				{
-					deviceContext->UpdateSubresource(constantBuffer, 0, nullptr, &data, 0, 0);
-					deviceContext->VSSetConstantBuffers(0, 1, &constantBuffer);
-					deviceContext->DrawIndexed(meshHandle->indices.size(), 0, 0);
-				});
+			rotateModel(i, data);
+			{
+				FrameClock clock(name, APIType::Native, "Frame Time");
+				DrawModelGrid(i, data, [&]
+					{
+						deviceContext->UpdateSubresource(constantBuffer, 0, nullptr, &data, 0, 0);
+						deviceContext->VSSetConstantBuffers(0, 1, &constantBuffer);
+						deviceContext->DrawIndexed(meshHandle->indices.size(), 0, 0);
+					});
+			}
 		}
 
 		virtual void destroy() override

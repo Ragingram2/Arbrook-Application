@@ -376,6 +376,10 @@ namespace rythe::testing
 
 		virtual void destroy() override
 		{
+			UINT stride = sizeof(math::vec4);
+			UINT offset = 0;
+			deviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
+			deviceContext->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 			if (vertexBuffer) vertexBuffer->Release();
 			if (indexBuffer) indexBuffer->Release();
 			if (constantBuffer) constantBuffer->Release();
