@@ -1,5 +1,5 @@
 #pragma once
-#include <tracy/Tracy.hpp>
+#include "core/utils/profiler.hpp"
 
 #include "core/core.hpp"
 #include "graphics/rendering.hpp"

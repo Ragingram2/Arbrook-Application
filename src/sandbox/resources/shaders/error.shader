@@ -24,11 +24,6 @@ namespace vertex
 
 namespace fragment
 {
-	cbuffer Color : register(b1)
-	{
-		float4 color;
-	}
-
 	struct PIn
 	{
 		float4 p_position : SV_POSITION;
@@ -37,6 +32,6 @@ namespace fragment
 
 	float4 main(PIn input) : SV_TARGET
 	{
-		return color;
+		return float4(1.0,0.0,1.0,1.0);
 	}
 }

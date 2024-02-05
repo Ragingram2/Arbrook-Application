@@ -3,7 +3,7 @@
 
 #include <rsl/math>
 
-#include <tracy/Tracy.hpp>
+#include "core/utils/profiler.hpp"
 
 #include "graphics/interface/definitions/definitions.hpp"
 #include "graphics/rendering.hpp"

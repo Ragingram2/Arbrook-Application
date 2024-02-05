@@ -17,7 +17,7 @@ namespace rythe::game
 		ast::AssetCache<gfx::mesh>::registerImporter<gfx::MeshImporter>();
 		ast::AssetCache<gfx::shader_source>::registerImporter<gfx::ShaderImporter>();
 
-		gfx::MaterialCache::loadMaterialFromFile("error", "resources/shaders/red.shader");
+		gfx::MaterialCache::loadMaterialFromFile("error", "resources/shaders/error.shader");
 
 		ast::AssetCache<gfx::mesh>::loadAssets("resources/meshes/glb/", gfx::default_mesh_params);
 		ast::AssetCache<gfx::texture_source>::loadAssets("resources/textures/", gfx::default_texture_import_params);
@@ -34,13 +34,16 @@ namespace rythe::game
 		modelHandle = gfx::ModelCache::getModel("cube");
 
 		mat = gfx::MaterialCache::loadMaterialFromFile("default", "resources/shaders/lit.shader");
-		mat->diffuse = gfx::TextureCache::createTexture2D("container_diffuse", ast::AssetCache<gfx::texture_source>::getAsset("container_diffuse"));
-		mat->specular = gfx::TextureCache::createTexture2D("container_specular", ast::AssetCache<gfx::texture_source>::getAsset("container_specular"));
+		mat->texture0 = gfx::TextureCache::createTexture2D("container_diffuse", ast::AssetCache<gfx::texture_source>::getAsset("container_diffuse"));
+		mat->texture1 = gfx::TextureCache::createTexture2D("container_specular", ast::AssetCache<gfx::texture_source>::getAsset("container_specular"));
 
-		color = gfx::MaterialCache::loadMaterialFromFile("color", "resources/shaders/color.shader");
+		colorMat = gfx::MaterialCache::loadMaterialFromFile("color", "resources/shaders/color.shader");
+		colorMat->shader->addBuffer(gfx::BufferCache::createConstantBuffer<math::vec4>("Color", 1, gfx::UsageType::STATICDRAW));
+		math::vec4 color = { 1.0f, 1.0f, 0.0f, 1.0f };
+		colorMat->shader->setUniform("Color", &color);
 
 		cube = createEntity("Cube");
-		cube.addComponent<core::examplecomp>({ .direction = 1, .angularSpeed = .00f });
+		cube.addComponent<core::examplecomp>({ .direction = 1, .angularSpeed = .0f });
 		auto& transf = cube.addComponent<core::transform>();
 		transf.scale = math::vec3::one;
 		transf.position = math::vec3(0.0f, -1.0f, 0.f);

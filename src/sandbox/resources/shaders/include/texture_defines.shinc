@@ -1,0 +1,14 @@
+#define DepthTexture register(t0)
+#define DepthSampler register(s0)
+
+#define Color0Texture register(t1)
+#define Color0Sampler register(s1)
+
+#define Texture0 register(t2)
+#define TextureSample0 register(s2)
+
+#define Texture1 register(t3)
+#define TextureSampler1 register(s3)
+
+#define Texture2 register(t4)
+#define TextureSample2 register(s4)

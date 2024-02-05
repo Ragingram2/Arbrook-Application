@@ -1,7 +1,7 @@
 #pragma once
 #include <filesystem>
 
-#include <tracy/Tracy.hpp>
+#include "core/utils/profiler.hpp"
 
 #include "core/core.hpp"
 #include "graphics/rendering.hpp"
@@ -22,7 +22,7 @@ namespace rythe::game
 		ast::asset_handle<gfx::model> modelHandle;
 		ast::asset_handle<gfx::material> mat;
 		ast::asset_handle<gfx::material> lit;
-		ast::asset_handle<gfx::material> color;
+		ast::asset_handle<gfx::material> colorMat;
 
 	public:
 		void setup();

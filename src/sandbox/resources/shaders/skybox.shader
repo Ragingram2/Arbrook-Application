@@ -32,6 +32,10 @@ namespace fragment
 	#include "light_utils.shinc"
     #include "camera_utils.shinc"
 
+
+    Texture2D Skybox : register(t2);
+    SamplerState SkyboxSampler : register(s2);
+
 	struct PIn
 	{
 		float4 p_position : SV_POSITION;
@@ -42,6 +46,7 @@ namespace fragment
 
     float4 main(PIn input) : SV_TARGET
     {
-        return SampleSkybox(Texture0, TexSampler0, normalize(input.p_fragPos));
+
+        return Skybox.SampleLevel(SkyboxSampler, SkyboxUV(normalize(input.p_fragPos)), 0);
     }
 }

@@ -25,11 +25,18 @@ namespace fragment
 {
     #include "camera_utils.shinc"
     #include "light_utils.shinc"
+    #include "texture_defines.shinc"
     struct PIn
     {
         float4 p_position : SV_POSITION;
         float2 p_texCoords : TEXCOORD;
     };
+
+    Texture2D Depth : DepthTexture;
+    SamplerState D_Sampler : DepthSampler;
+
+    Texture2D Color : Color0Texture;
+    SamplerState ColorSampler : rColor0Sampler;
     
     static const float offset = 1.0/300.0;
 
@@ -60,7 +67,7 @@ namespace fragment
         int i = 0;
         for(i = 0; i < 9; i++)
         {
-            sampleTex[i] = float3(Texture0.Sample(TexSampler0, texCoord.xy + offsets[i]).xyz);
+            sampleTex[i] = float3(Color.Sample(ColorSampler, texCoord.xy + offsets[i]).xyz);
         }
 
         float3 col = float3(0.0, 0.0, 0.0);
@@ -72,10 +79,13 @@ namespace fragment
 
     float4 main(PIn input) : SV_TARGET
     {    
+        //Depth
+        return Depth.Sample(D_Sampler, input.p_texCoords);
+        //Narcotic Effect
         //return ApplyKernel(narcotic, input.p_texCoords);
         //Normal Color
-        return Texture0.Sample(TexSampler0, input.p_texCoords);
+        //return Color.Sample(ColorSampler, input.p_texCoords);
         //Invert Color
-        //return float4(float3(1.0-Texture0.Sample(TexSampler0, input.p_texCoords).xyz),1.0);
+        //return float4(float3(1.0-Color.Sample(ColorSampler, input.p_texCoords).xyz),1.0);
     }
 }
