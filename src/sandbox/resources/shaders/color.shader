@@ -24,7 +24,7 @@ namespace vertex
 
 namespace fragment
 {
-	cbuffer Color : register(b1)
+	cbuffer Color : register(b3)
 	{
 		float4 color;
 	}

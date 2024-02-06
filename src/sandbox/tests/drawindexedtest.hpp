@@ -52,7 +52,7 @@ namespace rythe::testing
 			math::vec3 pos = math::vec3{ 0, 0, 10.f };
 			auto model = math::translate(math::mat4(1.0f), pos);
 			model = math::rotate(model, math::radians(i), math::vec3(0.0f, 1.0f, 0.0f));
-			data.model = model;
+			//data.model = model;
 
 			{
 				FrameClock clock(name, APIType::Arbrook, "Drawing Time");
@@ -256,9 +256,9 @@ namespace rythe::testing
 		{
 			data.view = cam.calculate_view(&camTransf);
 			i += .5f;
-			math::vec3 pos = math::vec3{ 0, 0, 10.0f };
-			auto model = math::translate(math::mat4(1.0f), pos);
-			data.model = math::rotate(model, math::radians(i), math::vec3(0.0f, 1.0f, 0.0f));
+			//math::vec3 pos = math::vec3{ 0, 0, 10.0f };
+			//auto model = math::translate(math::mat4(1.0f), pos);
+			//data.model = math::rotate(model, math::radians(i), math::vec3(0.0f, 1.0f, 0.0f));
 
 			{
 				FrameClock clock(name, APIType::Native, "Drawing Time");

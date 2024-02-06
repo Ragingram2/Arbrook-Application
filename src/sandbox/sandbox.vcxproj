@@ -190,10 +190,10 @@
     <ClInclude Include="components\rigidbody.hpp" />
     <ClInclude Include="components\test_renderer.hpp" />
     <ClInclude Include="modules\testmodule.hpp" />
-    <ClInclude Include="systems\planegame\airplanesystem.hpp" />
     <ClInclude Include="systems\game\cameracontrols.hpp" />
     <ClInclude Include="systems\game\examplesystem.hpp" />
     <ClInclude Include="systems\game\game.hpp" />
+    <ClInclude Include="systems\planegame\airplanesystem.hpp" />
     <ClInclude Include="systems\planegame\physicssystem.hpp" />
     <ClInclude Include="systems\testing\testsystem.hpp" />
     <ClInclude Include="tests\bgfxpipeline\bgfxpipeline.hpp" />
@@ -209,9 +209,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\arbrook\Arbrook.cpp" />
-    <ClCompile Include="systems\planegame\airplanesystem.cpp" />
     <ClCompile Include="systems\game\cameracontrols.cpp" />
     <ClCompile Include="systems\game\game.cpp" />
+    <ClCompile Include="systems\planegame\airplanesystem.cpp" />
     <ClCompile Include="systems\planegame\physicssystem.cpp" />
     <ClCompile Include="systems\testing\testsystem.cpp" />
   </ItemGroup>

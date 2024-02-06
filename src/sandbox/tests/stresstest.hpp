@@ -21,7 +21,7 @@ namespace rythe::testing
 				auto model = math::translate(math::mat4(1.0f), pos);
 				model = math::scale(model, math::vec3(.1f));
 				model = math::rotate(model, math::radians(i), math::vec3(0.0f, 1.0f, 0.0f));
-				data.model = model;
+				//model = data.model;
 				func();
 			}
 		}
@@ -187,7 +187,7 @@ namespace rythe::testing
 			i += .5f;
 			DrawModelGrid(i, data, [&]
 				{
-					bgfx::setTransform(data.model.data);;
+					//bgfx::setTransform(data.model.data);;
 					bgfx::setVertexBuffer(0, vertexBuffer);
 					bgfx::setIndexBuffer(indexBuffer);
 					bgfx::setState(state);

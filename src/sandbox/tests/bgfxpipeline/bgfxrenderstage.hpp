@@ -30,7 +30,7 @@ namespace rythe::testing
 			m_onRender();
 		}
 
-		virtual rsl::priority_type priority() override { return OPAQUE_PRIORITY; }
+		virtual rsl::priority_type priority() const override { return OPAQUE_PRIORITY; }
 
 
 		template <class T, void(T::* Func)()>

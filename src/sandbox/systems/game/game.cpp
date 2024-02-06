@@ -38,8 +38,8 @@ namespace rythe::game
 		mat->texture1 = gfx::TextureCache::createTexture2D("container_specular", ast::AssetCache<gfx::texture_source>::getAsset("container_specular"));
 
 		colorMat = gfx::MaterialCache::loadMaterialFromFile("color", "resources/shaders/color.shader");
-		colorMat->shader->addBuffer(gfx::BufferCache::createConstantBuffer<math::vec4>("Color", 1, gfx::UsageType::STATICDRAW));
-		math::vec4 color = { 1.0f, 1.0f, 0.0f, 1.0f };
+		colorMat->shader->addBuffer(gfx::BufferCache::createConstantBuffer<math::vec4>("Color", 3, gfx::UsageType::STATICDRAW));
+		math::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
 		colorMat->shader->setUniform("Color", &color);
 
 		cube = createEntity("Cube");
@@ -52,6 +52,15 @@ namespace rythe::game
 		{
 			auto& skyboxRenderer = registry->world.addComponent<gfx::skybox_renderer>();
 			skyboxRenderer.skyboxTex = gfx::TextureCache::getTexture("park");
+		}
+
+		{
+			auto ent = createEntity("Floor");
+			auto& transf = ent.addComponent<core::transform>();
+			transf.scale = math::vec3(10, 10, 10);
+			transf.position = math::vec3(0.0f, -4.0f, 0.0f);
+			transf.rotation = math::toQuat(math::vec3(math::radians(90.0f), 0, 0));
+			ent.addComponent<gfx::mesh_renderer>({ .material = colorMat, .model = gfx::ModelCache::getModel("plane") });
 		}
 
 		{

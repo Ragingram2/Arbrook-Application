@@ -5,3 +5,8 @@ cbuffer CameraBuffer : register(b0)
 	matrix u_view;
 	matrix u_model;
 };
+
+// cbuffer ModelBuffer : register(b1)
+// {
+// 	matrix u_model;
+// };
