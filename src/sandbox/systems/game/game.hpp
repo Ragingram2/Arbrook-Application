@@ -19,6 +19,7 @@ namespace rythe::game
 	{
 	private:
 		core::ecs::entity cube;
+		core::ecs::entity dirLight;
 		ast::asset_handle<gfx::model> modelHandle;
 		ast::asset_handle<gfx::material> mat;
 		ast::asset_handle<gfx::material> lit;

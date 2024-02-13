@@ -8,7 +8,8 @@ struct Light
 	float4 color;
 	float range;
 	float intensity;
-	matrix lightSpaceMatrix;
+	matrix view;
+	matrix projection;
 };
 
 cbuffer LightBuffer : register(b1)

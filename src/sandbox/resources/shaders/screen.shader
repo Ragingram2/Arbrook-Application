@@ -80,10 +80,10 @@ namespace fragment
     float4 main(PIn input) : SV_TARGET
     {    
         //Depth
-        //return Depth.Sample(D_Sampler, input.p_texCoords).xxxa;
+        //return Depth.Sample(D_Sampler, input.p_texCoords);
         //Narcotic Effect
         //return ApplyKernel(narcotic, input.p_texCoords);
-        //Normal Color
+        //Color
         return Color.Sample(ColorSampler, input.p_texCoords);
         //Invert Color
         //return float4(float3(1.0-Color.Sample(ColorSampler, input.p_texCoords).xyz),1.0);

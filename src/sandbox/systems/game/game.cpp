@@ -42,12 +42,7 @@ namespace rythe::game
 		math::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
 		colorMat->shader->setUniform("Color", &color);
 
-		cube = createEntity("Cube");
-		cube.addComponent<core::examplecomp>({ .direction = 1, .angularSpeed = .0f });
-		auto& transf = cube.addComponent<core::transform>();
-		transf.scale = math::vec3::one;
-		transf.position = math::vec3(0.0f, -1.0f, 0.f);
-		cube.addComponent<gfx::mesh_renderer>({ .material = mat, .model = modelHandle });
+		gfx::MaterialCache::loadMaterial("white", gfx::ShaderCache::getShader("white"));
 
 		{
 			auto& skyboxRenderer = registry->world.addComponent<gfx::skybox_renderer>();
@@ -57,19 +52,27 @@ namespace rythe::game
 		{
 			auto ent = createEntity("Floor");
 			auto& transf = ent.addComponent<core::transform>();
-			transf.scale = math::vec3(10, 10, 10);
+			transf.scale = math::vec3(10, .5f, 10);
 			transf.position = math::vec3(0.0f, -4.0f, 0.0f);
-			transf.rotation = math::toQuat(math::vec3(math::radians(90.0f), 0, 0));
-			ent.addComponent<gfx::mesh_renderer>({ .material = colorMat, .model = gfx::ModelCache::getModel("plane") });
+			ent.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("cube"), .castShadows = false });
 		}
 
 		{
-			auto ent = createEntity("Light");
-			auto& transf = ent.addComponent<core::transform>();
+			cube = createEntity("Cube");
+			cube.addComponent<core::examplecomp>({ .direction = 1, .angularSpeed = .0f });
+			auto& transf = cube.addComponent<core::transform>();
 			transf.scale = math::vec3::one;
-			transf.position = math::vec3(0.0f, 0.0f, 0.0f);
-			transf.rotation = math::toQuat(math::vec3(0, math::radians(45.0f), math::radians(-45.0f)));
-			ent.addComponent<gfx::light>({ .type = gfx::LightType::DIRECTIONAL, .data.color = math::vec4(1.0f) });
+			transf.position = math::vec3(0.0f, -1.0f, 0.f);
+			cube.addComponent<gfx::mesh_renderer>({ .material = mat, .model = modelHandle });
+		}
+
+		{
+			dirLight = createEntity("Light");
+			auto& transf = dirLight.addComponent<core::transform>();
+			transf.scale = math::vec3::one;
+			transf.position = math::vec3::one;
+			transf.rotation = math::toQuat(math::vec3(-45.0f, 45.0f, 0.0f));
+			dirLight.addComponent<gfx::light>({ .type = gfx::LightType::DIRECTIONAL, .data.color = math::vec4(1.0f) });
 		}
 
 		{
@@ -114,6 +117,17 @@ namespace rythe::game
 			ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 		}End();
 		Begin("Inspector");
+		if (CollapsingHeader("DirectionalLight"))
+		{
+			static math::vec3 rot = math::toEuler(dirLight.getComponent<core::transform>().rotation);
+			if (InputFloat3("Light Rotation", rot.data))
+			{
+				dirLight.getComponent<core::transform>().rotation = math::toQuat(rot);
+			}
+
+			ColorEdit4("Color Picker", dirLight.getComponent<gfx::light>().data.color.data);
+		}
+
 		if (CollapsingHeader("MeshRenderer"))
 		{
 			{
