@@ -33,8 +33,8 @@ namespace fragment
     #include "camera_utils.shinc"
 
 
-    Texture2D Skybox : register(t2);
-    SamplerState SkyboxSampler : register(s2);
+    Texture2D Skybox : register(t0);
+    SamplerState SkyboxSampler : register(s0);
 
 	struct PIn
 	{

@@ -1,14 +1,17 @@
-#define DepthTexture register(t0)
-#define DepthSampler register(s0)
+#define Texture0 register(t0)
+#define TexSampler0 register(s0)
 
-#define Color0Texture register(t1)
-#define Color0Sampler register(s1)
+#define Texture1 register(t1)
+#define TexSampler1 register(s1)
 
-#define Texture0 register(t2)
-#define TextureSample0 register(s2)
+#define Texture2 register(t2)
+#define TexSampler2 register(s2)
 
-#define Texture1 register(t3)
-#define TextureSampler1 register(s3)
+#define Texture3 register(t3)
+#define TexSampler3 register(s3)
 
-#define Texture2 register(t4)
-#define TextureSample2 register(s4)
+#define Texture4 register(t4)
+#define TexSample4 register(s4)
+
+#define Texture5 register(t5)
+#define TexSample5 register(s5)

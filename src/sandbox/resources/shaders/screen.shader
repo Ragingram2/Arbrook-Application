@@ -32,11 +32,8 @@ namespace fragment
         float2 p_texCoords : TEXCOORD;
     };
 
-    Texture2D Depth : DepthTexture;
-    SamplerState D_Sampler : DepthSampler;
-
-    Texture2D Color : Color0Texture;
-    SamplerState ColorSampler : rColor0Sampler;
+    Texture2D Color : Texture0;
+    SamplerState ColorSampler : TexSampler0;
     
     static const float offset = 1.0/300.0;
 

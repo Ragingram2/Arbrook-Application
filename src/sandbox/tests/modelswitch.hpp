@@ -36,11 +36,11 @@ namespace rythe::testing
 			vBuffer = gfx::BufferCache::createBuffer<math::vec4>("Vertex Buffer", gfx::TargetType::VERTEX_BUFFER, gfx::UsageType::STATICDRAW, meshHandle->vertices);
 			idxBuffer = gfx::BufferCache::createBuffer<unsigned int>("Index Buffer", gfx::TargetType::INDEX_BUFFER, gfx::UsageType::STATICDRAW, meshHandle->indices);
 			cBuffer = gfx::BufferCache::createConstantBuffer<gfx::camera_data>("CameraBuffer", 0, gfx::UsageType::STATICDRAW);
-			mat->shader->addBuffer(cBuffer);
+			mat->getShader()->addBuffer(cBuffer);
 			mat->bind();
 
 			idxBuffer->bind();
-			layout.initialize(1, mat->shader);
+			layout.initialize(1, mat->getShader());
 			layout.setAttributePtr(vBuffer, "POSITION", 0, gfx::FormatType::RGBA32F, 0, sizeof(math::vec4), 0);
 			layout.submitAttributes();
 
@@ -82,7 +82,7 @@ namespace rythe::testing
 				//data.model = model;
 			}
 
-			mat->shader->setUniform("CameraBuffer", &data);
+			mat->getShader()->setUniform("CameraBuffer", &data);
 			vBuffer->bind();
 			idxBuffer->bind();
 			gfx::Renderer::RI->drawIndexedInstanced(gfx::PrimitiveType::TRIANGLESLIST, meshHandle->indices.size(), 1, 0, 0, 0);
@@ -259,7 +259,7 @@ namespace rythe::testing
 			meshHandle = gfx::ModelCache::getModel(modelNames[modelIdx])->meshHandle;
 			currentMat = gfx::MaterialCache::loadMaterial("test", "color");
 
-			shaderId = currentMat->shader->getId();
+			shaderId = currentMat->getShader()->getId();
 
 			glGenBuffers(1, &constantBufferId);
 			glBindBuffer(GL_UNIFORM_BUFFER, constantBufferId);

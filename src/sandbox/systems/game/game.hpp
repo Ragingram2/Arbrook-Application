@@ -20,6 +20,9 @@ namespace rythe::game
 	private:
 		core::ecs::entity cube;
 		core::ecs::entity dirLight;
+		core::ecs::entity pointLight;
+		core::ecs::entity pointLight2;
+		core::ecs::entity pointLight3;
 		ast::asset_handle<gfx::model> modelHandle;
 		ast::asset_handle<gfx::material> mat;
 		ast::asset_handle<gfx::material> lit;
@@ -32,7 +35,13 @@ namespace rythe::game
 		void setModel(ast::asset_handle<gfx::model> handle);
 		void setMaterial(ast::asset_handle<gfx::material> handle);
 
-		void reloadShaders(key_input<inputmap::method::NUM1>& input);
+		void directionalLightEditor(core::ecs::entity);
+		void pointLightEditor(core::ecs::entity);
+		void exampleCompEditor(core::ecs::entity);
+		void meshrendererEditor(core::ecs::entity);
+		void transformEditor(core::ecs::entity);
+
+		void reloadShaders(key_input<inputmap::method::F1>& input);
 
 		void toggleMouseCapture(key_input<inputmap::method::ESCAPE>& input)
 		{

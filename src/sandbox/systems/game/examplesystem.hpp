@@ -15,8 +15,8 @@ namespace rythe::game
 				comp.pos += comp.speed;
 
 				auto& transf = ent.getComponent<core::transform>();
-				transf.position = math::vec3(math::sin(math::radians(comp.pos)) * comp.range * comp.direction, transf.position.y, transf.position.z);
-				transf.rotation = math::toQuat(math::rotate(transf.to_parent(), math::radians(comp.angularSpeed) * comp.direction, transf.up()));
+				transf.position = comp.direction * math::sin(math::radians(comp.pos)) * comp.range;
+				transf.rotation = math::toQuat(math::rotate(transf.to_parent(), math::radians(comp.angularSpeed), transf.up()));
 			}
 		}
 	};

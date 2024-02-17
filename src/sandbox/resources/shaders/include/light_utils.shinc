@@ -1,20 +1,31 @@
 #include "utils.shinc"
-#define NR_POINT_LIGHTS 8
+#define NR_POINT_LIGHTS 16
+#define NR_DIR_LIGHTS 1
 
-struct Light
+struct PointLight
 {
-	float4 direction;
+	matrix shadowProjection;
+	matrix shadowTransforms[6];
 	float4 position;
 	float4 color;
-	float range;
 	float intensity;
-	matrix view;
+	float range;
+	float farPlane;
+};
+
+struct DirLight
+{
 	matrix projection;
+	matrix view;
+	float4 direction;
+	float4 color;
+	float intensity;
 };
 
 cbuffer LightBuffer : register(b1)
 {
-	Light u_lights[NR_POINT_LIGHTS + 1];
+	PointLight u_pointLights[NR_POINT_LIGHTS];
+	DirLight u_dirLights[NR_DIR_LIGHTS];
 };
 
 cbuffer MaterialBuffer : register(b2)

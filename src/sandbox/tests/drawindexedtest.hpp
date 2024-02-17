@@ -32,11 +32,11 @@ namespace rythe::testing
 			vBuffer = gfx::BufferCache::createBuffer<math::vec4>("Vertex Buffer", gfx::TargetType::VERTEX_BUFFER, gfx::UsageType::STATICDRAW, meshHandle->vertices);
 			idxBuffer = gfx::BufferCache::createBuffer<unsigned int>("Index Buffer", gfx::TargetType::INDEX_BUFFER, gfx::UsageType::STATICDRAW, meshHandle->indices);
 			cBuffer = gfx::BufferCache::createConstantBuffer<gfx::camera_data>("CameraBuffer", 0, gfx::UsageType::STATICDRAW);
-			mat->shader->addBuffer(cBuffer);
+			mat->getShader()->addBuffer(cBuffer);
 			mat->bind();
 
 			idxBuffer->bind();
-			layout.initialize(1, mat->shader);
+			layout.initialize(1, mat->getShader());
 			layout.setAttributePtr(vBuffer, "POSITION", 0, gfx::FormatType::RGBA32F, 0, sizeof(math::vec4), 0);
 			layout.submitAttributes();
 
@@ -57,7 +57,7 @@ namespace rythe::testing
 			{
 				FrameClock clock(name, APIType::Arbrook, "Drawing Time");
 				layout.bind();
-				mat->shader->setUniform("CameraBuffer", &data);
+				mat->getShader()->setUniform("CameraBuffer", &data);
 				vBuffer->bind();
 				idxBuffer->bind();
 
@@ -221,7 +221,7 @@ namespace rythe::testing
 			meshHandle = ast::AssetCache<gfx::mesh>::getAsset("teapot");
 			mat = gfx::MaterialCache::loadMaterial("test", "color");
 
-			shaderId = mat->shader->getId();
+			shaderId = mat->getShader()->getId();
 
 			glGenBuffers(1, &constantBufferId);
 			glBindBuffer(GL_UNIFORM_BUFFER, constantBufferId);

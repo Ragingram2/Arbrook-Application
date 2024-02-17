@@ -1,7 +1,7 @@
 namespace vertex
 {
-#include "camera_utils.shinc"
-#include "light_utils.shinc"
+    #include "camera_utils.shinc"
+    #include "light_utils.shinc"
     struct VIn
     {
         float4 position : POSITION;
@@ -16,7 +16,7 @@ namespace vertex
     {
         VOut output;
 
-        output.p_position = input.position * (u_model * (u_lights[0].view * u_lights[0].projection));
+        output.p_position = input.position * (u_model * (u_dirLights[0].view * u_dirLights[0].projection));
 
         return output;
     }
@@ -24,8 +24,7 @@ namespace vertex
 
 namespace fragment
 {
-    
-	struct PIn
+    struct PIn
 	{
 		float4 p_position : SV_POSITION;
 	};

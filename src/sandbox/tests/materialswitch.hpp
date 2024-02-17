@@ -41,11 +41,11 @@ namespace rythe::testing
 
 			for (auto mat : materials)
 			{
-				mat->shader->addBuffer(cBuffer);
+				mat->getShader()->addBuffer(cBuffer);
 			}
 
 			idxBuffer->bind();
-			layout.initialize(1, materials[0]->shader);
+			layout.initialize(1, materials[0]->getShader());
 			layout.setAttributePtr(vBuffer, "POSITION", 0, gfx::FormatType::RGBA32F, 0, sizeof(math::vec4), 0);
 			layout.submitAttributes();
 
@@ -80,7 +80,7 @@ namespace rythe::testing
 				layout.bind();
 			}
 
-			currentMat->shader->setUniform("CameraBuffer", &data);
+			currentMat->getShader()->setUniform("CameraBuffer", &data);
 			vBuffer->bind();
 			idxBuffer->bind();
 			gfx::Renderer::RI->drawIndexedInstanced(gfx::PrimitiveType::TRIANGLESLIST, meshHandle->indices.size(), 1, 0, 0, 0);
@@ -257,7 +257,7 @@ namespace rythe::testing
 			materials.push_back(gfx::MaterialCache::getMaterial("blue"));
 			materials.push_back(gfx::MaterialCache::getMaterial("white"));
 
-			currentShaderId = materials[matIdx]->shader->getId();
+			currentShaderId = materials[matIdx]->getShader()->getId();
 
 			glGenBuffers(1, &constantBufferId);
 			glBindBuffer(GL_UNIFORM_BUFFER, constantBufferId);
@@ -266,8 +266,8 @@ namespace rythe::testing
 
 			for (auto& mat : materials)
 			{
-				glUseProgram(mat->shader->getId());
-				glUniformBlockBinding(mat->shader->getId(), glGetUniformBlockIndex(mat->shader->getId(), "CameraBuffer"), 0);
+				glUseProgram(mat->getShader()->getId());
+				glUniformBlockBinding(mat->getShader()->getId(), glGetUniformBlockIndex(mat->getShader()->getId(), "CameraBuffer"), 0);
 			}
 
 			glGenBuffers(1, &vboId);
@@ -304,7 +304,7 @@ namespace rythe::testing
 
 			{
 				FrameClock clock(name, APIType::Native, "Material Switch Time");
-				glUseProgram(materials[matIdx]->shader->getId());
+				glUseProgram(materials[matIdx]->getShader()->getId());
 			}
 
 			//math::vec3 pos = math::vec3{ 0, 0, 10.0f };
