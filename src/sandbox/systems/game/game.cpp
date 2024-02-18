@@ -34,7 +34,7 @@ namespace rythe::game
 		modelHandle = gfx::ModelCache::getModel("cube");
 
 		mat = gfx::MaterialCache::loadMaterialFromFile("default", "resources/shaders/lit.shader");
-		mat->addTexture(gfx::TextureSlot::TEXTURE3,gfx::TextureCache::createTexture2D("container_diffuse", ast::AssetCache<gfx::texture_source>::getAsset("container_diffuse")));
+		mat->addTexture(gfx::TextureSlot::TEXTURE3, gfx::TextureCache::createTexture2D("container_diffuse", ast::AssetCache<gfx::texture_source>::getAsset("container_diffuse")));
 		mat->addTexture(gfx::TextureSlot::TEXTURE4, gfx::TextureCache::createTexture2D("container_specular", ast::AssetCache<gfx::texture_source>::getAsset("container_specular")));
 
 		colorMat = gfx::MaterialCache::loadMaterialFromFile("color", "resources/shaders/color.shader");
@@ -54,7 +54,7 @@ namespace rythe::game
 			auto& transf = ent.addComponent<core::transform>();
 			transf.scale = math::vec3(20, .5f, 20);
 			transf.position = math::vec3(0.0f, -21.0f, 0.0f);
-			ent.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("cube")});
+			ent.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("cube") });
 		}
 
 		//{
@@ -70,7 +70,7 @@ namespace rythe::game
 			auto& transf = ent.addComponent<core::transform>();
 			transf.scale = math::vec3(.5f, 20.0f, 20.0f);
 			transf.position = math::vec3(21.0f, 0.0f, 0.0f);
-			ent.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("cube")});
+			ent.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("cube") });
 		}
 
 		//{
@@ -110,7 +110,7 @@ namespace rythe::game
 			auto& transf = ent.addComponent<core::transform>();
 			transf.scale = math::vec3::one * 3.0f;
 			transf.position = math::vec3(10.0f, 0.0f, 10.0f);
-			ent.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("bunny")});
+			ent.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("bunny") });
 		}
 
 		{
@@ -132,7 +132,7 @@ namespace rythe::game
 		{
 			auto ent = createEntity("Sphere");
 			auto& transf = ent.addComponent<core::transform>();
-			transf.scale = math::vec3::one*3.0f;
+			transf.scale = math::vec3::one * 3.0f;
 			transf.position = math::vec3(10.0f, 0.0f, -10.0f);
 			ent.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("sphere") });
 		}
@@ -150,25 +150,25 @@ namespace rythe::game
 			pointLight = createEntity("PointLight");
 			pointLight.addComponent<core::transform>({ .scale = math::vec3(.1f, .1f, .1f), .position = math::vec3(0.0f, 0.0f,0.0f) });
 			pointLight.addComponent<gfx::light>({ .type = gfx::LightType::POINT, .point_data.color = math::vec4(1.0f,1.0f,1.0f,1.0f), .point_data.intensity = 1.0f, .point_data.range = 50.f });
-			pointLight.addComponent<core::examplecomp>({ .direction = math::vec3::forward, .range = 5.0f, .speed = .02f});
+			pointLight.addComponent<core::examplecomp>({ .direction = math::vec3::forward, .range = 5.0f, .speed = .02f });
 			pointLight.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("icosphere") ,.castShadows = false });
 		}
 
-		{
-			pointLight2 = createEntity("PointLight2");
-			pointLight2.addComponent<core::transform>({ .scale = math::vec3(.1f, .1f, .1f), .position = math::vec3(0.0f,0.0f,0.0f) });
-			pointLight2.addComponent<gfx::light>({ .type = gfx::LightType::POINT, .point_data.color = math::vec4(1.0f,1.0f,1.0f,1.0f), .point_data.intensity = 1.0f, .point_data.range = 50.f });
-			pointLight2.addComponent<core::examplecomp>({ .direction = math::vec3::right, .range = 10.0f, .speed = .02f });
-			pointLight2.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("icosphere") ,.castShadows = false});
-		}
+		//{
+		//	pointLight2 = createEntity("PointLight2");
+		//	pointLight2.addComponent<core::transform>({ .scale = math::vec3(.1f, .1f, .1f), .position = math::vec3(0.0f,0.0f,0.0f) });
+		//	pointLight2.addComponent<gfx::light>({ .type = gfx::LightType::POINT, .point_data.color = math::vec4(1.0f,1.0f,1.0f,1.0f), .point_data.intensity = 1.0f, .point_data.range = 50.f });
+		//	pointLight2.addComponent<core::examplecomp>({ .direction = math::vec3::right, .range = 10.0f, .speed = .02f });
+		//	pointLight2.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("icosphere") ,.castShadows = false});
+		//}
 
-		{
-			pointLight3 = createEntity("PointLight3");
-			pointLight3.addComponent<core::transform>({ .scale = math::vec3(.1f, .1f, .1f), .position = math::vec3(0.0f,0.0f,0.0f) });
-			pointLight3.addComponent<gfx::light>({ .type = gfx::LightType::POINT, .point_data.color = math::vec4(1.0f,1.0f,1.0f,1.0f), .point_data.intensity = 1.0f, .point_data.range = 50.f });
-			pointLight3.addComponent<core::examplecomp>({ .direction = math::vec3::up, .range = 10.0f, .speed = .02f });
-			pointLight3.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("icosphere") ,.castShadows = false });
-		}
+		//{
+		//	pointLight3 = createEntity("PointLight3");
+		//	pointLight3.addComponent<core::transform>({ .scale = math::vec3(.1f, .1f, .1f), .position = math::vec3(0.0f,0.0f,0.0f) });
+		//	pointLight3.addComponent<gfx::light>({ .type = gfx::LightType::POINT, .point_data.color = math::vec4(1.0f,1.0f,1.0f,1.0f), .point_data.intensity = 1.0f, .point_data.range = 50.f });
+		//	pointLight3.addComponent<core::examplecomp>({ .direction = math::vec3::up, .range = 10.0f, .speed = .02f });
+		//	pointLight3.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("icosphere") ,.castShadows = false });
+		//}
 
 		{
 			auto camera = createEntity("Camera");
@@ -188,54 +188,76 @@ namespace rythe::game
 	void Game::guiRender()
 	{
 		using namespace ImGui;
-		Begin("Docking Window");
+		if (Begin("Docking Window"))
 		{
 			static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
-			static ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
-			ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
-		}End();
-		Begin("Inspector");
-		if (cube != invalid_id && CollapsingHeader(cube->name.c_str()))
-		{
-			Indent();
-			transformEditor(cube);
-			meshrendererEditor(cube);
-			Unindent();
+			static ImGuiID dockspace_id = GetID("MyDockSpace");
+			DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
+			End();
 		}
 
-		if (dirLight != invalid_id && CollapsingHeader(dirLight->name.c_str()))
+		if (Begin("Inspector"))
 		{
-			Indent();
-			transformEditor(dirLight);
-			directionalLightEditor(dirLight);
-			Unindent();
-		}
-		if (pointLight != invalid_id && CollapsingHeader(pointLight->name.c_str()))
-		{
-			Indent();
-			transformEditor(pointLight);
-			pointLightEditor(pointLight);
-			exampleCompEditor(pointLight);
-			Unindent();
-		}
-		//if (pointLight2 != invalid_id && CollapsingHeader(pointLight2->name.c_str()))
-		//{
-		//	Indent();
-		//	transformEditor(pointLight2);
-		//	pointLightEditor(pointLight2);
-		//	exampleCompEditor(pointLight2);
-		//	Unindent();
-		//}
-		//if (pointLight3 != invalid_id && CollapsingHeader(pointLight3->name.c_str()))
-		//{
-		//	Indent();
-		//	transformEditor(pointLight3);
-		//	pointLightEditor(pointLight3);
-		//	exampleCompEditor(pointLight3);
-		//	Unindent();
-		//}
+			if (cube != invalid_id)
+			{
+				if (CollapsingHeader(cube->name.c_str()))
+				{
+					Indent();
+					transformEditor(cube);
+					meshrendererEditor(cube);
+					Unindent();
+				}
+			}
 
-		ImGui::End();
+			if (dirLight != invalid_id)
+			{
+				if (CollapsingHeader(dirLight->name.c_str()))
+				{
+					Indent();
+					transformEditor(dirLight);
+					directionalLightEditor(dirLight);
+					Unindent();
+				}
+			}
+
+			if (pointLight != invalid_id)
+			{
+				if (CollapsingHeader(pointLight->name.c_str()))
+				{
+					Indent();
+					transformEditor(pointLight);
+					pointLightEditor(pointLight);
+					exampleCompEditor(pointLight);
+					Unindent();
+				}
+			}
+
+			if (pointLight2 != invalid_id)
+			{
+				if (CollapsingHeader(pointLight2->name.c_str()))
+				{
+					Indent();
+					transformEditor(pointLight2);
+					pointLightEditor(pointLight2);
+					exampleCompEditor(pointLight2);
+					Unindent();
+				}
+			}
+
+			if (pointLight3 != invalid_id)
+			{
+				if (CollapsingHeader(pointLight3->name.c_str()))
+				{
+					Indent();
+					transformEditor(pointLight3);
+					pointLightEditor(pointLight3);
+					exampleCompEditor(pointLight3);
+					Unindent();
+				}
+			}
+
+			End();
+		}
 	}
 
 	void Game::directionalLightEditor(core::ecs::entity ent)
@@ -243,14 +265,15 @@ namespace rythe::game
 		using namespace ImGui;
 		if (ent.hasComponent<gfx::light>())
 		{
-			if (CollapsingHeader("Directional Light"))
+			if (TreeNode("Directional Light"))
 			{
 				auto& comp = ent.getComponent<gfx::light>();
-				static math::color color = comp.dir_data.color;
-				if (ColorEdit4("Directional Light Color", color.data))
+				math::color color = comp.dir_data.color;
+				if (ColorEdit4("Light Color", color.data))
 				{
 					comp.dir_data.color = color;
 				}
+				TreePop();
 			}
 		}
 	}
@@ -260,14 +283,15 @@ namespace rythe::game
 		using namespace ImGui;
 		if (ent.hasComponent<gfx::light>())
 		{
-			if (CollapsingHeader("Point Light"))
+			if (TreeNode("Point Light"))
 			{
 				auto& comp = ent.getComponent<gfx::light>();
-				static math::color color = comp.point_data.color;
-				if (ColorEdit4("Point Light Color", color.data))
+				math::color color = comp.point_data.color;
+				if (ColorEdit4("Light Color", color.data))
 				{
 					comp.point_data.color = color;
 				}
+				TreePop();
 			}
 		}
 	}
@@ -277,13 +301,13 @@ namespace rythe::game
 		using namespace ImGui;
 		if (ent.hasComponent<core::examplecomp>())
 		{
-			if (CollapsingHeader("Example Component"))
+			if (TreeNode("Example Component"))
 			{
 				auto& comp = ent.getComponent<core::examplecomp>();
-				static float range = comp.range;
-				static float speed = comp.speed;
-				static float angularSpeed = comp.angularSpeed;
-				static math::vec3 direction = comp.direction;
+				float range = comp.range;
+				float speed = comp.speed;
+				float angularSpeed = comp.angularSpeed;
+				math::vec3 direction = comp.direction;
 
 				if (InputFloat("Range", &range))
 				{
@@ -301,6 +325,8 @@ namespace rythe::game
 				{
 					comp.direction = direction;
 				}
+
+				TreePop();
 			}
 		}
 	}
@@ -310,49 +336,46 @@ namespace rythe::game
 		using namespace ImGui;
 		if (ent.hasComponent<gfx::mesh_renderer>())
 		{
-			if (CollapsingHeader("Mesh Renderer"))
+			if (TreeNode("Mesh Renderer"))
 			{
+				auto models = gfx::ModelCache::getModels();
+				ast::asset_handle<gfx::model> currentMesh = modelHandle;
+				if (BeginCombo("Mesh", currentMesh->name.c_str()))
 				{
-					auto models = gfx::ModelCache::getModels();
-					static ast::asset_handle<gfx::model> currentSelected = modelHandle;
-					if (BeginCombo("Model Dropdown", currentSelected->name.c_str()))
+					for (auto handle : models)
 					{
-						for (auto handle : models)
-						{
-							const bool is_selected = (currentSelected == handle);
-							if (Selectable(handle->name.c_str(), is_selected))
-								currentSelected = handle;
+						const bool is_selected = (currentMesh == handle);
+						if (Selectable(handle->name.c_str(), is_selected))
+							currentMesh = handle;
 
-							if (is_selected)
-							{
-								SetItemDefaultFocus();
-							}
+						if (is_selected)
+						{
+							SetItemDefaultFocus();
 						}
-						setModel(currentSelected);
-						EndCombo();
 					}
+					setModel(currentMesh);
+					EndCombo();
 				}
 
+				auto mats = gfx::MaterialCache::getMaterials();
+				ast::asset_handle<gfx::material> currentMat = mat;
+				if (BeginCombo("Material", currentMat->name.c_str()))
 				{
-					auto mats = gfx::MaterialCache::getMaterials();
-					static ast::asset_handle<gfx::material> currentSelected = mat;
-					if (BeginCombo("Material Dropdown", currentSelected->name.c_str()))
+					for (auto handle : mats)
 					{
-						for (auto handle : mats)
-						{
-							const bool is_selected = (currentSelected == handle);
-							if (Selectable(handle->name.c_str(), is_selected))
-								currentSelected = handle;
+						const bool is_selected = (currentMat == handle);
+						if (Selectable(handle->name.c_str(), is_selected))
+							currentMat = handle;
 
-							if (is_selected)
-							{
-								SetItemDefaultFocus();
-							}
+						if (is_selected)
+						{
+							SetItemDefaultFocus();
 						}
-						setMaterial(currentSelected);
-						EndCombo();
 					}
+					setMaterial(currentMat);
+					EndCombo();
 				}
+				TreePop();
 			}
 		}
 	}
@@ -362,12 +385,12 @@ namespace rythe::game
 		using namespace ImGui;
 		if (ent.hasComponent<core::transform>())
 		{
-			if (CollapsingHeader("Transform"))
+			if (TreeNode("Transform"))
 			{
 				auto& transf = ent.getComponent<core::transform>();
-				static math::vec3 pos = transf.position;
-				static math::vec3 rot = math::toEuler(transf.rotation);
-				static math::vec3 scale = transf.scale;
+				math::vec3 pos = transf.position;
+				math::vec3 rot = math::toEuler(transf.rotation);
+				math::vec3 scale = transf.scale;
 				if (InputFloat3("Position", pos.data))
 				{
 					transf.position = pos;
@@ -380,6 +403,7 @@ namespace rythe::game
 				{
 					transf.scale = scale;
 				}
+				TreePop();
 			}
 		}
 	}
