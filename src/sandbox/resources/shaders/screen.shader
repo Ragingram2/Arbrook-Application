@@ -15,7 +15,7 @@ namespace vertex
     VOut main(VIn input)
     {
         VOut output;
-        output.p_position = float4(input.position.x, -input.position.y,0.0,1.0);
+        output.p_position = float4(input.position.x, input.position.y,0.0,1.0);
         output.p_texCoords = input.texCoords;
         return output;
     }

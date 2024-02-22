@@ -27,8 +27,8 @@ namespace rythe::game
 
 		gfx::TextureCache::createTexture2D("park", ast::AssetCache<gfx::texture_source>::getAsset("park"), gfx::texture_parameters
 			{
-				.format = gfx::FormatType::RGB,
-				.usage = gfx::UsageType::IMMUTABLE
+				.format = gfx::FormatType::RGBA,
+				.usage = gfx::UsageType::DEFAULT
 			});
 
 		modelHandle = gfx::ModelCache::getModel("cube");
@@ -137,20 +137,20 @@ namespace rythe::game
 			ent.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("sphere") });
 		}
 
-		//{
-		//	dirLight = createEntity("Light");
-		//	auto& transf = dirLight.addComponent<core::transform>();
-		//	transf.scale = math::vec3::one;
-		//	transf.position = math::vec3::one;
-		//	transf.rotation = math::toQuat(math::vec3(-45.0f, 45.0f, 0.0f));
-		//	dirLight.addComponent<gfx::light>({ .type = gfx::LightType::DIRECTIONAL, .dir_data.color = math::vec4(1.0f) });
-		//}
+		{
+			dirLight = createEntity("Light");
+			auto& transf = dirLight.addComponent<core::transform>();
+			transf.scale = math::vec3::one;
+			transf.position = math::vec3::one;
+			transf.rotation = math::toQuat(math::vec3(-45.0f, 45.0f, 0.0f));
+			dirLight.addComponent<gfx::light>({ .type = gfx::LightType::DIRECTIONAL, .dir_data.color = math::vec4(1.0f) });
+		}
 
 		{
 			pointLight = createEntity("PointLight");
 			pointLight.addComponent<core::transform>({ .scale = math::vec3(.1f, .1f, .1f), .position = math::vec3(0.0f, 0.0f,0.0f) });
 			pointLight.addComponent<gfx::light>({ .type = gfx::LightType::POINT, .point_data.color = math::vec4(1.0f,1.0f,1.0f,1.0f), .point_data.intensity = 1.0f, .point_data.range = 50.f });
-			pointLight.addComponent<core::examplecomp>({ .direction = math::vec3::forward, .range = 5.0f, .speed = .02f });
+			pointLight.addComponent<core::examplecomp>({ .direction = math::vec3::forward, .range = 10.0f, .speed = 2.0f });
 			pointLight.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("icosphere") ,.castShadows = false });
 		}
 

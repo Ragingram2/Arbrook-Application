@@ -11,7 +11,7 @@
 #define TexSampler3 register(s3)
 
 #define Texture4 register(t4)
-#define TexSample4 register(s4)
+#define TexSampler4 register(s4)
 
 #define Texture5 register(t5)
-#define TexSample5 register(s5)
+#define TexSampler5 register(s5)

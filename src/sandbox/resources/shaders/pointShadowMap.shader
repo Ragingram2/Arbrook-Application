@@ -80,7 +80,6 @@ namespace fragment
 	{
 		float4 position : SV_POSITION;
         float4 frag_pos : TEXCOORD1;
-        //uint face : SV_RenderTargetArrayIndex;
 	};
 
 	float main(PIn input) : SV_DEPTH

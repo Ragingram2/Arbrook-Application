@@ -12,7 +12,7 @@ namespace rythe::game
 			for (auto ent : m_filter)
 			{
 				auto& comp = ent.getComponent<core::examplecomp>();
-				comp.pos += comp.speed;
+				comp.pos += comp.speed * core::Time::deltaTime;
 
 				auto& transf = ent.getComponent<core::transform>();
 				transf.position = comp.direction * math::sin(math::radians(comp.pos)) * comp.range;

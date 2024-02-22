@@ -65,6 +65,7 @@ namespace fragment
 
 	Texture2D Diffuse : Texture3;
 	SamplerState DiffuseSampler : TexSampler3;
+
 	Texture2D Specular : Texture4;
 	SamplerState SpecularSampler : TexSampler4;
 
@@ -91,7 +92,8 @@ namespace fragment
 		float3 fragToLight = fragPos - light.position.xyz;
 
 		//This all below is whether something is in shadow or not
-		float closestDepth = DepthCube.Sample(DepthCubeSampler, fragToLight).r * light.farPlane;;
+		float closestDepth = DepthCube.Sample(DepthCubeSampler, fragToLight).r;
+		closestDepth *= light.farPlane;
 
 		float currentDepth = length(fragToLight);
 		float bias = 0.05;
