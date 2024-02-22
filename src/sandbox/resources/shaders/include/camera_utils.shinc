@@ -1,3 +1,5 @@
+#pragma pack_matrix( row_major )
+
 cbuffer CameraBuffer : register(b0)
 {
 	float4 u_viewPosition;

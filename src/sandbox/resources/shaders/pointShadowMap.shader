@@ -2,6 +2,7 @@ namespace vertex
 {
     #include "camera_utils.shinc"
     #include "light_utils.shinc"
+
     struct VIn
     {
         float4 position : POSITION;
@@ -16,7 +17,7 @@ namespace vertex
     {
         VOut output;
 
-        output.p_position = input.position * u_model;
+        output.p_position = mul(input.position, u_model);
 
         return output;
     }
@@ -30,7 +31,7 @@ namespace geometry
     {
         int lightIndex;
         int lightCount;
-    }
+    };
 
     struct GSIn
     {
@@ -41,7 +42,7 @@ namespace geometry
     {
         float4 position : SV_POSITION;
         float4 frag_pos : TEXCOORD1;
-        uint layer : SV_RenderTargetArrayIndex;
+        uint face : SV_RenderTargetArrayIndex;
     };
 
 
@@ -53,11 +54,11 @@ namespace geometry
         int face = 0;
         for(face = 0; face < 6; face++)
         {
-            output.layer = face;
+            output.face = face;
             for(int i = 0; i < 3; i++)
             {
                 output.frag_pos = input[i].position;
-                output.position = output.frag_pos * (u_pointLights[lightIndex].shadowTransforms[face] * u_pointLights[lightIndex].shadowProjection);
+                output.position = mul(output.frag_pos, mul(u_pointLights[lightIndex].shadowTransforms[face], u_pointLights[lightIndex].shadowProjection));
                 outputStream.Append(output);
             }
             outputStream.RestartStrip();
@@ -73,18 +74,21 @@ namespace fragment
     {
         int lightIndex;
         int lightCount;
-    }
+    };
 
 	struct PIn
 	{
 		float4 position : SV_POSITION;
         float4 frag_pos : TEXCOORD1;
+        //uint face : SV_RenderTargetArrayIndex;
 	};
 
 	float main(PIn input) : SV_DEPTH
 	{
-        float3 lightPos = u_pointLights[lightIndex].position;
-        float lightDistance = length(input.frag_pos - lightPos);
+        float3 lightPos = float3(u_pointLights[lightIndex].position.xyz);
+        float3 fragPos = float3(input.frag_pos.xyz);
+        float3 diff = fragPos - lightPos;
+        float lightDistance = length(diff);
 
         lightDistance = lightDistance / u_pointLights[lightIndex].farPlane;
 

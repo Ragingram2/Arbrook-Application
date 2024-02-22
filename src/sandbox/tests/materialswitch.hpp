@@ -401,7 +401,7 @@ namespace rythe::testing
 			deviceContext->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 
 			// Create and set the shaders and Set the input layout
-			InitializeShadersAndLayout(device, deviceContext, inputLayout, materials[0]->shader);
+			InitializeShadersAndLayout(device, deviceContext, inputLayout, materials[0]->getShader());
 
 			// Set primitive topology
 			deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -422,8 +422,8 @@ namespace rythe::testing
 
 			{
 				FrameClock clock(name, APIType::Native, "Material Switch Time");
-				auto vtxBlob = currentMat->shader->getImpl().VS;
-				auto pixBlob = currentMat->shader->getImpl().PS;
+				auto vtxBlob = currentMat->getShader()->getImpl().VS;
+				auto pixBlob = currentMat->getShader()->getImpl().PS;
 				// Vertex shader
 				device->CreateVertexShader(vtxBlob->GetBufferPointer(), vtxBlob->GetBufferSize(), 0, &vertexShader);
 				device->CreatePixelShader(pixBlob->GetBufferPointer(), pixBlob->GetBufferSize(), 0, &pixelShader);

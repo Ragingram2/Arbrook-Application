@@ -16,7 +16,7 @@ namespace vertex
 	{
 		VOut output;
 
-		output.p_position = input.position * (u_model * (u_view * u_projection));
+		output.p_position = mul(input.position,mul(u_model,mul(u_view ,u_projection)));
 
 		return output;
 	}

@@ -1,5 +1,6 @@
+#pragma pack_matrix( row_major )
 #include "utils.shinc"
-#define NR_POINT_LIGHTS 16
+#define NR_POINT_LIGHTS 8
 #define NR_DIR_LIGHTS 1
 
 struct PointLight

@@ -25,11 +25,11 @@ namespace vertex
     {
         VOut output;
 
-        output.p_position = input.position * (u_model * (u_view * u_projection));
-        output.p_fragPos = (input.position * u_model).rgb;
-        output.p_normal = normalize((input.normal * (float3x3)inverse(u_model)).rgb);
+        output.p_position = mul(input.position,mul(u_model , mul(u_view , u_projection)));
+        output.p_fragPos = mul(input.position ,u_model).rgb;
+        output.p_normal = normalize(mul(input.normal ,(float3x3)inverse(u_model)).rgb);
         output.p_texCoords = input.texCoords;
-        output.p_lightSpaceFragPos = float4(output.p_fragPos,1.0) * (u_dirLights[0].view * u_dirLights[0].projection); 
+        output.p_lightSpaceFragPos = mul(float4(output.p_fragPos,1.0) , mul(u_dirLights[0].view ,u_dirLights[0].projection)); 
 
         return output;
     }
@@ -88,11 +88,10 @@ namespace fragment
     {
 		fragPos.y *= -1.0;
 		//This is the shadows position from the light
-		float3 fragToLight = fragPos - light.position;
+		float3 fragToLight = fragPos - light.position.xyz;
 
 		//This all below is whether something is in shadow or not
-		float closestDepth = DepthCube.Sample(DepthCubeSampler, fragToLight).r;
-		closestDepth *= light.farPlane;
+		float closestDepth = DepthCube.Sample(DepthCubeSampler, fragToLight).r * light.farPlane;;
 
 		float currentDepth = length(fragToLight);
 		float bias = 0.05;

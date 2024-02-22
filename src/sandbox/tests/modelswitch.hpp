@@ -403,7 +403,7 @@ namespace rythe::testing
 			deviceContext->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 
 			// Create and set the shaders and Set the input layout
-			InitializeShadersAndLayout(device, deviceContext, inputLayout, mat->shader);
+			InitializeShadersAndLayout(device, deviceContext, inputLayout, mat->getShader());
 
 			// Set primitive topology
 			deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
