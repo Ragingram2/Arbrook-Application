@@ -1,5 +1,6 @@
 namespace vertex
 {
+    // #include "camera_utils.shinc"
     struct VIn
     {
         float2 position : POSITION;
@@ -8,15 +9,19 @@ namespace vertex
 
     struct VOut
     {
-        float4 p_position : SV_POSITION;
-        float2 p_texCoords : TEXCOORD; 
+        float4 position : SV_POSITION;
+        float2 texCoords : TEXCOORD; 
     };
 
     VOut main(VIn input)
     {
         VOut output;
-        output.p_position = float4(input.position.x, input.position.y,0.0,1.0);
-        output.p_texCoords = input.texCoords;
+        #ifdef DirectX
+            output.position = float4(input.position.x, input.position.y, 0.0, 1.0);
+        #else
+            output.position = float4(input.position.x, -input.position.y, 0.0, 1.0);
+        #endif
+        output.texCoords = input.texCoords;
         return output;
     }
 }
@@ -28,8 +33,8 @@ namespace fragment
     #include "texture_defines.shinc"
     struct PIn
     {
-        float4 p_position : SV_POSITION;
-        float2 p_texCoords : TEXCOORD;
+        float4 position : SV_POSITION;
+        float2 texCoords : TEXCOORD;
     };
 
     Texture2D Color : Texture0;
@@ -77,12 +82,12 @@ namespace fragment
     float4 main(PIn input) : SV_TARGET
     {    
         //Depth
-        //return Depth.Sample(D_Sampler, input.p_texCoords);
+        //return Depth.Sample(D_Sampler, input.texCoords);
         //Narcotic Effect
-        //return ApplyKernel(narcotic, input.p_texCoords);
+        //return ApplyKernel(narcotic, input.texCoords);
         //Color
-        return Color.Sample(ColorSampler, input.p_texCoords);
+        return Color.Sample(ColorSampler, input.texCoords);
         //Invert Color
-        //return float4(float3(1.0-Color.Sample(ColorSampler, input.p_texCoords).xyz),1.0);
+        //return float4(float3(1.0-Color.Sample(ColorSampler, input.texCoords).xyz),1.0);
     }
 }

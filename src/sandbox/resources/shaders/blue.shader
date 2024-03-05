@@ -9,14 +9,14 @@ namespace vertex
 
 	struct VOut
 	{
-    	float4 p_position : SV_POSITION;
+    	float4 position : SV_POSITION;
 	};
 
 	VOut main(VIn input)
 	{
 		VOut output;
 
-		output.p_position = mul(input.position,mul(u_model,mul(u_view ,u_projection)));
+		output.position = mul(mul(mul(u_projection, u_view), u_model), input.position);
 
 		return output;
 	}
@@ -27,7 +27,7 @@ namespace fragment
     
 	struct PIn
 	{
-		float4 p_position : SV_POSITION;
+		float4 position : SV_POSITION;
 	};
 
 

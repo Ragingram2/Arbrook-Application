@@ -66,33 +66,6 @@
     <ClInclude Include="systems\planegame\physicssystem.hpp">
       <Filter>systems\planegame</Filter>
     </ClInclude>
-    <ClInclude Include="systems\testing\testsystem.hpp">
-      <Filter>systems\testing</Filter>
-    </ClInclude>
-    <ClInclude Include="tests\bgfxpipeline\bgfxpipeline.hpp">
-      <Filter>tests\bgfxpipeline</Filter>
-    </ClInclude>
-    <ClInclude Include="tests\bgfxpipeline\bgfxrenderstage.hpp">
-      <Filter>tests\bgfxpipeline</Filter>
-    </ClInclude>
-    <ClInclude Include="tests\buffercreation.hpp">
-      <Filter>tests</Filter>
-    </ClInclude>
-    <ClInclude Include="tests\drawindexedtest.hpp">
-      <Filter>tests</Filter>
-    </ClInclude>
-    <ClInclude Include="tests\materialswitch.hpp">
-      <Filter>tests</Filter>
-    </ClInclude>
-    <ClInclude Include="tests\modelswitch.hpp">
-      <Filter>tests</Filter>
-    </ClInclude>
-    <ClInclude Include="tests\rendertest.hpp">
-      <Filter>tests</Filter>
-    </ClInclude>
-    <ClInclude Include="tests\stresstest.hpp">
-      <Filter>tests</Filter>
-    </ClInclude>
     <ClInclude Include="tests\tools\CSVWriter.hpp">
       <Filter>tests\tools</Filter>
     </ClInclude>
@@ -115,9 +88,6 @@
     </ClCompile>
     <ClCompile Include="systems\planegame\physicssystem.cpp">
       <Filter>systems\planegame</Filter>
-    </ClCompile>
-    <ClCompile Include="systems\testing\testsystem.cpp">
-      <Filter>systems\testing</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

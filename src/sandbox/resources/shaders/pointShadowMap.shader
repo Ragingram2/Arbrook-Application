@@ -10,14 +10,14 @@ namespace vertex
 
     struct VOut
     {
-        float4 p_position : SV_POSITION;
+        float4 position : SV_POSITION;
     };
 
     VOut main(VIn input)
     {
         VOut output;
 
-        output.p_position = mul(input.position, u_model);
+        output.position = mul(u_model, input.position);
 
         return output;
     }
@@ -26,12 +26,6 @@ namespace vertex
 namespace geometry
 {
     #include "light_utils.shinc"
-
-    cbuffer LightInfo : register(b3)
-    {
-        int lightIndex;
-        int lightCount;
-    };
 
     struct GSIn
     {
@@ -58,7 +52,7 @@ namespace geometry
             for(int i = 0; i < 3; i++)
             {
                 output.frag_pos = input[i].position;
-                output.position = mul(output.frag_pos, mul(u_pointLights[lightIndex].shadowTransforms[face], u_pointLights[lightIndex].shadowProjection));
+                output.position = mul(mul(u_pointLights[lightIndex].shadowProjection, u_pointLights[lightIndex].shadowTransforms[face]), output.frag_pos);
                 outputStream.Append(output);
             }
             outputStream.RestartStrip();
@@ -70,12 +64,6 @@ namespace fragment
 {
     #include "light_utils.shinc"
 
-    cbuffer LightInfo : register(b3)
-    {
-        int lightIndex;
-        int lightCount;
-    };
-
 	struct PIn
 	{
 		float4 position : SV_POSITION;
@@ -84,10 +72,9 @@ namespace fragment
 
 	float main(PIn input) : SV_DEPTH
 	{
-        float3 lightPos = float3(u_pointLights[lightIndex].position.xyz);
-        float3 fragPos = float3(input.frag_pos.xyz);
-        float3 diff = fragPos - lightPos;
-        float lightDistance = length(diff);
+        float3 lightPos = u_pointLights[lightIndex].position.xyz;
+        float3 fragPos = input.frag_pos.xyz;
+        float lightDistance = length(fragPos - lightPos);
 
         lightDistance = lightDistance / u_pointLights[lightIndex].farPlane;
 

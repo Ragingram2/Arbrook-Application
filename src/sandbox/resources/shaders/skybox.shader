@@ -20,7 +20,7 @@ namespace vertex
     {
         VOut output;
         output.p_fragPos = input.position.xyz;
-        output.p_position = mul(float4((u_viewPosition + input.position).rgb, 1.0), mul(u_view , u_projection)).xyww;
+        output.p_position = mul(mul(u_projection, u_view), float4((u_viewPosition + input.position).rgb, 1.0)).xyww;
         output.p_texCoords = input.texCoords;
 
         return output;

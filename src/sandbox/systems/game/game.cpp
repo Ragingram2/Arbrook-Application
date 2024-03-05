@@ -28,7 +28,7 @@ namespace rythe::game
 		gfx::TextureCache::createTexture2D("park", ast::AssetCache<gfx::texture_source>::getAsset("park"), gfx::texture_parameters
 			{
 				.format = gfx::FormatType::RGBA,
-				.usage = gfx::UsageType::DEFAULT
+				.usage = gfx::UsageType::IMMUTABLE
 			});
 
 		modelHandle = gfx::ModelCache::getModel("cube");
@@ -39,10 +39,11 @@ namespace rythe::game
 
 		colorMat = gfx::MaterialCache::loadMaterialFromFile("color", "resources/shaders/color.shader");
 		colorMat->getShader()->addBuffer(gfx::BufferCache::createConstantBuffer<math::vec4>("Color", 3, gfx::UsageType::STATICDRAW));
-		math::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
+		math::vec4 color = { 1.0f, 0.0f, 0.0f, 1.0f };
 		colorMat->getShader()->setUniform("Color", &color);
 
 		gfx::MaterialCache::loadMaterial("white", gfx::ShaderCache::getShader("white"));
+		gfx::MaterialCache::loadMaterial("red", gfx::ShaderCache::getShader("red"));
 
 		{
 			auto& skyboxRenderer = registry->world.addComponent<gfx::skybox_renderer>();
@@ -54,7 +55,7 @@ namespace rythe::game
 			auto& transf = ent.addComponent<core::transform>();
 			transf.scale = math::vec3(20, .5f, 20);
 			transf.position = math::vec3(0.0f, -21.0f, 0.0f);
-			ent.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("cube") });
+			ent.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("cube") ,.castShadows = false });
 		}
 
 		//{
@@ -62,7 +63,7 @@ namespace rythe::game
 		//	auto& transf = ent.addComponent<core::transform>();
 		//	transf.scale = math::vec3(20, .5f, 20);
 		//	transf.position = math::vec3(0.0f, 21.0f, 0.0f);
-		//	ent.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("cube")});
+		//	ent.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("cube"),.castShadows = false});
 		//}
 
 		{
@@ -70,39 +71,39 @@ namespace rythe::game
 			auto& transf = ent.addComponent<core::transform>();
 			transf.scale = math::vec3(.5f, 20.0f, 20.0f);
 			transf.position = math::vec3(21.0f, 0.0f, 0.0f);
-			ent.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("cube") });
+			ent.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("cube") ,.castShadows = false });
 		}
 
-		//{
-		//	auto ent = createEntity("WallX-");
-		//	auto& transf = ent.addComponent<core::transform>();
-		//	transf.scale = math::vec3(.5f, 20.0f, 20.0f);
-		//	transf.position = math::vec3(-21.0f, 0.0f, 0.0f);
-		//	ent.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("cube")});
-		//}
+		{
+			auto ent = createEntity("WallX-");
+			auto& transf = ent.addComponent<core::transform>();
+			transf.scale = math::vec3(.5f, 20.0f, 20.0f);
+			transf.position = math::vec3(-21.0f, 0.0f, 0.0f);
+			ent.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("cube"),.castShadows = false });
+		}
 
 		{
 			auto ent = createEntity("WallZ+");
 			auto& transf = ent.addComponent<core::transform>();
 			transf.scale = math::vec3(20.0f, 20.0f, .5f);
 			transf.position = math::vec3(0.0f, 0.0f, 21.0f);
-			ent.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("cube") });
+			ent.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("cube"),.castShadows = false });
 		}
 
-		//{
-		//	auto ent = createEntity("WallZ-");
-		//	auto& transf = ent.addComponent<core::transform>();
-		//	transf.scale = math::vec3(20.0f, 20.0f, .5f);
-		//	transf.position = math::vec3(0.0f, 0.0f, -21.0f);
-		//	ent.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("cube"), .castShadows = false });
-		//}
+		{
+			auto ent = createEntity("WallZ-");
+			auto& transf = ent.addComponent<core::transform>();
+			transf.scale = math::vec3(20.0f, 20.0f, .5f);
+			transf.position = math::vec3(0.0f, 0.0f, -21.0f);
+			ent.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("cube"), .castShadows = false });
+		}
 
 		{
 			cube = createEntity("Cube");
 			auto& transf = cube.addComponent<core::transform>();
 			transf.scale = math::vec3::one;
 			transf.position = math::vec3(0.0f, 10.0f, 0.f);
-			cube.addComponent<gfx::mesh_renderer>({ .material = mat, .model = modelHandle });
+			cube.addComponent<gfx::mesh_renderer>({ .material = mat, .model = modelHandle,.castShadows = true });
 		}
 
 		{
@@ -121,13 +122,13 @@ namespace rythe::game
 			ent.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("suzanne") });
 		}
 
-		{
-			auto ent = createEntity("Cone");
-			auto& transf = ent.addComponent<core::transform>();
-			transf.scale = math::vec3::one * 3.0f;
-			transf.position = math::vec3(-10.0f, 0.0f, 10.0f);
-			ent.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("cone") });
-		}
+		//{
+		//	auto ent = createEntity("Cone");
+		//	auto& transf = ent.addComponent<core::transform>();
+		//	transf.scale = math::vec3::one * 3.0f;
+		//	transf.position = math::vec3(-10.0f, 0.0f, 10.0f);
+		//	ent.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("cone") });
+		//}
 
 		{
 			auto ent = createEntity("Sphere");
@@ -137,21 +138,23 @@ namespace rythe::game
 			ent.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("sphere") });
 		}
 
-		{
-			dirLight = createEntity("Light");
-			auto& transf = dirLight.addComponent<core::transform>();
-			transf.scale = math::vec3::one;
-			transf.position = math::vec3::one;
-			transf.rotation = math::toQuat(math::vec3(-45.0f, 45.0f, 0.0f));
-			dirLight.addComponent<gfx::light>({ .type = gfx::LightType::DIRECTIONAL, .dir_data.color = math::vec4(1.0f) });
-		}
+		//{
+		//	dirLight = createEntity("Light");
+		//	auto& transf = dirLight.addComponent<core::transform>();
+		//	transf.scale = math::vec3::one;
+		//	transf.position = math::vec3::zero;
+		//	transf.rotation = math::toQuat(math::vec3(0.0f, 0.0f, 0.0f));
+		//	dirLight.addComponent<gfx::light>({ .type = gfx::LightType::DIRECTIONAL, .dir_data.color = math::vec4(1.0f), .dir_data.intensity = 1.0 });
+		//	dirLight.addComponent<core::examplecomp>({ .axis = math::vec3::right, .angularSpeed = 20.0f });
+		//	dirLight.addComponent<gfx::mesh_renderer>({ .material = colorMat, .model = gfx::ModelCache::getModel("cone"), .castShadows = false });
+		//}
 
 		{
 			pointLight = createEntity("PointLight");
 			pointLight.addComponent<core::transform>({ .scale = math::vec3(.1f, .1f, .1f), .position = math::vec3(0.0f, 0.0f,0.0f) });
 			pointLight.addComponent<gfx::light>({ .type = gfx::LightType::POINT, .point_data.color = math::vec4(1.0f,1.0f,1.0f,1.0f), .point_data.intensity = 1.0f, .point_data.range = 50.f });
-			pointLight.addComponent<core::examplecomp>({ .direction = math::vec3::forward, .range = 10.0f, .speed = 2.0f });
-			pointLight.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("icosphere") ,.castShadows = false });
+			//pointLight.addComponent<core::examplecomp>({ .direction = math::vec3::forward, .range = 10.0f, .speed = 20.0f });
+			pointLight.addComponent<gfx::mesh_renderer>({ .material = gfx::MaterialCache::getMaterial("red"), .model = gfx::ModelCache::getModel("icosphere") ,.castShadows = false});
 		}
 
 		//{
@@ -265,6 +268,7 @@ namespace rythe::game
 		using namespace ImGui;
 		if (ent.hasComponent<gfx::light>())
 		{
+			PushID(std::format("Entity##{}", ent->id).c_str());
 			if (TreeNode("Directional Light"))
 			{
 				auto& comp = ent.getComponent<gfx::light>();
@@ -275,6 +279,7 @@ namespace rythe::game
 				}
 				TreePop();
 			}
+			PopID();
 		}
 	}
 
@@ -283,6 +288,7 @@ namespace rythe::game
 		using namespace ImGui;
 		if (ent.hasComponent<gfx::light>())
 		{
+			PushID(std::format("Entity##{}", ent->id).c_str());
 			if (TreeNode("Point Light"))
 			{
 				auto& comp = ent.getComponent<gfx::light>();
@@ -293,6 +299,7 @@ namespace rythe::game
 				}
 				TreePop();
 			}
+			PopID();
 		}
 	}
 
@@ -301,6 +308,7 @@ namespace rythe::game
 		using namespace ImGui;
 		if (ent.hasComponent<core::examplecomp>())
 		{
+			PushID(std::format("Entity##{}", ent->id).c_str());
 			if (TreeNode("Example Component"))
 			{
 				auto& comp = ent.getComponent<core::examplecomp>();
@@ -328,6 +336,7 @@ namespace rythe::game
 
 				TreePop();
 			}
+			PopID();
 		}
 	}
 
@@ -336,6 +345,7 @@ namespace rythe::game
 		using namespace ImGui;
 		if (ent.hasComponent<gfx::mesh_renderer>())
 		{
+			PushID(std::format("Entity##{}", ent->id).c_str());
 			if (TreeNode("Mesh Renderer"))
 			{
 				auto models = gfx::ModelCache::getModels();
@@ -377,6 +387,7 @@ namespace rythe::game
 				}
 				TreePop();
 			}
+			PopID();
 		}
 	}
 
@@ -385,26 +396,29 @@ namespace rythe::game
 		using namespace ImGui;
 		if (ent.hasComponent<core::transform>())
 		{
+			PushID(std::format("Entity##{}", ent->id).c_str());
 			if (TreeNode("Transform"))
 			{
 				auto& transf = ent.getComponent<core::transform>();
 				math::vec3 pos = transf.position;
 				math::vec3 rot = math::toEuler(transf.rotation);
 				math::vec3 scale = transf.scale;
-				if (InputFloat3("Position", pos.data))
+	
+				if (InputFloat3("Position##1", pos.data))
 				{
 					transf.position = pos;
 				}
-				if (InputFloat3("Rotation", rot.data))
+				if (InputFloat3("Rotation##2", rot.data))
 				{
 					transf.rotation = math::toQuat(rot);
 				}
-				if (InputFloat3("Scale", scale.data))
+				if (InputFloat3("Scale##3", scale.data))
 				{
 					transf.scale = scale;
 				}
 				TreePop();
 			}
+			PopID();
 		}
 	}
 

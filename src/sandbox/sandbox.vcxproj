@@ -195,15 +195,6 @@
     <ClInclude Include="systems\game\game.hpp" />
     <ClInclude Include="systems\planegame\airplanesystem.hpp" />
     <ClInclude Include="systems\planegame\physicssystem.hpp" />
-    <ClInclude Include="systems\testing\testsystem.hpp" />
-    <ClInclude Include="tests\bgfxpipeline\bgfxpipeline.hpp" />
-    <ClInclude Include="tests\bgfxpipeline\bgfxrenderstage.hpp" />
-    <ClInclude Include="tests\buffercreation.hpp" />
-    <ClInclude Include="tests\drawindexedtest.hpp" />
-    <ClInclude Include="tests\materialswitch.hpp" />
-    <ClInclude Include="tests\modelswitch.hpp" />
-    <ClInclude Include="tests\rendertest.hpp" />
-    <ClInclude Include="tests\stresstest.hpp" />
     <ClInclude Include="tests\tools\CSVWriter.hpp" />
     <ClInclude Include="tests\tools\bgfxutils.hpp" />
   </ItemGroup>
@@ -213,7 +204,6 @@
     <ClCompile Include="systems\game\game.cpp" />
     <ClCompile Include="systems\planegame\airplanesystem.cpp" />
     <ClCompile Include="systems\planegame\physicssystem.cpp" />
-    <ClCompile Include="systems\testing\testsystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\arbrook\core\src\core\core.vcxproj">

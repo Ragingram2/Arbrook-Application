@@ -9,15 +9,14 @@ namespace vertex
 
     struct VOut
     {
-        float4 p_position : SV_POSITION;
+        float4 position : SV_POSITION;
     };
 
     VOut main(VIn input)
     {
         VOut output;
 
-        output.p_position = mul(input.position,mul(u_model ,mul(u_dirLights[0].view ,u_dirLights[0].projection)));
-
+        output.position = mul(mul(mul(u_dirLights[0].projection, u_dirLights[0].view), u_model), input.position);
         return output;
     }
 }
@@ -26,12 +25,17 @@ namespace fragment
 {
     struct PIn
 	{
-		float4 p_position : SV_POSITION;
+		float4 position : SV_POSITION;
 	};
 
+    static float near = -10.0;
+    static float far = 40.0;
 
-	float4 main(PIn input) : SV_TARGET
-	{
-		return float4(0,0,0,0);
-	}
+	float main(PIn input) : SV_DEPTH 
+    {
+		float z = (input.position.z * 2.0) - 1.0;
+        float linDepth = (2.0 * near * far) / ((far + near) - z * (far - near));
+
+        return input.position.z;
+    }
 }
