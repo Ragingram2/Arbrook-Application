@@ -25,12 +25,6 @@ namespace vertex
     {
         VOut output;
 
-		// output.position = mul(input.position, mul(u_model, mul(u_view, u_projection)));
-        // output.fragPos = mul(input.position, u_model).rgb;
-        // output.normal = normalize(mul(input.normal, (float3x3)inverse(u_model)).rgb);
-        // output.texCoords = input.texCoords;
-        // output.lightSpaceFragPos = mul(float4(output.fragPos, 1.0), mul(u_dirLights[0].view, u_dirLights[0].projection)); 
-
         output.position = mul(mul(mul(u_projection, u_view), u_model), input.position);
         output.fragPos = mul(u_model, input.position).rgb;
         output.normal = normalize(mul((float3x3)inverse(u_model), input.normal).rgb);
@@ -72,6 +66,7 @@ namespace fragment
 	SamplerState SpecularSampler : TexSampler4;
 
 	static float3 s = float3(0.0,0.0,0.0);
+
 	float DirLightShadowCalculation(float4 lightFragPos, float3 normal, float3 lightDir)
     {
 		float3 projCoords = lightFragPos.xyz/lightFragPos.w;
@@ -82,7 +77,6 @@ namespace fragment
         projCoords = (projCoords * 0.5) + 0.5;
 		#endif
 
-	
         float closestDepth = DepthMap.Sample(DepthMapSampler, projCoords.xy).r;
         float currentDepth = projCoords.z;
 
@@ -99,20 +93,24 @@ namespace fragment
 	float PointLightShadowCalculation(PointLight light, float3 fragPos)
     {
 		//This is the shadows position from the light
-		float3 fragToLight = fragPos - light.position.xyz;
+		float3 fragToLight = light.position.xyz - fragPos;
+
+		float3 shadowUV = fragToLight;
+		#ifdef DirectX
+		shadowUV.y *= -1;
+		#endif
+		
 
 		//This all below is whether something is in shadow or not
-		float closestDepth = DepthCube.Sample(DepthCubeSampler, fragToLight).r;
-		float currentDepth = length(fragToLight) / light.farPlane;
+		float closestDepth = DepthCube.Sample(DepthCubeSampler, shadowUV).r * light.farPlane;
+		float currentDepth = length(fragToLight);
 
-		float bias = 0.005f;
+		float bias = 0.05f;
 		float shadow = 0.0;
 		if((currentDepth - bias) > closestDepth)
 		{
 			shadow = 1.0;
 		}
-
-		s = float3(closestDepth,closestDepth,closestDepth);
 
         return shadow;
     }
@@ -173,7 +171,7 @@ namespace fragment
 		for(i = 0; i < lightCount; i++)
 			result += CalcPointLight(u_pointLights[i], normal, input.texCoords, input.fragPos, viewDir);
 		
-		return float4(s,1.0);
-		//return float4(result, 1.0);
+		//return float4(s,1.0);
+		return float4(result, 1.0);
 	}
 }

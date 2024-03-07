@@ -76,10 +76,10 @@ namespace rythe::game
 		mouseDelta = input.positionDelta;
 		lastMousePos = input.lastPosition;
 
-		rotationDelta = math::vec2(mouseDelta.x, mouseDelta.y) * camSettings.sensitivity;
+		rotationDelta = -math::vec2(mouseDelta.x, mouseDelta.y) * camSettings.sensitivity;
 
-		pitch = math::clamp(pitch - rotationDelta.y, -89.99f, 89.99);
-		yaw += -rotationDelta.x;
+		pitch = math::clamp(pitch + rotationDelta.y, -89.99f, 89.99);
+		yaw += rotationDelta.x;
 
 		front.x = cos(math::radians(yaw)) * cos(math::radians(pitch));
 		front.y = sin(math::radians(pitch));
