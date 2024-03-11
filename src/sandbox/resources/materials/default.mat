@@ -1,0 +1,8 @@
+{
+    "shaderName":"lit",
+    "shaderID": 0,
+    "textureFilepaths": [
+        "resources/textures/container_diffuse.png",
+        "resources/textures/container_specular.png"
+    ]
+}
