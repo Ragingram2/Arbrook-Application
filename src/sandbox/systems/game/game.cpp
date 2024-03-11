@@ -103,7 +103,7 @@ namespace rythe::game
 			auto& transf = cube.addComponent<core::transform>();
 			transf.scale = math::vec3::one;
 			transf.position = math::vec3(0.0f, -10.0f, 0.f);
-			cube.addComponent<gfx::mesh_renderer>({ .material = mat, .model = modelHandle,.castShadows = true });
+			cube.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("sponza"),.castShadows = true});
 		}
 
 		{
@@ -156,22 +156,6 @@ namespace rythe::game
 			pointLight.addComponent<core::examplecomp>({ .direction = math::vec3::right, .range = 10.0f, .speed = 20.0f });
 			pointLight.addComponent<gfx::mesh_renderer>({ .material = gfx::MaterialCache::getMaterial("red"), .model = gfx::ModelCache::getModel("icosphere") ,.castShadows = false});
 		}
-
-		//{
-		//	pointLight2 = createEntity("PointLight2");
-		//	pointLight2.addComponent<core::transform>({ .scale = math::vec3(.1f, .1f, .1f), .position = math::vec3(0.0f,0.0f,-5.0f) });
-		//	pointLight2.addComponent<gfx::light>({ .type = gfx::LightType::POINT, .point_data.color = math::vec4(0.0f,1.0f,0.0f,1.0f), .point_data.intensity = 1.0f, .point_data.range = 50.f });
-		//	pointLight2.addComponent<core::examplecomp>({ .direction = math::vec3::right, .range = 10.0f, .speed = -20.0f });
-		//	pointLight2.addComponent<gfx::mesh_renderer>({ .material = gfx::MaterialCache::getMaterial("red"), .model = gfx::ModelCache::getModel("icosphere") ,.castShadows = false});
-		//}
-
-		//{
-		//	pointLight3 = createEntity("PointLight3");
-		//	pointLight3.addComponent<core::transform>({ .scale = math::vec3(.1f, .1f, .1f), .position = math::vec3(0.0f,0.0f,0.0f) });
-		//	pointLight3.addComponent<gfx::light>({ .type = gfx::LightType::POINT, .point_data.color = math::vec4(0.0f,0.0f,1.0f,1.0f), .point_data.intensity = 1.0f, .point_data.range = 50.f });
-		//	pointLight3.addComponent<core::examplecomp>({ .direction = math::vec3::up, .range = 10.0f, .speed = 20.0f });
-		//	pointLight3.addComponent<gfx::mesh_renderer>({ .material = gfx::MaterialCache::getMaterial("red"), .model = gfx::ModelCache::getModel("icosphere") ,.castShadows = false });
-		//}
 
 		{
 			auto camera = createEntity("Camera");
