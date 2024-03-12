@@ -1,0 +1,6 @@
+{
+    "shaderName":"skybox",
+    "shaderPath":"resources/shaders/skybox.shader",
+    "shaderID": 0,
+    "textureFilepaths": []
+}

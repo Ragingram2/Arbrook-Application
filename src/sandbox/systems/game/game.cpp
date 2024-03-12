@@ -24,8 +24,8 @@ namespace rythe::game
 		ast::AssetCache<gfx::texture_source>::loadAssets("resources/textures/", gfx::default_texture_import_params);
 		ast::AssetCache<gfx::shader_source>::loadAssets("resources/shaders/", gfx::default_shader_params);
 		ast::AssetCache<gfx::material_source>::loadAssets("resources/materials/", gfx::default_material_params);
-		gfx::MaterialCache::loadMaterial("error");
 		gfx::ShaderCache::createShaders(ast::AssetCache<gfx::shader_source>::getAssets());
+		gfx::MaterialCache::loadMaterial("error");
 		gfx::ModelCache::loadModels(ast::AssetCache<gfx::mesh>::getAssets());
 		gfx::MaterialCache::loadMaterials(ast::AssetCache<gfx::material_source>::getAssets());
 
@@ -42,9 +42,6 @@ namespace rythe::game
 		colorMat->getShader()->addBuffer(gfx::BufferCache::createConstantBuffer<math::vec4>("Color", 3, gfx::UsageType::STATICDRAW));
 		math::vec4 color = { 1.0f, 0.0f, 0.0f, 1.0f };
 		colorMat->getShader()->setUniform("Color", &color);
-
-		//gfx::MaterialCache::loadMaterial("white");
-		//gfx::MaterialCache::loadMaterial("red");
 
 		{
 			auto& skyboxRenderer = registry->world.addComponent<gfx::skybox_renderer>();

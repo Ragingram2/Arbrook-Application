@@ -1,5 +1,6 @@
 {
     "shaderName":"lit",
+    "shaderPath":"resources/shaders/lit.shader",
     "shaderID": 0,
     "textureFilepaths": [
         "resources/textures/container_diffuse.png",

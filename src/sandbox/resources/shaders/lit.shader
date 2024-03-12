@@ -53,19 +53,18 @@ namespace fragment
 		float4 lightSpaceFragPos : TEXCOORD2;
 	};
 
-	Texture2D DepthMap : Texture1;
-	SamplerState DepthMapSampler : TexSampler1;
+	Texture2D Diffuse : Texture1;
+	SamplerState DiffuseSampler : TexSampler1;
+
+	Texture2D Specular : Texture2;
+	SamplerState SpecularSampler : TexSampler2;
+
+	Texture2D DepthMap : Texture3;
+	SamplerState DepthMapSampler : TexSampler3;
 	
-    TextureCube DepthCube : Texture2;
-    SamplerState DepthCubeSampler : TexSampler2;
+    TextureCube DepthCube : Texture4;
+    SamplerState DepthCubeSampler : TexSampler4;
 
-	Texture2D Diffuse : Texture3;
-	SamplerState DiffuseSampler : TexSampler3;
-
-	Texture2D Specular : Texture4;
-	SamplerState SpecularSampler : TexSampler4;
-
-	static float3 s = float3(0.0,0.0,0.0);
 
 	float DirLightShadowCalculation(float4 lightFragPos, float3 normal, float3 lightDir)
     {
@@ -170,8 +169,7 @@ namespace fragment
 		int i = 0;
 		for(i = 0; i < lightCount; i++)
 			result += CalcPointLight(u_pointLights[i], normal, input.texCoords, input.fragPos, viewDir);
-		
-		//return float4(s,1.0);
+
 		return float4(result, 1.0);
 	}
 }
