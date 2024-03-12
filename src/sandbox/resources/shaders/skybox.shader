@@ -10,18 +10,22 @@ namespace vertex
 
     struct VOut
     {
-        float4 p_position : SV_POSITION;
-        float2 p_texCoords : TEXCOORD;
+        float4 position : SV_POSITION;
+        float2 texCoords : TEXCOORD;
 
-        float3 p_fragPos : TEXCOORD1;
+        float3 fragPos : TEXCOORD1;
     };
 
     VOut main(VIn input)
     {
         VOut output;
-        output.p_fragPos = input.position.xyz;
-        output.p_position = mul(mul(u_projection, u_view), float4((u_viewPosition + input.position).rgb, 1.0)).xyww;
-        output.p_texCoords = input.texCoords;
+        output.fragPos = input.position.xyz;
+        #ifdef DirectX
+        output.fragPos.y *= -1.0;
+        #endif
+        output.position = mul(mul(u_projection, u_view), float4((u_viewPosition + input.position).rgb, 1.0)).xyww;
+        output.texCoords = input.texCoords;
+ 
 
         return output;
     }
@@ -38,15 +42,15 @@ namespace fragment
 
 	struct PIn
 	{
-		float4 p_position : SV_POSITION;
-		float2 p_texCoords : TEXCOORD;
+		float4 position : SV_POSITION;
+		float2 texCoords : TEXCOORD;
 
-        float3 p_fragPos : TEXCOORD1;
+        float3 fragPos : TEXCOORD1;
 	};
 
     float4 main(PIn input) : SV_TARGET
     {
 
-        return Skybox.SampleLevel(SkyboxSampler, SkyboxUV(normalize(input.p_fragPos)), 0);
+        return Skybox.SampleLevel(SkyboxSampler, SkyboxUV(normalize(input.fragPos)), 0);
     }
 }

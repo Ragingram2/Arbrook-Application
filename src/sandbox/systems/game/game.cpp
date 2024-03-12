@@ -64,7 +64,7 @@ namespace rythe::game
 		//	ent.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("cube"),.castShadows = false});
 		//}
 
-		{
+		/*{
 			auto ent = createEntity("WallX+");
 			auto& transf = ent.addComponent<core::transform>();
 			transf.scale = math::vec3(.5f, 20.0f, 20.0f);
@@ -94,17 +94,17 @@ namespace rythe::game
 			transf.scale = math::vec3(20.0f, 20.0f, .5f);
 			transf.position = math::vec3(0.0f, 0.0f, -21.0f);
 			ent.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("cube"), .castShadows = false });
-		}
+		}*/
 
 		{
 			cube = createEntity("Cube");
 			auto& transf = cube.addComponent<core::transform>();
 			transf.scale = math::vec3::one;
 			transf.position = math::vec3(0.0f, -10.0f, 0.f);
-			cube.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("cube"),.castShadows = true});
+			cube.addComponent<gfx::mesh_renderer>({ .material = gfx::MaterialCache::getMaterial("rock"), .model = gfx::ModelCache::getModel("cube"),.castShadows = true});
 		}
 
-		{
+		/*{
 			auto ent = createEntity("Bunny");
 			auto& transf = ent.addComponent<core::transform>();
 			transf.scale = math::vec3::one * 3.0f;
@@ -134,16 +134,16 @@ namespace rythe::game
 			transf.scale = math::vec3::one * 3.0f;
 			transf.position = math::vec3(10.0f, 0.0f, -10.0f);
 			ent.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("sphere") });
-		}
+		}*/
 
 		{
 			dirLight = createEntity("Directional Light");
 			auto& transf = dirLight.addComponent<core::transform>();
 			transf.scale = math::vec3::one;
 			transf.position = math::vec3::zero;
-			transf.rotation = math::toQuat(math::vec3(-45.0f, -45.0f, 0.0f));
+			transf.rotation = math::toQuat(math::vec3(0.0f, 0.0f, 0.0f));
 			dirLight.addComponent<gfx::light>({ .type = gfx::LightType::DIRECTIONAL, .dir_data.color = math::vec4(1.0f), .dir_data.intensity = 1.0 });
-			//dirLight.addComponent<core::examplecomp>({ .axis = math::vec3::right, .angularSpeed = 20.0f });
+			dirLight.addComponent<core::examplecomp>({ .axis = math::vec3::right, .angularSpeed = 20.0f });
 			dirLight.addComponent<gfx::mesh_renderer>({ .material = colorMat, .model = gfx::ModelCache::getModel("cone"), .castShadows = false });
 		}
 
@@ -160,7 +160,7 @@ namespace rythe::game
 			auto& camTransf = camera.addComponent<core::transform>();
 			camTransf.position = math::vec3(0.0f, 0.0f, 0.0f);
 			camTransf.rotation = math::quat(math::lookAt(math::vec3::zero, camTransf.forward(), camTransf.up()));
-			camera.addComponent<gfx::camera>({ .farZ = 10000.f, .nearZ = 1.0f, .fov = 90.f });
+			camera.addComponent<gfx::camera>({ .farZ = 10000.f, .nearZ = 0.1f, .fov = 90.f });
 			camera.addComponent<camera_settings>({ .mode = CameraControlMode::FreeLook,.speed = 25.0f, .sensitivity = .9f });
 		}
 	}

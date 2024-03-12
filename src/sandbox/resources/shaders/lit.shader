@@ -8,6 +8,7 @@ namespace vertex
         float4 position : POSITION;
         float3 normal : NORMAL;
         float2 texCoords : TEXCOORD;
+		float3 tangent : TANGENT;
     };
 
     struct VOut
@@ -16,9 +17,9 @@ namespace vertex
         float3 normal : NORMAL;
         float2 texCoords : TEXCOORD;
 
-
         float3 fragPos : TEXCOORD1;
         float4 lightSpaceFragPos : TEXCOORD2;
+		float3 tangent : TANGENT;
     };
 
     VOut main(VIn input)
@@ -27,9 +28,10 @@ namespace vertex
 
         output.position = mul(mul(mul(u_projection, u_view), u_model), input.position);
         output.fragPos = mul(u_model, input.position).rgb;
-        output.normal = normalize(mul((float3x3)inverse(u_model), input.normal).rgb);
-        output.texCoords = input.texCoords;
+		output.texCoords = input.texCoords;
         output.lightSpaceFragPos = mul(mul(u_dirLights[0].projection, u_dirLights[0].view), float4(output.fragPos, 1.0)); 
+		output.normal = normalize(mul((float3x3)inverse(u_model), input.normal).rgb);
+		output.tangent = normalize(mul((float3x3)inverse(u_model), input.tangent).rgb);
 
         return output;
     }
@@ -37,7 +39,6 @@ namespace vertex
 
 namespace fragment
 {
-	#line 40
 	#pragma warning( disable : 4121)
 	#include "camera_utils.shinc"
 	#include "light_utils.shinc"
@@ -51,13 +52,17 @@ namespace fragment
 
 		float3 fragPos : TEXCOORD1;
 		float4 lightSpaceFragPos : TEXCOORD2;
+		float3 tangent : TANGENT;
 	};
 
-	Texture2D Diffuse : Texture1;
-	SamplerState DiffuseSampler : TexSampler1;
+	Texture2D Diffuse : Texture0;
+	SamplerState DiffuseSampler : TexSampler0;
 
-	Texture2D Specular : Texture2;
-	SamplerState SpecularSampler : TexSampler2;
+	Texture2D Specular : Texture1;
+	SamplerState SpecularSampler : TexSampler1;
+
+	Texture2D Normal : Texture2;
+	SamplerState NormalSampler : TexSampler2;
 
 	Texture2D DepthMap : Texture3;
 	SamplerState DepthMapSampler : TexSampler3;
@@ -65,6 +70,19 @@ namespace fragment
     TextureCube DepthCube : Texture4;
     SamplerState DepthCubeSampler : TexSampler4;
 
+
+	float3 CalcBumpedNormal(float3 normal, float3 tangent, float2 texCoord)
+	{
+		tangent = normalize(tangent - (dot(tangent,normal) * normal));
+		float3 bitangent = cross(tangent, normal);
+		float3 bumpMapNormal = Normal.Sample(NormalSampler, texCoord).xyz;
+		bumpMapNormal *= 2.0;
+		bumpMapNormal -= float3(1.0,1.0,1.0);
+
+		float3x3 TBN = float3x3(tangent, bitangent, normal);
+		float3 newNormal = mul(TBN,bumpMapNormal).xyz;
+		return normalize(newNormal);
+	}
 
 	float DirLightShadowCalculation(float4 lightFragPos, float3 normal, float3 lightDir)
     {
@@ -114,10 +132,9 @@ namespace fragment
         return shadow;
     }
 
-	float3 CalcDirLight(float4 lightFragPos, float3 normal, float2 texCoords, float3 viewDir)
+	float3 CalcDirLight(float3 lightDir, float4 lightFragPos, float3 normal, float2 texCoords, float3 viewDir)
 	{
 		DirLight light = u_dirLights[0];
-		float3 lightDir = normalize(light.direction.xyz);
 		//diffuse
 		float diff = max(dot(normal, lightDir),0.0);
 		//specular
@@ -162,9 +179,11 @@ namespace fragment
 
 	float4 main(PIn input) : SV_TARGET
 	{
-		float3 normal = normalize(input.normal);
+		float3 normal = CalcBumpedNormal(normalize(input.tangent), normalize(input.normal), input.texCoords);
 		float3 viewDir = normalize(u_viewPosition.xyz - input.fragPos);
-		float3 result = CalcDirLight(input.lightSpaceFragPos, normal, input.texCoords, viewDir);
+		float3 lightDir = normalize(u_dirLights[0].direction.xyz);
+
+		float3 result = CalcDirLight(lightDir, input.lightSpaceFragPos, normal, input.texCoords, viewDir);
 
 		int i = 0;
 		for(i = 0; i < lightCount; i++)
