@@ -20,6 +20,10 @@ namespace vertex
         float3 fragPos : TEXCOORD1;
         float4 lightSpaceFragPos : TEXCOORD2;
 		float3 tangent : TANGENT;
+
+		float3 tanViewPos : TANGENT1;
+		float3 tanFragPos : TANGENT2;
+		float3 tanLightDir : TANGENT3;
     };
 
     VOut main(VIn input)
@@ -30,8 +34,15 @@ namespace vertex
         output.fragPos = mul(u_model, input.position).rgb;
 		output.texCoords = input.texCoords;
         output.lightSpaceFragPos = mul(mul(u_dirLights[0].projection, u_dirLights[0].view), float4(output.fragPos, 1.0)); 
-		output.normal = normalize(mul((float3x3)inverse(u_model), input.normal).rgb);
 		output.tangent = normalize(mul((float3x3)inverse(u_model), input.tangent).rgb);
+		output.normal = normalize(mul((float3x3)inverse(u_model), input.normal).rgb);
+		float3 bitangent = normalize(cross(output.tangent, output.normal));
+
+		float3x3 TBN = transpose(float3x3(output.tangent, bitangent, output.normal));
+
+		output.tanViewPos = mul(TBN, u_viewPosition.xyz).xyz;
+		output.tanFragPos = mul(TBN, output.fragPos.xyz).xyz;
+		output.tanLightDir = mul(TBN, u_dirLights[0].direction.xyz).xyz;
 
         return output;
     }
@@ -53,6 +64,10 @@ namespace fragment
 		float3 fragPos : TEXCOORD1;
 		float4 lightSpaceFragPos : TEXCOORD2;
 		float3 tangent : TANGENT;
+
+		float3 tanViewPos : TANGENT1;
+		float3 tanFragPos : TANGENT2;
+		float3 tanLightDir : TANGENT3;
 	};
 
 	Texture2D Diffuse : Texture0;
@@ -64,12 +79,50 @@ namespace fragment
 	Texture2D Normal : Texture2;
 	SamplerState NormalSampler : TexSampler2;
 
-	Texture2D DepthMap : Texture3;
-	SamplerState DepthMapSampler : TexSampler3;
-	
-    TextureCube DepthCube : Texture4;
-    SamplerState DepthCubeSampler : TexSampler4;
+	Texture2D Displacement : Texture3;
+	SamplerState DispSampler : TexSampler3;
 
+	Texture2D DepthMap : Texture4;
+	SamplerState DepthMapSampler : TexSampler4;
+	
+    TextureCube DepthCube : Texture5;
+    SamplerState DepthCubeSampler : TexSampler5;
+
+	static float heightScale = 0.01;
+	float2 ParallaxMapping(float2 texCoords, float3 viewDir)
+	{
+		const float minLayers = 8;
+		const float maxLayers = 32;
+		float numLayers = lerp(maxLayers, minLayers, abs(dot(float3(0.0,0.0,1.0),viewDir)));
+
+		float layerDepth = 1.0 / numLayers;
+
+		float currentLayerDepth = 0.00001;
+
+		float2 P = (viewDir.xy/viewDir.z) * heightScale;
+		float2 deltaUV = P / numLayers;
+
+		float2 currentUV = texCoords;
+		float currentHeight = Displacement.Sample(DispSampler, currentUV).r;
+
+		[unroll(512)]
+		while(currentLayerDepth < currentHeight)
+		{
+			currentUV -= deltaUV;
+			currentHeight = Displacement.Sample(DispSampler, currentUV).r;
+			currentLayerDepth += layerDepth;
+		}
+
+		float2 prevUV = currentUV + deltaUV;
+
+		float afterDepth = currentHeight - currentLayerDepth;
+		float beforeDepth = Displacement.Sample(DispSampler, prevUV).r - currentLayerDepth + layerDepth;
+
+		float weight = afterDepth/ (afterDepth - beforeDepth);
+		float2 finalUV = (prevUV * weight) + currentUV * (1.0 - weight);
+
+		return finalUV;
+	}
 
 	float3 CalcBumpedNormal(float3 normal, float3 tangent, float2 texCoord)
 	{
@@ -179,15 +232,19 @@ namespace fragment
 
 	float4 main(PIn input) : SV_TARGET
 	{
-		float3 normal = CalcBumpedNormal(normalize(input.tangent), normalize(input.normal), input.texCoords);
-		float3 viewDir = normalize(u_viewPosition.xyz - input.fragPos);
-		float3 lightDir = normalize(u_dirLights[0].direction.xyz);
+		//float3 viewDir = normalize(u_viewPosition.xyz - input.fragPos);
+		float3 viewDir = normalize(input.tanViewPos - input.tanFragPos);
+		float2 texCoords = ParallaxMapping(input.texCoords, viewDir);
+		if(texCoords.x > 1.0 || texCoords.y > 1.0 || texCoords.x < 0.0 || texCoords.y < 0.0)
+    		discard;
 
-		float3 result = CalcDirLight(lightDir, input.lightSpaceFragPos, normal, input.texCoords, viewDir);
+		float3 normal = CalcBumpedNormal(normalize(input.tangent), normalize(input.normal), texCoords);
+		float3 lightDir = normalize(input.tanLightDir);//normalize(u_dirLights[0].direction.xyz);
+		float3 result = CalcDirLight(lightDir, input.lightSpaceFragPos, normal, texCoords, viewDir);
 
 		int i = 0;
 		for(i = 0; i < lightCount; i++)
-			result += CalcPointLight(u_pointLights[i], normal, input.texCoords, input.fragPos, viewDir);
+			result += CalcPointLight(u_pointLights[i], normal, texCoords, input.fragPos, viewDir);
 
 		return float4(result, 1.0);
 	}

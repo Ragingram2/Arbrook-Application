@@ -99,9 +99,9 @@ namespace rythe::game
 		{
 			cube = createEntity("Cube");
 			auto& transf = cube.addComponent<core::transform>();
-			transf.scale = math::vec3::one;
+			transf.scale = math::vec3::one*10.0f;
 			transf.position = math::vec3(0.0f, -10.0f, 0.f);
-			cube.addComponent<gfx::mesh_renderer>({ .material = gfx::MaterialCache::getMaterial("rock"), .model = gfx::ModelCache::getModel("cube"),.castShadows = true});
+			cube.addComponent<gfx::mesh_renderer>({ .material = gfx::MaterialCache::getMaterial("bricks"), .model = gfx::ModelCache::getModel("cube"),.castShadows = false});
 		}
 
 		/*{
@@ -141,9 +141,9 @@ namespace rythe::game
 			auto& transf = dirLight.addComponent<core::transform>();
 			transf.scale = math::vec3::one;
 			transf.position = math::vec3::zero;
-			transf.rotation = math::toQuat(math::vec3(0.0f, 0.0f, 0.0f));
+			transf.rotation = math::toQuat(math::vec3(-45.0f, 0.0f, 0.0f));
 			dirLight.addComponent<gfx::light>({ .type = gfx::LightType::DIRECTIONAL, .dir_data.color = math::vec4(1.0f), .dir_data.intensity = 1.0 });
-			dirLight.addComponent<core::examplecomp>({ .axis = math::vec3::right, .angularSpeed = 20.0f });
+			//dirLight.addComponent<core::examplecomp>({ .axis = math::vec3::right, .angularSpeed = 20.0f });
 			dirLight.addComponent<gfx::mesh_renderer>({ .material = colorMat, .model = gfx::ModelCache::getModel("cone"), .castShadows = false });
 		}
 
@@ -406,7 +406,7 @@ namespace rythe::game
 
 	void Game::reloadShaders(key_input<inputmap::method::F1>& input)
 	{
-		if (input.isPressed())
+		if (input.wasPressed())
 		{
 			ast::AssetCache<gfx::shader_source>::loadAssets("resources/shaders/", gfx::default_shader_params, true);
 			gfx::ShaderCache::compileShaders();
