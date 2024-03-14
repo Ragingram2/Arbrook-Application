@@ -193,6 +193,7 @@
     <ClInclude Include="systems\game\cameracontrols.hpp" />
     <ClInclude Include="systems\game\examplesystem.hpp" />
     <ClInclude Include="systems\game\game.hpp" />
+    <ClInclude Include="systems\game\guisystem.hpp" />
     <ClInclude Include="systems\planegame\airplanesystem.hpp" />
     <ClInclude Include="systems\planegame\physicssystem.hpp" />
     <ClInclude Include="tests\tools\CSVWriter.hpp" />
@@ -202,6 +203,7 @@
     <ClCompile Include="..\..\..\..\arbrook\Arbrook.cpp" />
     <ClCompile Include="systems\game\cameracontrols.cpp" />
     <ClCompile Include="systems\game\game.cpp" />
+    <ClCompile Include="systems\game\guisystem.cpp" />
     <ClCompile Include="systems\planegame\airplanesystem.cpp" />
     <ClCompile Include="systems\planegame\physicssystem.cpp" />
   </ItemGroup>

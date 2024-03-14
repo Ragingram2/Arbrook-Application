@@ -31,15 +31,6 @@ namespace rythe::game
 	public:
 		void setup();
 		void update();
-		void guiRender();
-		void setModel(ast::asset_handle<gfx::model> handle);
-		void setMaterial(ast::asset_handle<gfx::material> handle);
-
-		void directionalLightEditor(core::ecs::entity);
-		void pointLightEditor(core::ecs::entity);
-		void exampleCompEditor(core::ecs::entity);
-		void meshrendererEditor(core::ecs::entity);
-		void transformEditor(core::ecs::entity);
 
 		void reloadShaders(key_input<inputmap::method::F1>& input);
 

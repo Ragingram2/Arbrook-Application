@@ -88,35 +88,35 @@ namespace fragment
     TextureCube DepthCube : Texture5;
     SamplerState DepthCubeSampler : TexSampler5;
 
-	static float heightScale = 0.01;
+	static float heightScale = 0.1;
 	float2 ParallaxMapping(float2 texCoords, float3 viewDir)
 	{
 		const float minLayers = 8;
-		const float maxLayers = 32;
+		const float maxLayers = 16;
 		float numLayers = lerp(maxLayers, minLayers, abs(dot(float3(0.0,0.0,1.0),viewDir)));
 
 		float layerDepth = 1.0 / numLayers;
 
-		float currentLayerDepth = 0.00001;
+		float currentLayerDepth = 0.0;
 
 		float2 P = (viewDir.xy/viewDir.z) * heightScale;
 		float2 deltaUV = P / numLayers;
 
 		float2 currentUV = texCoords;
-		float currentHeight = Displacement.Sample(DispSampler, currentUV).r;
+		float currentHeight = -Displacement.Sample(DispSampler, currentUV).r;
 
 		[unroll(512)]
 		while(currentLayerDepth < currentHeight)
 		{
 			currentUV -= deltaUV;
-			currentHeight = Displacement.Sample(DispSampler, currentUV).r;
+			currentHeight = -Displacement.Sample(DispSampler, currentUV).r;
 			currentLayerDepth += layerDepth;
 		}
 
 		float2 prevUV = currentUV + deltaUV;
 
 		float afterDepth = currentHeight - currentLayerDepth;
-		float beforeDepth = Displacement.Sample(DispSampler, prevUV).r - currentLayerDepth + layerDepth;
+		float beforeDepth = -Displacement.Sample(DispSampler, prevUV).r - currentLayerDepth + layerDepth;
 
 		float weight = afterDepth/ (afterDepth - beforeDepth);
 		float2 finalUV = (prevUV * weight) + currentUV * (1.0 - weight);
@@ -162,7 +162,6 @@ namespace fragment
 
 	float PointLightShadowCalculation(PointLight light, float3 fragPos)
     {
-		//This is the shadows position from the light
 		float3 fragToLight = light.position.xyz - fragPos;
 
 		float3 shadowUV = fragToLight;
@@ -170,8 +169,6 @@ namespace fragment
 		shadowUV.y *= -1;
 		#endif
 		
-
-		//This all below is whether something is in shadow or not
 		float closestDepth = DepthCube.Sample(DepthCubeSampler, shadowUV).r * light.farPlane;
 		float currentDepth = length(fragToLight);
 
@@ -232,14 +229,13 @@ namespace fragment
 
 	float4 main(PIn input) : SV_TARGET
 	{
-		//float3 viewDir = normalize(u_viewPosition.xyz - input.fragPos);
 		float3 viewDir = normalize(input.tanViewPos - input.tanFragPos);
 		float2 texCoords = ParallaxMapping(input.texCoords, viewDir);
 		if(texCoords.x > 1.0 || texCoords.y > 1.0 || texCoords.x < 0.0 || texCoords.y < 0.0)
     		discard;
 
 		float3 normal = CalcBumpedNormal(normalize(input.tangent), normalize(input.normal), texCoords);
-		float3 lightDir = normalize(input.tanLightDir);//normalize(u_dirLights[0].direction.xyz);
+		float3 lightDir = normalize(u_dirLights[0].direction.xyz);
 		float3 result = CalcDirLight(lightDir, input.lightSpaceFragPos, normal, texCoords, viewDir);
 
 		int i = 0;

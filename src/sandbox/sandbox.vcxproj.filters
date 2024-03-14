@@ -66,6 +66,7 @@
     <ClInclude Include="tests\tools\bgfxutils.hpp">
       <Filter>tests\tools</Filter>
     </ClInclude>
+    <ClInclude Include="systems\game\guisystem.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\arbrook\Arbrook.cpp">
@@ -83,5 +84,6 @@
     <ClCompile Include="systems\planegame\physicssystem.cpp">
       <Filter>systems\planegame</Filter>
     </ClCompile>
+    <ClCompile Include="systems\game\guisystem.cpp" />
   </ItemGroup>
 </Project>
