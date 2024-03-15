@@ -18,11 +18,6 @@ namespace rythe::game
 	class Game : public core::System<Game, core::transform, gfx::mesh_renderer>
 	{
 	private:
-		core::ecs::entity cube;
-		core::ecs::entity dirLight;
-		core::ecs::entity pointLight;
-		core::ecs::entity pointLight2;
-		core::ecs::entity pointLight3;
 		ast::asset_handle<gfx::model> modelHandle;
 		ast::asset_handle<gfx::material> mat;
 		ast::asset_handle<gfx::material> lit;
@@ -32,13 +27,20 @@ namespace rythe::game
 		void setup();
 		void update();
 
-		void reloadShaders(key_input<inputmap::method::F1>& input);
+		void reloadShaders(key_input<inputmap::method::F1>& input)
+		{
+			if (input.wasPressed())
+			{
+				ast::AssetCache<gfx::shader_source>::loadAssets("resources/shaders/", gfx::default_shader_params, true);
+				gfx::ShaderCache::compileShaders();
+			}
+		}
 
 		void toggleMouseCapture(key_input<inputmap::method::ESCAPE>& input)
 		{
 			if (input.isPressed())
 			{
-				input::InputSystem::mouseCaptured = !input::InputSystem::mouseCaptured;
+				Input::mouseCaptured = !Input::mouseCaptured;
 			}
 		}
 	};

@@ -38,7 +38,7 @@ namespace rythe::game
 
 	void CameraControls::mouselook(mouse_input& input)
 	{
-		if (!input::InputSystem::mouseCaptured) return;
+		if (!Input::mouseCaptured) return;
 
 		auto& camSettings = camera.getComponent<camera_settings>();
 		switch (camSettings.mode)

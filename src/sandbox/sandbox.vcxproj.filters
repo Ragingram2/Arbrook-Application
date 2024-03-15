@@ -54,6 +54,9 @@
     <ClInclude Include="systems\game\game.hpp">
       <Filter>systems\game</Filter>
     </ClInclude>
+    <ClInclude Include="systems\game\guisystem.hpp">
+      <Filter>systems\game</Filter>
+    </ClInclude>
     <ClInclude Include="systems\planegame\airplanesystem.hpp">
       <Filter>systems\planegame</Filter>
     </ClInclude>
@@ -66,7 +69,6 @@
     <ClInclude Include="tests\tools\bgfxutils.hpp">
       <Filter>tests\tools</Filter>
     </ClInclude>
-    <ClInclude Include="systems\game\guisystem.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\arbrook\Arbrook.cpp">
@@ -78,12 +80,14 @@
     <ClCompile Include="systems\game\game.cpp">
       <Filter>systems\game</Filter>
     </ClCompile>
+    <ClCompile Include="systems\game\guisystem.cpp">
+      <Filter>systems\game</Filter>
+    </ClCompile>
     <ClCompile Include="systems\planegame\airplanesystem.cpp">
       <Filter>systems\planegame</Filter>
     </ClCompile>
     <ClCompile Include="systems\planegame\physicssystem.cpp">
       <Filter>systems\planegame</Filter>
     </ClCompile>
-    <ClCompile Include="systems\game\guisystem.cpp" />
   </ItemGroup>
 </Project>

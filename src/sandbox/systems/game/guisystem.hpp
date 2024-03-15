@@ -30,7 +30,7 @@ namespace rythe::game
 		void setup();
 		void update();
 		void onRender(core::transform, gfx::camera);
-		void guiRender();
+		void guiRender(core::transform, gfx::camera);
 
 		void lightEditor(core::ecs::entity);
 		void exampleCompEditor(core::ecs::entity);
@@ -42,7 +42,7 @@ namespace rythe::game
 
 		void readPixel(key_input<inputmap::method::MOUSE_LEFT>& action)
 		{
-			if (m_isHoveringWindow) return;
+			if (m_isHoveringWindow || Input::mouseCaptured) return;
 
 			if (action.wasPressed())
 			{

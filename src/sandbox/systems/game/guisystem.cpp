@@ -18,7 +18,7 @@ namespace rythe::game
 
 	void GUISystem::onRender(core::transform camTransf, gfx::camera camera)
 	{
-		if (input::InputSystem::mouseCaptured) return;
+		if (Input::mouseCaptured) return;
 
 		if (!m_readPixel) return;
 
@@ -33,15 +33,34 @@ namespace rythe::game
 
 		if (id != invalid_id)
 			GUI::selected = ecs::entity{ &ecs::Registry::entities[id] };
+		else
+			GUI::selected = ecs::entity();
 
 		m_readPixel = false;
 	}
 
-	void GUISystem::guiRender()
+	void GUISystem::guiRender(core::transform camTransf, gfx::camera camera)
 	{
 		using namespace ImGui;
+		using namespace ImGuizmo;
+
 		ImGuiIO& io = GetIO();
 		m_isHoveringWindow = io.WantCaptureMouse;
+
+		static OPERATION currentGizmoOperation = TRANSLATE;
+		static MODE currentGizmoMode = WORLD;
+
+		if (!Input::mouseCaptured)
+		{
+			if (IsKeyPressed(49))//1 key
+				currentGizmoOperation = TRANSLATE;
+			if (IsKeyPressed(50))//2 key
+				currentGizmoOperation = ROTATE;
+			if (IsKeyPressed(51))//3 key
+				currentGizmoOperation = SCALE;
+		}
+
+		SetRect(0, 0, io.DisplaySize.x, io.DisplaySize.y);
 
 		if (Begin("Inspector"))
 		{
@@ -59,6 +78,19 @@ namespace rythe::game
 					Indent();
 					transformEditor(ent);
 					Unindent();
+
+					core::transform& transf = ent.getComponent<core::transform>();
+					math::vec3 eulerRot = math::toEuler(transf.rotation);
+					float matrix[16];
+					RecomposeMatrixFromComponents(transf.position.data, eulerRot.data, transf.scale.data, matrix);
+					Manipulate(camera.view.data, camera.projection.data, currentGizmoOperation, currentGizmoMode, matrix);
+					math::vec3 pos;
+					math::vec3 rot;
+					math::vec3 scale;
+					DecomposeMatrixToComponents(matrix, pos.data, rot.data, scale.data);
+					transf.position = pos;
+					transf.rotation = math::toQuat(rot);
+					transf.scale = scale;
 				}
 
 				if (ent.hasComponent<gfx::mesh_renderer>())
@@ -205,6 +237,7 @@ namespace rythe::game
 	void GUISystem::transformEditor(core::ecs::entity ent)
 	{
 		using namespace ImGui;
+
 		PushID(std::format("Entity##{}", ent->id).c_str());
 		if (TreeNode("Transform"))
 		{

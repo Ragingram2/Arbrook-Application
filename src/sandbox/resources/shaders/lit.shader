@@ -21,9 +21,9 @@ namespace vertex
         float4 lightSpaceFragPos : TEXCOORD2;
 		float3 tangent : TANGENT;
 
-		float3 tanViewPos : TANGENT1;
-		float3 tanFragPos : TANGENT2;
-		float3 tanLightDir : TANGENT3;
+		float3x3 TBN : TANGENT1;
+		float3 tanViewPos : TANGENT2;
+		float3 tanFragPos : TANGENT3;
     };
 
     VOut main(VIn input)
@@ -34,15 +34,17 @@ namespace vertex
         output.fragPos = mul(u_model, input.position).rgb;
 		output.texCoords = input.texCoords;
         output.lightSpaceFragPos = mul(mul(u_dirLights[0].projection, u_dirLights[0].view), float4(output.fragPos, 1.0)); 
-		output.tangent = normalize(mul((float3x3)inverse(u_model), input.tangent).rgb);
-		output.normal = normalize(mul((float3x3)inverse(u_model), input.normal).rgb);
-		float3 bitangent = normalize(cross(output.tangent, output.normal));
 
-		float3x3 TBN = transpose(float3x3(output.tangent, bitangent, output.normal));
+		float3x3 normalMatrix = transpose((float3x3)inverse(u_model));
+		output.tangent = normalize(mul(normalMatrix, input.tangent).rgb);
+		output.normal = normalize(mul(normalMatrix, input.normal).rgb);
+		output.tangent = normalize(output.tangent - dot(output.tangent, output.normal) * output.normal);
+		float3 bitangent = cross(output.normal, output.tangent);
 
-		output.tanViewPos = mul(TBN, u_viewPosition.xyz).xyz;
-		output.tanFragPos = mul(TBN, output.fragPos.xyz).xyz;
-		output.tanLightDir = mul(TBN, u_dirLights[0].direction.xyz).xyz;
+		output.TBN = transpose(float3x3(output.tangent, bitangent, output.normal));
+
+		output.tanViewPos = mul(output.TBN, u_viewPosition.xyz);
+		output.tanFragPos = mul(output.TBN, output.fragPos);
 
         return output;
     }
@@ -65,9 +67,9 @@ namespace fragment
 		float4 lightSpaceFragPos : TEXCOORD2;
 		float3 tangent : TANGENT;
 
-		float3 tanViewPos : TANGENT1;
-		float3 tanFragPos : TANGENT2;
-		float3 tanLightDir : TANGENT3;
+		float3x3 TBN : TANGENT1;
+		float3 tanViewPos : TANGENT2;
+		float3 tanFragPos : TANGENT3;
 	};
 
 	Texture2D Diffuse : Texture0;
@@ -88,53 +90,50 @@ namespace fragment
     TextureCube DepthCube : Texture5;
     SamplerState DepthCubeSampler : TexSampler5;
 
-	static float heightScale = 0.1;
+	static float heightScale = 0.01;
+	static float3 s = float3(0,0,0);
 	float2 ParallaxMapping(float2 texCoords, float3 viewDir)
 	{
 		const float minLayers = 8;
-		const float maxLayers = 16;
+		const float maxLayers = 32;
 		float numLayers = lerp(maxLayers, minLayers, abs(dot(float3(0.0,0.0,1.0),viewDir)));
 
 		float layerDepth = 1.0 / numLayers;
 
 		float currentLayerDepth = 0.0;
-
 		float2 P = (viewDir.xy/viewDir.z) * heightScale;
-		float2 deltaUV = P / numLayers;
+		float2 deltaTexCoords = P / numLayers;
+
+		s = float3(P,0.0);
 
 		float2 currentUV = texCoords;
-		float currentHeight = -Displacement.Sample(DispSampler, currentUV).r;
-
-		[unroll(512)]
-		while(currentLayerDepth < currentHeight)
+		float currentDepthMapValue = Displacement.Sample(DispSampler, currentUV).r;
+		[unroll(1024)]
+		while(currentLayerDepth < currentDepthMapValue )
 		{
-			currentUV -= deltaUV;
-			currentHeight = -Displacement.Sample(DispSampler, currentUV).r;
+			currentUV -= deltaTexCoords;
+			currentDepthMapValue = Displacement.Sample(DispSampler, currentUV).r;
 			currentLayerDepth += layerDepth;
 		}
 
-		float2 prevUV = currentUV + deltaUV;
+		float2 prevTexCoords = currentUV + deltaTexCoords;
 
-		float afterDepth = currentHeight - currentLayerDepth;
-		float beforeDepth = -Displacement.Sample(DispSampler, prevUV).r - currentLayerDepth + layerDepth;
+		float afterDepth = currentDepthMapValue - currentLayerDepth;
+		float beforeDepth = Displacement.Sample(DispSampler, prevTexCoords).r - currentLayerDepth + layerDepth;
 
-		float weight = afterDepth/ (afterDepth - beforeDepth);
-		float2 finalUV = (prevUV * weight) + currentUV * (1.0 - weight);
+		float weight = afterDepth / (afterDepth - beforeDepth);
+		float2 finalUV = (prevTexCoords * weight) + (currentUV * (1.0 - weight));
 
 		return finalUV;
 	}
 
-	float3 CalcBumpedNormal(float3 normal, float3 tangent, float2 texCoord)
+	float3 CalcBumpedNormal(float3x3 TBN, float2 texCoord)
 	{
-		tangent = normalize(tangent - (dot(tangent,normal) * normal));
-		float3 bitangent = cross(tangent, normal);
-		float3 bumpMapNormal = Normal.Sample(NormalSampler, texCoord).xyz;
-		bumpMapNormal *= 2.0;
-		bumpMapNormal -= float3(1.0,1.0,1.0);
+		float3 normal = Normal.Sample(NormalSampler, texCoord).xyz;
+		normal = ((normal * 2.0) - 1.0);
 
-		float3x3 TBN = float3x3(tangent, bitangent, normal);
-		float3 newNormal = mul(TBN,bumpMapNormal).xyz;
-		return normalize(newNormal);
+		float3 newNormal = normalize(mul(TBN, normal).xyz);
+		return newNormal;
 	}
 
 	float DirLightShadowCalculation(float4 lightFragPos, float3 normal, float3 lightDir)
@@ -229,19 +228,22 @@ namespace fragment
 
 	float4 main(PIn input) : SV_TARGET
 	{
-		float3 viewDir = normalize(input.tanViewPos - input.tanFragPos);
+		//this is really fucked and idk why
+		float3 viewDir = normalize(normalize(input.tanViewPos) - input.tanFragPos);
 		float2 texCoords = ParallaxMapping(input.texCoords, viewDir);
 		if(texCoords.x > 1.0 || texCoords.y > 1.0 || texCoords.x < 0.0 || texCoords.y < 0.0)
     		discard;
 
-		float3 normal = CalcBumpedNormal(normalize(input.tangent), normalize(input.normal), texCoords);
-		float3 lightDir = normalize(u_dirLights[0].direction.xyz);
+		float3 normal = CalcBumpedNormal(input.TBN, texCoords);
+		float3 lightDir = normalize( u_dirLights[0].direction.xyz);
+		lightDir.x *= -1.0;
 		float3 result = CalcDirLight(lightDir, input.lightSpaceFragPos, normal, texCoords, viewDir);
 
 		int i = 0;
 		for(i = 0; i < lightCount; i++)
 			result += CalcPointLight(u_pointLights[i], normal, texCoords, input.fragPos, viewDir);
 
+		//return float4(s,1.0);
 		return float4(result, 1.0);
 	}
 }
