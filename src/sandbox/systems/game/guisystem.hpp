@@ -37,6 +37,28 @@ namespace rythe::game
 		void meshrendererEditor(core::ecs::entity);
 		void transformEditor(core::ecs::entity);
 
+		template<typename ItemType>
+		inline void createAssetDropDown(const char* label, ast::asset_handle<ItemType>& current, std::vector<ast::asset_handle<ItemType>> items)
+		{
+			using namespace ImGui;
+			if (BeginCombo(label, current->getNameC()))
+			{
+				for (auto item : items)
+				{
+					const bool is_selected = (current == item);
+					if (Selectable(item->getNameC(), is_selected))
+						current = item;
+
+					if (is_selected)
+					{
+						SetItemDefaultFocus();
+						log::debug("Testing");
+					}
+				}
+				EndCombo();
+			}
+		}
+
 		void setModel(ast::asset_handle<gfx::model>, ecs::entity);
 		void setMaterial(ast::asset_handle<gfx::material>, ecs::entity);
 

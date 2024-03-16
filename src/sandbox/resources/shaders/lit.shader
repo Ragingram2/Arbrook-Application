@@ -43,8 +43,8 @@ namespace vertex
 
 		output.TBN = transpose(float3x3(output.tangent, bitangent, output.normal));
 
-		output.tanViewPos = mul(output.TBN, u_viewPosition.xyz);
-		output.tanFragPos = mul(output.TBN, output.fragPos);
+		output.tanViewPos = normalize(mul(output.TBN, u_viewPosition.xyz));
+		output.tanFragPos = normalize(mul(output.TBN, output.fragPos));
 
         return output;
     }
@@ -101,10 +101,9 @@ namespace fragment
 		float layerDepth = 1.0 / numLayers;
 
 		float currentLayerDepth = 0.0;
-		float2 P = (viewDir.xy/viewDir.z) * heightScale;
+		viewDir.y *= -1.0;
+		float2 P = viewDir.xy/((viewDir.z*.5)+1.0) * heightScale;
 		float2 deltaTexCoords = P / numLayers;
-
-		s = float3(P,0.0);
 
 		float2 currentUV = texCoords;
 		float currentDepthMapValue = Displacement.Sample(DispSampler, currentUV).r;
@@ -131,6 +130,7 @@ namespace fragment
 	{
 		float3 normal = Normal.Sample(NormalSampler, texCoord).xyz;
 		normal = ((normal * 2.0) - 1.0);
+		normal.y *= -1.0;
 
 		float3 newNormal = normalize(mul(TBN, normal).xyz);
 		return newNormal;
@@ -228,15 +228,14 @@ namespace fragment
 
 	float4 main(PIn input) : SV_TARGET
 	{
-		//this is really fucked and idk why
-		float3 viewDir = normalize(normalize(input.tanViewPos) - input.tanFragPos);
+		float3 viewDir = normalize(input.tanViewPos - input.tanFragPos);
+		
 		float2 texCoords = ParallaxMapping(input.texCoords, viewDir);
 		if(texCoords.x > 1.0 || texCoords.y > 1.0 || texCoords.x < 0.0 || texCoords.y < 0.0)
     		discard;
 
 		float3 normal = CalcBumpedNormal(input.TBN, texCoords);
 		float3 lightDir = normalize( u_dirLights[0].direction.xyz);
-		lightDir.x *= -1.0;
 		float3 result = CalcDirLight(lightDir, input.lightSpaceFragPos, normal, texCoords, viewDir);
 
 		int i = 0;
