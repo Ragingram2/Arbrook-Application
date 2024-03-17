@@ -21,9 +21,10 @@ namespace vertex
         float4 lightSpaceFragPos : TEXCOORD2;
 		float3 tangent : TANGENT;
 
-		float3x3 TBN : TANGENT1;
-		float3 tanViewPos : TANGENT2;
-		float3 tanFragPos : TANGENT3;
+		float3 tanViewPos : TANGENT1;
+		float3 tanFragPos : TANGENT2;
+		float3x3 TBN : TANGENT3;
+
     };
 
     VOut main(VIn input)
@@ -66,10 +67,10 @@ namespace fragment
 		float3 fragPos : TEXCOORD1;
 		float4 lightSpaceFragPos : TEXCOORD2;
 		float3 tangent : TANGENT;
-
-		float3x3 TBN : TANGENT1;
-		float3 tanViewPos : TANGENT2;
-		float3 tanFragPos : TANGENT3;
+		
+		float3 tanViewPos : TANGENT1;
+		float3 tanFragPos : TANGENT2;
+		float3x3 TBN : TANGENT3;
 	};
 
 	Texture2D Diffuse : Texture0;

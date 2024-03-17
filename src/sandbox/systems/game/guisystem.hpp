@@ -37,38 +37,31 @@ namespace rythe::game
 		void meshrendererEditor(core::ecs::entity);
 		void transformEditor(core::ecs::entity);
 
+		static void setModel(ast::asset_handle<gfx::model>, ecs::entity);
+		static void setMaterial(ast::asset_handle<gfx::material>, ecs::entity);
+		void readPixel(key_input<inputmap::method::MOUSE_LEFT>& action);
+
 		template<typename ItemType>
-		inline void createAssetDropDown(const char* label, ast::asset_handle<ItemType>& current, std::vector<ast::asset_handle<ItemType>> items)
+		inline void createAssetDropDown(ecs::entity ent, const char* label, ItemType current, std::vector<ItemType> items, void(*func)(ItemType, ecs::entity))
 		{
 			using namespace ImGui;
-			if (BeginCombo(label, current->getNameC()))
+			if (BeginCombo(label, current.getNameC()))
 			{
 				for (auto item : items)
 				{
 					const bool is_selected = (current == item);
-					if (Selectable(item->getNameC(), is_selected))
+					if (Selectable(item.getNameC(), is_selected))
+					{
 						current = item;
+						func(item, ent);
+					}
 
 					if (is_selected)
 					{
 						SetItemDefaultFocus();
-						log::debug("Testing");
 					}
 				}
 				EndCombo();
-			}
-		}
-
-		void setModel(ast::asset_handle<gfx::model>, ecs::entity);
-		void setMaterial(ast::asset_handle<gfx::material>, ecs::entity);
-
-		void readPixel(key_input<inputmap::method::MOUSE_LEFT>& action)
-		{
-			if (m_isHoveringWindow || Input::mouseCaptured) return;
-
-			if (action.wasPressed())
-			{
-				m_readPixel = true;
 			}
 		}
 	};

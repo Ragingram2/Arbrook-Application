@@ -18,18 +18,12 @@ namespace rythe::game
 
 	void GUISystem::onRender(core::transform camTransf, gfx::camera camera)
 	{
-		if (Input::mouseCaptured) return;
-
-		if (!m_readPixel) return;
+		if (Input::mouseCaptured || !m_readPixel) return;
 
 		gfx::framebuffer* pickingFBO = gfx::Renderer::getCurrentPipeline()->getFramebuffer("PickingBuffer");
-		pickingFBO->bind();
-
-		auto color = gfx::Renderer::RI->readPixels(math::ivec2(input::Input::mousePos.x, input::Input::mousePos.y), math::ivec2(1, 1));
+		auto color = gfx::Renderer::RI->readPixels(*pickingFBO, math::ivec2(input::Input::mousePos.x, input::Input::mousePos.y), math::ivec2(1, 1));
 
 		rsl::id_type id = color.x + (color.y * 256) + (color.z * 256 * 256) + (color.w * 256 * 256 * 256);
-
-		pickingFBO->unbind();
 
 		if (id != invalid_id)
 			GUI::selected = ecs::entity{ &ecs::Registry::entities[id] };
@@ -44,6 +38,7 @@ namespace rythe::game
 		using namespace ImGui;
 		using namespace ImGuizmo;
 
+		ShowDemoWindow();
 		ImGuiIO& io = GetIO();
 		m_isHoveringWindow = io.WantCaptureMouse;
 
@@ -73,11 +68,10 @@ namespace rythe::game
 			auto ent = GUI::selected;
 			if (CollapsingHeader(ent->name.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
 			{
+				Indent();
 				if (ent.hasComponent<core::transform>())
 				{
-					Indent();
 					transformEditor(ent);
-					Unindent();
 
 					core::transform& transf = ent.getComponent<core::transform>();
 					math::vec3 eulerRot = math::toEuler(transf.rotation);
@@ -95,24 +89,20 @@ namespace rythe::game
 
 				if (ent.hasComponent<gfx::mesh_renderer>())
 				{
-					Indent();
 					meshrendererEditor(ent);
-					Unindent();
 				}
 
 				if (ent.hasComponent<gfx::light>())
 				{
-					Indent();
 					lightEditor(ent);
-					Unindent();
 				}
 
 				if (ent.hasComponent<examplecomp>())
 				{
-					Indent();
 					exampleCompEditor(ent);
-					Unindent();
 				}
+
+				Unindent();
 			}
 			End();
 		}
@@ -192,43 +182,8 @@ namespace rythe::game
 		PushID(std::format("Entity##{}", ent->id).c_str());
 		if (TreeNode("Mesh Renderer"))
 		{
-			auto models = gfx::ModelCache::getModels();
-			ast::asset_handle<gfx::model> currentMesh = ent.getComponent<gfx::mesh_renderer>().model;
-			if (BeginCombo("Mesh", currentMesh->name.c_str()))
-			{
-				for (auto handle : models)
-				{
-					const bool is_selected = (currentMesh == handle);
-					if (Selectable(handle->name.c_str(), is_selected))
-						currentMesh = handle;
-
-					if (is_selected)
-					{
-						SetItemDefaultFocus();
-					}
-				}
-				setModel(currentMesh, ent);
-				EndCombo();
-			}
-
-			auto mats = gfx::MaterialCache::getMaterials();
-			ast::asset_handle<gfx::material> currentMat = ent.getComponent<gfx::mesh_renderer>().material;
-			if (BeginCombo("Material", currentMat->name.c_str()))
-			{
-				for (auto handle : mats)
-				{
-					const bool is_selected = (currentMat == handle);
-					if (Selectable(handle->name.c_str(), is_selected))
-						currentMat = handle;
-
-					if (is_selected)
-					{
-						SetItemDefaultFocus();
-					}
-				}
-				setMaterial(currentMat, ent);
-				EndCombo();
-			}
+			createAssetDropDown(ent, "Mesh", ent.getComponent<gfx::mesh_renderer>().model, gfx::ModelCache::getModels(), &GUISystem::setModel);
+			createAssetDropDown(ent, "Material", ent.getComponent<gfx::mesh_renderer>().material, gfx::MaterialCache::getMaterials(), &GUISystem::setMaterial);
 			TreePop();
 		}
 		PopID();
@@ -280,6 +235,16 @@ namespace rythe::game
 		{
 			renderer.material = handle;
 			renderer.dirty = true;
+		}
+	}
+
+	void GUISystem::readPixel(key_input<inputmap::method::MOUSE_LEFT>& action)
+	{
+		if (m_isHoveringWindow || Input::mouseCaptured) return;
+
+		if (action.wasPressed())
+		{
+			m_readPixel = true;
 		}
 	}
 }

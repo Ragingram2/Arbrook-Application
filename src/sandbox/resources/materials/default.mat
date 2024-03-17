@@ -1,5 +1,4 @@
 {
-    "shaderName":"lit",
     "shaderPath":"resources/shaders/lit.shader",
     "shaderID": 0,
     "textureFilepaths": [
