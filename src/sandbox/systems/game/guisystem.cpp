@@ -38,9 +38,12 @@ namespace rythe::game
 		using namespace ImGui;
 		using namespace ImGuizmo;
 
-		ShowDemoWindow();
+		//ShowDemoWindow();
 		ImGuiIO& io = GetIO();
 		m_isHoveringWindow = io.WantCaptureMouse;
+
+		gfx::framebuffer* mainFBO = gfx::Renderer::getCurrentPipeline()->getFramebuffer("MainBuffer");
+		gfx::framebuffer* pickingFBO = gfx::Renderer::getCurrentPipeline()->getFramebuffer("PickingBuffer");
 
 		static OPERATION currentGizmoOperation = TRANSLATE;
 		static MODE currentGizmoMode = WORLD;
@@ -57,54 +60,67 @@ namespace rythe::game
 
 		SetRect(0, 0, io.DisplaySize.x, io.DisplaySize.y);
 
+		if (Begin("GameWindow"))
+		{
+			auto pickingTex = pickingFBO->getAttachment(gfx::AttachmentSlot::COLOR0).m_data->getId();
+			auto mainTex = mainFBO->getAttachment(gfx::AttachmentSlot::COLOR0).m_data->getId();
+			//GetWindowDrawList()->AddImage( (ImTextureID)pickingTex, ImVec2(GetCursorScreenPos()),ImVec2(GetCursorScreenPos().x + Screen_Width / 2, GetCursorScreenPos().y + Screen_Height / 2), ImVec2(0, 1), ImVec2(1, 0));
+			GetWindowDrawList()->AddImage((ImTextureID)mainTex, ImVec2(GetCursorScreenPos()),ImVec2(GetCursorScreenPos().x + Screen_Width / 2, GetCursorScreenPos().y + Screen_Height / 2), ImVec2(0, 1), ImVec2(1, 0));
+			End();
+		}
+
 		if (Begin("Inspector"))
 		{
 			if (GUI::selected == invalid_id)
 			{
 				End();
-				return;
 			}
-
-			auto ent = GUI::selected;
-			if (CollapsingHeader(ent->name.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
+			else
 			{
-				Indent();
-				if (ent.hasComponent<core::transform>())
+				auto ent = GUI::selected;
+				if (CollapsingHeader(ent->name.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
 				{
-					transformEditor(ent);
+					Indent();
+					if (ent.hasComponent<core::transform>())
+					{
+						transformEditor(ent);
 
-					core::transform& transf = ent.getComponent<core::transform>();
-					math::vec3 eulerRot = math::toEuler(transf.rotation);
-					float matrix[16];
-					RecomposeMatrixFromComponents(transf.position.data, eulerRot.data, transf.scale.data, matrix);
-					Manipulate(camera.view.data, camera.projection.data, currentGizmoOperation, currentGizmoMode, matrix);
-					math::vec3 pos;
-					math::vec3 rot;
-					math::vec3 scale;
-					DecomposeMatrixToComponents(matrix, pos.data, rot.data, scale.data);
-					transf.position = pos;
-					transf.rotation = math::toQuat(rot);
-					transf.scale = scale;
+						core::transform& transf = ent.getComponent<core::transform>();
+						math::vec3 eulerRot = math::toEuler(transf.rotation);
+						float matrix[16];
+						RecomposeMatrixFromComponents(transf.position.data, eulerRot.data, transf.scale.data, matrix);
+						if (Manipulate(camera.view.data, camera.projection.data, currentGizmoOperation, currentGizmoMode, matrix))
+						{
+							math::vec3 pos;
+							math::vec3 rot;
+							math::vec3 scale;
+							DecomposeMatrixToComponents(matrix, pos.data, rot.data, scale.data);
+							transf.position = pos;
+							transf.rotation = math::toQuat(rot);
+							transf.scale = scale;
+						}
+					}
+
+					if (ent.hasComponent<gfx::mesh_renderer>())
+					{
+						meshrendererEditor(ent);
+					}
+
+					if (ent.hasComponent<gfx::light>())
+					{
+						lightEditor(ent);
+					}
+
+					if (ent.hasComponent<examplecomp>())
+					{
+						exampleCompEditor(ent);
+					}
+
+					Unindent();
 				}
 
-				if (ent.hasComponent<gfx::mesh_renderer>())
-				{
-					meshrendererEditor(ent);
-				}
-
-				if (ent.hasComponent<gfx::light>())
-				{
-					lightEditor(ent);
-				}
-
-				if (ent.hasComponent<examplecomp>())
-				{
-					exampleCompEditor(ent);
-				}
-
-				Unindent();
+				End();
 			}
-			End();
 		}
 	}
 
