@@ -26,6 +26,10 @@ namespace rythe::game
 	private:
 		bool m_readPixel = false;
 		bool m_isHoveringWindow = false;
+		static gfx::framebuffer* mainFBO;
+		static gfx::framebuffer* pickingFBO;
+		static ImGuizmo::OPERATION currentGizmoOperation;
+		static ImGuizmo::MODE currentGizmoMode;
 	public:
 		void setup();
 		void update();
@@ -39,6 +43,9 @@ namespace rythe::game
 
 		static void setModel(ast::asset_handle<gfx::model>, ecs::entity);
 		static void setMaterial(ast::asset_handle<gfx::material>, ecs::entity);
+		//static void bindMainFBO(const ImDrawList* parent_list, const ImDrawCmd* cmd);
+		//static void unbindMainFBO(const ImDrawList* parent_list, const ImDrawCmd* cmd);
+		void drawGizmo(gfx::camera camera);
 		void readPixel(key_input<inputmap::method::MOUSE_LEFT>& action);
 
 		template<typename ItemType>

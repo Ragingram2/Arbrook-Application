@@ -2,6 +2,11 @@
 
 namespace rythe::game
 {
+	gfx::framebuffer* GUISystem::mainFBO;
+	gfx::framebuffer* GUISystem::pickingFBO;
+	ImGuizmo::OPERATION GUISystem::currentGizmoOperation = ImGuizmo::TRANSLATE;
+	ImGuizmo::MODE GUISystem::currentGizmoMode = ImGuizmo::WORLD;
+
 	void GUISystem::setup()
 	{
 		log::info("Initializing GUI system");
@@ -18,9 +23,12 @@ namespace rythe::game
 
 	void GUISystem::onRender(core::transform camTransf, gfx::camera camera)
 	{
+		using namespace ImGui;
+		using namespace ImGuizmo;
 		if (Input::mouseCaptured || !m_readPixel) return;
 
-		gfx::framebuffer* pickingFBO = gfx::Renderer::getCurrentPipeline()->getFramebuffer("PickingBuffer");
+		pickingFBO = gfx::Renderer::getCurrentPipeline()->getFramebuffer("PickingBuffer");
+
 		auto color = gfx::Renderer::RI->readPixels(*pickingFBO, math::ivec2(input::Input::mousePos.x, input::Input::mousePos.y), math::ivec2(1, 1));
 
 		rsl::id_type id = color.x + (color.y * 256) + (color.z * 256 * 256) + (color.w * 256 * 256 * 256);
@@ -37,16 +45,11 @@ namespace rythe::game
 	{
 		using namespace ImGui;
 		using namespace ImGuizmo;
-
+		pickingFBO = gfx::Renderer::getCurrentPipeline()->getFramebuffer("PickingBuffer");
+		mainFBO = gfx::Renderer::getCurrentPipeline()->getFramebuffer("MainBuffer");
 		//ShowDemoWindow();
 		ImGuiIO& io = GetIO();
 		m_isHoveringWindow = io.WantCaptureMouse;
-
-		gfx::framebuffer* mainFBO = gfx::Renderer::getCurrentPipeline()->getFramebuffer("MainBuffer");
-		gfx::framebuffer* pickingFBO = gfx::Renderer::getCurrentPipeline()->getFramebuffer("PickingBuffer");
-
-		static OPERATION currentGizmoOperation = TRANSLATE;
-		static MODE currentGizmoMode = WORLD;
 
 		if (!Input::mouseCaptured)
 		{
@@ -57,17 +60,7 @@ namespace rythe::game
 			if (IsKeyPressed(51))//3 key
 				currentGizmoOperation = SCALE;
 		}
-
 		SetRect(0, 0, io.DisplaySize.x, io.DisplaySize.y);
-
-		if (Begin("GameWindow"))
-		{
-			auto pickingTex = pickingFBO->getAttachment(gfx::AttachmentSlot::COLOR0).m_data->getId();
-			auto mainTex = mainFBO->getAttachment(gfx::AttachmentSlot::COLOR0).m_data->getId();
-			//GetWindowDrawList()->AddImage( (ImTextureID)pickingTex, ImVec2(GetCursorScreenPos()),ImVec2(GetCursorScreenPos().x + Screen_Width / 2, GetCursorScreenPos().y + Screen_Height / 2), ImVec2(0, 1), ImVec2(1, 0));
-			GetWindowDrawList()->AddImage((ImTextureID)mainTex, ImVec2(GetCursorScreenPos()),ImVec2(GetCursorScreenPos().x + Screen_Width / 2, GetCursorScreenPos().y + Screen_Height / 2), ImVec2(0, 1), ImVec2(1, 0));
-			End();
-		}
 
 		if (Begin("Inspector"))
 		{
@@ -83,44 +76,32 @@ namespace rythe::game
 					Indent();
 					if (ent.hasComponent<core::transform>())
 					{
-						transformEditor(ent);
-
-						core::transform& transf = ent.getComponent<core::transform>();
-						math::vec3 eulerRot = math::toEuler(transf.rotation);
-						float matrix[16];
-						RecomposeMatrixFromComponents(transf.position.data, eulerRot.data, transf.scale.data, matrix);
-						if (Manipulate(camera.view.data, camera.projection.data, currentGizmoOperation, currentGizmoMode, matrix))
-						{
-							math::vec3 pos;
-							math::vec3 rot;
-							math::vec3 scale;
-							DecomposeMatrixToComponents(matrix, pos.data, rot.data, scale.data);
-							transf.position = pos;
-							transf.rotation = math::toQuat(rot);
-							transf.scale = scale;
-						}
+						transformEditor(ent); 
+						//drawGizmo(camera);
 					}
 
 					if (ent.hasComponent<gfx::mesh_renderer>())
-					{
 						meshrendererEditor(ent);
-					}
 
 					if (ent.hasComponent<gfx::light>())
-					{
 						lightEditor(ent);
-					}
 
 					if (ent.hasComponent<examplecomp>())
-					{
 						exampleCompEditor(ent);
-					}
 
 					Unindent();
 				}
 
 				End();
 			}
+		}
+
+		if (Begin("GameWindow"))
+		{
+			auto mainTex = mainFBO->getAttachment(gfx::AttachmentSlot::COLOR0).m_data->getId();
+			//GetWindowDrawList()->AddImage( (ImTextureID)pickingTex, ImVec2(GetCursorScreenPos()),ImVec2(GetCursorScreenPos().x + Screen_Width / 2, GetCursorScreenPos().y + Screen_Height / 2), ImVec2(0, 1), ImVec2(1, 0));
+			//GetWindowDrawList()->AddImage((ImTextureID)mainTex, ImVec2(GetCursorScreenPos()), ImVec2(GetCursorScreenPos().x + Screen_Width / 2, GetCursorScreenPos().y + Screen_Height / 2), ImVec2(0, 1), ImVec2(1, 0));
+			End();
 		}
 	}
 
@@ -134,11 +115,7 @@ namespace rythe::game
 		{
 			if (TreeNode("Directional Light"))
 			{
-				math::color color = comp.dir_data.color;
-				if (ColorEdit4("Light Color", color.data))
-				{
-					comp.dir_data.color = color;
-				}
+				ColorEdit4("Light Color", comp.dir_data.color.data);
 				TreePop();
 			}
 		}
@@ -147,11 +124,7 @@ namespace rythe::game
 			if (TreeNode("Point Light"))
 			{
 				auto& comp = ent.getComponent<gfx::light>();
-				math::color color = comp.point_data.color;
-				if (ColorEdit4("Light Color", color.data))
-				{
-					comp.point_data.color = color;
-				}
+				ColorEdit4("Light Color", comp.point_data.color.data);
 				TreePop();
 			}
 		}
@@ -165,28 +138,10 @@ namespace rythe::game
 		if (TreeNode("Example Component"))
 		{
 			auto& comp = ent.getComponent<core::examplecomp>();
-			float range = comp.range;
-			float speed = comp.speed;
-			float angularSpeed = comp.angularSpeed;
-			math::vec3 direction = comp.direction;
-
-			if (InputFloat("Range", &range))
-			{
-				comp.range = range;
-			}
-			if (InputFloat("Speed", &speed))
-			{
-				comp.speed = speed;
-			}
-			if (InputFloat("Angular Speed", &angularSpeed))
-			{
-				comp.angularSpeed = angularSpeed;
-			}
-			if (InputFloat3("Direction", direction.data))
-			{
-				comp.direction = direction;
-			}
-
+			InputFloat("Range", &comp.range);
+			InputFloat("Speed", &comp.speed);
+			InputFloat("Angular Speed", &comp.angularSpeed);
+			InputFloat3("Direction", comp.direction.data);
 			TreePop();
 		}
 		PopID();
@@ -208,27 +163,17 @@ namespace rythe::game
 	void GUISystem::transformEditor(core::ecs::entity ent)
 	{
 		using namespace ImGui;
+		using namespace ImGuizmo;
+		auto& transf = ent.getComponent<core::transform>();
 
 		PushID(std::format("Entity##{}", ent->id).c_str());
 		if (TreeNode("Transform"))
 		{
-			auto& transf = ent.getComponent<core::transform>();
-			math::vec3 pos = transf.position;
 			math::vec3 rot = math::toEuler(transf.rotation);
-			math::vec3 scale = transf.scale;
-
-			if (InputFloat3("Position##1", pos.data))
-			{
-				transf.position = pos;
-			}
+			InputFloat3("Position##1", transf.position.data);
 			if (InputFloat3("Rotation##2", rot.data))
-			{
 				transf.rotation = math::toQuat(rot);
-			}
-			if (InputFloat3("Scale##3", scale.data))
-			{
-				transf.scale = scale;
-			}
+			InputFloat3("Scale##3", transf.scale.data);
 			TreePop();
 		}
 		PopID();
@@ -251,6 +196,32 @@ namespace rythe::game
 		{
 			renderer.material = handle;
 			renderer.dirty = true;
+		}
+	}
+
+	//void GUISystem::bindMainFBO(const ImDrawList* parent_list, const ImDrawCmd* cmd)
+	//{
+	//	mainFBO->bind();
+	//}
+
+	//void GUISystem::unbindMainFBO(const ImDrawList* parent_list, const ImDrawCmd* cmd)
+	//{
+	//	mainFBO->unbind();
+	//}
+
+	void GUISystem::drawGizmo(gfx::camera camera)
+	{
+		using namespace ImGui;
+		using namespace ImGuizmo;
+
+		auto ent = GUI::selected;
+		core::transform& transf = ent.getComponent<core::transform>();
+		float* matrix = transf.to_world().data;
+		if (Manipulate(camera.view.data, camera.projection.data, currentGizmoOperation, currentGizmoMode, matrix))
+		{
+			math::vec3 rot;
+			DecomposeMatrixToComponents(matrix, transf.position.data, rot.data, transf.scale.data);
+			transf.rotation = math::toQuat(rot);
 		}
 	}
 
