@@ -13,7 +13,9 @@ namespace rythe::game
 		gfx::gui_stage::addGuiRender<GUISystem, &GUISystem::guiRender>(this);
 		gfx::render_stage::addRender<GUISystem, &GUISystem::onRender>(this);
 
-		bindEvent<key_input<inputmap::method::MOUSE_LEFT>, &GUISystem::readPixel>();
+		bindEvent<key_input<inputmap::method::MOUSE_LEFT>, &GUISystem::doClick>();
+
+		glfwSetFramebufferSizeCallback(gfx::WindowProvider::activeWindow->getGlfwWindow(), GUISystem::framebuffer_size_callback);
 	}
 
 	void GUISystem::update()
@@ -23,62 +25,68 @@ namespace rythe::game
 
 	void GUISystem::onRender(core::transform camTransf, gfx::camera camera)
 	{
-		using namespace ImGui;
-		using namespace ImGuizmo;
-		if (Input::mouseCaptured || !m_readPixel) return;
 
-		pickingFBO = gfx::Renderer::getCurrentPipeline()->getFramebuffer("PickingBuffer");
-
-		auto color = gfx::Renderer::RI->readPixels(*pickingFBO, math::ivec2(input::Input::mousePos.x, input::Input::mousePos.y), math::ivec2(1, 1));
-
-		rsl::id_type id = color.x + (color.y * 256) + (color.z * 256 * 256) + (color.w * 256 * 256 * 256);
-
-		if (id != invalid_id)
-			GUI::selected = ecs::entity{ &ecs::Registry::entities[id] };
-		else
-			GUI::selected = ecs::entity();
-
-		m_readPixel = false;
 	}
 
 	void GUISystem::guiRender(core::transform camTransf, gfx::camera camera)
 	{
-		using namespace ImGui;
-		using namespace ImGuizmo;
 		pickingFBO = gfx::Renderer::getCurrentPipeline()->getFramebuffer("PickingBuffer");
 		mainFBO = gfx::Renderer::getCurrentPipeline()->getFramebuffer("MainBuffer");
-		//ShowDemoWindow();
-		ImGuiIO& io = GetIO();
+		ImGuiIO& io = ImGui::GetIO();
 		m_isHoveringWindow = io.WantCaptureMouse;
 
-		if (!Input::mouseCaptured)
-		{
-			if (IsKeyPressed(49))//1 key
-				currentGizmoOperation = TRANSLATE;
-			if (IsKeyPressed(50))//2 key
-				currentGizmoOperation = ROTATE;
-			if (IsKeyPressed(51))//3 key
-				currentGizmoOperation = SCALE;
-		}
-		SetRect(0, 0, io.DisplaySize.x, io.DisplaySize.y);
+		const ImGuiViewport* viewport = ImGui::GetMainViewport();
+		ImGui::SetNextWindowPos(viewport->WorkPos);
+		ImGui::SetNextWindowSize(viewport->WorkSize);
+		ImGui::SetNextWindowViewport(viewport->ID);
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+		ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
 
-		if (Begin("Inspector"))
+
+		ImGui::Begin("Editor", 0, window_flags);
+
+		static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
+		ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
+		ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
+
+		//ImGui::ShowDemoWindow();
+
+		if (ImGui::BeginMenuBar())
+		{
+			if (ImGui::BeginMenu("New"))
+			{
+				ImGui::MenuItem("Entity");
+				ImGui::MenuItem("Material");
+				ImGui::EndMenu();
+			}
+			ImGui::EndMenuBar();
+		}
+
+		if (ImGui::Begin("Heirarchy"))
+		{
+			ImGui::Separator();
+			ImGui::Indent();
+			drawHeirarchy(m_filter.m_entities);
+			ImGui::Unindent();
+			ImGui::End();
+		}
+
+		if (ImGui::Begin("Inspector"))
 		{
 			if (GUI::selected == invalid_id)
 			{
-				End();
+				ImGui::End();
 			}
 			else
 			{
 				auto ent = GUI::selected;
-				if (CollapsingHeader(ent->name.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
+				if (ImGui::CollapsingHeader(ent->name.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
 				{
-					Indent();
+					ImGui::Indent();
 					if (ent.hasComponent<core::transform>())
-					{
-						transformEditor(ent); 
-						//drawGizmo(camera);
-					}
+						transformEditor(ent);
 
 					if (ent.hasComponent<gfx::mesh_renderer>())
 						meshrendererEditor(ent);
@@ -89,96 +97,134 @@ namespace rythe::game
 					if (ent.hasComponent<examplecomp>())
 						exampleCompEditor(ent);
 
-					Unindent();
+					ImGui::Unindent();
 				}
 
-				End();
+				ImGui::End();
 			}
 		}
 
-		if (Begin("GameWindow"))
+		if (ImGui::Begin("Scene", 0, ImGuiWindowFlags_NoBackground))
 		{
 			auto mainTex = mainFBO->getAttachment(gfx::AttachmentSlot::COLOR0).m_data->getId();
-			//GetWindowDrawList()->AddImage( (ImTextureID)pickingTex, ImVec2(GetCursorScreenPos()),ImVec2(GetCursorScreenPos().x + Screen_Width / 2, GetCursorScreenPos().y + Screen_Height / 2), ImVec2(0, 1), ImVec2(1, 0));
-			//GetWindowDrawList()->AddImage((ImTextureID)mainTex, ImVec2(GetCursorScreenPos()), ImVec2(GetCursorScreenPos().x + Screen_Width / 2, GetCursorScreenPos().y + Screen_Height / 2), ImVec2(0, 1), ImVec2(1, 0));
-			End();
+			ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
+			const float width = viewportPanelSize.x;
+			const float height = viewportPanelSize.y;
+			math::vec2 windowPos = math::vec2(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y);
+			gfx::Renderer::RI->setViewport(1, 0, 0, width, height);
+			mainFBO->rescale(width, height);
+			pickingFBO->rescale(width, height);
+
+
+			if (!Input::mouseCaptured && m_readPixel && ImGui::IsItemHovered())
+			{
+				auto color = gfx::Renderer::RI->readPixels(*pickingFBO, math::ivec2(input::Input::mousePos.x, input::Input::mousePos.y-19) - windowPos, math::ivec2(1, 1));
+				rsl::id_type id = color.x + (color.y * 256) + (color.z * 256 * 256) + (color.w * 256 * 256 * 256);
+				if (id != invalid_id)
+					GUI::selected = ecs::entity{ &ecs::Registry::entities[id] };
+				else
+					GUI::selected = ecs::entity();
+
+				m_readPixel = false;
+			}
+
+			ImGui::Image(reinterpret_cast<void*>(mainTex), ImVec2(width, height), ImVec2(0, 1), ImVec2(1, 0));
+			if (GUI::selected != invalid_id)
+				drawGizmo(camTransf, camera, math::ivec2(width, height));
+
+			ImGui::End();
 		}
+
+		if (ImGui::Begin("Console"))
+		{
+
+			ImGui::End();
+		}
+
+		ImGui::End();
+		ImGui::PopStyleVar(3);
 	}
 
+	void GUISystem::drawHeirarchy(ecs::entity_set heirarchy)
+	{
+		for (auto ent : heirarchy)
+		{
+			if (ent.hasComponent<gfx::camera>()) continue;
+
+			if (ImGui::Button(ent->name.c_str()))
+			{
+				GUI::selected = ent;
+			}
+		}
+	}
 	void GUISystem::lightEditor(core::ecs::entity ent)
 	{
-		using namespace ImGui;
 		auto& comp = ent.getComponent<gfx::light>();
 
-		PushID(std::format("Entity##{}", ent->id).c_str());
+		ImGui::PushID(std::format("Entity##{}", ent->id).c_str());
 		if (comp.type == gfx::LightType::DIRECTIONAL)
 		{
-			if (TreeNode("Directional Light"))
+			if (ImGui::TreeNode("Directional Light"))
 			{
-				ColorEdit4("Light Color", comp.dir_data.color.data);
-				TreePop();
+				ImGui::ColorEdit4("Light Color", comp.dir_data.color.data);
+				ImGui::TreePop();
 			}
 		}
 		else if (comp.type == gfx::LightType::POINT)
 		{
-			if (TreeNode("Point Light"))
+			if (ImGui::TreeNode("Point Light"))
 			{
-				auto& comp = ent.getComponent<gfx::light>();
-				ColorEdit4("Light Color", comp.point_data.color.data);
-				TreePop();
+				ImGui::ColorEdit4("Light Color", comp.point_data.color.data);
+				ImGui::TreePop();
 			}
 		}
-		PopID();
+		ImGui::PopID();
 	}
-
 	void GUISystem::exampleCompEditor(core::ecs::entity ent)
 	{
 		using namespace ImGui;
-		PushID(std::format("Entity##{}", ent->id).c_str());
-		if (TreeNode("Example Component"))
+		ImGui::PushID(std::format("Entity##{}", ent->id).c_str());
+		if (ImGui::TreeNode("Example Component"))
 		{
 			auto& comp = ent.getComponent<core::examplecomp>();
-			InputFloat("Range", &comp.range);
-			InputFloat("Speed", &comp.speed);
-			InputFloat("Angular Speed", &comp.angularSpeed);
-			InputFloat3("Direction", comp.direction.data);
-			TreePop();
+			ImGui::InputFloat("Range", &comp.range);
+			ImGui::InputFloat("Speed", &comp.speed);
+			ImGui::InputFloat("Angular Speed", &comp.angularSpeed);
+			ImGui::InputFloat3("Direction", comp.direction.data);
+			ImGui::TreePop();
 		}
-		PopID();
+		ImGui::PopID();
 	}
-
 	void GUISystem::meshrendererEditor(core::ecs::entity ent)
 	{
 		using namespace ImGui;
-		PushID(std::format("Entity##{}", ent->id).c_str());
-		if (TreeNode("Mesh Renderer"))
+		ImGui::PushID(std::format("Entity##{}", ent->id).c_str());
+		if (ImGui::TreeNode("Mesh Renderer"))
 		{
 			createAssetDropDown(ent, "Mesh", ent.getComponent<gfx::mesh_renderer>().model, gfx::ModelCache::getModels(), &GUISystem::setModel);
 			createAssetDropDown(ent, "Material", ent.getComponent<gfx::mesh_renderer>().material, gfx::MaterialCache::getMaterials(), &GUISystem::setMaterial);
-			TreePop();
+			ImGui::TreePop();
 		}
-		PopID();
+		ImGui::PopID();
 	}
-
 	void GUISystem::transformEditor(core::ecs::entity ent)
 	{
 		using namespace ImGui;
 		using namespace ImGuizmo;
 		auto& transf = ent.getComponent<core::transform>();
 
-		PushID(std::format("Entity##{}", ent->id).c_str());
-		if (TreeNode("Transform"))
+		ImGui::PushID(std::format("Entity##{}", ent->id).c_str());
+		if (ImGui::TreeNode("Transform"))
 		{
 			math::vec3 rot = math::toEuler(transf.rotation);
-			InputFloat3("Position##1", transf.position.data);
-			if (InputFloat3("Rotation##2", rot.data))
+			ImGui::InputFloat3("Position##1", transf.position.data);
+			if (ImGui::InputFloat3("Rotation##2", rot.data))
 				transf.rotation = math::toQuat(rot);
-			InputFloat3("Scale##3", transf.scale.data);
-			TreePop();
+			ImGui::InputFloat3("Scale##3", transf.scale.data);
+			ImGui::TreePop();
 		}
-		PopID();
+		ImGui::PopID();
 	}
-
 	void GUISystem::setModel(ast::asset_handle<gfx::model> handle, ecs::entity ent)
 	{
 		auto& renderer = ent.getComponent<gfx::mesh_renderer>();
@@ -188,7 +234,6 @@ namespace rythe::game
 			renderer.dirty = true;
 		}
 	}
-
 	void GUISystem::setMaterial(ast::asset_handle<gfx::material> handle, ecs::entity ent)
 	{
 		auto& renderer = ent.getComponent<gfx::mesh_renderer>();
@@ -199,39 +244,48 @@ namespace rythe::game
 		}
 	}
 
-	//void GUISystem::bindMainFBO(const ImDrawList* parent_list, const ImDrawCmd* cmd)
-	//{
-	//	mainFBO->bind();
-	//}
-
-	//void GUISystem::unbindMainFBO(const ImDrawList* parent_list, const ImDrawCmd* cmd)
-	//{
-	//	mainFBO->unbind();
-	//}
-
-	void GUISystem::drawGizmo(gfx::camera camera)
+	void GUISystem::drawGizmo(core::transform camTransf, gfx::camera camera, math::ivec2 dims)
 	{
-		using namespace ImGui;
-		using namespace ImGuizmo;
+		if (GUI::selected == invalid_id || !GUI::selected.hasComponent<core::transform>()) return;
 
 		auto ent = GUI::selected;
+		if (!Input::mouseCaptured)
+		{
+			if (ImGui::IsKeyPressed(49))//1 key
+				currentGizmoOperation = ImGuizmo::TRANSLATE;
+			if (ImGui::IsKeyPressed(50))//2 key
+				currentGizmoOperation = ImGuizmo::ROTATE;
+			if (ImGui::IsKeyPressed(51))//3 key
+				currentGizmoOperation = ImGuizmo::SCALE;
+		}
+
+		ImGuizmo::SetOrthographic(false);
+		ImGuizmo::SetDrawlist();
+
+		ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y - (Screen_Height - (19 + dims.y)), Screen_Width, Screen_Height);
+
 		core::transform& transf = ent.getComponent<core::transform>();
 		float* matrix = transf.to_world().data;
-		if (Manipulate(camera.view.data, camera.projection.data, currentGizmoOperation, currentGizmoMode, matrix))
+		if (ImGuizmo::Manipulate(camera.view.data, camera.projection.data, currentGizmoOperation, currentGizmoMode, matrix))
 		{
 			math::vec3 rot;
-			DecomposeMatrixToComponents(matrix, transf.position.data, rot.data, transf.scale.data);
+			ImGuizmo::DecomposeMatrixToComponents(matrix, transf.position.data, rot.data, transf.scale.data);
 			transf.rotation = math::toQuat(rot);
 		}
 	}
 
-	void GUISystem::readPixel(key_input<inputmap::method::MOUSE_LEFT>& action)
+	void GUISystem::doClick(key_input<inputmap::method::MOUSE_LEFT>& action)
 	{
-		if (m_isHoveringWindow || Input::mouseCaptured) return;
+		if (Input::mouseCaptured) return;
 
 		if (action.wasPressed())
 		{
 			m_readPixel = true;
 		}
+	}
+
+	void GUISystem::framebuffer_size_callback(GLFWwindow* window, int width, int height)
+	{
+		gfx::Renderer::RI->setViewport(1, 0, 0, width, height);
 	}
 }

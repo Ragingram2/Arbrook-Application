@@ -39,5 +39,6 @@ namespace fragment
 	float4 main(PIn input) : SV_TARGET
 	{
 		return id/float4(255.0,255.0,255.0,255.0);
+		//return float4(id.x,id.y,id.z,1.0);
 	}
 }

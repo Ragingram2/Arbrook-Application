@@ -36,6 +36,7 @@ namespace rythe::game
 		void onRender(core::transform, gfx::camera);
 		void guiRender(core::transform, gfx::camera);
 
+		void drawHeirarchy(ecs::entity_set heirarchy);
 		void lightEditor(core::ecs::entity);
 		void exampleCompEditor(core::ecs::entity);
 		void meshrendererEditor(core::ecs::entity);
@@ -43,10 +44,10 @@ namespace rythe::game
 
 		static void setModel(ast::asset_handle<gfx::model>, ecs::entity);
 		static void setMaterial(ast::asset_handle<gfx::material>, ecs::entity);
-		//static void bindMainFBO(const ImDrawList* parent_list, const ImDrawCmd* cmd);
-		//static void unbindMainFBO(const ImDrawList* parent_list, const ImDrawCmd* cmd);
-		void drawGizmo(gfx::camera camera);
-		void readPixel(key_input<inputmap::method::MOUSE_LEFT>& action);
+		void drawGizmo(core::transform camTransf, gfx::camera camera, math::ivec2 dims);
+		void doClick(key_input<inputmap::method::MOUSE_LEFT>& action);
+
+		static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
 		template<typename ItemType>
 		inline void createAssetDropDown(ecs::entity ent, const char* label, ItemType current, std::vector<ItemType> items, void(*func)(ItemType, ecs::entity))
