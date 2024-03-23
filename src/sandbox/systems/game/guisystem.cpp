@@ -106,7 +106,7 @@ namespace rythe::game
 
 		if (ImGui::Begin("Scene", 0, ImGuiWindowFlags_NoBackground))
 		{
-			auto mainTex = mainFBO->getAttachment(gfx::AttachmentSlot::COLOR0).m_data->getId();
+			auto mainTex = mainFBO->getAttachment(gfx::AttachmentSlot::COLOR0).m_data->getInternalHandle();
 			ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 			const float width = viewportPanelSize.x;
 			const float height = viewportPanelSize.y;
@@ -118,7 +118,7 @@ namespace rythe::game
 
 			if (!Input::mouseCaptured && m_readPixel && ImGui::IsItemHovered())
 			{
-				auto color = gfx::Renderer::RI->readPixels(*pickingFBO, math::ivec2(input::Input::mousePos.x, input::Input::mousePos.y-19) - windowPos, math::ivec2(1, 1));
+				auto color = gfx::Renderer::RI->readPixels(*pickingFBO, math::ivec2(input::Input::mousePos.x, input::Input::mousePos.y - 19) - windowPos, math::ivec2(1, 1));
 				rsl::id_type id = color.x + (color.y * 256) + (color.z * 256 * 256) + (color.w * 256 * 256 * 256);
 				if (id != invalid_id)
 					GUI::selected = ecs::entity{ &ecs::Registry::entities[id] };
@@ -135,11 +135,11 @@ namespace rythe::game
 			ImGui::End();
 		}
 
-		if (ImGui::Begin("Console"))
-		{
+		//if (ImGui::Begin("Console"))
+		//{
 
-			ImGui::End();
-		}
+		//	ImGui::End();
+		//}
 
 		ImGui::End();
 		ImGui::PopStyleVar(3);
@@ -151,9 +151,10 @@ namespace rythe::game
 		{
 			if (ent.hasComponent<gfx::camera>()) continue;
 
-			if (ImGui::Button(ent->name.c_str()))
+			if (ImGui::CollapsingHeader(ent->name.c_str(), ImGuiTreeNodeFlags_OpenOnArrow))
 			{
-				GUI::selected = ent;
+				if (ImGui::IsItemClicked())
+					GUI::selected = ent;
 			}
 		}
 	}
