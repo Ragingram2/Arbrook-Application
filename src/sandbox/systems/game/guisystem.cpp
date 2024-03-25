@@ -106,7 +106,7 @@ namespace rythe::game
 
 		if (ImGui::Begin("Scene", 0, ImGuiWindowFlags_NoBackground))
 		{
-			auto mainTex = mainFBO->getAttachment(gfx::AttachmentSlot::COLOR0).m_data->getInternalHandle();
+			auto mainTex = mainFBO->getAttachment(gfx::AttachmentSlot::COLOR0).m_data->getId();
 			ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 			const float width = viewportPanelSize.x;
 			const float height = viewportPanelSize.y;
@@ -116,7 +116,7 @@ namespace rythe::game
 			pickingFBO->rescale(width, height);
 
 
-			if (!Input::mouseCaptured && m_readPixel && ImGui::IsItemHovered())
+			if (!Input::mouseCaptured && m_readPixel && ImGui::IsWindowHovered())
 			{
 				auto color = gfx::Renderer::RI->readPixels(*pickingFBO, math::ivec2(input::Input::mousePos.x, input::Input::mousePos.y - 19) - windowPos, math::ivec2(1, 1));
 				rsl::id_type id = color.x + (color.y * 256) + (color.z * 256 * 256) + (color.w * 256 * 256 * 256);
@@ -127,8 +127,13 @@ namespace rythe::game
 
 				m_readPixel = false;
 			}
+			else
+			{
+				m_readPixel = false;
+			}
 
-			ImGui::Image(reinterpret_cast<void*>(mainTex), ImVec2(width, height), ImVec2(0, 1), ImVec2(1, 0));
+			/*		if (mainTex != nullptr)*/
+			ImGui::Image(reinterpret_cast<ImTextureID>(mainTex), ImVec2(width, height), ImVec2(0, 1), ImVec2(1, 0));
 			if (GUI::selected != invalid_id)
 				drawGizmo(camTransf, camera, math::ivec2(width, height));
 
@@ -202,8 +207,10 @@ namespace rythe::game
 		ImGui::PushID(std::format("Entity##{}", ent->id).c_str());
 		if (ImGui::TreeNode("Mesh Renderer"))
 		{
-			createAssetDropDown(ent, "Mesh", ent.getComponent<gfx::mesh_renderer>().model, gfx::ModelCache::getModels(), &GUISystem::setModel);
-			createAssetDropDown(ent, "Material", ent.getComponent<gfx::mesh_renderer>().material, gfx::MaterialCache::getMaterials(), &GUISystem::setMaterial);
+			auto& renderer = ent.getComponent<gfx::mesh_renderer>();
+			createAssetDropDown(ent, "Mesh", renderer.model, gfx::ModelCache::getModels(), &GUISystem::setModel);
+			createAssetDropDown(ent, "Material", renderer.material, gfx::MaterialCache::getMaterials(), &GUISystem::setMaterial);
+			ImGui::Checkbox("Casts Shadows", &renderer.castShadows);
 			ImGui::TreePop();
 		}
 		ImGui::PopID();

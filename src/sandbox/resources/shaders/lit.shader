@@ -229,13 +229,15 @@ namespace fragment
 
 	float4 main(PIn input) : SV_TARGET
 	{
-		float3 viewDir = normalize(input.tanViewPos - input.tanFragPos);
+		float3 viewDir = normalize(u_viewPosition.xyz - input.fragPos);//normalize(input.tanViewPos - input.tanFragPos);
 		
-		float2 texCoords = ParallaxMapping(input.texCoords, viewDir);
-		if(texCoords.x > 1.0 || texCoords.y > 1.0 || texCoords.x < 0.0 || texCoords.y < 0.0)
-    		discard;
+		// float2 texCoords = ParallaxMapping(input.texCoords, viewDir);
+		// if(texCoords.x > 1.0 || texCoords.y > 1.0 || texCoords.x < 0.0 || texCoords.y < 0.0)
+    	// 	discard;
 
-		float3 normal = CalcBumpedNormal(input.TBN, texCoords);
+		float2 texCoords = input.texCoords;
+
+		float3 normal = input.normal;//CalcBumpedNormal(input.TBN, texCoords);
 		float3 lightDir = normalize( u_dirLights[0].direction.xyz);
 		float3 result = CalcDirLight(lightDir, input.lightSpaceFragPos, normal, texCoords, viewDir);
 

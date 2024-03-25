@@ -60,85 +60,13 @@ namespace rythe::game
 			ent.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("cube") ,.castShadows = false });
 		}
 
-		//{
-		//	auto ent = createEntity("Ceiling");
-		//	auto& transf = ent.addComponent<core::transform>();
-		//	transf.scale = math::vec3(20, .5f, 20);
-		//	transf.position = math::vec3(0.0f, 21.0f, 0.0f);
-		//	ent.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("cube"),.castShadows = false});
-		//}
-
-		/*{
-			auto ent = createEntity("WallX+");
-			auto& transf = ent.addComponent<core::transform>();
-			transf.scale = math::vec3(.5f, 20.0f, 20.0f);
-			transf.position = math::vec3(21.0f, 0.0f, 0.0f);
-			ent.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("cube") ,.castShadows = false });
-		}
-
-		{
-			auto ent = createEntity("WallX-");
-			auto& transf = ent.addComponent<core::transform>();
-			transf.scale = math::vec3(.5f, 20.0f, 20.0f);
-			transf.position = math::vec3(-21.0f, 0.0f, 0.0f);
-			ent.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("cube"),.castShadows = false });
-		}
-
-		{
-			auto ent = createEntity("WallZ+");
-			auto& transf = ent.addComponent<core::transform>();
-			transf.scale = math::vec3(20.0f, 20.0f, .5f);
-			transf.position = math::vec3(0.0f, 0.0f, 21.0f);
-			ent.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("cube"),.castShadows = false });
-		}
-
-		{
-			auto ent = createEntity("WallZ-");
-			auto& transf = ent.addComponent<core::transform>();
-			transf.scale = math::vec3(20.0f, 20.0f, .5f);
-			transf.position = math::vec3(0.0f, 0.0f, -21.0f);
-			ent.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("cube"), .castShadows = false });
-		}*/
-
 		{
 			auto ent = createEntity("Cube");
 			auto& transf = ent.addComponent<core::transform>();
 			transf.scale = math::vec3::one;
 			transf.position = math::vec3(0.0f, 10.0f, 0.0f);
-			ent.addComponent<gfx::mesh_renderer>({ .material = gfx::MaterialCache::getMaterial("default"), .model = gfx::ModelCache::getModel("cube"),.castShadows = false });
+			ent.addComponent<gfx::mesh_renderer>({ .material = gfx::MaterialCache::getMaterial("default"), .model = gfx::ModelCache::getModel("cube"), .castShadows = false });
 		}
-
-		/*{
-			auto ent = createEntity("Bunny");
-			auto& transf = ent.addComponent<core::transform>();
-			transf.scale = math::vec3::one * 3.0f;
-			transf.position = math::vec3(0.0f, 0.0f, 20.0f);
-			ent.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("bunny") });
-		}
-
-		{
-			auto ent = createEntity("Cone");
-			auto& transf = ent.addComponent<core::transform>();
-			transf.scale = math::vec3::one * 3.0f;
-			transf.position = math::vec3(-10.0f, 0.0f, 10.0f);
-			ent.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("cone") });
-		}
-
-		{
-			auto ent = createEntity("Suzanne");
-			auto& transf = ent.addComponent<core::transform>();
-			transf.scale = math::vec3::one * 3.0f;
-			transf.position = math::vec3(-10.0f, 0.0f, -10.0f);
-			ent.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("suzanne") });
-		}
-
-		{
-			auto ent = createEntity("Sphere");
-			auto& transf = ent.addComponent<core::transform>();
-			transf.scale = math::vec3::one * 3.0f;
-			transf.position = math::vec3(10.0f, 0.0f, -10.0f);
-			ent.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("sphere") });
-		}*/
 
 		{
 			auto ent = createEntity("Directional Light");
