@@ -140,12 +140,6 @@ namespace rythe::game
 			ImGui::End();
 		}
 
-		//if (ImGui::Begin("Console"))
-		//{
-
-		//	ImGui::End();
-		//}
-
 		ImGui::End();
 		ImGui::PopStyleVar(3);
 	}
@@ -210,7 +204,10 @@ namespace rythe::game
 			auto& renderer = ent.getComponent<gfx::mesh_renderer>();
 			createAssetDropDown(ent, "Mesh", renderer.model, gfx::ModelCache::getModels(), &GUISystem::setModel);
 			createAssetDropDown(ent, "Material", renderer.material, gfx::MaterialCache::getMaterials(), &GUISystem::setMaterial);
+			bool previous = renderer.castShadows;
 			ImGui::Checkbox("Casts Shadows", &renderer.castShadows);
+			if (renderer.castShadows != previous)
+				renderer.dirty = true;
 			ImGui::TreePop();
 		}
 		ImGui::PopID();

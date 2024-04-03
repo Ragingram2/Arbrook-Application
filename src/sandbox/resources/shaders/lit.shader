@@ -19,11 +19,11 @@ namespace vertex
 
         float3 fragPos : TEXCOORD1;
         float4 lightSpaceFragPos : TEXCOORD2;
-		float3 tangent : TANGENT;
+		// float3 tangent : TANGENT;
 
-		float3 tanViewPos : TANGENT1;
-		float3 tanFragPos : TANGENT2;
-		float3x3 TBN : TANGENT3;
+		// float3 tanViewPos : TANGENT1;
+		// float3 tanFragPos : TANGENT2;
+		// float3x3 TBN : TANGENT3;
 
     };
 
@@ -37,15 +37,15 @@ namespace vertex
         output.lightSpaceFragPos = mul(mul(u_dirLights[0].projection, u_dirLights[0].view), float4(output.fragPos, 1.0)); 
 
 		float3x3 normalMatrix = transpose((float3x3)inverse(u_model));
-		output.tangent = normalize(mul(normalMatrix, input.tangent).rgb);
+		//output.tangent = normalize(mul(normalMatrix, input.tangent).rgb);
 		output.normal = normalize(mul(normalMatrix, input.normal).rgb);
-		output.tangent = normalize(output.tangent - dot(output.tangent, output.normal) * output.normal);
-		float3 bitangent = cross(output.normal, output.tangent);
+		// output.tangent = normalize(output.tangent - dot(output.tangent, output.normal) * output.normal);
+		// float3 bitangent = cross(output.normal, output.tangent);
 
-		output.TBN = transpose(float3x3(output.tangent, bitangent, output.normal));
+		// output.TBN = transpose(float3x3(output.tangent, bitangent, output.normal));
 
-		output.tanViewPos = normalize(mul(output.TBN, u_viewPosition.xyz));
-		output.tanFragPos = normalize(mul(output.TBN, output.fragPos));
+		// output.tanViewPos = normalize(mul(output.TBN, u_viewPosition.xyz));
+		// output.tanFragPos = normalize(mul(output.TBN, output.fragPos));
 
         return output;
     }
@@ -66,11 +66,11 @@ namespace fragment
 
 		float3 fragPos : TEXCOORD1;
 		float4 lightSpaceFragPos : TEXCOORD2;
-		float3 tangent : TANGENT;
+		// float3 tangent : TANGENT;
 		
-		float3 tanViewPos : TANGENT1;
-		float3 tanFragPos : TANGENT2;
-		float3x3 TBN : TANGENT3;
+		// float3 tanViewPos : TANGENT1;
+		// float3 tanFragPos : TANGENT2;
+		// float3x3 TBN : TANGENT3;
 	};
 
 	Texture2D Diffuse : Texture0;
@@ -236,9 +236,8 @@ namespace fragment
     	// 	discard;
 
 		float2 texCoords = input.texCoords;
-
 		float3 normal = input.normal;//CalcBumpedNormal(input.TBN, texCoords);
-		float3 lightDir = normalize( u_dirLights[0].direction.xyz);
+		float3 lightDir = normalize(u_dirLights[0].direction.xyz);
 		float3 result = CalcDirLight(lightDir, input.lightSpaceFragPos, normal, texCoords, viewDir);
 
 		int i = 0;

@@ -45,7 +45,7 @@ namespace rythe::game
 		colorMat = gfx::MaterialCache::getMaterial("color");
 		colorMat->getShader()->addBuffer(gfx::BufferCache::createConstantBuffer<math::vec4>("Color", 3, gfx::UsageType::STATICDRAW));
 		math::vec4 color = { 1.0f, 0.0f, 0.0f, 1.0f };
-		colorMat->getShader()->setUniform("Color", &color);
+		colorMat->getShader()->setUniform("Color", 3, &color);
 
 		{
 			auto& skyboxRenderer = registry->world.addComponent<gfx::skybox_renderer>();
@@ -72,7 +72,7 @@ namespace rythe::game
 			auto ent = createEntity("Directional Light");
 			auto& transf = ent.addComponent<core::transform>();
 			transf.scale = math::vec3::one;
-			transf.position = math::vec3(0.0f,15.f,0.0f);
+			transf.position = math::vec3(0.0f, 15.f, 0.0f);
 			transf.rotation = math::toQuat(math::vec3(-90.0f, 0.0f, 0.0f));
 			ent.addComponent<gfx::light>({ .type = gfx::LightType::DIRECTIONAL, .dir_data.color = math::vec4(1.0f), .dir_data.intensity = 1.0 });
 			//ent.addComponent<core::examplecomp>({ .axis = math::vec3::right, .angularSpeed = 20.0f });
