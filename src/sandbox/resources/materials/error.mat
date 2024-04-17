@@ -1,5 +1,5 @@
 {
     "shaderPath":"resources/shaders/error.shader",
     "shaderID": 0,
-    "textureFilepaths": []
+    "textures": []
 }

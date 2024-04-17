@@ -17,11 +17,11 @@ namespace rythe::game
 		ast::AssetCache<gfx::shader_source>::registerImporter<gfx::ShaderImporter>();
 		ast::AssetCache<gfx::material_source>::registerImporter<gfx::MaterialImporter>();
 
-		ast::AssetCache<gfx::mesh>::loadAssets("resources/meshes/glb/", gfx::default_mesh_params);
 		ast::AssetCache<gfx::texture_source>::loadAssets("resources/textures/", gfx::default_texture_import_params);
 		ast::AssetCache<gfx::shader_source>::loadAssets("resources/shaders/", gfx::default_shader_params);
-		ast::AssetCache<gfx::material_source>::loadAssets("resources/materials/", gfx::default_material_params);
 		gfx::ShaderCache::createShaders(ast::AssetCache<gfx::shader_source>::getAssets());
+		ast::AssetCache<gfx::mesh>::loadAssets("resources/meshes/glb/", gfx::default_mesh_params);
+		ast::AssetCache<gfx::material_source>::loadAssets("resources/materials/", gfx::default_material_params);
 		gfx::MaterialCache::loadMaterial("error");
 		gfx::ModelCache::loadModels(ast::AssetCache<gfx::mesh>::getAssets());
 		gfx::MaterialCache::loadMaterials(ast::AssetCache<gfx::material_source>::getAssets());
@@ -57,16 +57,16 @@ namespace rythe::game
 			auto& transf = ent.addComponent<core::transform>();
 			transf.scale = math::vec3(20, .5f, 20);
 			transf.position = math::vec3(0.0f, 0.0f, 0.0f);
-			ent.addComponent<gfx::mesh_renderer>({ .material = mat, .model = gfx::ModelCache::getModel("cube") ,.castShadows = false });
+			ent.addComponent<gfx::mesh_renderer>({ .mainMaterial = mat, .model = gfx::ModelCache::getModel("cube") ,.castShadows = false });
 		}
 
-		{
-			auto ent = createEntity("Cube");
-			auto& transf = ent.addComponent<core::transform>();
-			transf.scale = math::vec3::one;
-			transf.position = math::vec3(0.0f, 10.0f, 0.0f);
-			ent.addComponent<gfx::mesh_renderer>({ .material = gfx::MaterialCache::getMaterial("default"), .model = gfx::ModelCache::getModel("cube"), .castShadows = false });
-		}
+		//{
+		//	auto ent = createEntity("Cube");
+		//	auto& transf = ent.addComponent<core::transform>();
+		//	transf.scale = math::vec3::one;
+		//	transf.position = math::vec3(0.0f, 10.0f, 0.0f);
+		//	ent.addComponent<gfx::mesh_renderer>({ .mainMaterial = gfx::MaterialCache::getMaterial("white"), .model = gfx::ModelCache::getModel("sponza"), .castShadows = false });
+		//}
 
 		{
 			auto ent = createEntity("Directional Light");
@@ -74,18 +74,25 @@ namespace rythe::game
 			transf.scale = math::vec3::one;
 			transf.position = math::vec3(0.0f, 15.f, 0.0f);
 			transf.rotation = math::toQuat(math::vec3(-90.0f, 0.0f, 0.0f));
-			ent.addComponent<gfx::light>({ .type = gfx::LightType::DIRECTIONAL, .dir_data.color = math::vec4(1.0f), .dir_data.intensity = 1.0 });
+			ent.addComponent<gfx::light>({ .type = gfx::LightType::DIRECTIONAL, .dir_data.color = math::vec4(1.0f), .dir_data.intensity = 1.0f });
 			//ent.addComponent<core::examplecomp>({ .axis = math::vec3::right, .angularSpeed = 20.0f });
-			ent.addComponent<gfx::mesh_renderer>({ .material = colorMat, .model = gfx::ModelCache::getModel("cone"), .castShadows = false });
+			ent.addComponent<gfx::mesh_renderer>({ .mainMaterial = colorMat, .model = gfx::ModelCache::getModel("cone"), .castShadows = false });
 		}
 
-		//{
-		//	auto ent = createEntity("Point Light");
-		//	ent.addComponent<core::transform>({ .scale = math::vec3(.1f, .1f, .1f), .position = math::vec3(0.0f, 0.0f, 0.0f) });
-		//	ent.addComponent<gfx::light>({ .type = gfx::LightType::POINT, .point_data.color = math::vec4(1.0f,0.0f,0.0f,1.0f), .point_data.intensity = 1.0f, .point_data.range = 50.f });
-		//	ent.addComponent<core::examplecomp>({ .direction = math::vec3::right, .range = 10.0f, .speed = 20.0f });
-		//	ent.addComponent<gfx::mesh_renderer>({ .material = gfx::MaterialCache::getMaterial("red"), .model = gfx::ModelCache::getModel("icosphere") ,.castShadows = false});
-		//}
+		{
+			auto ent = createEntity("Point Light");
+			ent.addComponent<core::transform>({ .scale = math::vec3(.1f, .1f, .1f), .position = math::vec3(0.0f, 10.0f, 0.0f) });
+			ent.addComponent<gfx::light>({ .type = gfx::LightType::POINT, .point_data.color = math::vec4(1.0f,0.0f,0.0f,1.0f), .point_data.intensity = 1.0f, .point_data.range = 100.f });
+			ent.addComponent<core::examplecomp>({ .direction = math::vec3::right, .range = 10.0f, .speed = 20.0f });
+			ent.addComponent<gfx::mesh_renderer>({ .mainMaterial = gfx::MaterialCache::getMaterial("red"), .model = gfx::ModelCache::getModel("icosphere") ,.castShadows = false});
+		}
+		{
+			auto ent = createEntity("Point Light2");
+			ent.addComponent<core::transform>({ .scale = math::vec3(.1f, .1f, .1f), .position = math::vec3(0.0f, 10.0f, 0.0f) });
+			ent.addComponent<gfx::light>({ .type = gfx::LightType::POINT, .point_data.color = math::vec4(0.0f,1.0f,0.0f,1.0f), .point_data.intensity = 1.0f, .point_data.range = 100.f });
+			ent.addComponent<core::examplecomp>({ .direction = math::vec3::left, .range = 10.0f, .speed = 20.0f });
+			ent.addComponent<gfx::mesh_renderer>({ .mainMaterial = gfx::MaterialCache::getMaterial("green"), .model = gfx::ModelCache::getModel("icosphere") ,.castShadows = false });
+		}
 
 		{
 			auto camera = createEntity("Camera");

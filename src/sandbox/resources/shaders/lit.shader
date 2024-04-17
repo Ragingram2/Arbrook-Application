@@ -33,7 +33,7 @@ namespace vertex
 
 		float3x3 normalMatrix = transpose((float3x3)inverse(u_model));
 		output.tangent = normalize(mul(normalMatrix, input.tangent).rgb);
-		output.normal = normalize(mul(normalMatrix, input.normal).rgb);
+		output.normal = input.normal;//normalize(mul(normalMatrix, input.normal).rgb);
 
         return output;
     }
@@ -229,11 +229,11 @@ namespace fragment
 
 		float3 viewDir = mul(TBN, normalize(u_viewPosition.xyz - input.fragPos));
 		
-		float2 texCoords = ParallaxMapping(input.texCoords, viewDir);
-		if(texCoords.x > 1.0 || texCoords.y > 1.0 || texCoords.x < 0.0 || texCoords.y < 0.0)
-    		discard;
+		float2 texCoords = input.texCoords;//ParallaxMapping(input.texCoords, viewDir);
+		// if(texCoords.x > 1.0 || texCoords.y > 1.0 || texCoords.x < 0.0 || texCoords.y < 0.0)
+    	// 	discard;
 
-		float3 normal = CalcBumpedNormal(TBN, texCoords);
+		float3 normal = input.normal;//CalcBumpedNormal(TBN, texCoords);
 		float3 lightDir = normalize(u_dirLights[0].direction.xyz);
 		float3 result = CalcDirLight(lightDir, input.lightSpaceFragPos, normal, texCoords, viewDir);
 

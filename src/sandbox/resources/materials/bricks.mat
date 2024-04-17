@@ -2,7 +2,7 @@
     "shaderName":"lit",
     "shaderPath":"resources/shaders/lit.shader",
     "shaderID": 0,
-    "textureFilepaths": [
+    "textures": [
         "resources/textures/bricks_diffuse.png",
         "resources/textures/bricks_specular.png",
         "resources/textures/bricks_normal.png",

@@ -1,7 +1,7 @@
 {
     "shaderPath":"resources/shaders/lit.shader",
     "shaderID": 0,
-    "textureFilepaths": [
+    "textures": [
         "resources/textures/rock_diffuse.png",
         "resources/textures/rock_specular.png",
         "resources/textures/rock_normal.png"

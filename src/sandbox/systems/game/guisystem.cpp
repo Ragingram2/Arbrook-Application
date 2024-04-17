@@ -164,17 +164,20 @@ namespace rythe::game
 		ImGui::PushID(std::format("Entity##{}", ent->id).c_str());
 		if (comp.type == gfx::LightType::DIRECTIONAL)
 		{
-			if (ImGui::TreeNode("Directional Light"))
+			if (ImGui::TreeNodeEx("Directional Light", ImGuiTreeNodeFlags_DefaultOpen))
 			{
 				ImGui::ColorEdit4("Light Color", comp.dir_data.color.data);
+				ImGui::InputFloat("Intensity", &comp.dir_data.intensity);
 				ImGui::TreePop();
 			}
 		}
 		else if (comp.type == gfx::LightType::POINT)
 		{
-			if (ImGui::TreeNode("Point Light"))
+			if (ImGui::TreeNodeEx("Point Light", ImGuiTreeNodeFlags_DefaultOpen))
 			{
 				ImGui::ColorEdit4("Light Color", comp.point_data.color.data);
+				ImGui::InputFloat("Intensity", &comp.point_data.intensity);
+				ImGui::InputFloat("Range", &comp.point_data.range);
 				ImGui::TreePop();
 			}
 		}
@@ -184,7 +187,7 @@ namespace rythe::game
 	{
 		using namespace ImGui;
 		ImGui::PushID(std::format("Entity##{}", ent->id).c_str());
-		if (ImGui::TreeNode("Example Component"))
+		if (ImGui::TreeNodeEx("Example Component", ImGuiTreeNodeFlags_DefaultOpen))
 		{
 			auto& comp = ent.getComponent<core::examplecomp>();
 			ImGui::InputFloat("Range", &comp.range);
@@ -199,11 +202,11 @@ namespace rythe::game
 	{
 		using namespace ImGui;
 		ImGui::PushID(std::format("Entity##{}", ent->id).c_str());
-		if (ImGui::TreeNode("Mesh Renderer"))
+		if (ImGui::TreeNodeEx("Mesh Renderer", ImGuiTreeNodeFlags_DefaultOpen))
 		{
 			auto& renderer = ent.getComponent<gfx::mesh_renderer>();
 			createAssetDropDown(ent, "Mesh", renderer.model, gfx::ModelCache::getModels(), &GUISystem::setModel);
-			createAssetDropDown(ent, "Material", renderer.material, gfx::MaterialCache::getMaterials(), &GUISystem::setMaterial);
+			createAssetDropDown(ent, "MainMaterial", renderer.mainMaterial, gfx::MaterialCache::getMaterials(), &GUISystem::setMaterial);
 			bool previous = renderer.castShadows;
 			ImGui::Checkbox("Casts Shadows", &renderer.castShadows);
 			if (renderer.castShadows != previous)
@@ -219,7 +222,7 @@ namespace rythe::game
 		auto& transf = ent.getComponent<core::transform>();
 
 		ImGui::PushID(std::format("Entity##{}", ent->id).c_str());
-		if (ImGui::TreeNode("Transform"))
+		if (ImGui::TreeNodeEx("Transform", ImGuiTreeNodeFlags_DefaultOpen))
 		{
 			math::vec3 rot = math::toEuler(transf.rotation);
 			ImGui::InputFloat3("Position##1", transf.position.data);
@@ -242,9 +245,9 @@ namespace rythe::game
 	void GUISystem::setMaterial(ast::asset_handle<gfx::material> handle, ecs::entity ent)
 	{
 		auto& renderer = ent.getComponent<gfx::mesh_renderer>();
-		if (renderer.material != handle)
+		if (renderer.mainMaterial != handle)
 		{
-			renderer.material = handle;
+			renderer.mainMaterial = handle;
 			renderer.dirty = true;
 		}
 	}
