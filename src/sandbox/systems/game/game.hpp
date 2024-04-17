@@ -37,7 +37,7 @@ namespace rythe::game
 		{
 			if (input.isPressed())
 			{
-				input::InputSystem::mouseCaptured = !input::InputSystem::mouseCaptured;
+				Input::mouseCaptured = !Input::mouseCaptured;
 			}
 		}
 	};

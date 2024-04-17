@@ -13,6 +13,15 @@
     <Filter Include="systems">
       <UniqueIdentifier>{3D76CBBA-A955-4A56-B26D-D52C1ECCB0B7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="systems\game">
+      <UniqueIdentifier>{268A3C04-12ED-CBA8-BB72-045FA7B4972B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="systems\planegame">
+      <UniqueIdentifier>{36561C0A-A26C-1AA0-EBE3-A5C15739EB27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="systems\testing">
+      <UniqueIdentifier>{AA72FDA8-16FE-6A6D-1F0F-EE618B19C76D}</UniqueIdentifier>
+    </Filter>
     <Filter Include="tests">
       <UniqueIdentifier>{78756B10-E489-93C1-AD0B-372119DF8FF2}</UniqueIdentifier>
     </Filter>
@@ -24,7 +33,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="components\airplane.hpp">
+      <Filter>components</Filter>
+    </ClInclude>
     <ClInclude Include="components\camerasettings.hpp">
+      <Filter>components</Filter>
+    </ClInclude>
+    <ClInclude Include="components\collider.hpp">
       <Filter>components</Filter>
     </ClInclude>
     <ClInclude Include="components\rigidbody.hpp">
@@ -37,19 +52,22 @@
       <Filter>modules</Filter>
     </ClInclude>
     <ClInclude Include="systems\game\cameracontrols.hpp">
-      <Filter>systems</Filter>
+      <Filter>systems\game</Filter>
     </ClInclude>
     <ClInclude Include="systems\game\examplesystem.hpp">
-      <Filter>systems</Filter>
+      <Filter>systems\game</Filter>
     </ClInclude>
     <ClInclude Include="systems\game\game.hpp">
-      <Filter>systems</Filter>
+      <Filter>systems\game</Filter>
+    </ClInclude>
+    <ClInclude Include="systems\planegame\airplanesystem.hpp">
+      <Filter>systems\planegame</Filter>
     </ClInclude>
     <ClInclude Include="systems\planegame\physicssystem.hpp">
-      <Filter>systems</Filter>
+      <Filter>systems\planegame</Filter>
     </ClInclude>
     <ClInclude Include="systems\testing\testsystem.hpp">
-      <Filter>systems</Filter>
+      <Filter>systems\testing</Filter>
     </ClInclude>
     <ClInclude Include="tests\bgfxpipeline\bgfxpipeline.hpp">
       <Filter>tests\bgfxpipeline</Filter>
@@ -81,26 +99,25 @@
     <ClInclude Include="tests\tools\bgfxutils.hpp">
       <Filter>tests\tools</Filter>
     </ClInclude>
-    <ClInclude Include="components\airplane.hpp" />
-    <ClInclude Include="components\collider.hpp" />
-    <ClInclude Include="systems\planegame\airplanesystem.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\arbrook\Arbrook.cpp">
       <Filter>arbrook</Filter>
     </ClCompile>
     <ClCompile Include="systems\game\cameracontrols.cpp">
-      <Filter>systems</Filter>
+      <Filter>systems\game</Filter>
     </ClCompile>
     <ClCompile Include="systems\game\game.cpp">
-      <Filter>systems</Filter>
+      <Filter>systems\game</Filter>
+    </ClCompile>
+    <ClCompile Include="systems\planegame\airplanesystem.cpp">
+      <Filter>systems\planegame</Filter>
     </ClCompile>
     <ClCompile Include="systems\planegame\physicssystem.cpp">
-      <Filter>systems</Filter>
+      <Filter>systems\planegame</Filter>
     </ClCompile>
     <ClCompile Include="systems\testing\testsystem.cpp">
-      <Filter>systems</Filter>
+      <Filter>systems\testing</Filter>
     </ClCompile>
-    <ClCompile Include="systems\planegame\airplanesystem.cpp" />
   </ItemGroup>
 </Project>
