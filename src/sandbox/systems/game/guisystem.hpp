@@ -42,6 +42,9 @@ namespace rythe::game
 		void meshrendererEditor(core::ecs::entity);
 		void transformEditor(core::ecs::entity);
 
+		void pushDisabledInspector();
+		void popDisabledInspector();
+
 		static void setModel(ast::asset_handle<gfx::model>, ecs::entity);
 		static void setMaterial(ast::asset_handle<gfx::material>, ecs::entity);
 		void drawGizmo(core::transform camTransf, gfx::camera camera, math::ivec2 dims);
@@ -50,17 +53,17 @@ namespace rythe::game
 		static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
 		template<typename ItemType>
-		inline void createAssetDropDown(ecs::entity ent, const char* label, ItemType current, std::vector<ItemType> items, void(*func)(ItemType, ecs::entity))
+		inline void createAssetDropDown(ecs::entity ent, const char* label, ItemType current, std::vector<ast::asset_handle<ItemType>> items, void(*func)(ast::asset_handle<ItemType>, ecs::entity))
 		{
 			using namespace ImGui;
-			if (BeginCombo(label, current.getNameC()))
+			if (BeginCombo(label, current.name.c_str()))
 			{
 				for (auto item : items)
 				{
-					const bool is_selected = (current == item);
+					const bool is_selected = (item == current);
 					if (Selectable(item.getNameC(), is_selected))
 					{
-						current = item;
+						current = *item.m_data;
 						func(item, ent);
 					}
 

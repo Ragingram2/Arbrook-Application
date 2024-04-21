@@ -4,7 +4,7 @@
 namespace rythe::game
 {
 	using namespace rythe::core::events;
-	class ExampleSystem : public core::System<ExampleSystem,core::examplecomp>
+	class ExampleSystem : public core::System<ExampleSystem, core::examplecomp>
 	{
 	public:
 		void setup()
@@ -23,6 +23,8 @@ namespace rythe::game
 			for (auto ent : m_filter)
 			{
 				auto& comp = ent.getComponent<core::examplecomp>();
+				if (!ent->enabled || !comp.enabled) continue;
+
 				comp.pos += comp.speed * core::Time::deltaTime;
 
 				auto& transf = ent.getComponent<core::transform>();
