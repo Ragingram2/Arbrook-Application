@@ -15,7 +15,7 @@ namespace rythe::game
 	namespace fs = std::filesystem;
 	namespace ast = rythe::core::assets;
 
-	class Game : public core::System<Game, core::transform, gfx::mesh_renderer>
+	class Game : public core::System<Game, core::transform>
 	{
 	private:
 		ast::asset_handle<gfx::model> modelHandle;

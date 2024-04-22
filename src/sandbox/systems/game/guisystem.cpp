@@ -47,6 +47,8 @@ namespace rythe::game
 
 		ImGui::Begin("Editor", 0, window_flags);
 
+		ImGui::Text(std::format("FPS:{}", ImGui::GetIO().Framerate).c_str());
+
 		static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
 		ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
 		ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
@@ -82,7 +84,6 @@ namespace rythe::game
 			else
 			{
 				auto ent = GUI::selected;
-				//bool open = ImGui::TreeNodeEx(ent->name.c_str(), ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_NoTreePushOnOpen | ImGuiTreeNodeFlags_Leaf);
 				ImGui::BeginChild(ent->name.c_str(), ImVec2(ImGui::GetWindowWidth(), ImGui::GetWindowHeight() * .03f), true);
 				ImGui::Checkbox("", &ent->enabled);
 				ImGui::SameLine();
@@ -111,14 +112,20 @@ namespace rythe::game
 
 		if (ImGui::Begin("Scene", 0, ImGuiWindowFlags_NoBackground))
 		{
+#ifdef RenderingAPI_OGL
 			auto mainTex = mainFBO->getAttachment(gfx::AttachmentSlot::COLOR0).m_data->getId();
+#else
+			auto mainTex = mainFBO->getAttachment(gfx::AttachmentSlot::COLOR0).m_data->getInternalHandle();
+#endif
 			ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 			const float width = viewportPanelSize.x;
 			const float height = viewportPanelSize.y;
 			math::vec2 windowPos = math::vec2(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y);
 			gfx::Renderer::RI->setViewport(1, 0, 0, width, height);
 			mainFBO->rescale(width, height);
+			gfx::WindowProvider::activeWindow->checkError();
 			pickingFBO->rescale(width, height);
+			gfx::WindowProvider::activeWindow->checkError();
 
 			if (!Input::mouseCaptured && m_readPixel && ImGui::IsWindowHovered())
 			{
@@ -180,10 +187,10 @@ namespace rythe::game
 	}
 	void GUISystem::lightEditor(core::ecs::entity ent)
 	{
+		ImGui::PushID(std::format("EntityLightEditor##{}", ent->id).c_str());
 		auto& comp = ent.getComponent<gfx::light>();
-
-		ImGui::PushID(std::format("Entity##{}", ent->id).c_str());
-
+		ImGui::Checkbox("", &comp.enabled);
+		ImGui::SameLine();
 		if (comp.type == gfx::LightType::DIRECTIONAL)
 		{
 			bool open = ImGui::TreeNodeEx("Directional Light", ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_NoTreePushOnOpen);
@@ -219,15 +226,17 @@ namespace rythe::game
 	}
 	void GUISystem::exampleCompEditor(core::ecs::entity ent)
 	{
-		using namespace ImGui;
-		ImGui::PushID(std::format("Entity##{}", ent->id).c_str());
+		ImGui::PushID(std::format("EntityExampleComp##{}", ent->id).c_str());
+		auto& comp = ent.getComponent<core::examplecomp>();
+		ImGui::Checkbox("", &comp.enabled);
+		ImGui::SameLine();
 		bool open = ImGui::TreeNodeEx("Example Component", ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_NoTreePushOnOpen);
 		if (!ent->enabled)
 			pushDisabledInspector();
 
 		if (open)
 		{
-			auto& comp = ent.getComponent<core::examplecomp>();
+
 			ImGui::InputFloat("Range", &comp.range);
 			ImGui::InputFloat("Speed", &comp.speed);
 			ImGui::InputFloat("Angular Speed", &comp.angularSpeed);
@@ -241,18 +250,19 @@ namespace rythe::game
 	}
 	void GUISystem::meshrendererEditor(core::ecs::entity ent)
 	{
-		using namespace ImGui;
-		ImGui::PushID(std::format("Entity##{}", ent->id).c_str());
+		auto& renderer = ent.getComponent<gfx::mesh_renderer>();
+		ImGui::PushID(std::format("EntityMeshRenderer##{}", ent->id).c_str());
+		ImGui::Checkbox("", &renderer.enabled);
+		ImGui::SameLine();
 		bool open = ImGui::TreeNodeEx("Mesh Renderer", ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_NoTreePushOnOpen);
 		if (!ent->enabled)
 			pushDisabledInspector();
 
 		if (open)
 		{
-			auto& renderer = ent.getComponent<gfx::mesh_renderer>();
 			createAssetDropDown(ent, "Mesh", renderer.model, gfx::ModelCache::getModels(), &GUISystem::setModel);
 			createAssetDropDown(ent, "MainMaterial", renderer.mainMaterial, gfx::MaterialCache::getMaterials(), &GUISystem::setMaterial);
-			if (ImGui::Checkbox("Casts Shadows", &renderer.castShadows))
+			if (ImGui::Checkbox("Casts Shadows?", &renderer.castShadows))
 			{
 				renderer.dirty = true;
 			}
@@ -265,10 +275,7 @@ namespace rythe::game
 	}
 	void GUISystem::transformEditor(core::ecs::entity ent)
 	{
-		using namespace ImGui;
-		using namespace ImGuizmo;
 		auto& transf = ent.getComponent<core::transform>();
-
 		ImGui::PushID(std::format("Entity##{}", ent->id).c_str());
 		bool open = ImGui::TreeNodeEx("Transform", ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_NoTreePushOnOpen);
 		if (!ent->enabled)
@@ -306,7 +313,6 @@ namespace rythe::game
 			renderer.dirty = true;
 		}
 	}
-
 	void GUISystem::drawGizmo(core::transform camTransf, gfx::camera camera, math::ivec2 dims)
 	{
 		if (GUI::selected == invalid_id || !GUI::selected.hasComponent<core::transform>()) return;
@@ -336,7 +342,6 @@ namespace rythe::game
 			transf.rotation = math::toQuat(rot);
 		}
 	}
-
 	void GUISystem::doClick(key_input<inputmap::method::MOUSE_LEFT>& action)
 	{
 		if (Input::mouseCaptured) return;
@@ -346,12 +351,10 @@ namespace rythe::game
 			m_readPixel = true;
 		}
 	}
-
 	void GUISystem::framebuffer_size_callback(GLFWwindow* window, int width, int height)
 	{
 		gfx::Renderer::RI->setViewport(1, 0, 0, width, height);
 	}
-
 	void GUISystem::pushDisabledInspector()
 	{
 		ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.5, 0.5, 0.5, 1.0));

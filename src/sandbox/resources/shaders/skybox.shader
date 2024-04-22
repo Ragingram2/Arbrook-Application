@@ -4,7 +4,6 @@ namespace vertex
     struct VIn
     {
         float4 position : POSITION;
-        float3 normal : NORMAL;
         float2 texCoords : TEXCOORD;
     };
 

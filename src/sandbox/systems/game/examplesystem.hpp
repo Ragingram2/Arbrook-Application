@@ -14,7 +14,6 @@ namespace rythe::game
 				auto& comp = ent.getComponent<core::examplecomp>();
 				auto& transf = ent.getComponent<core::transform>();
 				comp.initPosition = transf.position;
-
 			}
 		}
 
@@ -30,7 +29,8 @@ namespace rythe::game
 				auto& transf = ent.getComponent<core::transform>();
 				transf.position = comp.initPosition + (comp.direction * math::sin(math::radians(comp.pos)) * comp.range);
 
-				transf.rotation = math::toQuat(math::rotate(transf.to_parent(), math::radians(comp.angularSpeed * core::Time::deltaTime), comp.axis));
+				if (comp.axis.length() > 0)
+					transf.rotation = math::toQuat(math::rotate(transf.to_parent(), math::radians(comp.angularSpeed * core::Time::deltaTime), comp.axis));
 			}
 		}
 	};
