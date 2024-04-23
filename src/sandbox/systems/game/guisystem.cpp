@@ -320,11 +320,11 @@ namespace rythe::game
 		auto ent = GUI::selected;
 		if (!Input::mouseCaptured)
 		{
-			if (ImGui::IsKeyPressed(49))//1 key
+			if (ImGui::IsKeyPressed(ImGuiKey_1))//1 key
 				currentGizmoOperation = ImGuizmo::TRANSLATE;
-			if (ImGui::IsKeyPressed(50))//2 key
+			if (ImGui::IsKeyPressed(ImGuiKey_2))//2 key
 				currentGizmoOperation = ImGuizmo::ROTATE;
-			if (ImGui::IsKeyPressed(51))//3 key
+			if (ImGui::IsKeyPressed(ImGuiKey_3))//3 key
 				currentGizmoOperation = ImGuizmo::SCALE;
 		}
 
