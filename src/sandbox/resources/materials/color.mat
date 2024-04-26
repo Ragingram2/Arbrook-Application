@@ -1,5 +1,22 @@
 {
     "shaderPath":"resources/shaders/color.shader",
-    "shaderID": 0,
-    "textures": []
+    "parameters": 
+    {
+        "Color":{
+            "register": 3,
+            "type": "Uniform",
+            "value":[
+                {
+                    "type": "Float4",
+                    "name": "u_color",
+                    "value" : {
+                        "x":1.0,
+                        "y":0.0,
+                        "z":0.0,
+                        "w":0.0
+                    }
+                }
+            ]
+        }
+    }
 }

@@ -33,7 +33,7 @@ namespace vertex
 
 		float3x3 normalMatrix = transpose((float3x3)inverse(u_model));
 		output.tangent = normalize(mul(normalMatrix, input.tangent).rgb);
-		output.normal = input.normal;//normalize(mul(normalMatrix, input.normal).rgb);
+		output.normal = normalize(mul(normalMatrix, input.normal).rgb);
 
         return output;
     }
@@ -57,29 +57,38 @@ namespace fragment
 		float3 tangent : TANGENT;
 	};
 
-	Texture2D Diffuse : Texture0;
-	SamplerState DiffuseSampler : TexSampler0;
-
-	Texture2D Specular : Texture1;
-	SamplerState SpecularSampler : TexSampler1;
-
-	Texture2D Normal : Texture2;
-	SamplerState NormalSampler : TexSampler2;
-
-	Texture2D Displacement : Texture3;
-	SamplerState DispSampler : TexSampler3;
-
-	Texture2D DepthMap : Texture4;
-	SamplerState DepthMapSampler : TexSampler4;
+	Texture2D DepthMap : Texture0;
+	SamplerState DepthMapSampler : TexSampler0;
 	
-    TextureCube DepthCube : Texture5;
-    SamplerState DepthCubeSampler : TexSampler5;
+    TextureCube DepthCube : Texture1;
+    SamplerState DepthCubeSampler : TexSampler1;
+
+	Texture2D Diffuse : Texture2;
+	SamplerState DiffuseSampler : TexSampler2;
+
+	Texture2D Specular : Texture3;
+	SamplerState SpecularSampler : TexSampler3;
+
+	Texture2D Normal : Texture4;
+	SamplerState NormalSampler : TexSampler4;
+
+	Texture2D Displacement : Texture5;
+	SamplerState DispSampler : TexSampler5;
+
+	// Texture2D Metallic : Texture6;
+	// SamplerState MetallicSampler : TexSampler6;
+
+	// Texture2D AmbientOcclusion: Texture7;
+	// SamplerState AmbientOcclusionSampler : TexSampler7;
+
+	// Texture2D Emissive : Texture8;
+	// SamplerState EmissiveSampler : TexSampler8;
 
 	static float heightScale = 0.1;
 	static float3 s = float3(0,0,0);
 	float2 ParallaxMapping(float2 texCoords, float3 viewDir)
 	{
-		const float minLayers = 8;
+		const float minLayers = 4;
 		const float maxLayers = 128;
 		float numLayers = lerp(maxLayers, minLayers, abs(dot(float3(0.0,0.0,1.0),viewDir)));
 
@@ -87,17 +96,20 @@ namespace fragment
 
 		float currentLayerDepth = 0.0;
 		float prevLayerDepth = 0.0;
-		float2 P = (viewDir.xy/max(viewDir.z, 1.0))* heightScale;
+		float2 P = (viewDir.xy/max(viewDir.z, 1.0)) * heightScale;
 		float2 deltaUV = P / numLayers;
+		deltaUV.x *= -1.0;
 
-		float2 currentUV = texCoords;
+		float2 currentUV = texCoords - (deltaUV * numLayers);
 		float2 prevUV = currentUV;
 		float currentDepthMapValue = max(Displacement.Sample(DispSampler, currentUV).r,EPSILON);
 		float prevDepthMapValue = currentDepthMapValue;
 
-		[unroll(1024)]
-		while(currentLayerDepth < currentDepthMapValue )
+		[unroll(32)]
+		for(int i = 0; i < numLayers; i++)
 		{
+			if(currentLayerDepth >= currentDepthMapValue) break;
+
 			prevUV = currentUV;
 			currentUV -= deltaUV;
 
@@ -120,8 +132,7 @@ namespace fragment
 	float3 CalcBumpedNormal(float3x3 TBN, float2 texCoord)
 	{
 		float3 normal = Normal.Sample(NormalSampler, texCoord).xyz;
-		normal = ((normal * 2.0) - 1.0);
-		normal.y *= -1.0;
+		normal = ((normal * 2.0) - float3(1.0));
 
 		float3 newNormal = normalize(mul(TBN, normal).xyz);
 		return newNormal;
@@ -179,12 +190,12 @@ namespace fragment
 		float diff = max(dot(normal, lightDir),0.0);
 		//specular
 		float3 halfwayDir = normalize(lightDir + viewDir);
-		float spec = pow(max(dot(normal, halfwayDir),0.0), u_shininess);
+		float spec = pow(max(dot(normal, halfwayDir),0.0), Specular.Sample(SpecularSampler, texCoords).r*256.0);
 
 		//combine results
 		float3 ambient = light.color.rgb * 0.1;
 		float3 diffuse = light.color.rgb * diff;
-		float3 specular = light.color.rgb * spec * Specular.Sample(SpecularSampler, texCoords).rgb;
+		float3 specular = light.color.rgb * spec * u_smoothness;
 
 		float shadow = DirLightShadowCalculation(lightFragPos, normal, lightDir);
 		return (ambient + (1.0 - shadow) * (diffuse + specular)) * Diffuse.Sample(DiffuseSampler, texCoords).rgb;
@@ -198,7 +209,7 @@ namespace fragment
 		float diff = max(dot(normal, lightDir),0.0);
 		//specular
 		float3 halfwayDir = normalize(lightDir + viewDir);
-		float spec = pow(max(dot(normal, halfwayDir),0.0), u_shininess);
+		float spec = pow(max(dot(normal, halfwayDir),0.0), u_smoothness);
 
 		float attenuation = Attenuation(light.position.xyz, fragPos, light.range, light.intensity);
 		if(attenuation <= 0)
@@ -222,24 +233,21 @@ namespace fragment
 		float3 tangent = normalize(input.tangent - dot(input.tangent, input.normal) * input.normal);
 		float3 bitangent = cross(input.normal, tangent);
 
-		float3x3 TBN = transpose(float3x3(tangent, bitangent, input.normal));
+		float3x3 TBN = float3x3(tangent, bitangent, input.normal);
 
-		float4 tanViewPos = normalize(mul(TBN, u_viewPosition.xyz)).xyzz;
-		float4 tanFragPos = normalize(mul(TBN, input.fragPos)).xyzz;
-
-		float3 viewDir = mul(TBN, normalize(u_viewPosition.xyz - input.fragPos));
+		float3 tanViewDir = mul(TBN, normalize(u_viewPosition.xyz - input.fragPos));
+		float3 viewDir = normalize(u_viewPosition.xyz - input.fragPos);
 		
-		float2 texCoords = input.texCoords;//ParallaxMapping(input.texCoords, viewDir);
-		// if(texCoords.x > 1.0 || texCoords.y > 1.0 || texCoords.x < 0.0 || texCoords.y < 0.0)
+		float2 tanTexCoords = input.texCoords;//ParallaxMapping(input.texCoords, tanViewDir);
+		// if(tanTexCoords.x > 1.0 || tanTexCoords.y > 1.0 || tanTexCoords.x < 0.0 || tanTexCoords.y < 0.0)
     	// 	discard;
 
-		float3 normal = input.normal;//CalcBumpedNormal(TBN, texCoords);
+		float3 normal = CalcBumpedNormal(TBN, tanTexCoords);
 		float3 lightDir = normalize(u_dirLights[0].direction.xyz);
-		float3 result = CalcDirLight(lightDir, input.lightSpaceFragPos, normal, texCoords, viewDir);
+		float3 result = CalcDirLight(lightDir, input.lightSpaceFragPos, normal, input.texCoords, viewDir);
 
-		int i = 0;
-		for(i = 0; i < lightCount; i++)
-			result += CalcPointLight(u_pointLights[i], normal, texCoords, input.fragPos, viewDir);
+		for(int i = 0; i < lightCount; i++)
+			result += CalcPointLight(u_pointLights[i], normal, input.texCoords, input.fragPos, viewDir);
 
 		return float4(result, 1.0);
 	}

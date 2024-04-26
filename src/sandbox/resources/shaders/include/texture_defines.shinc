@@ -15,3 +15,12 @@
 
 #define Texture5 register(t5)
 #define TexSampler5 register(s5)
+
+#define Texture6 register(t6)
+#define TexSampler6 register(s6)
+
+#define Texture7 register(t7)
+#define TexSampler7 register(s7)
+
+#define Texture8 register(t8)
+#define TexSampler8 register(s8)

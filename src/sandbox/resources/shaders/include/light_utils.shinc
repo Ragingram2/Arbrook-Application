@@ -34,7 +34,7 @@ cbuffer PointLightBuffer : register(b2)
 
 cbuffer MaterialBuffer : register(b3)
 {
-	float u_shininess;
+	float u_smoothness;
 };
 
 cbuffer LightInfo : register(b4)

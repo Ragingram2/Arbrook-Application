@@ -1,0 +1,45 @@
+{
+    "shaderPath":"resources/shaders/lit.shader",
+    "parameters" : {
+        "Diffuse": {
+            "register": 0,
+            "type": "Texture",
+            "value": "resources/textures/container_diffuse.png"
+        },
+        "Specular": {
+            "register": 1,
+            "type": "Texture",
+            "value": "resources/textures/container_specular.png"
+        },
+        "Normal": {
+            "register": 2,
+            "type": "Texture",
+            "value": "resources/textures/container_normal.png"
+        },        
+        "Height": {
+            "register": 3,
+            "type": "Texture",
+            "value": "resources/textures/container_height.png"
+        },
+        "MaterialBuffer": {
+            "register": 3,
+            "type": "Uniform",
+            "value": [
+                {
+                    "type": "Scalar",
+                    "u_smoothness": 32.0
+                }
+                ,
+                {
+                    "type": "Float4",
+                    "u_color" : {
+                        "x":0.0,
+                        "y":0.0,
+                        "z":0.0,
+                        "w":0.0
+                    }
+                }
+            ]
+        }
+    }
+}

@@ -1,5 +1,4 @@
 {
     "shaderPath":"resources/shaders/skybox.shader",
-    "shaderID": 0,
-    "textures": []
+    "parameters": {}
 }
