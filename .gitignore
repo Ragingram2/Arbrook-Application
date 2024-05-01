@@ -30,3 +30,6 @@
 *.exe
 *.out
 *.app
+src/sandbox/resources/source/intel_sponza.blend
+src/sandbox/resources/source/intel_sponza.blend1
+src/sandbox/resources/meshes/intel_sponza.glb

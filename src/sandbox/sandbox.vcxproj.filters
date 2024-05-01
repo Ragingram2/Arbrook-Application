@@ -16,9 +16,6 @@
     <Filter Include="systems\game">
       <UniqueIdentifier>{268A3C04-12ED-CBA8-BB72-045FA7B4972B}</UniqueIdentifier>
     </Filter>
-    <Filter Include="systems\planegame">
-      <UniqueIdentifier>{36561C0A-A26C-1AA0-EBE3-A5C15739EB27}</UniqueIdentifier>
-    </Filter>
     <Filter Include="tests">
       <UniqueIdentifier>{78756B10-E489-93C1-AD0B-372119DF8FF2}</UniqueIdentifier>
     </Filter>
@@ -27,9 +24,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="components\airplane.hpp">
-      <Filter>components</Filter>
-    </ClInclude>
     <ClInclude Include="components\camerasettings.hpp">
       <Filter>components</Filter>
     </ClInclude>
@@ -37,9 +31,6 @@
       <Filter>components</Filter>
     </ClInclude>
     <ClInclude Include="components\rigidbody.hpp">
-      <Filter>components</Filter>
-    </ClInclude>
-    <ClInclude Include="components\test_renderer.hpp">
       <Filter>components</Filter>
     </ClInclude>
     <ClInclude Include="modules\testmodule.hpp">
@@ -56,12 +47,6 @@
     </ClInclude>
     <ClInclude Include="systems\game\guisystem.hpp">
       <Filter>systems\game</Filter>
-    </ClInclude>
-    <ClInclude Include="systems\planegame\airplanesystem.hpp">
-      <Filter>systems\planegame</Filter>
-    </ClInclude>
-    <ClInclude Include="systems\planegame\physicssystem.hpp">
-      <Filter>systems\planegame</Filter>
     </ClInclude>
     <ClInclude Include="tests\tools\CSVWriter.hpp">
       <Filter>tests\tools</Filter>
@@ -82,12 +67,6 @@
     </ClCompile>
     <ClCompile Include="systems\game\guisystem.cpp">
       <Filter>systems\game</Filter>
-    </ClCompile>
-    <ClCompile Include="systems\planegame\airplanesystem.cpp">
-      <Filter>systems\planegame</Filter>
-    </ClCompile>
-    <ClCompile Include="systems\planegame\physicssystem.cpp">
-      <Filter>systems\planegame</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

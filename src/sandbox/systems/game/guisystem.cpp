@@ -93,19 +93,45 @@ namespace rythe::game
 
 				ImGui::Indent();
 				if (ent.hasComponent<core::transform>())
-					transformEditor(ent);
+					componentEditor<core::transform>(ent);
 
 				if (ent.hasComponent<gfx::mesh_renderer>())
-					meshrendererEditor(ent);
+				{
+					//meshrendererEditor(ent);
+					componentEditor<gfx::mesh_renderer>(ent);
+				}
 
 				if (ent.hasComponent<gfx::light>())
 					lightEditor(ent);
 
 				if (ent.hasComponent<examplecomp>())
-					exampleCompEditor(ent);
+					componentEditor<examplecomp>(ent);
 				ImGui::Unindent();
 
 
+				if (ImGui::BeginPopupContextItem("ComponentList"))
+				{
+					static const char* current = "None";
+					for (auto& [id, comp] : ecs::Registry::componentFamilies)
+					{
+						if (ent.hasComponent(id)) continue;
+						const bool is_selected = (ecs::Registry::componentNames[id] == current);
+						if (ImGui::Selectable(ecs::Registry::componentNames[id].c_str(), is_selected))
+						{
+							if (!ent.hasComponent(id))
+							{
+								current = ecs::Registry::componentNames[id].c_str();
+								ent.addComponent(id);
+							}
+						}
+					}
+					ImGui::EndPopup();
+				}
+
+				if (ImGui::Button("Add Component"))
+				{
+					ImGui::OpenPopup("ComponentList");
+				}
 				ImGui::End();
 			}
 		}
@@ -149,11 +175,11 @@ namespace rythe::game
 				drawGizmo(camTransf, camera, math::ivec2(width, height));
 
 			ImGui::End();
-		}
+	}
 
 		ImGui::End();
 		ImGui::PopStyleVar(3);
-	}
+}
 
 	void GUISystem::drawHeirarchy(ecs::entity_set heirarchy)
 	{
@@ -173,7 +199,7 @@ namespace rythe::game
 				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.5, 0.5, 0.5, 1.0));
 
 			ImGui::PushID(std::format("Hierarchy##{}", ent->id).c_str());
-			bool open = ImGui::TreeNodeEx(ent->name.c_str(), flags);
+			ImGui::TreeNodeEx(ent->name.c_str(), flags);
 			if (!ent->enabled)
 				ImGui::PopStyleColor();
 
@@ -224,30 +250,29 @@ namespace rythe::game
 		}
 		ImGui::PopID();
 	}
-	void GUISystem::exampleCompEditor(core::ecs::entity ent)
-	{
-		ImGui::PushID(std::format("EntityExampleComp##{}", ent->id).c_str());
-		auto& comp = ent.getComponent<core::examplecomp>();
-		ImGui::Checkbox("", &comp.enabled);
-		ImGui::SameLine();
-		bool open = ImGui::TreeNodeEx("Example Component", ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_NoTreePushOnOpen);
-		if (!ent->enabled)
-			pushDisabledInspector();
+	//void GUISystem::exampleCompEditor(core::ecs::entity ent)
+	//{
+	//	ImGui::PushID(std::format("EntityExampleComp##{}", ent->id).c_str());
+	//	auto& comp = ent.getComponent<core::examplecomp>();
+	//	ImGui::Checkbox("", &comp.enabled);
+	//	ImGui::SameLine();
+	//	bool open = ImGui::TreeNodeEx("Example Component", ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_NoTreePushOnOpen);
+	//	if (!ent->enabled)
+	//		pushDisabledInspector();
 
-		if (open)
-		{
+	//	if (open)
+	//	{
+	//		ImGui::InputFloat("Range", &comp.range);
+	//		ImGui::InputFloat("Speed", &comp.speed);
+	//		ImGui::InputFloat("Angular Speed", &comp.angularSpeed);
+	//		ImGui::InputFloat3("Direction", comp.direction.data);
+	//	}
 
-			ImGui::InputFloat("Range", &comp.range);
-			ImGui::InputFloat("Speed", &comp.speed);
-			ImGui::InputFloat("Angular Speed", &comp.angularSpeed);
-			ImGui::InputFloat3("Direction", comp.direction.data);
-		}
+	//	if (!ent->enabled)
+	//		popDisabledInspector();
 
-		if (!ent->enabled)
-			popDisabledInspector();
-
-		ImGui::PopID();
-	}
+	//	ImGui::PopID();
+	//}
 	void GUISystem::meshrendererEditor(core::ecs::entity ent)
 	{
 		auto& renderer = ent.getComponent<gfx::mesh_renderer>();
@@ -260,8 +285,8 @@ namespace rythe::game
 
 		if (open)
 		{
-			createAssetDropDown(ent, "Mesh", renderer.model, gfx::ModelCache::getModels(), &GUISystem::setModel);
-			createAssetDropDown(ent, "MainMaterial", renderer.mainMaterial, gfx::MaterialCache::getMaterials(), &GUISystem::setMaterial);
+			createAssetDropDown("Mesh", renderer.model, gfx::ModelCache::getModels(), &GUISystem::setModel);
+			createAssetDropDown("MainMaterial", renderer.mainMaterial, gfx::MaterialCache::getMaterials(), &GUISystem::setMaterial);
 			if (ImGui::Checkbox("Casts Shadows?", &renderer.castShadows))
 			{
 				renderer.dirty = true;
@@ -273,40 +298,40 @@ namespace rythe::game
 
 		ImGui::PopID();
 	}
-	void GUISystem::transformEditor(core::ecs::entity ent)
+	//void GUISystem::transformEditor(core::ecs::entity ent)
+	//{
+	//	auto& transf = ent.getComponent<core::transform>();
+	//	ImGui::PushID(std::format("Entity##{}", ent->id).c_str());
+	//	bool open = ImGui::TreeNodeEx("Transform", ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_NoTreePushOnOpen);
+	//	if (!ent->enabled)
+	//		pushDisabledInspector();
+
+	//	if (open)
+	//	{
+	//		math::vec3 rot = math::toEuler(transf.rotation);
+	//		ImGui::InputFloat3("Position##1", transf.position.data);
+	//		if (ImGui::InputFloat3("Rotation##2", rot.data))
+	//			transf.rotation = math::toQuat(rot);
+	//		ImGui::InputFloat3("Scale##3", transf.scale.data);
+	//	}
+
+	//	if (!ent->enabled)
+	//		popDisabledInspector();
+
+	//	ImGui::PopID();
+	//}
+	void GUISystem::setModel(ast::asset_handle<gfx::model> handle)
 	{
-		auto& transf = ent.getComponent<core::transform>();
-		ImGui::PushID(std::format("Entity##{}", ent->id).c_str());
-		bool open = ImGui::TreeNodeEx("Transform", ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_NoTreePushOnOpen);
-		if (!ent->enabled)
-			pushDisabledInspector();
-
-		if (open)
-		{
-			math::vec3 rot = math::toEuler(transf.rotation);
-			ImGui::InputFloat3("Position##1", transf.position.data);
-			if (ImGui::InputFloat3("Rotation##2", rot.data))
-				transf.rotation = math::toQuat(rot);
-			ImGui::InputFloat3("Scale##3", transf.scale.data);
-		}
-
-		if (!ent->enabled)
-			popDisabledInspector();
-
-		ImGui::PopID();
-	}
-	void GUISystem::setModel(ast::asset_handle<gfx::model> handle, ecs::entity ent)
-	{
-		auto& renderer = ent.getComponent<gfx::mesh_renderer>();
+		auto& renderer = GUI::selected.getComponent<gfx::mesh_renderer>();
 		if (handle != &renderer.model)
 		{
 			renderer.model = handle;
 			renderer.dirty = true;
 		}
 	}
-	void GUISystem::setMaterial(ast::asset_handle<gfx::material> handle, ecs::entity ent)
+	void GUISystem::setMaterial(ast::asset_handle<gfx::material> handle)
 	{
-		auto& renderer = ent.getComponent<gfx::mesh_renderer>();
+		auto& renderer = GUI::selected.getComponent<gfx::mesh_renderer>();
 		if (handle != &renderer.mainMaterial)
 		{
 			renderer.mainMaterial = handle;

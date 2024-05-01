@@ -61,7 +61,7 @@ namespace rythe::game
 		//}
 
 		{
-			auto ent = createEntity("Cube");
+			auto ent = createEntity("Sponza");
 			auto& transf = ent.addComponent<core::transform>();
 			transf.scale = math::vec3::one * 10.0f;
 			transf.position = math::vec3(0.0f, 10.0f, 0.0f);
@@ -69,10 +69,18 @@ namespace rythe::game
 		}
 
 		{
+			auto ent = createEntity("Entity");
+			auto& transf = ent.addComponent<core::transform>();
+			transf.scale = math::vec3::one;
+			transf.position = math::vec3(0.0f, 10.0f, 0.0f);
+			ent.addComponent<gfx::mesh_renderer>({ .mainMaterial = gfx::MaterialCache::getMaterial("damagedhelmet-material"), .model = gfx::ModelCache::getModel("damagedhelmet"), .castShadows = true });
+		}
+
+		{
 			auto ent = createEntity("Directional Light");
 			auto& transf = ent.addComponent<core::transform>();
 			transf.scale = math::vec3::one;
-			transf.position = math::vec3(0.0f, 15.f, 0.0f);
+			transf.position = math::vec3(0.0f, 25.f, 0.0f);
 			transf.rotation = math::toQuat(math::vec3(-90.0f, 0.0f, 0.0f));
 			ent.addComponent<gfx::light>({ .type = gfx::LightType::DIRECTIONAL, .dir_data.color = math::vec4(1.0f), .dir_data.intensity = 1.0f });
 			//ent.addComponent<core::examplecomp>({ .axis = math::vec3::right, .angularSpeed = 20.0f });
@@ -82,41 +90,10 @@ namespace rythe::game
 		{
 			auto ent = createEntity("Point Light");
 			ent.addComponent<core::transform>({ .scale = math::vec3(.1f, .1f, .1f), .position = math::vec3(0.0f, 10.0f, 0.0f) });
-			ent.addComponent<gfx::light>({ .type = gfx::LightType::POINT, .point_data.color = math::vec4(1.0f,0.0f,0.0f,1.0f), .point_data.intensity = 1.0f, .point_data.range = 100.f });
+			ent.addComponent<gfx::light>({ .type = gfx::LightType::POINT, .point_data.color = math::vec4(1.0f,1.0f,1.0f,1.0f), .point_data.intensity = 1.0f, .point_data.range = 100.f });
 			ent.addComponent<core::examplecomp>({ .direction = math::vec3::up, .range = 10.0f, .speed = 20.0f });
 			ent.addComponent<gfx::mesh_renderer>({ .mainMaterial = gfx::MaterialCache::getMaterial("red"), .model = gfx::ModelCache::getModel("icosphere") ,.castShadows = false });
 		}
-		{
-			auto ent = createEntity("Sphere1");
-			ent.addComponent<core::transform>({ .scale = math::vec3(1.f, 1.f, 1.f), .position = math::vec3(0.0f, 10.0f, 0.0f) });
-			ent.addComponent<core::examplecomp>({ .direction = math::vec3::right, .range = 10.0f, .speed = 20.0f });
-			ent.addComponent<gfx::mesh_renderer>({ .mainMaterial = gfx::MaterialCache::getMaterial("bunny-material"), .model = gfx::ModelCache::getModel("bunny") ,.castShadows = false });
-		}
-		{
-			auto ent = createEntity("Sphere2");
-			ent.addComponent<core::transform>({ .scale = math::vec3(1.f, 1.f, 1.f), .position = math::vec3(0.0f, 10.0f, 0.0f) });
-			ent.addComponent<core::examplecomp>({ .direction = math::vec3::forward, .range = 10.0f, .speed = 20.0f });
-			ent.addComponent<gfx::mesh_renderer>({ .mainMaterial = gfx::MaterialCache::getMaterial("beast-material"), .model = gfx::ModelCache::getModel("beast") ,.castShadows = false });
-		}
-		{
-			auto ent = createEntity("Sphere3");
-			ent.addComponent<core::transform>({ .scale = math::vec3(1.f, 1.f, 1.f), .position = math::vec3(0.0f, 10.0f, 0.0f) });
-			ent.addComponent<core::examplecomp>({ .direction = math::vec3::left, .range = 10.0f, .speed = 20.0f });
-			ent.addComponent<gfx::mesh_renderer>({ .mainMaterial = gfx::MaterialCache::getMaterial("duck-material"), .model = gfx::ModelCache::getModel("duck") ,.castShadows = false });
-		}
-		{
-			auto ent = createEntity("Sphere4");
-			ent.addComponent<core::transform>({ .scale = math::vec3(1.f, 1.f, 1.f), .position = math::vec3(0.0f, 10.0f, 0.0f) });
-			ent.addComponent<core::examplecomp>({ .direction = math::vec3::backward, .range = 10.0f, .speed = 20.0f });
-			ent.addComponent<gfx::mesh_renderer>({ .mainMaterial = gfx::MaterialCache::getMaterial("corset-material"), .model = gfx::ModelCache::getModel("corset") ,.castShadows = false });
-		}
-		//{
-		//	auto ent = createEntity("Point Light2");
-		//	ent.addComponent<core::transform>({ .scale = math::vec3(.1f, .1f, .1f), .position = math::vec3(0.0f, 10.0f, 0.0f) });
-		//	ent.addComponent<gfx::light>({ .type = gfx::LightType::POINT, .point_data.color = math::vec4(0.0f,1.0f,0.0f,1.0f), .point_data.intensity = 1.0f, .point_data.range = 100.f });
-		//	ent.addComponent<core::examplecomp>({ .direction = math::vec3::left, .range = 10.0f, .speed = 20.0f });
-		//	ent.addComponent<gfx::mesh_renderer>({ .mainMaterial = gfx::MaterialCache::getMaterial("green"), .model = gfx::ModelCache::getModel("icosphere") ,.castShadows = false });
-		//}
 
 		{
 			auto camera = createEntity("Camera");

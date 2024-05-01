@@ -1,5 +1,7 @@
 #pragma once
 #include <filesystem>
+#include <rfl.hpp>
+#include <rfl/json.hpp>
 
 #include "core/utils/profiler.hpp"
 

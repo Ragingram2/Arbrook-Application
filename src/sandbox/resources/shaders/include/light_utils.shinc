@@ -34,7 +34,14 @@ cbuffer PointLightBuffer : register(b2)
 
 cbuffer MaterialBuffer : register(b3)
 {
-	float u_smoothness;
+	float4 diffuseColor;
+	bool hasDiffuse;
+	bool hasSpecular;
+	bool hasNormal;
+	bool hasHeight;
+	bool hasMetallic;
+	bool hasAmbientOcclusion;
+	bool hasEmissive;
 };
 
 cbuffer LightInfo : register(b4)

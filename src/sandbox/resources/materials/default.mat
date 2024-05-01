@@ -27,7 +27,7 @@
             "value": [
                 {
                     "type": "Scalar",
-                    "name": "u_smoothness",
+                    "name": "shininess",
                     "value": 32.0
                 }
             ]

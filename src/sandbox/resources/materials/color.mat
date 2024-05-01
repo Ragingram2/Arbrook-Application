@@ -8,7 +8,7 @@
             "value":[
                 {
                     "type": "Float4",
-                    "name": "u_color",
+                    "name": "color",
                     "value" : {
                         "x":1.0,
                         "y":0.0,
