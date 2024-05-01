@@ -96,10 +96,7 @@ namespace rythe::game
 					componentEditor<core::transform>(ent);
 
 				if (ent.hasComponent<gfx::mesh_renderer>())
-				{
-					//meshrendererEditor(ent);
 					componentEditor<gfx::mesh_renderer>(ent);
-				}
 
 				if (ent.hasComponent<gfx::light>())
 					lightEditor(ent);
@@ -155,7 +152,7 @@ namespace rythe::game
 
 			if (!Input::mouseCaptured && m_readPixel && ImGui::IsWindowHovered())
 			{
-				auto color = gfx::Renderer::RI->readPixels(*pickingFBO, math::ivec2(input::Input::mousePos.x, input::Input::mousePos.y - 19) - windowPos, math::ivec2(1, 1));
+				auto color = gfx::Renderer::RI->readPixels(*pickingFBO, math::ivec2(input::Input::mousePos.x, input::Input::mousePos.y) - windowPos, math::ivec2(1, 1));
 				rsl::id_type id = color.x + (color.y * 256) + (color.z * 256 * 256) + (color.w * 256 * 256 * 256);
 				if (id != invalid_id)
 					GUI::selected = ecs::entity{ &ecs::Registry::entities[id] };
@@ -175,11 +172,11 @@ namespace rythe::game
 				drawGizmo(camTransf, camera, math::ivec2(width, height));
 
 			ImGui::End();
-	}
+		}
 
 		ImGui::End();
 		ImGui::PopStyleVar(3);
-}
+	}
 
 	void GUISystem::drawHeirarchy(ecs::entity_set heirarchy)
 	{
@@ -273,31 +270,31 @@ namespace rythe::game
 
 	//	ImGui::PopID();
 	//}
-	void GUISystem::meshrendererEditor(core::ecs::entity ent)
-	{
-		auto& renderer = ent.getComponent<gfx::mesh_renderer>();
-		ImGui::PushID(std::format("EntityMeshRenderer##{}", ent->id).c_str());
-		ImGui::Checkbox("", &renderer.enabled);
-		ImGui::SameLine();
-		bool open = ImGui::TreeNodeEx("Mesh Renderer", ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_NoTreePushOnOpen);
-		if (!ent->enabled)
-			pushDisabledInspector();
+	//void GUISystem::meshrendererEditor(core::ecs::entity ent)
+	//{
+	//	auto& renderer = ent.getComponent<gfx::mesh_renderer>();
+	//	ImGui::PushID(std::format("EntityMeshRenderer##{}", ent->id).c_str());
+	//	ImGui::Checkbox("", &renderer.enabled);
+	//	ImGui::SameLine();
+	//	bool open = ImGui::TreeNodeEx("Mesh Renderer", ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_NoTreePushOnOpen);
+	//	if (!ent->enabled)
+	//		pushDisabledInspector();
 
-		if (open)
-		{
-			createAssetDropDown("Mesh", renderer.model, gfx::ModelCache::getModels(), &GUISystem::setModel);
-			createAssetDropDown("MainMaterial", renderer.mainMaterial, gfx::MaterialCache::getMaterials(), &GUISystem::setMaterial);
-			if (ImGui::Checkbox("Casts Shadows?", &renderer.castShadows))
-			{
-				renderer.dirty = true;
-			}
-		}
+	//	if (open)
+	//	{
+	//		createAssetDropDown("Mesh", renderer.model, gfx::ModelCache::getModels(), &GUISystem::setModel);
+	//		createAssetDropDown("MainMaterial", renderer.mainMaterial, gfx::MaterialCache::getMaterials(), &GUISystem::setMaterial);
+	//		if (ImGui::Checkbox("Casts Shadows?", &renderer.castShadows))
+	//		{
+	//			renderer.dirty = true;
+	//		}
+	//	}
 
-		if (!ent->enabled)
-			popDisabledInspector();
+	//	if (!ent->enabled)
+	//		popDisabledInspector();
 
-		ImGui::PopID();
-	}
+	//	ImGui::PopID();
+	//}
 	//void GUISystem::transformEditor(core::ecs::entity ent)
 	//{
 	//	auto& transf = ent.getComponent<core::transform>();
@@ -356,7 +353,7 @@ namespace rythe::game
 		ImGuizmo::SetOrthographic(false);
 		ImGuizmo::SetDrawlist();
 
-		ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y - (Screen_Height - (19 + dims.y)), Screen_Width, Screen_Height);
+		ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, dims.x, dims.y);
 
 		core::transform& transf = ent.getComponent<core::transform>();
 		float* matrix = transf.to_world().data;

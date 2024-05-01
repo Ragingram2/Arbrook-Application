@@ -54,7 +54,7 @@ namespace rythe::game
 		void drawHeirarchy(ecs::entity_set heirarchy);
 		void lightEditor(core::ecs::entity);
 		//void exampleCompEditor(core::ecs::entity);
-		void meshrendererEditor(core::ecs::entity);
+		//void meshrendererEditor(core::ecs::entity);
 		//void transformEditor(core::ecs::entity);
 
 		void pushDisabledInspector();
@@ -90,9 +90,19 @@ namespace rythe::game
 
 			if (open)
 			{
-				const auto view = rfl::to_view(comp);
-				const auto fields = rfl::fields<Component>();
-				unrollFields([&fields, &view]<size_t i>() { DrawField(fields[i].name().c_str(), i, *rfl::get<i>(view)); }, std::make_index_sequence<view.size()>{});
+				if constexpr (std::is_same<Component, gfx::mesh_renderer>::value)
+				{
+					const auto view = rfl::to_view(comp.reflection());
+					const auto fields = rfl::fields<gfx::mesh_rendererImpl>();
+					unrollFields([&fields, &view]<size_t i>() { DrawField(fields[i].name().c_str(), i, *rfl::get<i>(view)); }, std::make_index_sequence<view.size()>{});
+				}
+				else
+				{
+					const auto view = rfl::to_view(comp);
+					const auto fields = rfl::fields<Component>();
+					unrollFields([&fields, &view]<size_t i>() { DrawField(fields[i].name().c_str(), i, *rfl::get<i>(view)); }, std::make_index_sequence<view.size()>{});
+				}
+
 			}
 
 			if (!ent->enabled)
@@ -184,16 +194,16 @@ namespace rythe::game
 	}
 
 	template<>
-	inline bool DrawField<gfx::model>(const char* label, int index, gfx::model& field)
+	inline bool DrawField<gfx::modelImpl>(const char* label, int index, gfx::modelImpl& field)
 	{
-		createAssetDropDown(label, field, gfx::ModelCache::getModels(), &GUISystem::setModel);
+		createAssetDropDown<gfx::model>(label, *field.model, gfx::ModelCache::getModels(), &GUISystem::setModel);
 		return true;
 	}
 
 	template<>
-	inline bool DrawField<gfx::material>(const char* label, int index, gfx::material& field)
+	inline bool DrawField<gfx::materialImpl>(const char* label, int index, gfx::materialImpl& field)
 	{
-		createAssetDropDown(label, field, gfx::MaterialCache::getMaterials(), &GUISystem::setMaterial);
+		createAssetDropDown<gfx::material>(label, *field.mat, gfx::MaterialCache::getMaterials(), &GUISystem::setMaterial);
 		return true;
 	}
 
