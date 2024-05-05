@@ -99,7 +99,8 @@ namespace rythe::game
 					componentEditor<gfx::mesh_renderer>(ent);
 
 				if (ent.hasComponent<gfx::light>())
-					lightEditor(ent);
+					componentEditor<gfx::light>(ent);
+				//lightEditor(ent);
 
 				if (ent.hasComponent<examplecomp>())
 					componentEditor<examplecomp>(ent);
@@ -376,6 +377,7 @@ namespace rythe::game
 	void GUISystem::framebuffer_size_callback(GLFWwindow* window, int width, int height)
 	{
 		gfx::Renderer::RI->setViewport(1, 0, 0, width, height);
+		mainFBO->rescale(width, height);
 	}
 	void GUISystem::pushDisabledInspector()
 	{

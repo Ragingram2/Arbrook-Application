@@ -5,7 +5,6 @@
 #include "sandbox/systems/game/guisystem.hpp"
 #include "sandbox/systems/game/examplesystem.hpp"
 #include "sandbox/systems/game/cameracontrols.hpp"
-#include "sandbox/systems/planegame/physicssystem.hpp"
 
 namespace rythe::core
 {

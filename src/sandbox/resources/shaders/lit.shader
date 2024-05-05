@@ -132,7 +132,7 @@ namespace fragment
 	float3 CalcBumpedNormal(float3x3 TBN, float2 texCoord)
 	{
 		float3 normal = Normal.Sample(NormalSampler, texCoord).xyz;
-		normal = ((normal * 2.0) - float3(1.0));
+		normal = ((normal * 2.0) - float3(1.0,1.0,1.0));
 		float3 newNormal = normalize(mul(TBN, normal).xyz);
 		return newNormal;
 	}
@@ -194,30 +194,30 @@ namespace fragment
 		//combine results
 		float3 ambient = light.color.rgb * 0.1;
 		float3 diffuse = light.color.rgb * diff;
-		float3 specular = light.color.rgb * spec * (hasSpecular.x ? Specular.Sample(SpecularSampler, texCoords).rgb : float3(0.0));
+		float3 specular = light.color.rgb * spec * (hasSpecular.x ? Specular.Sample(SpecularSampler, texCoords).rgb : float3(0.0,0.0,0.0));
 
 		float shadow = DirLightShadowCalculation(lightFragPos, normal, lightDir);
-		return (ambient + (1.0 - shadow) * (diffuse + specular)) * (hasDiffuse.x ? Diffuse.Sample(DiffuseSampler, texCoords).rgb : diffuseColor);
+		return (ambient + (1.0 - shadow) * (diffuse + specular)) * (hasDiffuse.x ? Diffuse.Sample(DiffuseSampler, texCoords).rgb : diffuseColor.rgb);
 	}
 
 	float3 CalcPointLight(PointLight light, float3 normal, float2 texCoords, float3 fragPos, float3 viewDir)
 	{
 		float attenuation = Attenuation(light.position.xyz, fragPos, light.range, light.intensity);
 		if(attenuation <= 0)
-			return float3(0.00);
+			return float3(0.0,0.0,0.0);
 
-		float3 metallic = hasMetallic ? Metallic.Sample(MetallicSampler, texCoords).rrr : float3(1.0);
-		float3 albedo = hasDiffuse.x ? Diffuse.Sample(DiffuseSampler, texCoords).rgb : diffuseColor;
-		float3 roughness = hasSpecular.x ? Specular.Sample(SpecularSampler, texCoords).rrr : float3(0.0);
+		float3 metallic = hasMetallic ? Metallic.Sample(MetallicSampler, texCoords).rrr : float3(1.0,1.0,1.0);
+		float3 albedo = hasDiffuse.x ? Diffuse.Sample(DiffuseSampler, texCoords).rgb : diffuseColor.rgb;
+		float3 roughness = hasSpecular.x ? Specular.Sample(SpecularSampler, texCoords).rrr : float3(0.0,0.0,0.0);
 
 		float3 lightDir = normalize(light.position.xyz - fragPos);
 
 		float3 radiance = light.color.rgb * attenuation;
-		float3 diffuse = (float3(1.0) - roughness);
+		float3 diffuse = (float3(1.0,1.0,1.0) - roughness);
 
-		float3 specularColor = float3(0.04);
+		float3 specularColor = float3(0.04,0.04,0.04);
 		specularColor = lerp(specularColor, albedo, metallic);
-		diffuse *= float3(1.0) - metallic;
+		diffuse *= float3(1.0,1.0,1.0) - metallic;
 		
 
 		float3 halfwayDir = normalize(lightDir + viewDir);
@@ -237,14 +237,13 @@ namespace fragment
 		float3 bitangent = cross(input.normal, tangent);
 
 		float3x3 TBN = float3x3(tangent, bitangent, input.normal);
-
-		float3 tanViewDir = mul(TBN, normalize(u_viewPosition.xyz - input.fragPos));
+		float3 tanViewDir = mul(transpose(TBN), normalize(u_viewPosition.xyz - input.fragPos));
 		float3 viewDir = normalize(u_viewPosition.xyz - input.fragPos);
 		
-		float2 tanTexCoords = hasHeight ? ParallaxMapping(input.texCoords, tanViewDir) : input.texCoords;
-		//float2 tanTexCoords = ParallaxMapping(input.texCoords, tanViewDir);
-		if(hasHeight && (tanTexCoords.x > 1.0 || tanTexCoords.y > 1.0 || tanTexCoords.x < 0.0 || tanTexCoords.y < 0.0))
-    		discard;
+		//float2 tanTexCoords = hasHeight ? ParallaxMapping(input.texCoords, tanViewDir) : input.texCoords;
+		float2 tanTexCoords = ParallaxMapping(input.texCoords, tanViewDir);
+		// if(hasHeight && (tanTexCoords.x > 1.0 || tanTexCoords.y > 1.0 || tanTexCoords.x < 0.0 || tanTexCoords.y < 0.0))
+    	// 	discard;
 
 		float3 normal = (hasHeight) ? CalcBumpedNormal(TBN, tanTexCoords) : normalize(input.normal);
 		float3 lightDir = normalize(u_dirLights[0].direction.xyz);

@@ -96,6 +96,21 @@ namespace rythe::game
 					const auto fields = rfl::fields<gfx::mesh_rendererImpl>();
 					unrollFields([&fields, &view]<size_t i>() { DrawField(fields[i].name().c_str(), i, *rfl::get<i>(view)); }, std::make_index_sequence<view.size()>{});
 				}
+				else if constexpr (std::is_same<Component, gfx::light>::value)
+				{
+					if (comp.type == gfx::LightType::DIRECTIONAL)
+					{
+						const auto view = rfl::to_view(comp.reflectionDirLight());
+						const auto fields = rfl::fields<gfx::dir_light_data_impl>();
+						unrollFields([&fields, &view]<size_t i>() { DrawField(fields[i].name().c_str(), i, *rfl::get<i>(view)); }, std::make_index_sequence<view.size()>{});
+					}
+					else if (comp.type == gfx::LightType::POINT)
+					{
+						const auto view = rfl::to_view(comp.reflectionPointLight());
+						const auto fields = rfl::fields<gfx::point_light_data_impl>();
+						unrollFields([&fields, &view]<size_t i>() { DrawField(fields[i].name().c_str(), i, *rfl::get<i>(view)); }, std::make_index_sequence<view.size()>{});
+					}
+				}
 				else
 				{
 					const auto view = rfl::to_view(comp);

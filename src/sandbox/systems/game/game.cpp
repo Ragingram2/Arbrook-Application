@@ -60,13 +60,13 @@ namespace rythe::game
 		//	ent.addComponent<gfx::mesh_renderer>({ .mainMaterial = mat, .model = gfx::ModelCache::getModel("cube") ,.castShadows = false });
 		//}
 
-		{
-			auto ent = createEntity("Sponza");
-			auto& transf = ent.addComponent<core::transform>();
-			transf.scale = math::vec3::one * 10.0f;
-			transf.position = math::vec3(0.0f, 10.0f, 0.0f);
-			ent.addComponent<gfx::mesh_renderer>({ .mainMaterial = gfx::MaterialCache::getMaterial("sponza-material"), .model = gfx::ModelCache::getModel("sponza"), .castShadows = true });
-		}
+		//{
+		//	auto ent = createEntity("Sponza");
+		//	auto& transf = ent.addComponent<core::transform>();
+		//	transf.scale = math::vec3::one * 10.0f;
+		//	transf.position = math::vec3(0.0f, 10.0f, 0.0f);
+		//	ent.addComponent<gfx::mesh_renderer>({ .mainMaterial = gfx::MaterialCache::getMaterial("sponza-material"), .model = gfx::ModelCache::getModel("sponza"), .castShadows = true });
+		//}
 
 		{
 			auto ent = createEntity("Entity");
