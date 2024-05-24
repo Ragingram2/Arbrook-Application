@@ -1,36 +1,25 @@
 {
     "shaderPath":"resources/shaders/lit.shader",
     "parameters" : {
-        "Diffuse": {
+        "Albedo": {
             "register": 0,
             "type": "Texture",
-            "value": "resources/textures/container_diffuse.png"
+            "value": "resources/textures/default/default-albedo.png"
         },
-        "Specular": {
+        "Roughness": {
             "register": 1,
             "type": "Texture",
-            "value": "resources/textures/container_specular.png"
+            "value": "resources/textures/default/default-roughness.png"
         },
         "Normal": {
             "register": 2,
             "type": "Texture",
-            "value": "resources/textures/container_normal.png"
+            "value": "resources/textures/default/default-normal.png"
         },        
         "Height": {
             "register": 3,
             "type": "Texture",
-            "value": "resources/textures/container_height.png"
-        },
-        "MaterialBuffer": {
-            "register": 3,
-            "type": "Uniform",
-            "value": [
-                {
-                    "type": "Scalar",
-                    "name": "shininess",
-                    "value": 32.0
-                }
-            ]
+            "value": "resources/textures/default/default-height.png"
         }
     }
 }

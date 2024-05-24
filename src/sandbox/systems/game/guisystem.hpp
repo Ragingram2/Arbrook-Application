@@ -48,7 +48,6 @@ namespace rythe::game
 	public:
 		void setup();
 		void update();
-		void onRender(core::transform, gfx::camera);
 		void guiRender(core::transform, gfx::camera);
 
 		void drawHeirarchy(ecs::entity_set heirarchy);
@@ -62,6 +61,9 @@ namespace rythe::game
 
 		static void setModel(ast::asset_handle<gfx::model>);
 		static void setMaterial(ast::asset_handle<gfx::material>);
+		void createEmptyEntity();
+		void createCubeEntity();
+		void createSphereEntity();
 		void drawGizmo(core::transform camTransf, gfx::camera camera, math::ivec2 dims);
 		void doClick(key_input<inputmap::method::MOUSE_LEFT>& action);
 

@@ -11,7 +11,6 @@ namespace rythe::game
 	{
 		log::info("Initializing GUI system");
 		gfx::gui_stage::addGuiRender<GUISystem, &GUISystem::guiRender>(this);
-		gfx::render_stage::addRender<GUISystem, &GUISystem::onRender>(this);
 
 		bindEvent<key_input<inputmap::method::MOUSE_LEFT>, &GUISystem::doClick>();
 
@@ -19,11 +18,6 @@ namespace rythe::game
 	}
 
 	void GUISystem::update()
-	{
-
-	}
-
-	void GUISystem::onRender(core::transform camTransf, gfx::camera camera)
 	{
 
 	}
@@ -59,7 +53,10 @@ namespace rythe::game
 		{
 			if (ImGui::BeginMenu("New"))
 			{
-				ImGui::MenuItem("Entity");
+				if (ImGui::MenuItem("Entity"))
+				{
+					createEmptyEntity();
+				}
 				ImGui::MenuItem("Material");
 				ImGui::EndMenu();
 			}
@@ -72,6 +69,22 @@ namespace rythe::game
 			ImGui::Indent();
 			drawHeirarchy(m_filter.m_entities);
 			ImGui::Unindent();
+
+			
+			if (ImGui::BeginPopupContextWindow())
+			{
+				if (ImGui::MenuItem("New Empty"))
+					createEmptyEntity();
+
+				if (ImGui::MenuItem("New Cube"))
+					createCubeEntity();
+
+				if (ImGui::MenuItem("New Sphere"))
+					createSphereEntity();
+
+				ImGui::EndPopup();
+			}
+
 			ImGui::End();
 		}
 
@@ -99,8 +112,8 @@ namespace rythe::game
 					componentEditor<gfx::mesh_renderer>(ent);
 
 				if (ent.hasComponent<gfx::light>())
-					componentEditor<gfx::light>(ent);
-				//lightEditor(ent);
+					lightEditor(ent);
+					//componentEditor<gfx::light>(ent);
 
 				if (ent.hasComponent<examplecomp>())
 					componentEditor<examplecomp>(ent);
@@ -145,13 +158,13 @@ namespace rythe::game
 			const float width = viewportPanelSize.x;
 			const float height = viewportPanelSize.y;
 			math::vec2 windowPos = math::vec2(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y);
-			gfx::Renderer::RI->setViewport(1, 0, 0, width, height);
+			//gfx::Renderer::RI->setViewport(1, 0, 0, width, height);
 			mainFBO->rescale(width, height);
 			gfx::WindowProvider::activeWindow->checkError();
 			pickingFBO->rescale(width, height);
 			gfx::WindowProvider::activeWindow->checkError();
 
-			if (!Input::mouseCaptured && m_readPixel && ImGui::IsWindowHovered())
+			if (!Input::mouseCaptured && m_readPixel && ImGui::IsWindowHovered() && !ImGuizmo::IsOver())
 			{
 				auto color = gfx::Renderer::RI->readPixels(*pickingFBO, math::ivec2(input::Input::mousePos.x, input::Input::mousePos.y) - windowPos, math::ivec2(1, 1));
 				rsl::id_type id = color.x + (color.y * 256) + (color.z * 256 * 256) + (color.w * 256 * 256 * 256);
@@ -209,6 +222,7 @@ namespace rythe::game
 			}
 		}
 	}
+
 	void GUISystem::lightEditor(core::ecs::entity ent)
 	{
 		ImGui::PushID(std::format("EntityLightEditor##{}", ent->id).c_str());
@@ -336,6 +350,25 @@ namespace rythe::game
 			renderer.dirty = true;
 		}
 	}
+
+	void GUISystem::createEmptyEntity()
+	{
+		auto ent = createEntity();
+		ent.addComponent<core::transform>();
+	}
+	void GUISystem::createCubeEntity()
+	{
+		auto ent = createEntity();
+		ent.addComponent<core::transform>();
+		ent.addComponent<gfx::mesh_renderer>({ .mainMaterial = gfx::MaterialCache::getMaterial("cube-material"), .model = gfx::ModelCache::getModel("cube"), .castShadows = false });
+	}
+	void GUISystem::createSphereEntity()
+	{
+		auto ent = createEntity();
+		ent.addComponent<core::transform>();
+		ent.addComponent<gfx::mesh_renderer>({ .mainMaterial = gfx::MaterialCache::getMaterial("sphere-material"), .model = gfx::ModelCache::getModel("sphere"), .castShadows = false });
+	}
+
 	void GUISystem::drawGizmo(core::transform camTransf, gfx::camera camera, math::ivec2 dims)
 	{
 		if (GUI::selected == invalid_id || !GUI::selected.hasComponent<core::transform>()) return;
@@ -369,9 +402,17 @@ namespace rythe::game
 	{
 		if (Input::mouseCaptured) return;
 
+		if (action.isPressed() && !Input::isPressed)
+		{
+			Input::isPressed = true;
+			m_readPixel = true;
+			return;
+		}
+
 		if (action.wasPressed())
 		{
-			m_readPixel = true;
+			Input::isPressed = false;
+			return;
 		}
 	}
 	void GUISystem::framebuffer_size_callback(GLFWwindow* window, int width, int height)

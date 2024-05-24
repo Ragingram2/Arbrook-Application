@@ -1,0 +1,10 @@
+{
+    "shaderPath":"resources/shaders/lit.shader",
+    "parameters" : {
+        "Albedo": {
+            "register": 0,
+            "type": "Texture",
+            "value": "resources/textures/test/test_albedo.png"
+        }
+    }
+}

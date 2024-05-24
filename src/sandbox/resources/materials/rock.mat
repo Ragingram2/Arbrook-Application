@@ -1,0 +1,25 @@
+{
+    "shaderPath":"resources/shaders/lit.shader",
+    "parameters" : {
+        "Albedo": {
+            "register": 0,
+            "type": "Texture",
+            "value": "resources/textures/rock/rock_diffuse.png"
+        },
+        "Roughness": {
+            "register": 1,
+            "type": "Texture",
+            "value": "resources/textures/rock/rock_specular.png"
+        },
+        "Normal": {
+            "register": 2,
+            "type": "Texture",
+            "value": "resources/textures/rock/rock_normal.png"
+        },        
+        "Height": {
+            "register": 3,
+            "type": "Texture",
+            "value": "resources/textures/default/default-height.png"
+        }
+    }
+}

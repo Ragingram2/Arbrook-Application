@@ -1,0 +1,20 @@
+{
+    "shaderPath":"resources/shaders/lit.shader",
+    "parameters" : {
+        "Diffuse": {
+            "register": 0,
+            "type": "Texture",
+            "value": "resources/textures/default/default-albedo.png"
+        },
+        "Roughness": {
+            "register": 1,
+            "type": "Texture",
+            "value": "resources/textures/default/default-roughness.png"
+        },
+        "Metallic": {
+            "register": 4,
+            "type": "Texture",
+            "value": "resources/textures/default/default-metallic.png"
+        }
+    }
+}

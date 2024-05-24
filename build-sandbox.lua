@@ -1,13 +1,10 @@
 createProject("applications","sandbox","ConsoleApp")
 targetdir "$(SolutionDir)bin\\build\\"
 defines{
-    "TRACY_IMPORTS",
-    "BX_CONFIG_DEBUG",
-    "BGFX_CONFIG_RENDERER_OPENGL=44"
+    "TRACY_IMPORTS"
 }
 includedirs {
-    basicIncludes,
-    "include/bx/include/compat/msvc/"
+    basicIncludes
 }   
 
 files { 
