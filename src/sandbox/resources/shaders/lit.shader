@@ -215,7 +215,7 @@ namespace fragment
 		
 
 		float roughness = pow(roughnessValue, 4.0);//0: ideal smooth, 1: max roughness, usualy raised to the pow of 2 but disney said, nah 4's better
-		float NDF = DistributionGGX(NdotH, roughness);
+		float NDF = DistributeGGX(NdotH, roughness);
 		float G = GeometrySmith(NdotV, NdotL, roughness);//Gv*Gl;
 
 		float3 F0 = lerp(float3(0.04,0.04,0.04), diffuseColor, float3(metallicValue, metallicValue, metallicValue));
@@ -265,7 +265,7 @@ namespace fragment
 			float3 radiance = u_pointLights[i].color.rgb * attenuation * 255.0;
 
 			float roughness = pow(roughnessValue, 4.0);
-			float NDF = DistributionGGX(NdotH, roughness);
+			float NDF = DistributeGGX(NdotH, roughness);
 			float G = GeometrySmith(NdotV, NdotL, roughness);//Gv*Gl;
 
 			float3 F = fresnelSchlick(VdotH, F0);

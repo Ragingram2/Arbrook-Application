@@ -1,0 +1,25 @@
+{
+    "shaderPath":"resources/shaders/pbr.shader",
+    "parameters" : {
+        "Albedo": {
+            "register": 0,
+            "type": "Texture",
+            "value": "resources/textures/bog/bog-albedo-512.png"
+        },
+        "NormalHeight": {
+            "register": 1,
+            "type" : "Texture",
+            "value": "resources/textures/bog/bog-normalHeight-512.png"
+        },
+        "MRDAo": {
+            "register": 2,
+            "type": "Texture",
+            "value": "resources/textures/bog/bog-MRDAo-512.png"
+        },
+        "Emissive": {
+            "register": 3,
+            "type": "Texture",
+            "value": "resources/textures/bog/bog-emissive-512.png"
+        }
+    }
+}

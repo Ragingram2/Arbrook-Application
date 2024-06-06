@@ -8,7 +8,7 @@ namespace rythe::game
 	{
 		log::info("Initializing Game system");
 		bindEvent<key_input<inputmap::method::F1>, &Game::reloadShaders>();
-		bindEvent<key_input<inputmap::method::ESCAPE>, &Game::toggleMouseCapture>();
+		bindEvent<key_input<inputmap::method::MOUSE_RIGHT>, &Game::toggleMouseCapture>();
 
 		input::InputSystem::registerWindow(gfx::Renderer::RI->getGlfwWindow());
 
@@ -74,7 +74,7 @@ namespace rythe::game
 			transf.scale = math::vec3::one;
 			transf.position = math::vec3(0.0f, 10.0f, 0.0f);
 			transf.rotation = math::toQuat(math::vec3(-90.0f,0.0f,0.0f));
-			ent.addComponent<gfx::mesh_renderer>({ .mainMaterial = gfx::MaterialCache::getMaterial("damagedhelmet-material"), .model = gfx::ModelCache::getModel("damagedhelmet"), .castShadows = true });
+			ent.addComponent<gfx::mesh_renderer>({ .mainMaterial = gfx::MaterialCache::getMaterial("bog"), .model = gfx::ModelCache::getModel("cube"), .castShadows = true });
 		}
 
 		{
@@ -103,10 +103,19 @@ namespace rythe::game
 			camera.addComponent<gfx::camera>({ .farZ = 10000.f, .nearZ = 0.1f, .fov = 90.f });
 			camera.addComponent<camera_settings>({ .mode = CameraControlMode::FreeLook, .speed = 10.0f, .sensitivity = .9f });
 		}
+
+		//future = TimerAsync(30s, []() {log::debug("Timer Finished"); });
 	}
 
 	void Game::update()
 	{
 		ZoneScopedN("Game Update");
+
+		//auto deltaTime = static_cast<std::chrono::duration<float, std::milli>>(core::Time::deltaTime);
+		//auto status = future.wait_for(deltaTime);
+		//if (status != std::future_status::ready)
+		//{
+		//	log::debug("Processing....");
+		//}
 	}
 }

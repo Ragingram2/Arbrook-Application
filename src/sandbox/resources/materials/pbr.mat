@@ -1,20 +1,25 @@
 {
-    "shaderPath":"resources/shaders/lit.shader",
+    "shaderPath":"resources/shaders/pbr.shader",
     "parameters" : {
-        "Diffuse": {
+        "Albedo": {
             "register": 0,
             "type": "Texture",
-            "value": "resources/textures/default/default-albedo.png"
+            "value": "resources/textures/copper/copper-albedo.png"
         },
-        "Roughness": {
+        "NormalHeight": {
             "register": 1,
-            "type": "Texture",
-            "value": "resources/textures/default/default-roughness.png"
+            "type" : "Texture",
+            "value": "resources/textures/copper/copper-normalHeight.png"
         },
-        "Metallic": {
-            "register": 4,
+        "MRDAo": {
+            "register": 2,
             "type": "Texture",
-            "value": "resources/textures/default/default-metallic.png"
+            "value": "resources/textures/copper/copper-MRDAo.png"
+        },
+        "Emissive": {
+            "register": 3,
+            "type": "Texture",
+            "value": "resources/textures/copper/copper-emissive.png"
         }
     }
 }

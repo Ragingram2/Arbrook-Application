@@ -1,4 +1,7 @@
 #include "utils.shinc"
+#include "camera_utils.shinc"
+#include "texture_defines.shinc"
+
 #define NR_POINT_LIGHTS 8
 #define NR_DIR_LIGHTS 1
 
@@ -20,6 +23,21 @@ struct DirLight
 	float4 direction;
 	float4 color;
 	float intensity;
+};
+
+struct Material
+{
+	float3x3 tbn;
+	float height;
+	float4 albedo;
+	float3 normal;
+	float metallic;
+	float emissive;
+	float roughness;
+	float dielectric;
+	float ambientOcclusion;
+	float2 texCoords;
+	float3 F0;
 };
 
 cbuffer DirectionalLightBuffer : register(b1)
@@ -64,18 +82,17 @@ float2 SkyboxUV(float3 direction)
     return float2(1.0 - (atan2(horDir.y,horDir.x) / (2.0 * PI)), 1.0 - (acos(dot(float3(0.0, 1.0, 0.0), direction)) / PI));
 }
 
-float DistributionGGX(float NdotH, float roughness)
+float DistributeGGX(float NdotH, float roughness)
 {
 	float a = roughness * roughness;
 	float a2 = a * a;
 
 	float NdotH2 = NdotH * NdotH;
 
-	float num = a2;
 	float denom = (NdotH2 * (a2 - 1.0) + 1.0);
-	denom = PI * denom *denom;
+	denom = PI * denom * denom;
 
-	return num/denom;
+	return a2/denom;
 }
 
 float GeometrySchlickGGX(float NdotV, float roughness)
@@ -97,7 +114,199 @@ float GeometrySmith(float NdotV, float NdotL, float roughness)
 	return ggx1 * ggx2;
 }
 
-float3 fresnelSchlick(float cosTheta, float3 F0)
+float3 CookTorranceBRDF(float normalDistribution, float3 fresnelReflection, float geometryShadowing, float normalDotLight, float normalDotView)
 {
-	return F0 + (1.0 - F0) * pow(clamp(1.0 - cosTheta, 0.0, 1.0), 5.0);
+    return normalDistribution * fresnelReflection * geometryShadowing/ 4.0  * normalDotLight * normalDotView;
 }
+
+float3 LambertianDiffuse(float3 kS, float3 albedo, float metallic)
+{
+	float3 kD = (float3(1.0,1.0,1.0) - kS) * (1.0 - metallic);
+	return kD * albedo * (1.0/PI);
+}
+
+float3 fresnelSchlick(float halfwayDotView, float3 F0)
+{
+	return lerp(pow(1.0 - halfwayDotView, 5.0).xxx, float3(1.0,1.0,1.0).rgb, F0);
+}
+
+float3 Fresnel0(float4 albedo, float metallic, float dielectric)
+{
+	return lerp(dielectric.xxx, albedo.rgb, metallic.xxx);
+}
+
+#ifdef fragment
+
+#ifdef MATERIAL_INPUT
+    Texture2D albedoTexture : Texture2;
+    SamplerState albedoSampler : TexSampler2;
+    Texture2D normalHeight : Texture3;
+    SamplerState normalHeightSampler : TexSampler3;
+    Texture2D MRDAo : Texture4;
+    SamplerState MRDAoSampler : TexSampler4;
+    Texture2D emissiveTexture : Texture5;
+    SamplerState emissiveSampler : TexSampler5;
+
+float3 NormalMap(float2 uv, float3x3 tbn)
+{
+	return normalize(transpose(tbn) * normalize(normalHeight.Sample(normalHeightSampler,uv).xyz * 2.0 - 1.0));
+}
+
+float4 AlbedoMap(float4 color, float2 uv)
+{
+    return pow(albedoTexture.Sample(albedoSampler, uv).rgba * color, float4(float3(2.2,2.2,2.2), 1.0));
+}
+
+float4 LightingData(float2 uv)
+{
+	return MRDAo.Sample(MRDAoSampler, uv);
+}
+
+float3 EmissiveMap(float2 uv)
+{
+	return emissiveTexture.Sample(emissiveSampler, uv).rgb;
+}
+
+float2 ParallaxMap(float scale, float2 texCoord, float3x3 tbn, out float height)
+{
+	// height = 0;
+	// return texCoord;
+
+	if(scale <= EPSILON)
+		return texCoord;
+
+	float3 tangentViewDir = tbn * normalize(u_viewPosition).xyz;
+
+	const float minLayers = 8.0;
+	float distScale = 1.0 - clamp(length(u_viewPosition.xyz)/500.0,0.0,1.0);
+	distScale = 1.0 - (distScale * distScale);
+	float maxLayers = lerp(64.0, 8.0, distScale);
+	float layerCount = lerp(minLayers, maxLayers, abs(dot(float3(0.0,0.0,1.0), tangentViewDir)));
+
+	float layerDepth = 1.0 / layerCount;
+	float currentLayerDepth = 0.0;
+	float prevLayerDepth = 0.0;
+
+	float2 P = (tangentViewDir.xy/max(tangentViewDir.z, 1.0)) * scale * float2(-0.1,0.1);
+	float2 deltaUV = P / layerCount;
+
+	float2 currentUV = texCoord;
+	float2 prevUV = currentUV;
+
+//#ifdef HEIGHT_MAP_R
+	float currentDepthMapValue = max(normalHeight.Sample(normalHeightSampler, currentUV).r, EPSILON);
+// #else
+// 	float currentDepthMapValue = max(normalHeight.Sample(normalHeightSampler, currentUV).a, EPSILON);
+// #endif
+
+	height = currentDepthMapValue;
+	float prevDepthMapValue = currentDepthMapValue;
+
+	while(currentLayerDepth < currentDepthMapValue)
+	{
+		prevUV = currentUV;
+		currentUV -= deltaUV;
+
+		prevDepthMapValue = currentDepthMapValue;
+
+//#ifdef HEIGHT_MAP_R
+		float currentDepthMapValue = max(normalHeight.Sample(normalHeightSampler, currentUV).r, EPSILON);
+// #else
+// 		float currentDepthMapValue = max(normalHeight.Sample(normalHeightSampler, currentUV).a, EPSILON);
+// #endif
+		prevLayerDepth = currentLayerDepth;
+		currentLayerDepth += layerDepth;
+	}
+
+	float afterDepth = currentDepthMapValue - currentLayerDepth;
+	float beforeDepth = prevDepthMapValue - prevLayerDepth;
+	float weight = afterDepth / (afterDepth - beforeDepth);
+	return lerp(currentUV, prevUV, weight);
+}
+
+static float heightScale = 0.1;
+
+Material ExtractMaterial(float2 texCoord, float3 worldNormal, float3 worldTangent)
+{
+	Material material;
+	material.tbn = GetTBN(worldNormal, worldTangent);
+	material.texCoords = texCoord;//ParallaxMap(normalHeight, heightScale, texCoord, material.tbn, material.height);
+	material.albedo = AlbedoMap(float4(1.0, 1.0, 1.0, 1.0), material.texCoords);
+	material.normal = NormalMap(material.texCoords, material.tbn);
+	float4 MRDAo = LightingData(material.texCoords);
+	material.metallic = min(MRDAo.r, 1.0 - EPSILON);
+	material.roughness = MRDAo.g;
+	material.dielectric = MRDAo.b;
+	material.ambientOcclusion = MRDAo.a;
+	material.F0 = Fresnel0(material.albedo, material.metallic, material.dielectric);
+	material.emissive = EmissiveMap(material.texCoords);
+
+	return material;
+}
+
+
+float2 ParallaxMap(float height, float scale, float2 texCoord, float3x3 tbn)
+{
+	float3 tangentViewDir = tbn * normalize(u_viewPosition.xyz);
+
+	float offset = height * scale;
+	float2 parallexOffset = (tangentViewDir.xy / tangentViewDir.z) * offset * float2(-0.1, 0.1);
+    return texCoord - parallexOffset;
+}
+
+static float ambientIntensity = 1.0;
+
+float3 GetAmbientLight(float ambientOcclusion, float3 albedo)
+{
+    return (pow(ambientIntensity, 1.1) * 0.0001).xxx * ambientOcclusion.xxx * albedo;
+}
+
+//for now we'll calculate just point lights
+float3 CalculateLight(DirLight light, Material material, float3 worldPosition)
+{
+	float3 lightDirection = light.direction;
+	float intensity = light.intensity;
+
+	ambientIntensity += (intensity * 1.5) - (intensity * 0.5);
+
+	// float attenuation = Attenuation(worldPosition, float3(0.0,0.0,0.0), 10000, intensity);
+	// if(attenuation <= 0.0)
+	// 	return float3(0.0,1.0,0.0);
+	
+	float3 radiance = light.color * 1.0;
+
+	float3 viewDir = normalize(u_viewPosition.xyz);
+
+	float3 halfwayVector = normalize(lightDirection + viewDir);
+
+	float HDotV = max(dot(halfwayVector, viewDir), 0.0);
+	float NDotH = max(dot(material.normal, halfwayVector), 0.0);
+	float NDotV = max(dot(material.normal, viewDir), 0.0);
+	float NDotL = max(dot(material.normal, lightDirection), 0.0);
+
+	float roughness = pow(material.roughness, 0.5);
+	float metallic = pow(material.metallic, 0.5);
+
+	//cook-torrance brdf
+	float3 fresnelReflection = fresnelSchlick(lerp(HDotV, 1.0, roughness), material.F0);
+	float normalDistribution = DistributeGGX(NDotH, roughness);
+	float geometryShadowing = GeometrySmith(NDotV, NDotL, roughness);
+
+	float3 specular = CookTorranceBRDF(normalDistribution, fresnelReflection, geometryShadowing, NDotL, NDotV);
+
+	float3 diffuse = LambertianDiffuse(fresnelReflection, material.albedo.rgb, metallic);
+
+	return max((diffuse + specular) * radiance * NDotL.xxx, float3(0.0,0.0,0.0));
+}
+
+float3 GetAllLighting(Material material, float3 worldPosition)
+{
+	float3 lighting = float3(0.0,0.0,0.0);
+	//for(int i = 0; i < NR_POINT_LIGHTS; i++)
+		lighting = CalculateLight(u_dirLights[0], material, worldPosition);
+	
+
+	return lighting + GetAmbientLight(material.ambientOcclusion, material.albedo.rgb);
+}
+#endif//MATERIAL_INPUT
+#endif//fragment

@@ -41,3 +41,16 @@ float4x4 inverse(float4x4 m) {
 
     return ret;
 }
+
+float3 GetWorldBitangent(float3 worldNormal, float3 worldTangent)
+{
+	return normalize(cross(worldNormal, worldTangent));
+}
+
+
+float3x3 GetTBN(float3 worldNormal, float3 worldTangent)
+{
+    float3 orthogonalizedTangent = normalize(worldTangent - dot(worldTangent, worldNormal) * worldNormal);
+    float3 worldBitangent = GetWorldBitangent(worldNormal, orthogonalizedTangent);
+    return transpose(float3x3(orthogonalizedTangent, worldBitangent, worldNormal));
+}

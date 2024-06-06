@@ -1,7 +1,9 @@
 namespace vertex
 {
+    #define VERTEX
     #include "camera_utils.shinc"
     #include "light_utils.shinc"
+
     struct VIn
     {
         float4 position : POSITION;
@@ -23,6 +25,7 @@ namespace vertex
 
 namespace fragment
 {
+    #define FRAGMENT
     struct PIn
 	{
 		float4 position : SV_POSITION;

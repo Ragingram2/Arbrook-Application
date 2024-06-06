@@ -1,4 +1,9 @@
 #pragma once
+#include <chrono>
+#include <functional>
+#include <thread>
+#include <future>
+
 #include <filesystem>
 #include <rfl.hpp>
 #include <rfl/json.hpp>
@@ -13,6 +18,7 @@
 
 namespace rythe::game
 {
+	using namespace std::chrono_literals;
 	using namespace rythe::core::events;
 	namespace fs = std::filesystem;
 	namespace ast = rythe::core::assets;
@@ -24,6 +30,8 @@ namespace rythe::game
 		ast::asset_handle<gfx::material> mat;
 		ast::asset_handle<gfx::material> lit;
 		ast::asset_handle<gfx::material> colorMat;
+
+		std::future<void> future;
 
 	public:
 		void setup();
@@ -38,12 +46,27 @@ namespace rythe::game
 			}
 		}
 
-		void toggleMouseCapture(key_input<inputmap::method::ESCAPE>& input)
+		void toggleMouseCapture(key_input<inputmap::method::MOUSE_RIGHT>& input)
 		{
 			if (input.isPressed())
 			{
-				Input::mouseCaptured = !Input::mouseCaptured;
+				Input::mouseCaptured = true;
 			}
+
+			if (input.wasPressed())
+			{
+				Input::mouseCaptured = false;
+			}
+		}
+
+		template<class _Rep, class _Period>
+		std::future<void> TimerAsync(std::chrono::duration<_Rep, _Period> duration, std::function<void()> callback)
+		{
+			return std::async(std::launch::async, [duration, callback]()
+				{
+					std::this_thread::sleep_for(duration);
+					callback();
+				});
 		}
 	};
 }

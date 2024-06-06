@@ -1,3 +1,5 @@
+#ifndef CAMERA
+#define CAMERA
 cbuffer CameraBuffer : register(b0)
 {
 	float4 u_viewPosition;
@@ -5,3 +7,5 @@ cbuffer CameraBuffer : register(b0)
 	matrix u_view;
 	matrix u_model;
 };
+
+#endif
