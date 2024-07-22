@@ -36,8 +36,8 @@ namespace fragment
 
 	float main(PIn input) : SV_DEPTH 
     {
-		float z = (input.position.z * 2.0) - 1.0;
-        float linDepth = (2.0 * near * far) / ((far + near) - z * (far - near));
+		// float z = (input.position.z * 2.0) - 1.0;
+        // float linDepth = (2.0 * near * far) / ((far + near) - z * (far - near));
 
         return input.position.z;
     }

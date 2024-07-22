@@ -52,28 +52,28 @@ namespace rythe::game
 			skyboxRenderer.skyboxTex = gfx::TextureCache::getTexture("park");
 		}
 
-		//{
-		//	auto ent = createEntity("Floor");
-		//	auto& transf = ent.addComponent<core::transform>();
-		//	transf.scale = math::vec3(20, .5f, 20);
-		//	transf.position = math::vec3(0.0f, 0.0f, 0.0f);
-		//	ent.addComponent<gfx::mesh_renderer>({ .mainMaterial = mat, .model = gfx::ModelCache::getModel("cube") ,.castShadows = false });
-		//}
+		{
+			auto ent = createEntity("Floor");
+			auto& transf = ent.addComponent<core::transform>();
+			transf.scale = math::vec3(20, .5f, 20);
+			transf.position = math::vec3(0.0f, 0.0f, 0.0f);
+			ent.addComponent<gfx::mesh_renderer>({ .mainMaterial = mat, .model = gfx::ModelCache::getModel("cube") ,.castShadows = false });
+		}
 
-		//{
-		//	auto ent = createEntity("Sponza");
-		//	auto& transf = ent.addComponent<core::transform>();
-		//	transf.scale = math::vec3::one * 10.0f;
-		//	transf.position = math::vec3(0.0f, 10.0f, 0.0f);
-		//	ent.addComponent<gfx::mesh_renderer>({ .mainMaterial = gfx::MaterialCache::getMaterial("sponza-material"), .model = gfx::ModelCache::getModel("sponza"), .castShadows = true });
-		//}
+		{
+			auto ent = createEntity("Sponza");
+			auto& transf = ent.addComponent<core::transform>();
+			transf.scale = math::vec3::one * 10.0f;
+			transf.position = math::vec3(0.0f, 10.0f, 0.0f);
+			ent.addComponent<gfx::mesh_renderer>({ .mainMaterial = gfx::MaterialCache::getMaterial("sponza-material"), .model = gfx::ModelCache::getModel("sponza"), .castShadows = true });
+		}
 
 		{
 			auto ent = createEntity("Entity");
 			auto& transf = ent.addComponent<core::transform>();
 			transf.scale = math::vec3::one;
 			transf.position = math::vec3(0.0f, 10.0f, 0.0f);
-			transf.rotation = math::toQuat(math::vec3(-90.0f,0.0f,0.0f));
+			transf.rotation = math::toQuat(math::vec3(-90.0f, 0.0f, 0.0f));
 			ent.addComponent<gfx::mesh_renderer>({ .mainMaterial = gfx::MaterialCache::getMaterial("bog"), .model = gfx::ModelCache::getModel("cube"), .castShadows = true });
 		}
 

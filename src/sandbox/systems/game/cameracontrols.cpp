@@ -26,9 +26,13 @@ namespace rythe::game
 		auto& camSettings = camera.getComponent<camera_settings>();
 		auto& transf = camera.getComponent<core::transform>();
 
-		auto leftRight = input.m_values["Left/Right"];
-		auto forwardBackward = input.m_values["Forward/Backward"];
-		auto upDown = input.m_values["Up/Down"];
+		//auto leftRight = input.m_values["Left/Right"];
+		//auto forwardBackward = input.m_values["Forward/Backward"];
+		//auto upDown = input.m_values["Up/Down"];
+
+		auto leftRight = input.getValue(0);
+		auto forwardBackward = input.getValue(1);
+		auto upDown = input.getValue(2);
 		velocity += transf.right() * leftRight;
 		velocity += transf.forward() * forwardBackward;
 		velocity += transf.up() * upDown;

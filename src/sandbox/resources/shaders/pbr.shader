@@ -68,17 +68,18 @@ namespace fragment
 	float4 main(PIn input) : SV_TARGET
 	{
         
-        float3 tangent = normalize(input.tangent - dot(input.tangent , input.normal) * input.normal);
+        // float3 tangent = normalize(input.tangent - dot(input.tangent , input.normal) * input.normal);
 
-        Material material = ExtractMaterial(input.texCoords, input.normal, tangent);
+        // Material material = ExtractMaterial(input.texCoords, input.normal, tangent);
         
-        if(material.texCoords.x < 0 || material.texCoords.x > 1 || material.texCoords.y < 0 || material.texCoords.y > 1)
-            discard;
+        // if(material.texCoords.x < 0 || material.texCoords.x > 1 || material.texCoords.y < 0 || material.texCoords.y > 1)
+        //     discard;
 
-        float3 worldPos = (input.normal * material.height) + input.position;
+        // float3 worldPos = (input.normal * material.height) + input.position;
 
-        float3 result = GetAllLighting(material, worldPos);
+        // float3 result = GetAllLighting(material, worldPos);
 
-		return float4(result, material.albedo.a);
+		//return float4(result, material.albedo.a);
+        return float4(1,0,0,1);
 	}
 }

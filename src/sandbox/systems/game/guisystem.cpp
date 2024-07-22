@@ -48,6 +48,7 @@ namespace rythe::game
 		ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 
 		//ImGui::ShowDemoWindow();
+		ImGui::ShowMetricsWindow();
 
 		if (ImGui::BeginMenuBar())
 		{
@@ -70,7 +71,7 @@ namespace rythe::game
 			drawHeirarchy(m_filter.m_entities);
 			ImGui::Unindent();
 
-			
+
 			if (ImGui::BeginPopupContextWindow())
 			{
 				if (ImGui::MenuItem("New Empty"))
@@ -113,7 +114,7 @@ namespace rythe::game
 
 				if (ent.hasComponent<gfx::light>())
 					lightEditor(ent);
-					//componentEditor<gfx::light>(ent);
+				//componentEditor<gfx::light>(ent);
 
 				if (ent.hasComponent<examplecomp>())
 					componentEditor<examplecomp>(ent);
@@ -149,20 +150,22 @@ namespace rythe::game
 
 		if (ImGui::Begin("Scene", 0, ImGuiWindowFlags_NoBackground))
 		{
-#ifdef RenderingAPI_OGL
-			auto mainTex = mainFBO->getAttachment(gfx::AttachmentSlot::COLOR0).m_data->getId();
-#else
-			auto mainTex = mainFBO->getAttachment(gfx::AttachmentSlot::COLOR0).m_data->getInternalHandle();
-#endif
+
 			ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 			const float width = viewportPanelSize.x;
 			const float height = viewportPanelSize.y;
 			math::vec2 windowPos = math::vec2(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y);
-			//gfx::Renderer::RI->setViewport(1, 0, 0, width, height);
-			mainFBO->rescale(width, height);
-			gfx::WindowProvider::activeWindow->checkError();
-			pickingFBO->rescale(width, height);
-			gfx::WindowProvider::activeWindow->checkError();
+			//gfx::Renderer::RI->setViewport(1, 0, 0, width, height, 0, 1);
+			//gfx::Renderer::RI->resize(width, height);
+			//mainFBO->rescale(width, height);
+			//pickingFBO->rescale(width, height);
+
+#ifdef RenderingAPI_OGL
+			auto mainTex = mainFBO->getAttachment(gfx::AttachmentSlot::COLOR0).m_data->getId();
+#else
+			mainFBO->getAttachment(gfx::AttachmentSlot::COLOR0)->unbind(gfx::TextureSlot::TEXTURE0);
+			auto mainTex = mainFBO->getAttachment(gfx::AttachmentSlot::COLOR0).m_data->getInternalHandle();
+#endif
 
 			if (!Input::mouseCaptured && m_readPixel && ImGui::IsWindowHovered() && !ImGuizmo::IsOver())
 			{
@@ -180,8 +183,8 @@ namespace rythe::game
 				m_readPixel = false;
 			}
 
-			/*		if (mainTex != nullptr)*/
-			ImGui::Image(reinterpret_cast<ImTextureID>(mainTex), ImVec2(width, height), ImVec2(0, 1), ImVec2(1, 0));
+			if (mainTex != nullptr)
+				ImGui::Image(reinterpret_cast<ImTextureID>(mainTex), ImVec2(width, height));
 			if (GUI::selected != invalid_id)
 				drawGizmo(camTransf, camera, math::ivec2(width, height));
 
@@ -417,7 +420,8 @@ namespace rythe::game
 	}
 	void GUISystem::framebuffer_size_callback(GLFWwindow* window, int width, int height)
 	{
-		gfx::Renderer::RI->setViewport(1, 0, 0, width, height);
+		gfx::Renderer::RI->resize(width, height);
+		//gfx::Renderer::RI->setViewport(1, 0, 0, width, height);
 		mainFBO->rescale(width, height);
 	}
 	void GUISystem::pushDisabledInspector()
