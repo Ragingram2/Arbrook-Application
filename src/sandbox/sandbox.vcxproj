@@ -104,6 +104,7 @@
       <AdditionalOptions>-Wno-nonportable-include-path -Wno-reorder-init-list -Wno-reorder-ctor -Wno-c99-designator -Wno-microsoft-exception-spec -Wno-class-conversion -Wno-new-returns-null %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

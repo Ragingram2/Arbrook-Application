@@ -148,17 +148,25 @@ namespace rythe::game
 			}
 		}
 
-		if (ImGui::Begin("Scene", 0, ImGuiWindowFlags_NoBackground))
+		if (ImGui::Begin("Asset Browser"))
+		{
+			ImGui::End();
+		}
+
+		int flags = ImGuiWindowFlags_NoBackground| ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollWithMouse;
+		if (ImGui::Begin("Scene", 0, flags))
 		{
 
 			ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 			const float width = viewportPanelSize.x;
 			const float height = viewportPanelSize.y;
 			math::vec2 windowPos = math::vec2(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y);
-			//gfx::Renderer::RI->setViewport(1, 0, 0, width, height, 0, 1);
-			//gfx::Renderer::RI->resize(width, height);
-			//mainFBO->rescale(width, height);
-			//pickingFBO->rescale(width, height);
+			auto windowRes = gfx::WindowProvider::activeWindow->getResolution();
+			gfx::Renderer::RI->setViewport(1, 0, 0, width, height);
+			float imageWidth = width > 1280.f ? width : 1280.f;
+			float imageHeight = height > 720.f ? height : 720.f;
+			mainFBO->rescale(imageWidth, imageHeight);
+			pickingFBO->rescale(imageWidth, imageHeight);
 
 #ifdef RenderingAPI_OGL
 			auto mainTex = mainFBO->getAttachment(gfx::AttachmentSlot::COLOR0).m_data->getId();
@@ -183,13 +191,16 @@ namespace rythe::game
 				m_readPixel = false;
 			}
 
-			if (mainTex != nullptr)
-				ImGui::Image(reinterpret_cast<ImTextureID>(mainTex), ImVec2(width, height));
+
+			if (mainTex != 0)
+				ImGui::Image(reinterpret_cast<ImTextureID>(mainTex), ImVec2(imageWidth, imageHeight), ImVec2(0, 1), ImVec2(1, 0));
 			if (GUI::selected != invalid_id)
-				drawGizmo(camTransf, camera, math::ivec2(width, height));
+				drawGizmo(camTransf, camera, math::ivec2(imageWidth, imageHeight));
 
 			ImGui::End();
 		}
+
+
 
 		ImGui::End();
 		ImGui::PopStyleVar(3);
