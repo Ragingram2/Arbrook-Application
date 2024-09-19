@@ -78,12 +78,14 @@ namespace rythe::game
 		template<typename Component>
 		inline void componentEditor(core::ecs::entity ent)
 		{
-			auto& comp = ent.getComponent<Component>();
-			auto compName = ecs::Registry::componentNames[rsl::typeHash<Component>()];
+			Component& comp = ent.getComponent<Component>();
+			const std::string& compName = ecs::Registry::componentNames[rsl::typeHash<Component>()];
 			ImGui::PushID(std::format("Entity_{}##{}", compName.c_str(), ent->id).c_str());
 			if constexpr (!std::is_same<Component, core::transform>::value)
 			{
-				ImGui::Checkbox("", &comp.enabled);
+				bool b = comp.enabled;
+				ImGui::Checkbox("", &b);
+				comp.enabled = b;
 				ImGui::SameLine();
 			}
 			bool open = ImGui::TreeNodeEx(compName.c_str(), ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_NoTreePushOnOpen);
@@ -94,9 +96,15 @@ namespace rythe::game
 			{
 				if constexpr (std::is_same<Component, gfx::mesh_renderer>::value)
 				{
-					const auto view = rfl::to_view(comp.reflection());
-					const auto fields = rfl::fields<gfx::mesh_rendererImpl>();
-					unrollFields([&fields, &view]<size_t i>() { DrawField(fields[i].name().c_str(), i, *rfl::get<i>(view)); }, std::make_index_sequence<view.size()>{});
+					auto view = rfl::to_view(comp);
+					auto fields = rfl::fields<gfx::mesh_renderer>();
+
+					unrollFields([&fields, &view]<size_t i>()
+					{
+						DrawField(fields[i].name().c_str(), i, *view.template get<i>());
+					}, std::make_index_sequence<view.size()>{});
+					//comp = rfl::from_named_tuple<gfx::mesh_renderer>(view);
+
 				}
 				else if constexpr (std::is_same<Component, gfx::light>::value)
 				{
@@ -104,20 +112,28 @@ namespace rythe::game
 					{
 						const auto view = rfl::to_view(comp.reflectionDirLight());
 						const auto fields = rfl::fields<gfx::dir_light_data_impl>();
-						unrollFields([&fields, &view]<size_t i>() { DrawField(fields[i].name().c_str(), i, *rfl::get<i>(view)); }, std::make_index_sequence<view.size()>{});
+						unrollFields([&fields, &view]<size_t i>()
+						{
+							DrawField(fields[i].name().c_str(), i, *rfl::get<i>(view));
+						}, std::make_index_sequence<view.size()>{});
 					}
 					else if (comp.type == gfx::LightType::POINT)
 					{
 						const auto view = rfl::to_view(comp.reflectionPointLight());
 						const auto fields = rfl::fields<gfx::point_light_data_impl>();
-						unrollFields([&fields, &view]<size_t i>() { DrawField(fields[i].name().c_str(), i, *rfl::get<i>(view)); }, std::make_index_sequence<view.size()>{});
+						unrollFields([&fields, &view]<size_t i>()
+						{
+							DrawField(fields[i].name().c_str(), i, *rfl::get<i>(view));
+						}, std::make_index_sequence<view.size()>{});
 					}
 				}
 				else
 				{
 					const auto view = rfl::to_view(comp);
 					const auto fields = rfl::fields<Component>();
-					unrollFields([&fields, &view]<size_t i>() { DrawField(fields[i].name().c_str(), i, *rfl::get<i>(view)); }, std::make_index_sequence<view.size()>{});
+					unrollFields([&fields, &view]<size_t i>() {
+						DrawField(fields[i].name().c_str(), i, *rfl::get<i>(view));
+					}, std::make_index_sequence<view.size()>{});
 				}
 
 			}
@@ -189,7 +205,11 @@ namespace rythe::game
 	template<>
 	inline bool DrawField<bool>(const char* label, int index, bool& field)
 	{
-		return ImGui::Checkbox(std::format("{}##{}", label, index).c_str(), &field);
+		log::debug("Bool Field Before: {}", field);
+		bool b = ImGui::Checkbox(std::format("{}##{}", label, index).c_str(), &field);
+		if (b)
+			log::debug("Bool Field After: {}", field);
+		return b;
 	}
 
 	template<>

@@ -161,7 +161,6 @@ namespace rythe::game
 			const float width = viewportPanelSize.x;
 			const float height = viewportPanelSize.y;
 			math::vec2 windowPos = math::vec2(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y);
-			auto windowRes = gfx::WindowProvider::activeWindow->getResolution();
 			gfx::Renderer::RI->setViewport(1, 0, 0, width, height);
 			float imageWidth = width > 1280.f ? width : 1280.f;
 			float imageHeight = height > 720.f ? height : 720.f;
