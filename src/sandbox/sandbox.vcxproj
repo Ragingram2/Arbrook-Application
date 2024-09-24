@@ -30,24 +30,28 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>ClangCL</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugDX11 Win64|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>ClangCL</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseOGL Win64|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>ClangCL</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDX11 Win64|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>ClangCL</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -101,10 +105,11 @@
       <AdditionalIncludeDirectories>..;..\..\include;..\..\..\..\arbrook\core\src;..\..\..\..\arbrook\core\include;..\..\..\..\include\tracy\public;..\..\..\..\arbrook\graphics\src;..\..\..\..\arbrook\graphics\include;..\..\..\..\arbrook\graphics\include\DirectX11;..\..\..\..\arbrook\graphics\include\DXC;..\..\..\..\arbrook\graphics\include\GL;..\..\..\..\arbrook\graphics\include\glfw;..\..\..\..\arbrook\graphics\include\glslang;..\..\..\..\arbrook\graphics\include\imgui;..\..\..\..\arbrook\graphics\include\png;..\..\..\..\arbrook\graphics\include\spirv-cross;..\..\..\..\arbrook\graphics\include\spirv-tools;..\..\..\..\arbrook\graphics\include\stb;..\..\..\..\arbrook\graphics\include\GL\src;..\..\..\..\arbrook\graphics\include\glfw\src;..\..\..\..\arbrook\graphics\include\DirectX11\include;..\..\..\..\arbrook\graphics\include\DXC\include;..\..\..\..\arbrook\graphics\include\GL\include;..\..\..\..\arbrook\graphics\include\glfw\include;..\..\..\..\arbrook\graphics\include\glslang\Include;..\..\..\..\arbrook\graphics\include\spirv-cross\include;..\..\..\..\arbrook\graphics\include\glslang\Public;..\..\..\..\include;..\..\..\..\include\assimp;..\..\..\..\include\compat;..\..\..\..\include\nlohmann;..\..\..\..\include\reflect-cpp;..\..\..\..\include\rythe-standard-library;..\..\..\..\include\tracy;..\..\..\..\include\rythe-standard-library\src;..\..\..\..\include\assimp\include;..\..\..\..\include\nlohmann\include;..\..\..\..\include\reflect-cpp\include;..\..\..\..\include\rythe-standard-library\third_party;..\..\..\..\include\rythe-standard-library\third_party\spdlog;..\..\..\..\include\rythe-standard-library\third_party\spdlog\src;..\..\..\..\include\rythe-standard-library\third_party\spdlog\include;..\..\..\..\arbrook\input\src;..\..\..\..\arbrook\input\include;..\..\..\..\arbrook\input\include\gainput;..\..\..\..\arbrook\input\include\gainput\lib\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
+      <MinimalRebuild>false</MinimalRebuild>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalOptions>-Wno-nonportable-include-path -Wno-reorder-init-list -Wno-reorder-ctor -Wno-c99-designator -Wno-microsoft-exception-spec -Wno-class-conversion -Wno-new-returns-null %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -124,6 +129,8 @@
       <AdditionalIncludeDirectories>..;..\..\include;..\..\..\..\arbrook\core\src;..\..\..\..\arbrook\core\include;..\..\..\..\include\tracy\public;..\..\..\..\arbrook\graphics\src;..\..\..\..\arbrook\graphics\include;..\..\..\..\arbrook\graphics\include\DirectX11;..\..\..\..\arbrook\graphics\include\DXC;..\..\..\..\arbrook\graphics\include\GL;..\..\..\..\arbrook\graphics\include\glfw;..\..\..\..\arbrook\graphics\include\glslang;..\..\..\..\arbrook\graphics\include\imgui;..\..\..\..\arbrook\graphics\include\png;..\..\..\..\arbrook\graphics\include\spirv-cross;..\..\..\..\arbrook\graphics\include\spirv-tools;..\..\..\..\arbrook\graphics\include\stb;..\..\..\..\arbrook\graphics\include\GL\src;..\..\..\..\arbrook\graphics\include\glfw\src;..\..\..\..\arbrook\graphics\include\DirectX11\include;..\..\..\..\arbrook\graphics\include\DXC\include;..\..\..\..\arbrook\graphics\include\GL\include;..\..\..\..\arbrook\graphics\include\glfw\include;..\..\..\..\arbrook\graphics\include\glslang\Include;..\..\..\..\arbrook\graphics\include\spirv-cross\include;..\..\..\..\arbrook\graphics\include\glslang\Public;..\..\..\..\include;..\..\..\..\include\assimp;..\..\..\..\include\compat;..\..\..\..\include\nlohmann;..\..\..\..\include\reflect-cpp;..\..\..\..\include\rythe-standard-library;..\..\..\..\include\tracy;..\..\..\..\include\rythe-standard-library\src;..\..\..\..\include\assimp\include;..\..\..\..\include\nlohmann\include;..\..\..\..\include\reflect-cpp\include;..\..\..\..\include\rythe-standard-library\third_party;..\..\..\..\include\rythe-standard-library\third_party\spdlog;..\..\..\..\include\rythe-standard-library\third_party\spdlog\src;..\..\..\..\include\rythe-standard-library\third_party\spdlog\include;..\..\..\..\arbrook\input\src;..\..\..\..\arbrook\input\include;..\..\..\..\arbrook\input\include\gainput;..\..\..\..\arbrook\input\include\gainput\lib\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
+      <MinimalRebuild>false</MinimalRebuild>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalOptions>-Wno-nonportable-include-path -Wno-reorder-init-list -Wno-reorder-ctor -Wno-c99-designator -Wno-microsoft-exception-spec -Wno-class-conversion -Wno-new-returns-null %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
@@ -149,6 +156,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalOptions>-Wno-nonportable-include-path -Wno-reorder-init-list -Wno-reorder-ctor -Wno-c99-designator -Wno-microsoft-exception-spec -Wno-class-conversion -Wno-new-returns-null %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
@@ -172,6 +180,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalOptions>-Wno-nonportable-include-path -Wno-reorder-init-list -Wno-reorder-ctor -Wno-c99-designator -Wno-microsoft-exception-spec -Wno-class-conversion -Wno-new-returns-null %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>

@@ -102,11 +102,14 @@ namespace rythe::game
 						{
 							unrollFields([&fields, &view]<size_t i>()
 							{
-								ImGui::TableNextRow();
-								ImGui::TableSetColumnIndex(0);
-								DrawLabel(fields[i].name().c_str());
-								ImGui::TableSetColumnIndex(1);
-								DrawField(i, *view.template get<i>());
+								if constexpr (!rfl::internal::is_skip_v <decltype(*view.template get<i>())>)
+								{
+									ImGui::TableNextRow();
+									ImGui::TableSetColumnIndex(0);
+									DrawLabel(fields[i].name().c_str());
+									ImGui::TableSetColumnIndex(1);
+									DrawField(i, *view.template get<i>());
+								}
 							}, std::make_index_sequence<view.size()>{});
 							ImGui::EndTable();
 						}
@@ -119,11 +122,14 @@ namespace rythe::game
 						{
 							unrollFields([&fields, &view]<size_t i>()
 							{
-								ImGui::TableNextRow();
-								ImGui::TableSetColumnIndex(0);
-								DrawLabel(fields[i].name().c_str());
-								ImGui::TableSetColumnIndex(1);
-								DrawField(i, *view.template get<i>());
+								if constexpr (!rfl::internal::is_skip_v <decltype(*view.template get<i>())>)
+								{
+									ImGui::TableNextRow();
+									ImGui::TableSetColumnIndex(0);
+									DrawLabel(fields[i].name().c_str());
+									ImGui::TableSetColumnIndex(1);
+									DrawField(i, *view.template get<i>());
+								}
 							}, std::make_index_sequence<view.size()>{});
 							ImGui::EndTable();
 						}
@@ -137,11 +143,14 @@ namespace rythe::game
 					{
 						unrollFields([&fields, &view]<size_t i>()
 						{
-							ImGui::TableNextRow();
-							ImGui::TableSetColumnIndex(0);
-							DrawLabel(fields[i].name().c_str());
-							ImGui::TableSetColumnIndex(1);
-							DrawField(i, *view.template get<i>());
+							if constexpr (!rfl::internal::is_skip_v <decltype(*view.template get<i>())>)
+							{
+								ImGui::TableNextRow();
+								ImGui::TableSetColumnIndex(0);
+								DrawLabel(fields[i].name().c_str());
+								ImGui::TableSetColumnIndex(1);
+								DrawField(i, *view.template get<i>());
+							}
 						}, std::make_index_sequence<view.size()>{});
 						ImGui::EndTable();
 					}
@@ -193,7 +202,7 @@ namespace rythe::game
 	template<>
 	inline bool DrawField<math::vec2>(int index, math::vec2& field)
 	{
-		return ImGui::InputFloat2(std::format("##{}",index).c_str(), field.data);
+		return ImGui::InputFloat2(std::format("##{}", index).c_str(), field.data);
 	}
 
 	template<>
@@ -232,13 +241,13 @@ namespace rythe::game
 	template<>
 	inline bool DrawField<double>(int index, double& field)
 	{
-		return ImGui::InputDouble(std::format("##{}",index).c_str(), &field);
+		return ImGui::InputDouble(std::format("##{}", index).c_str(), &field);
 	}
 
 	template<>
 	inline bool DrawField<int>(int index, int& field)
 	{
-		return ImGui::InputInt(std::format("##{}",index).c_str(), &field);
+		return ImGui::InputInt(std::format("##{}", index).c_str(), &field);
 	}
 
 	template<>
