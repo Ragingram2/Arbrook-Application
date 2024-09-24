@@ -98,12 +98,11 @@ namespace rythe::game
 			else
 			{
 				auto ent = GUI::selected;
-				ImGui::BeginChild(ent->name.c_str(), ImVec2(ImGui::GetWindowWidth(), ImGui::GetWindowHeight() * .03f), true);
+				ImGui::BeginChild(ent->name.c_str(), ImVec2(ImGui::GetWindowWidth(), 30.0f), true);
 				ImGui::Checkbox("", &ent->enabled);
 				ImGui::SameLine();
 				ImGui::Text(ent->name.c_str());
 				ImGui::EndChild();
-
 
 				ImGui::Indent();
 				if (ent.hasComponent<core::transform>())
@@ -113,8 +112,7 @@ namespace rythe::game
 					componentEditor<gfx::mesh_renderer>(ent);
 
 				if (ent.hasComponent<gfx::light>())
-					lightEditor(ent);
-				//componentEditor<gfx::light>(ent);
+					componentEditor<gfx::light>(ent);
 
 				if (ent.hasComponent<examplecomp>())
 					componentEditor<examplecomp>(ent);
@@ -153,7 +151,7 @@ namespace rythe::game
 			ImGui::End();
 		}
 
-		int flags = ImGuiWindowFlags_NoBackground| ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollWithMouse;
+		int flags = ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollWithMouse;
 		if (ImGui::Begin("Scene", 0, flags))
 		{
 
@@ -236,45 +234,45 @@ namespace rythe::game
 		}
 	}
 
-	void GUISystem::lightEditor(core::ecs::entity ent)
-	{
-		ImGui::PushID(std::format("EntityLightEditor##{}", ent->id).c_str());
-		auto& comp = ent.getComponent<gfx::light>();
-		ImGui::Checkbox("", &comp.enabled);
-		ImGui::SameLine();
-		if (comp.type == gfx::LightType::DIRECTIONAL)
-		{
-			bool open = ImGui::TreeNodeEx("Directional Light", ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_NoTreePushOnOpen);
-			if (!ent->enabled)
-				pushDisabledInspector();
+	//void GUISystem::lightEditor(core::ecs::entity ent)
+	//{
+	//	ImGui::PushID(std::format("EntityLightEditor##{}", ent->id).c_str());
+	//	auto& comp = ent.getComponent<gfx::light>();
+	//	ImGui::Checkbox("", &comp.enabled.get());
+	//	ImGui::SameLine();
+	//	if (comp.type() == gfx::LightType::DIRECTIONAL)
+	//	{
+	//		bool open = ImGui::TreeNodeEx("Directional Light", ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_NoTreePushOnOpen);
+	//		if (!ent->enabled)
+	//			pushDisabledInspector();
 
-			if (open)
-			{
-				ImGui::ColorEdit4("Light Color", comp.dir_data.color.data);
-				ImGui::InputFloat("Intensity", &comp.dir_data.intensity);
-			}
+	//		if (open)
+	//		{
+	//			ImGui::ColorEdit4("Light Color", comp.dir_data.color.data);
+	//			ImGui::InputFloat("Intensity", &comp.dir_data.intensity);
+	//		}
 
-			if (!ent->enabled)
-				popDisabledInspector();
-		}
-		else if (comp.type == gfx::LightType::POINT)
-		{
-			bool open = ImGui::TreeNodeEx("Point Light", ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_NoTreePushOnOpen);
-			if (!ent->enabled)
-				pushDisabledInspector();
+	//		if (!ent->enabled)
+	//			popDisabledInspector();
+	//	}
+	//	else if (comp.type() == gfx::LightType::POINT)
+	//	{
+	//		bool open = ImGui::TreeNodeEx("Point Light", ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_NoTreePushOnOpen);
+	//		if (!ent->enabled)
+	//			pushDisabledInspector();
 
-			if (open)
-			{
-				ImGui::ColorEdit4("Light Color", comp.point_data.color.data);
-				ImGui::InputFloat("Intensity", &comp.point_data.intensity);
-				ImGui::InputFloat("Range", &comp.point_data.range);
-			}
+	//		if (open)
+	//		{
+	//			ImGui::ColorEdit4("Light Color", comp.point_data.color.data);
+	//			ImGui::InputFloat("Intensity", &comp.point_data.intensity);
+	//			ImGui::InputFloat("Range", &comp.point_data.range);
+	//		}
 
-			if (!ent->enabled)
-				popDisabledInspector();
-		}
-		ImGui::PopID();
-	}
+	//		if (!ent->enabled)
+	//			popDisabledInspector();
+	//	}
+	//	ImGui::PopID();
+	//}
 	//void GUISystem::exampleCompEditor(core::ecs::entity ent)
 	//{
 	//	ImGui::PushID(std::format("EntityExampleComp##{}", ent->id).c_str());

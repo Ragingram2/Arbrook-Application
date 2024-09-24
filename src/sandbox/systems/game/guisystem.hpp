@@ -51,7 +51,7 @@ namespace rythe::game
 		void guiRender(core::transform, gfx::camera);
 
 		void drawHeirarchy(ecs::entity_set heirarchy);
-		void lightEditor(core::ecs::entity);
+		//void lightEditor(core::ecs::entity);
 		//void exampleCompEditor(core::ecs::entity);
 		//void meshrendererEditor(core::ecs::entity);
 		//void transformEditor(core::ecs::entity);
@@ -83,9 +83,7 @@ namespace rythe::game
 			ImGui::PushID(std::format("Entity_{}##{}", compName.c_str(), ent->id).c_str());
 			if constexpr (!std::is_same<Component, core::transform>::value)
 			{
-				bool b = comp.enabled;
-				ImGui::Checkbox("", &b);
-				comp.enabled = b;
+				ImGui::Checkbox("", &comp.enabled.get());
 				ImGui::SameLine();
 			}
 			bool open = ImGui::TreeNodeEx(compName.c_str(), ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_NoTreePushOnOpen);
@@ -94,48 +92,60 @@ namespace rythe::game
 
 			if (open)
 			{
-				if constexpr (std::is_same<Component, gfx::mesh_renderer>::value)
+				if constexpr (std::is_same<Component, gfx::light>::value)
 				{
-					auto view = rfl::to_view(comp);
-					auto fields = rfl::fields<gfx::mesh_renderer>();
-
-					unrollFields([&fields, &view]<size_t i>()
+					if (comp.type() == gfx::LightType::DIRECTIONAL)
 					{
-						DrawField(fields[i].name().c_str(), i, *view.template get<i>());
-					}, std::make_index_sequence<view.size()>{});
-					//comp = rfl::from_named_tuple<gfx::mesh_renderer>(view);
-
-				}
-				else if constexpr (std::is_same<Component, gfx::light>::value)
-				{
-					if (comp.type == gfx::LightType::DIRECTIONAL)
-					{
-						const auto view = rfl::to_view(comp.reflectionDirLight());
-						const auto fields = rfl::fields<gfx::dir_light_data_impl>();
-						unrollFields([&fields, &view]<size_t i>()
+						const auto view = rfl::to_view(comp.dir_data);
+						const auto fields = rfl::fields<gfx::dir_light_data>();
+						if (ImGui::BeginTable("Component", 2))
 						{
-							DrawField(fields[i].name().c_str(), i, *rfl::get<i>(view));
-						}, std::make_index_sequence<view.size()>{});
+							unrollFields([&fields, &view]<size_t i>()
+							{
+								ImGui::TableNextRow();
+								ImGui::TableSetColumnIndex(0);
+								DrawLabel(fields[i].name().c_str());
+								ImGui::TableSetColumnIndex(1);
+								DrawField(i, *view.template get<i>());
+							}, std::make_index_sequence<view.size()>{});
+							ImGui::EndTable();
+						}
 					}
-					else if (comp.type == gfx::LightType::POINT)
+					else if (comp.type() == gfx::LightType::POINT)
 					{
-						const auto view = rfl::to_view(comp.reflectionPointLight());
-						const auto fields = rfl::fields<gfx::point_light_data_impl>();
-						unrollFields([&fields, &view]<size_t i>()
+						const auto view = rfl::to_view(comp.point_data);
+						const auto fields = rfl::fields<gfx::point_light_data>();
+						if (ImGui::BeginTable("Component", 2))
 						{
-							DrawField(fields[i].name().c_str(), i, *rfl::get<i>(view));
-						}, std::make_index_sequence<view.size()>{});
+							unrollFields([&fields, &view]<size_t i>()
+							{
+								ImGui::TableNextRow();
+								ImGui::TableSetColumnIndex(0);
+								DrawLabel(fields[i].name().c_str());
+								ImGui::TableSetColumnIndex(1);
+								DrawField(i, *view.template get<i>());
+							}, std::make_index_sequence<view.size()>{});
+							ImGui::EndTable();
+						}
 					}
 				}
 				else
 				{
 					const auto view = rfl::to_view(comp);
 					const auto fields = rfl::fields<Component>();
-					unrollFields([&fields, &view]<size_t i>() {
-						DrawField(fields[i].name().c_str(), i, *rfl::get<i>(view));
-					}, std::make_index_sequence<view.size()>{});
+					if (ImGui::BeginTable("Component", 2))
+					{
+						unrollFields([&fields, &view]<size_t i>()
+						{
+							ImGui::TableNextRow();
+							ImGui::TableSetColumnIndex(0);
+							DrawLabel(fields[i].name().c_str());
+							ImGui::TableSetColumnIndex(1);
+							DrawField(i, *view.template get<i>());
+						}, std::make_index_sequence<view.size()>{});
+						ImGui::EndTable();
+					}
 				}
-
 			}
 
 			if (!ent->enabled)
@@ -146,9 +156,9 @@ namespace rythe::game
 	};
 
 	template<typename ItemType>
-	inline void createAssetDropDown(const char* label, ItemType current, std::vector<ast::asset_handle<ItemType>> items, void(*func)(ast::asset_handle<ItemType>))
+	inline void createAssetDropDown(ItemType current, std::vector<ast::asset_handle<ItemType>> items, void(*func)(ast::asset_handle<ItemType>))
 	{
-		if (ImGui::BeginCombo(label, current.name.c_str()))
+		if (ImGui::BeginCombo("Dropdown", current.name.c_str()))
 		{
 			for (auto item : items)
 			{
@@ -168,81 +178,99 @@ namespace rythe::game
 		}
 	}
 
-	template<typename FieldType>
-	inline bool DrawField(const char* label, int index, FieldType& field)
+	inline bool DrawLabel(const char* label)
 	{
-		ImGui::Text(std::format("{}##{}", label, index).c_str());
+		ImGui::Text(label);
+		return true;
+	}
+
+	template<typename FieldType>
+	inline bool DrawField(int index, FieldType& field)
+	{
 		return true;
 	}
 
 	template<>
-	inline bool DrawField<math::vec2>(const char* label, int index, math::vec2& field)
+	inline bool DrawField<math::vec2>(int index, math::vec2& field)
 	{
-		return ImGui::InputFloat2(std::format("{}##{}", label, index).c_str(), field.data);
+		return ImGui::InputFloat2(std::format("##{}",index).c_str(), field.data);
 	}
 
 	template<>
-	inline bool DrawField<math::vec3>(const char* label, int index, math::vec3& field)
+	inline bool DrawField<math::vec3>(int index, math::vec3& field)
 	{
-		return ImGui::InputFloat3(std::format("{}##{}", label, index).c_str(), field.data);
+		return ImGui::InputFloat3(std::format("##{}", index).c_str(), field.data);
 	}
 
 	template<>
-	inline bool DrawField<math::vec4>(const char* label, int index, math::vec4& field)
+	inline bool DrawField<math::vec4>(int index, math::vec4& field)
 	{
-		return ImGui::InputFloat4(std::format("{}##{}", label, index).c_str(), field.data);
+		return ImGui::InputFloat4(std::format("##{}", index).c_str(), field.data);
 	}
 
 	template<>
-	inline bool DrawField<math::quat>(const char* label, int index, math::quat& field)
+	inline bool DrawField<math::quat>(int index, math::quat& field)
 	{
 		math::vec3 rot = math::toEuler(field);
-		bool b = ImGui::InputFloat3(std::format("{}##{}", label, index).c_str(), rot.data);
+		bool b = ImGui::InputFloat3(std::format("##{}", index).c_str(), rot.data);
 		if (b) field = math::toQuat(rot);
 		return b;
 	}
 
 	template<>
-	inline bool DrawField<bool>(const char* label, int index, bool& field)
+	inline bool DrawField<bool>(int index, bool& field)
 	{
-		log::debug("Bool Field Before: {}", field);
-		bool b = ImGui::Checkbox(std::format("{}##{}", label, index).c_str(), &field);
-		if (b)
-			log::debug("Bool Field After: {}", field);
-		return b;
+		return ImGui::Checkbox(std::format("##{}", index).c_str(), &field);
 	}
 
 	template<>
-	inline bool DrawField<float>(const char* label, int index, float& field)
+	inline bool DrawField<float>(int index, float& field)
 	{
-		return ImGui::InputFloat(std::format("{}##{}", label, index).c_str(), &field);
+		return ImGui::InputFloat(std::format("##{}", index).c_str(), &field);
 	}
 
 	template<>
-	inline bool DrawField<double>(const char* label, int index, double& field)
+	inline bool DrawField<double>(int index, double& field)
 	{
-		return ImGui::InputDouble(std::format("{}##{}", label, index).c_str(), &field);
+		return ImGui::InputDouble(std::format("##{}",index).c_str(), &field);
 	}
 
 	template<>
-	inline bool DrawField<int>(const char* label, int index, int& field)
+	inline bool DrawField<int>(int index, int& field)
 	{
-		return ImGui::InputInt(std::format("{}##{}", label, index).c_str(), &field);
+		return ImGui::InputInt(std::format("##{}",index).c_str(), &field);
 	}
 
 	template<>
-	inline bool DrawField<gfx::modelImpl>(const char* label, int index, gfx::modelImpl& field)
+	inline bool DrawField<gfx::model>(int index, gfx::model& field)
 	{
-		createAssetDropDown<gfx::model>(label, *field.model, gfx::ModelCache::getModels(), &GUISystem::setModel);
+		createAssetDropDown<gfx::model>(field, gfx::ModelCache::getModels(), &GUISystem::setModel);
 		return true;
 	}
 
 	template<>
-	inline bool DrawField<gfx::materialImpl>(const char* label, int index, gfx::materialImpl& field)
+	inline bool DrawField<gfx::material>(int index, gfx::material& field)
 	{
-		createAssetDropDown<gfx::material>(label, *field.mat, gfx::MaterialCache::getMaterials(), &GUISystem::setMaterial);
+		createAssetDropDown<gfx::material>(field, gfx::MaterialCache::getMaterials(), &GUISystem::setMaterial);
 		return true;
 	}
 
-
+	template<>
+	inline bool DrawField<std::unordered_map<rsl::id_type, gfx::material>>(const char* label, int index, std::unordered_map<rsl::id_type, gfx::material>& field)
+	{
+		//if (ImGui::BeginTable("", 2))
+		//{
+		//	for (int row = 0; row < field.size(); row++)
+		//	{
+		//		ImGui::TableNextRow();
+		//		for (int column = 0; column < 2; column++)
+		//		{
+		//			ImGui::TableSetColumnIndex(column);
+		//			ImGui::Text("Row %d Column %d", row, column);
+		//		}
+		//	}
+		//	ImGui::EndTable();
+		//}
+		return true;
+	}
 }

@@ -22,7 +22,7 @@ namespace rythe::game
 			for (auto ent : m_filter)
 			{
 				auto& comp = ent.getComponent<core::examplecomp>();
-				if (!ent->enabled || !comp.enabled) continue;
+				if (!ent->enabled || !comp.enabled.get()) continue;
 
 				comp.pos += comp.speed * core::Time::deltaTime;
 
