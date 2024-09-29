@@ -83,14 +83,19 @@ namespace rythe::game
 			transf.scale = math::vec3::one;
 			transf.position = math::vec3(0.0f, 25.f, 0.0f);
 			transf.rotation = math::toQuat(math::vec3(-90.0f, 0.0f, 0.0f));
-			ent.addComponent<gfx::light>({ .type = gfx::LightType::DIRECTIONAL, .dir_data.color = math::vec4(1.0f), .dir_data.intensity = 1.0f });
+			auto& light = ent.addComponent<gfx::light>({ .type = gfx::LightType::DIRECTIONAL });
+			light.asDirectionalLight().color = math::vec4(1.0f);
+			light.asDirectionalLight().intensity = 1.0f;
 			ent.addComponent<gfx::mesh_renderer>({ .mainMaterial = colorMat, .model = gfx::ModelCache::getModel("cone"), .castShadows = false });
 		}
 
 		{
 			auto ent = createEntity("Point Light");
 			ent.addComponent<core::transform>({ .scale = math::vec3(.1f, .1f, .1f), .position = math::vec3(0.0f, 10.0f, 0.0f) });
-			ent.addComponent<gfx::light>({ .type = gfx::LightType::POINT, .point_data.color = math::vec4(1.0f,1.0f,1.0f,1.0f), .point_data.intensity = 1.0f, .point_data.range = 100.f });
+			auto& light = ent.addComponent<gfx::light>({ .type = gfx::LightType::POINT });
+			light.asPointLight().color = math::vec4(1.0f);
+			light.asPointLight().intensity = 1.0f;
+			light.asPointLight().range = 100.0f;
 			ent.addComponent<core::examplecomp>({ .direction = math::vec3::up, .range = 10.0f, .speed = 20.0f });
 			ent.addComponent<gfx::mesh_renderer>({ .mainMaterial = gfx::MaterialCache::getMaterial("red"), .model = gfx::ModelCache::getModel("icosphere") ,.castShadows = false });
 		}

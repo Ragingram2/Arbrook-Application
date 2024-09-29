@@ -3,6 +3,8 @@
 #include <tuple>
 #include <rfl.hpp>
 #include <rfl/json.hpp>
+#include <rfl/Variant.hpp>
+#include <variant>
 
 #include "core/utils/profiler.hpp"
 
@@ -11,7 +13,13 @@
 #include "input/input.hpp"
 
 #include "sandbox/components/camerasettings.hpp"
+template<typename T> struct is_variant : std::false_type {};
 
+template<typename ...Args>
+struct is_variant<std::variant<Args...>> : std::true_type {};
+
+template<typename T>
+inline constexpr bool is_variant_v = is_variant<T>::value;
 namespace rythe::game
 {
 	using namespace rythe::core::events;
@@ -20,7 +28,13 @@ namespace rythe::game
 	namespace ast = rythe::core::assets;
 
 	template<typename FieldType>
-	bool DrawField(const char* label, int index, FieldType& field);
+	bool DrawField(int index, FieldType& field);
+
+	bool DrawLabel(const char* label);
+
+	template<typename memberType>
+	void DrawInspector(memberType member, auto field, size_t i);
+
 
 	template<typename T>
 	struct remove_first_type { };
@@ -51,10 +65,6 @@ namespace rythe::game
 		void guiRender(core::transform, gfx::camera);
 
 		void drawHeirarchy(ecs::entity_set heirarchy);
-		//void lightEditor(core::ecs::entity);
-		//void exampleCompEditor(core::ecs::entity);
-		//void meshrendererEditor(core::ecs::entity);
-		//void transformEditor(core::ecs::entity);
 
 		void pushDisabledInspector();
 		void popDisabledInspector();
@@ -75,6 +85,40 @@ namespace rythe::game
 			(func.template operator() < indices > (), ...);
 		}
 
+		template<typename memberType>
+		void DrawInspector(memberType member, auto field, size_t idx)
+		{
+			if constexpr (!rfl::internal::is_skip_v <memberType>)
+			{
+				if constexpr (is_variant_v<memberType>)
+				{
+					std::visit([&member,this](auto arg)
+						{
+							using variantType = std::decay_t<decltype(arg)>;
+							const auto view = rfl::to_view(std::get<variantType>(member));
+							const auto fields = rfl::fields<variantType>();
+							unrollFields([&view, &fields, this]<size_t i>()
+							{
+								DrawInspector(*rfl::get<i>(view), fields[i], i);
+							}, std::make_index_sequence<view.size()>{});
+						}, member);
+				}
+				else
+				{
+					ImGui::TableNextRow();
+					ImGui::TableSetColumnIndex(0);
+					DrawLabel(field.name().c_str());
+					ImGui::TableSetColumnIndex(1);
+					DrawField(idx, member);
+				}
+			}
+		}
+
+		//inline void componentEditor(core::ecs::entity ent, rsl::id_type compId)
+		//{
+		//	auto& comp = ent.getComponent(compId);
+		//}
+
 		template<typename Component>
 		inline void componentEditor(core::ecs::entity ent)
 		{
@@ -92,68 +136,16 @@ namespace rythe::game
 
 			if (open)
 			{
-				if constexpr (std::is_same<Component, gfx::light>::value)
+				int tableFlags = ImGuiTableFlags_ContextMenuInBody | ImGuiTableFlags_RowBg;
+				const auto view = rfl::to_view(comp);
+				const auto fields = rfl::fields<Component>();
+				if (ImGui::BeginTable("Component", 2, tableFlags))
 				{
-					if (comp.type() == gfx::LightType::DIRECTIONAL)
+					unrollFields([&view, &fields, this]<size_t i>()
 					{
-						const auto view = rfl::to_view(comp.dir_data);
-						const auto fields = rfl::fields<gfx::dir_light_data>();
-						if (ImGui::BeginTable("Component", 2))
-						{
-							unrollFields([&fields, &view]<size_t i>()
-							{
-								if constexpr (!rfl::internal::is_skip_v <decltype(*view.template get<i>())>)
-								{
-									ImGui::TableNextRow();
-									ImGui::TableSetColumnIndex(0);
-									DrawLabel(fields[i].name().c_str());
-									ImGui::TableSetColumnIndex(1);
-									DrawField(i, *view.template get<i>());
-								}
-							}, std::make_index_sequence<view.size()>{});
-							ImGui::EndTable();
-						}
-					}
-					else if (comp.type() == gfx::LightType::POINT)
-					{
-						const auto view = rfl::to_view(comp.point_data);
-						const auto fields = rfl::fields<gfx::point_light_data>();
-						if (ImGui::BeginTable("Component", 2))
-						{
-							unrollFields([&fields, &view]<size_t i>()
-							{
-								if constexpr (!rfl::internal::is_skip_v <decltype(*view.template get<i>())>)
-								{
-									ImGui::TableNextRow();
-									ImGui::TableSetColumnIndex(0);
-									DrawLabel(fields[i].name().c_str());
-									ImGui::TableSetColumnIndex(1);
-									DrawField(i, *view.template get<i>());
-								}
-							}, std::make_index_sequence<view.size()>{});
-							ImGui::EndTable();
-						}
-					}
-				}
-				else
-				{
-					const auto view = rfl::to_view(comp);
-					const auto fields = rfl::fields<Component>();
-					if (ImGui::BeginTable("Component", 2))
-					{
-						unrollFields([&fields, &view]<size_t i>()
-						{
-							if constexpr (!rfl::internal::is_skip_v <decltype(*view.template get<i>())>)
-							{
-								ImGui::TableNextRow();
-								ImGui::TableSetColumnIndex(0);
-								DrawLabel(fields[i].name().c_str());
-								ImGui::TableSetColumnIndex(1);
-								DrawField(i, *view.template get<i>());
-							}
-						}, std::make_index_sequence<view.size()>{});
-						ImGui::EndTable();
-					}
+						DrawInspector(*rfl::get<i>(view), fields[i], i);
+					}, std::make_index_sequence<view.size()>{});
+					ImGui::EndTable();
 				}
 			}
 
@@ -265,7 +257,7 @@ namespace rythe::game
 	}
 
 	template<>
-	inline bool DrawField<std::unordered_map<rsl::id_type, gfx::material>>(const char* label, int index, std::unordered_map<rsl::id_type, gfx::material>& field)
+	inline bool DrawField<std::unordered_map<rsl::id_type, gfx::material>>(int index, std::unordered_map<rsl::id_type, gfx::material>& field)
 	{
 		//if (ImGui::BeginTable("", 2))
 		//{
