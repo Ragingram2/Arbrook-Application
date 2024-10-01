@@ -1,9 +1,0 @@
-[submodule "include/bgfx"]
-	path = include/bgfx
-	url = https://github.com/Ragingram2/bgfx.git
-[submodule "include/bx"]
-	path = include/bx
-	url = https://github.com/bkaradzic/bx.git
-[submodule "include/bimg"]
-	path = include/bimg
-	url = https://github.com/bkaradzic/bimg.git
