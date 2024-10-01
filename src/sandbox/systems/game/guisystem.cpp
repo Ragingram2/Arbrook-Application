@@ -106,15 +106,6 @@ namespace rythe::game
 				ImGui::EndChild();
 
 				ImGui::Indent();
-				
-				//const auto composition = ent.component_composition();
-				//for (decltype(composition)::iterator itr = composition.begin(); itr != composition.end(); itr++)
-				//{
-				//	if (ent.hasComponent((*itr)))
-				//	{
-				//		ecs::Registry::componentFamilies[(*itr)]::type;
-				//	}
-				//}
 				if (ent.hasComponent<core::transform>())
 					componentEditor<core::transform>(ent);
 
