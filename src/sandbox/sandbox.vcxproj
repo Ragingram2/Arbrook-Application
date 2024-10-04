@@ -1,20 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="DebugOGL Win64|x64">
-      <Configuration>DebugOGL Win64</Configuration>
+    <ProjectConfiguration Include="Debug Win64|x64">
+      <Configuration>Debug Win64</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="DebugDX11 Win64|x64">
-      <Configuration>DebugDX11 Win64</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="ReleaseOGL Win64|x64">
-      <Configuration>ReleaseOGL Win64</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="ReleaseDX11 Win64|x64">
-      <Configuration>ReleaseDX11 Win64</Configuration>
+    <ProjectConfiguration Include="Release Win64|x64">
+      <Configuration>Release Win64</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
@@ -25,28 +17,14 @@
     <RootNamespace>sandbox</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugOGL Win64|x64'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Win64|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>ClangCL</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugDX11 Win64|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>ClangCL</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseOGL Win64|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>ClangCL</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDX11 Win64|x64'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Win64|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
@@ -56,53 +34,33 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='DebugOGL Win64|x64'">
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug Win64|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='DebugDX11 Win64|x64'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='ReleaseOGL Win64|x64'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='ReleaseDX11 Win64|x64'">
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release Win64|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugOGL Win64|x64'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Win64|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)bin\build\</OutDir>
-    <IntDir>$(SolutionDir)bin\obj\Win64\DebugOGL\sandbox\</IntDir>
+    <IntDir>$(SolutionDir)bin\obj\Win64\Debug\sandbox\</IntDir>
     <TargetName>sandbox-d</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugDX11 Win64|x64'">
-    <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)bin\build\</OutDir>
-    <IntDir>$(SolutionDir)bin\obj\Win64\DebugDX11\sandbox\</IntDir>
-    <TargetName>sandbox-d</TargetName>
-    <TargetExt>.exe</TargetExt>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseOGL Win64|x64'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Win64|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)bin\build\</OutDir>
-    <IntDir>$(SolutionDir)bin\obj\Win64\ReleaseOGL\sandbox\</IntDir>
+    <IntDir>$(SolutionDir)bin\obj\Win64\Release\sandbox\</IntDir>
     <TargetName>sandbox</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDX11 Win64|x64'">
-    <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)bin\build\</OutDir>
-    <IntDir>$(SolutionDir)bin\obj\Win64\ReleaseDX11\sandbox\</IntDir>
-    <TargetName>sandbox</TargetName>
-    <TargetExt>.exe</TargetExt>
-  </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugOGL Win64|x64'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Win64|x64'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>ARBROOK_INTERNAL;PROJECT_NAME=sandbox;TRACY_ENABLE;_SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING;DEBUG;BX_CONFIG_DEBUG;RenderingAPI_OGL=0;RenderingAPI=0;TRACY_IMPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..;..\..\include;..\..\..\..\arbrook\core\src;..\..\..\..\arbrook\core\include;..\..\..\..\include\tracy\public;..\..\..\..\arbrook\graphics\src;..\..\..\..\arbrook\graphics\include;..\..\..\..\arbrook\graphics\include\DirectX11;..\..\..\..\arbrook\graphics\include\DXC;..\..\..\..\arbrook\graphics\include\GL;..\..\..\..\arbrook\graphics\include\glfw;..\..\..\..\arbrook\graphics\include\glslang;..\..\..\..\arbrook\graphics\include\imgui;..\..\..\..\arbrook\graphics\include\png;..\..\..\..\arbrook\graphics\include\spirv-cross;..\..\..\..\arbrook\graphics\include\spirv-tools;..\..\..\..\arbrook\graphics\include\stb;..\..\..\..\arbrook\graphics\include\GL\src;..\..\..\..\arbrook\graphics\include\DirectX11\include;..\..\..\..\arbrook\graphics\include\DXC\include;..\..\..\..\arbrook\graphics\include\GL\include;..\..\..\..\arbrook\graphics\include\glslang\Include;..\..\..\..\arbrook\graphics\include\spirv-cross\include;..\..\..\..\arbrook\graphics\include\glslang\Public;..\..\..\..\include;..\..\..\..\include\assimp;..\..\..\..\include\compat;..\..\..\..\include\nlohmann;..\..\..\..\include\reflect-cpp;..\..\..\..\include\rythe-standard-library;..\..\..\..\include\tracy;..\..\..\..\include\rythe-standard-library\src;..\..\..\..\include\assimp\include;..\..\..\..\include\nlohmann\include;..\..\..\..\include\reflect-cpp\include;..\..\..\..\include\rythe-standard-library\third_party;..\..\..\..\include\rythe-standard-library\third_party\spdlog;..\..\..\..\include\rythe-standard-library\third_party\spdlog\src;..\..\..\..\include\rythe-standard-library\third_party\spdlog\include;..\..\..\..\arbrook\input\src;..\..\..\..\arbrook\input\include;..\..\..\..\arbrook\input\include\gainput;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>ARBROOK_INTERNAL;PROJECT_NAME=sandbox;TRACY_ENABLE;_SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING;RenderingAPI_OGL=0;RenderingAPI_DX11=1;RenderingAPI_VK=2;DEBUG;TRACY_IMPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..;..\..\include;..\..\..\..\arbrook\core\src;..\..\..\..\arbrook\core\include;..\..\..\..\include\tracy\public;..\..\..\..\arbrook\graphics\src;..\..\..\..\arbrook\graphics\include;..\..\..\..\arbrook\graphics\include\DirectX11;..\..\..\..\arbrook\graphics\include\DXC;..\..\..\..\arbrook\graphics\include\GL;..\..\..\..\arbrook\graphics\include\glfw;..\..\..\..\arbrook\graphics\include\glslang;..\..\..\..\arbrook\graphics\include\imgui;..\..\..\..\arbrook\graphics\include\png;..\..\..\..\arbrook\graphics\include\spirv-cross;..\..\..\..\arbrook\graphics\include\spirv-tools;..\..\..\..\arbrook\graphics\include\stb;..\..\..\..\arbrook\graphics\include\GL\src;..\..\..\..\arbrook\graphics\include\glfw\src;..\..\..\..\arbrook\graphics\include\DirectX11\include;..\..\..\..\arbrook\graphics\include\DXC\include;..\..\..\..\arbrook\graphics\include\GL\include;..\..\..\..\arbrook\graphics\include\glfw\include;..\..\..\..\arbrook\graphics\include\glslang\Include;..\..\..\..\arbrook\graphics\include\spirv-cross\include;..\..\..\..\arbrook\graphics\include\glslang\Public;..\..\..\..\include;..\..\..\..\include\assimp;..\..\..\..\include\compat;..\..\..\..\include\nlohmann;..\..\..\..\include\reflect-cpp;..\..\..\..\include\rythe-standard-library;..\..\..\..\include\tracy;..\..\..\..\include\rythe-standard-library\src;..\..\..\..\include\assimp\include;..\..\..\..\include\nlohmann\include;..\..\..\..\include\reflect-cpp\include;..\..\..\..\include\rythe-standard-library\third_party;..\..\..\..\include\rythe-standard-library\third_party\spdlog;..\..\..\..\include\rythe-standard-library\third_party\spdlog\src;..\..\..\..\include\rythe-standard-library\third_party\spdlog\include;..\..\..\..\arbrook\input\src;..\..\..\..\arbrook\input\include;..\..\..\..\arbrook\input\include\gainput;..\..\..\..\arbrook\input\include\gainput\lib\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -121,60 +79,12 @@
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
     </ProjectReference>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugDX11 Win64|x64'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Win64|x64'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>ARBROOK_INTERNAL;PROJECT_NAME=sandbox;TRACY_ENABLE;_SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING;DEBUG;BX_CONFIG_DEBUG;RenderingAPI_DX11=1;RenderingAPI=1;TRACY_IMPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..;..\..\include;..\..\..\..\arbrook\core\src;..\..\..\..\arbrook\core\include;..\..\..\..\include\tracy\public;..\..\..\..\arbrook\graphics\src;..\..\..\..\arbrook\graphics\include;..\..\..\..\arbrook\graphics\include\DirectX11;..\..\..\..\arbrook\graphics\include\DXC;..\..\..\..\arbrook\graphics\include\GL;..\..\..\..\arbrook\graphics\include\glfw;..\..\..\..\arbrook\graphics\include\glslang;..\..\..\..\arbrook\graphics\include\imgui;..\..\..\..\arbrook\graphics\include\png;..\..\..\..\arbrook\graphics\include\spirv-cross;..\..\..\..\arbrook\graphics\include\spirv-tools;..\..\..\..\arbrook\graphics\include\stb;..\..\..\..\arbrook\graphics\include\GL\src;..\..\..\..\arbrook\graphics\include\DirectX11\include;..\..\..\..\arbrook\graphics\include\DXC\include;..\..\..\..\arbrook\graphics\include\GL\include;..\..\..\..\arbrook\graphics\include\glslang\Include;..\..\..\..\arbrook\graphics\include\spirv-cross\include;..\..\..\..\arbrook\graphics\include\glslang\Public;..\..\..\..\include;..\..\..\..\include\assimp;..\..\..\..\include\compat;..\..\..\..\include\nlohmann;..\..\..\..\include\reflect-cpp;..\..\..\..\include\rythe-standard-library;..\..\..\..\include\tracy;..\..\..\..\include\rythe-standard-library\src;..\..\..\..\include\assimp\include;..\..\..\..\include\nlohmann\include;..\..\..\..\include\reflect-cpp\include;..\..\..\..\include\rythe-standard-library\third_party;..\..\..\..\include\rythe-standard-library\third_party\spdlog;..\..\..\..\include\rythe-standard-library\third_party\spdlog\src;..\..\..\..\include\rythe-standard-library\third_party\spdlog\include;..\..\..\..\arbrook\input\src;..\..\..\..\arbrook\input\include;..\..\..\..\arbrook\input\include\gainput;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <Optimization>Disabled</Optimization>
-      <MinimalRebuild>false</MinimalRebuild>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalOptions>-Wno-nonportable-include-path -Wno-reorder-init-list -Wno-reorder-ctor -Wno-c99-designator -Wno-microsoft-exception-spec -Wno-class-conversion -Wno-new-returns-null %(AdditionalOptions)</AdditionalOptions>
-      <LanguageStandard>stdcpp20</LanguageStandard>
-      <ExternalWarningLevel>Level3</ExternalWarningLevel>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>core-d.lib;assimp-d.lib;zlibstatic-d.lib;TracyProfiler-d.lib;graphics-d.lib;glfw3_mt.lib;libpng16.lib;GenericCodeGen-d.lib;MachineIndependent-d.lib;glslang-d.lib;OGLCompiler-d.lib;SPIRV-d.lib;OSDependent-d.lib;glslang-default-resource-limits-d.lib;SPIRV-Tools-d.lib;SPIRV-Tools-opt-d.lib;spirv-cross-core-d.lib;spirv-cross-glsl-d.lib;input-d.lib;gainputstatic-d.lib;xinput.lib;Ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)bin\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-    </Link>
-    <ProjectReference>
-      <LinkLibraryDependencies>false</LinkLibraryDependencies>
-    </ProjectReference>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseOGL Win64|x64'">
-    <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>ARBROOK_INTERNAL;PROJECT_NAME=sandbox;TRACY_ENABLE;_SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING;NDEBUG;RenderingAPI_OGL=0;RenderingAPI=0;TRACY_IMPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..;..\..\include;..\..\..\..\arbrook\core\src;..\..\..\..\arbrook\core\include;..\..\..\..\include\tracy\public;..\..\..\..\arbrook\graphics\src;..\..\..\..\arbrook\graphics\include;..\..\..\..\arbrook\graphics\include\DirectX11;..\..\..\..\arbrook\graphics\include\DXC;..\..\..\..\arbrook\graphics\include\GL;..\..\..\..\arbrook\graphics\include\glfw;..\..\..\..\arbrook\graphics\include\glslang;..\..\..\..\arbrook\graphics\include\imgui;..\..\..\..\arbrook\graphics\include\png;..\..\..\..\arbrook\graphics\include\spirv-cross;..\..\..\..\arbrook\graphics\include\spirv-tools;..\..\..\..\arbrook\graphics\include\stb;..\..\..\..\arbrook\graphics\include\GL\src;..\..\..\..\arbrook\graphics\include\DirectX11\include;..\..\..\..\arbrook\graphics\include\DXC\include;..\..\..\..\arbrook\graphics\include\GL\include;..\..\..\..\arbrook\graphics\include\glslang\Include;..\..\..\..\arbrook\graphics\include\spirv-cross\include;..\..\..\..\arbrook\graphics\include\glslang\Public;..\..\..\..\include;..\..\..\..\include\assimp;..\..\..\..\include\compat;..\..\..\..\include\nlohmann;..\..\..\..\include\reflect-cpp;..\..\..\..\include\rythe-standard-library;..\..\..\..\include\tracy;..\..\..\..\include\rythe-standard-library\src;..\..\..\..\include\assimp\include;..\..\..\..\include\nlohmann\include;..\..\..\..\include\reflect-cpp\include;..\..\..\..\include\rythe-standard-library\third_party;..\..\..\..\include\rythe-standard-library\third_party\spdlog;..\..\..\..\include\rythe-standard-library\third_party\spdlog\src;..\..\..\..\include\rythe-standard-library\third_party\spdlog\include;..\..\..\..\arbrook\input\src;..\..\..\..\arbrook\input\include;..\..\..\..\arbrook\input\include\gainput;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <Optimization>Full</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <MinimalRebuild>false</MinimalRebuild>
-      <StringPooling>true</StringPooling>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalOptions>-Wno-nonportable-include-path -Wno-reorder-init-list -Wno-reorder-ctor -Wno-c99-designator -Wno-microsoft-exception-spec -Wno-class-conversion -Wno-new-returns-null %(AdditionalOptions)</AdditionalOptions>
-      <LanguageStandard>stdcpp20</LanguageStandard>
-      <ExternalWarningLevel>Level3</ExternalWarningLevel>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>assimp.lib;zlibstatic.lib;TracyProfiler.lib;glfw3_mt.lib;libpng16.lib;GenericCodeGen.lib;MachineIndependent.lib;glslang.lib;OGLCompiler.lib;SPIRV.lib;OSDependent.lib;glslang-default-resource-limits.lib;SPIRV-Tools.lib;SPIRV-Tools-opt.lib;spirv-cross-core.lib;spirv-cross-glsl.lib;gainputstatic.lib;xinput.lib;Ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)bin\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDX11 Win64|x64'">
-    <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>ARBROOK_INTERNAL;PROJECT_NAME=sandbox;TRACY_ENABLE;_SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING;NDEBUG;RenderingAPI_DX11=1;RenderingAPI=1;TRACY_IMPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..;..\..\include;..\..\..\..\arbrook\core\src;..\..\..\..\arbrook\core\include;..\..\..\..\include\tracy\public;..\..\..\..\arbrook\graphics\src;..\..\..\..\arbrook\graphics\include;..\..\..\..\arbrook\graphics\include\DirectX11;..\..\..\..\arbrook\graphics\include\DXC;..\..\..\..\arbrook\graphics\include\GL;..\..\..\..\arbrook\graphics\include\glfw;..\..\..\..\arbrook\graphics\include\glslang;..\..\..\..\arbrook\graphics\include\imgui;..\..\..\..\arbrook\graphics\include\png;..\..\..\..\arbrook\graphics\include\spirv-cross;..\..\..\..\arbrook\graphics\include\spirv-tools;..\..\..\..\arbrook\graphics\include\stb;..\..\..\..\arbrook\graphics\include\GL\src;..\..\..\..\arbrook\graphics\include\DirectX11\include;..\..\..\..\arbrook\graphics\include\DXC\include;..\..\..\..\arbrook\graphics\include\GL\include;..\..\..\..\arbrook\graphics\include\glslang\Include;..\..\..\..\arbrook\graphics\include\spirv-cross\include;..\..\..\..\arbrook\graphics\include\glslang\Public;..\..\..\..\include;..\..\..\..\include\assimp;..\..\..\..\include\compat;..\..\..\..\include\nlohmann;..\..\..\..\include\reflect-cpp;..\..\..\..\include\rythe-standard-library;..\..\..\..\include\tracy;..\..\..\..\include\rythe-standard-library\src;..\..\..\..\include\assimp\include;..\..\..\..\include\nlohmann\include;..\..\..\..\include\reflect-cpp\include;..\..\..\..\include\rythe-standard-library\third_party;..\..\..\..\include\rythe-standard-library\third_party\spdlog;..\..\..\..\include\rythe-standard-library\third_party\spdlog\src;..\..\..\..\include\rythe-standard-library\third_party\spdlog\include;..\..\..\..\arbrook\input\src;..\..\..\..\arbrook\input\include;..\..\..\..\arbrook\input\include\gainput;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>ARBROOK_INTERNAL;PROJECT_NAME=sandbox;TRACY_ENABLE;_SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING;RenderingAPI_OGL=0;RenderingAPI_DX11=1;RenderingAPI_VK=2;NDEBUG;TRACY_IMPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..;..\..\include;..\..\..\..\arbrook\core\src;..\..\..\..\arbrook\core\include;..\..\..\..\include\tracy\public;..\..\..\..\arbrook\graphics\src;..\..\..\..\arbrook\graphics\include;..\..\..\..\arbrook\graphics\include\DirectX11;..\..\..\..\arbrook\graphics\include\DXC;..\..\..\..\arbrook\graphics\include\GL;..\..\..\..\arbrook\graphics\include\glfw;..\..\..\..\arbrook\graphics\include\glslang;..\..\..\..\arbrook\graphics\include\imgui;..\..\..\..\arbrook\graphics\include\png;..\..\..\..\arbrook\graphics\include\spirv-cross;..\..\..\..\arbrook\graphics\include\spirv-tools;..\..\..\..\arbrook\graphics\include\stb;..\..\..\..\arbrook\graphics\include\GL\src;..\..\..\..\arbrook\graphics\include\glfw\src;..\..\..\..\arbrook\graphics\include\DirectX11\include;..\..\..\..\arbrook\graphics\include\DXC\include;..\..\..\..\arbrook\graphics\include\GL\include;..\..\..\..\arbrook\graphics\include\glfw\include;..\..\..\..\arbrook\graphics\include\glslang\Include;..\..\..\..\arbrook\graphics\include\spirv-cross\include;..\..\..\..\arbrook\graphics\include\glslang\Public;..\..\..\..\include;..\..\..\..\include\assimp;..\..\..\..\include\compat;..\..\..\..\include\nlohmann;..\..\..\..\include\reflect-cpp;..\..\..\..\include\rythe-standard-library;..\..\..\..\include\tracy;..\..\..\..\include\rythe-standard-library\src;..\..\..\..\include\assimp\include;..\..\..\..\include\nlohmann\include;..\..\..\..\include\reflect-cpp\include;..\..\..\..\include\rythe-standard-library\third_party;..\..\..\..\include\rythe-standard-library\third_party\spdlog;..\..\..\..\include\rythe-standard-library\third_party\spdlog\src;..\..\..\..\include\rythe-standard-library\third_party\spdlog\include;..\..\..\..\arbrook\input\src;..\..\..\..\arbrook\input\include;..\..\..\..\arbrook\input\include\gainput;..\..\..\..\arbrook\input\include\gainput\lib\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
