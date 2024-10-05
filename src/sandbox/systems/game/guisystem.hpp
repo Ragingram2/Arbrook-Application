@@ -86,7 +86,7 @@ namespace rythe::game
 		}
 
 		template<typename memberType>
-		void DrawInspector(memberType member, auto field, size_t idx)
+		void DrawInspector(memberType& member, auto field, size_t idx)
 		{
 			if constexpr (!rfl::internal::is_skip_v <memberType>)
 			{
@@ -113,11 +113,6 @@ namespace rythe::game
 				}
 			}
 		}
-
-		//inline void componentEditor(core::ecs::entity ent, rsl::id_type compId)
-		//{
-		//	auto& comp = ent.getComponent(compId);
-		//}
 
 		template<typename Component>
 		inline void componentEditor(core::ecs::entity ent)

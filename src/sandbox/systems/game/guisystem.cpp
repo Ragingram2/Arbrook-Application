@@ -166,7 +166,7 @@ namespace rythe::game
 			mainFBO->rescale(imageWidth, imageHeight);
 			pickingFBO->rescale(imageWidth, imageHeight);
 
-#ifdef RenderingAPI_OGL
+#if RenderingAPI == RenderingAPI_OGL
 			auto mainTex = mainFBO->getAttachment(gfx::AttachmentSlot::COLOR0).m_data->getId();
 #else
 			mainFBO->getAttachment(gfx::AttachmentSlot::COLOR0)->unbind(gfx::TextureSlot::TEXTURE0);
