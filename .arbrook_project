@@ -1,0 +1,10 @@
+local project = {
+    dependencies = {
+        "arbrook/core",
+        "arbrook/graphics",
+        "arbrook/input",
+        "arbrook/physics"
+    }
+}
+
+return project
